@@ -1,0 +1,300 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{02AC68C5-6868-4EFD-8622-0FB49A5DE0C1}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>libwenku8</RootNamespace>
+    <AssemblyName>libwenku8</AssemblyName>
+    <DefaultLanguage>en-US</DefaultLanguage>
+    <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
+    <TargetPlatformVersion>10.0.10586.0</TargetPlatformVersion>
+    <TargetPlatformMinVersion>10.0.10240.0</TargetPlatformMinVersion>
+    <MinimumVisualStudioVersion>14</MinimumVisualStudioVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{A5A43C5B-DE2A-4C0C-9213-0A381AF9435A};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <PlatformTarget>x86</PlatformTarget>
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <Optimize>true</Optimize>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|ARM'">
+    <PlatformTarget>ARM</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\ARM\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>ARM</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|ARM'">
+    <PlatformTarget>ARM</PlatformTarget>
+    <OutputPath>bin\ARM\Release\</OutputPath>
+    <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <Optimize>true</Optimize>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>ARM</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <PlatformTarget>x64</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <PlatformTarget>x64</PlatformTarget>
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <Optimize>true</Optimize>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <ItemGroup>
+    <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
+    <None Include="libwenku8.pfx" />
+    <None Include="project.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="wenku8\AdvDM\RuntimeCache.cs" />
+    <Compile Include="wenku8\AdvDM\WBackgroundTransfer.cs" />
+    <Compile Include="wenku8\AdvDM\WCacheMode.cs" />
+    <Compile Include="wenku8\AdvDM\WHTTPRequest.cs" />
+    <Compile Include="wenku8\AdvDM\WRuntimeTransfer.cs" />
+    <Compile Include="wenku8\CompositeElement\FloatyButton.cs" />
+    <Compile Include="wenku8\CompositeElement\LoadingMask.cs" />
+    <Compile Include="wenku8\CompositeElement\OneDriveButton.cs" />
+    <Compile Include="wenku8\CompositeElement\ParallaxHub.cs" />
+    <Compile Include="wenku8\CompositeElement\PassiveSplitView.cs" />
+    <Compile Include="wenku8\CompositeElement\QClock.cs" />
+    <Compile Include="wenku8\CompositeElement\Rectile.cs" />
+    <Compile Include="wenku8\CompositeElement\StarCanvas.cs" />
+    <Compile Include="wenku8\CompositeElement\StateBubble.cs" />
+    <Compile Include="wenku8\CompositeElement\VariableGridView.cs" />
+    <Compile Include="wenku8\Config\AppSettings.cs" />
+    <Compile Include="wenku8\Config\Parameters.cs" />
+    <Compile Include="wenku8\Config\Properties.cs" />
+    <Compile Include="wenku8\Converters\NumerSimplifier.cs" />
+    <Compile Include="wenku8\Converters\BookInfoConverter.cs" />
+    <Compile Include="wenku8\Converters\ContentStyleConverter.cs" />
+    <Compile Include="wenku8\Converters\BoolDataConverter.cs" />
+    <Compile Include="wenku8\Converters\FavConverter.cs" />
+    <Compile Include="wenku8\Converters\PaneConverters.cs" />
+    <Compile Include="wenku8\Converters\ParallaxConverter.cs" />
+    <Compile Include="wenku8\Converters\ParaTemplateSelector.cs" />
+    <Compile Include="wenku8\Converters\RectileConverters.cs" />
+    <Compile Include="wenku8\Converters\TOCTemplateSelector.cs" />
+    <Compile Include="wenku8\Converters\TreeMarginConverter.cs" />
+    <Compile Include="wenku8\Converters\VDisplayConverter.cs" />
+    <Compile Include="wenku8\Effects\AnimationTimer.cs" />
+    <Compile Include="wenku8\Effects\Stage\PartyBase.cs" />
+    <Compile Include="wenku8\Effects\Stage\RectangleParty\RectWaltzPrelude.cs" />
+    <Compile Include="wenku8\Effects\Stage\RectangleParty\RectWaltzInterlude.cs" />
+    <Compile Include="wenku8\Effects\Stage\CircleParty\Baumkuchen.cs" />
+    <Compile Include="wenku8\Effects\Stage\ScreenColorTransform.cs" />
+    <Compile Include="wenku8\Effects\StarField.cs" />
+    <Compile Include="wenku8\Effects\TextTransition.cs" />
+    <Compile Include="wenku8\Ext\IAutoCache.cs" />
+    <Compile Include="wenku8\Ext\IBookLoader.cs" />
+    <Compile Include="wenku8\Ext\IFavSection.cs" />
+    <Compile Include="wenku8\Ext\IListLoader.cs" />
+    <Compile Include="wenku8\Ext\IMainPageSettings.cs" />
+    <Compile Include="wenku8\Ext\INavList.cs" />
+    <Compile Include="wenku8\Ext\INavSelections.cs" />
+    <Compile Include="wenku8\Ext\IPaneInfoSection.cs" />
+    <Compile Include="wenku8\Ext\ISectionItem.cs" />
+    <Compile Include="wenku8\Ext\XProto.cs" />
+    <Compile Include="wenku8\Ext\IAppFlags.cs" />
+    <Compile Include="wenku8\Ext\IMember.cs" />
+    <Compile Include="wenku8\Ext\IRuntimeCache.cs" />
+    <Compile Include="wenku8\Ext\X.cs" />
+    <Compile Include="wenku8\History.cs" />
+    <Compile Include="wenku8\Model\Book\BookItem\Properties.cs" />
+    <Compile Include="wenku8\Model\Book\BookItem\Methods.cs" />
+    <Compile Include="wenku8\Model\Book\BookItem\DisplayProperties.cs" />
+    <Compile Include="wenku8\Model\Book\BookPool.cs" />
+    <Compile Include="wenku8\Model\Book\Chapter.cs" />
+    <Compile Include="wenku8\Model\Book\EpisodeStepper.cs" />
+    <Compile Include="wenku8\Model\Book\NonCollectedBook.cs" />
+    <Compile Include="wenku8\Model\Book\Spider\ConvoyInstructionSet.cs" />
+    <Compile Include="wenku8\Model\Book\Spider\BookInstruction.cs" />
+    <Compile Include="wenku8\Model\Book\Spider\EpInstruction.cs" />
+    <Compile Include="wenku8\Model\Book\Spider\SChapter.cs" />
+    <Compile Include="wenku8\Model\Book\Spider\SVolume.cs" />
+    <Compile Include="wenku8\Model\Book\Spider\VolInstruction.cs" />
+    <Compile Include="wenku8\Model\Book\TextEpisode.cs" />
+    <Compile Include="wenku8\Model\Book\TextVolume.cs" />
+    <Compile Include="wenku8\Model\Book\Volume.cs" />
+    <Compile Include="wenku8\Model\Book\VolumesInfo.cs" />
+    <Compile Include="wenku8\Model\Comments\Comment.cs" />
+    <Compile Include="wenku8\Model\Comments\Review.cs" />
+    <Compile Include="wenku8\Model\Interfaces\IInstructionSet.cs" />
+    <Compile Include="wenku8\Model\Interfaces\IRoamable.cs" />
+    <Compile Include="wenku8\Model\Interfaces\ISearchableSection.cs" />
+    <Compile Include="wenku8\Model\Interfaces\ISpanable.cs" />
+    <Compile Include="wenku8\Model\Interfaces\IStar.cs" />
+    <Compile Include="wenku8\Model\ListItem\ActionItem.cs" />
+    <Compile Include="wenku8\Model\ListItem\ActiveItem.cs" />
+    <Compile Include="wenku8\Model\ListItem\BookInfoItem.cs" />
+    <Compile Include="wenku8\Model\ListItem\BookmarkListItem.cs" />
+    <Compile Include="wenku8\Model\ListItem\Digest.cs" />
+    <Compile Include="wenku8\Model\ListItem\FavItem.cs" />
+    <Compile Include="wenku8\Model\ListItem\ImageThumb.cs" />
+    <Compile Include="wenku8\Model\ListItem\LocalBook.cs" />
+    <Compile Include="wenku8\Model\ListItem\NewsItem.cs" />
+    <Compile Include="wenku8\Model\ListItem\PaneNavButton.cs" />
+    <Compile Include="wenku8\Model\ListItem\Press.cs" />
+    <Compile Include="wenku8\Model\ListItem\RectileItem.cs" />
+    <Compile Include="wenku8\Model\ListItem\SpiderBook.cs" />
+    <Compile Include="wenku8\Model\ListItem\SubtleUpdateItem.cs" />
+    <Compile Include="wenku8\Model\ListItem\TOCItem.cs" />
+    <Compile Include="wenku8\Model\ListItem\Topic.cs" />
+    <Compile Include="wenku8\Model\ListItem\TreeItem.cs" />
+    <Compile Include="wenku8\Model\Loaders\ContentParser.cs" />
+    <Compile Include="wenku8\Model\SearchableContext.cs" />
+    <Compile Include="wenku8\Model\Text\LogLine.cs" />
+    <Compile Include="wenku8\Model\Text\Manipulation.cs" />
+    <Compile Include="wenku8\Model\Text\Paragraph.cs" />
+    <Compile Include="wenku8\Model\Topics\Announcements.cs" />
+    <Compile Include="wenku8\Model\Topics\Feed.cs" />
+    <Compile Include="wenku8\Model\Topics\Special.cs" />
+    <Compile Include="wenku8\Model\Book\LocalTextDocument.cs" />
+    <Compile Include="wenku8\Resources\Image.cs" />
+    <Compile Include="wenku8\Resources\LayoutResources.cs" />
+    <Compile Include="wenku8\Resources\LayoutSettings.cs" />
+    <Compile Include="wenku8\Resources\LocaleDefaults.cs" />
+    <Compile Include="wenku8\Resources\Shared.cs" />
+    <Compile Include="wenku8\SelfCencorship.cs" />
+    <Compile Include="wenku8\Settings\AppFlags.cs" />
+    <Compile Include="wenku8\Settings\AppKeys.cs" />
+    <Compile Include="wenku8\Settings\FileLinks.cs" />
+    <Compile Include="wenku8\Settings\Theme\ColorItem.cs" />
+    <Compile Include="wenku8\Settings\Theme\ColorPickerSection.cs" />
+    <Compile Include="wenku8\Settings\Theme\Palette.cs" />
+    <Compile Include="wenku8\Settings\Theme\ThemeSet.cs" />
+    <Compile Include="wenku8\Settings\Theme\ThemeTextBlock.cs" />
+    <Compile Include="wenku8\Storage\AnchorStorage.cs" />
+    <Compile Include="wenku8\Storage\BookStorage.cs" />
+    <Compile Include="wenku8\Storage\GeneralStorage.cs" />
+    <Compile Include="wenku8\Storage\OneDriveSync.cs" />
+    <Compile Include="wenku8\System\ActionCenter.cs" />
+    <Compile Include="wenku8\Model\EBDictionary.cs" />
+    <Compile Include="wenku8\System\EBDictManager.cs" />
+    <Compile Include="wenku8\System\LogControl.cs" />
+    <Compile Include="wenku8\System\Messages\ErrorMessage.cs" />
+    <Compile Include="wenku8\System\Messages\GeneralMessage.cs" />
+    <Compile Include="wenku8\System\ThemeManager.cs" />
+    <Compile Include="wenku8\System\Utils.cs" />
+    <Compile Include="wenku8\System\ViewControl.cs" />
+    <Compile Include="wenku8\Ext\IMemberInfo.cs" />
+    <EmbeddedResource Include="Properties\libwenku8.rd.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="wenku8\Resources\aboutText.txt" />
+    <Content Include="wenku8\Resources\badwords.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="Themes\Generic.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\FloatyButton.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\LoadingMask.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\OneDriveButton.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Page>
+    <Page Include="Themes\ParallaxHub.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\PassiveSplitView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\QClock.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Rectile.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\libeburc\libeburc.vcxproj">
+      <Project>{cc217642-f7f5-4bdb-b4a2-ed6628466212}</Project>
+      <Name>libeburc</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\libpenguin\Net.Astropenguin\Net.Astropenguin.csproj">
+      <Project>{5a6b4589-8c63-40d5-946f-759a9282a176}</Project>
+      <Name>Net.Astropenguin</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\libtaotu\libtaotu.csproj">
+      <Project>{119b84b1-d42b-460c-8f72-4fae1e2614f1}</Project>
+      <Name>libtaotu</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\libtranslate\libtranslate.vcxproj">
+      <Project>{6c187966-ffb6-4022-b80a-c966d099f14c}</Project>
+      <Name>libtranslate</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
+    <VisualStudioVersion>14.0</VisualStudioVersion>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>libwenku8.pfx</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <Import Project="$(MSBuildExtensionsPath)\Microsoft\WindowsXaml\v$(VisualStudioVersion)\Microsoft.Windows.UI.Xaml.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

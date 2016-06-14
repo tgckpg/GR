@@ -1,0 +1,135 @@
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:c="using:wenku8.CompositeElement"
+    xmlns:Converters="using:wenku8.Converters">
+
+    <Style TargetType="c:QClock">
+        <Setter Property="ScalesBrush" Value="White" />
+        <Setter Property="MinuteHandBrush" Value="White" />
+        <Setter Property="HourHandBrush" Value="White" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="c:QClock">
+                    <Canvas x:Name="Stage" Width="100" Height="100">
+                        <Canvas.RenderTransform>
+                            <TranslateTransform X="50" Y="50" />
+                        </Canvas.RenderTransform>
+                        <!-- Minute Hand -->
+                        <Rectangle x:Name="MinuteHand"
+                                   Width="3" Height="35" Fill="{TemplateBinding MinuteHandBrush}">
+                            <Rectangle.RenderTransform>
+                                <CompositeTransform Rotation="180" CenterX="1.5" CenterY="0" TranslateX="-1.5" />
+                            </Rectangle.RenderTransform>
+                        </Rectangle>
+                        <!-- Hour Hand -->
+                        <Rectangle x:Name="HourHand"
+                                   Width="4" Height="20" Canvas.Top="0" Fill="{TemplateBinding HourHandBrush}">
+                            <Rectangle.RenderTransform>
+                                <CompositeTransform Rotation="180" CenterX="2" CenterY="0" TranslateX="-2" />
+                            </Rectangle.RenderTransform>
+                        </Rectangle>
+
+                        <!-- Scales -->
+                        <Rectangle Width="4" Height="5" Canvas.Top="0" Fill="{TemplateBinding ScalesBrush}">
+                            <Rectangle.RenderTransform>
+                                <CompositeTransform CenterX="2" CenterY="-40"
+                                    Rotation="180"
+                                    TranslateY="40"
+                                    TranslateX="-2" />
+                            </Rectangle.RenderTransform>
+                        </Rectangle>
+                        <Rectangle Width="4" Height="5" Canvas.Top="0" Fill="{TemplateBinding ScalesBrush}">
+                            <Rectangle.RenderTransform>
+                                <CompositeTransform CenterX="2" CenterY="-40"
+                                    Rotation="210"
+                                    TranslateY="40"
+                                    TranslateX="-2" />
+                            </Rectangle.RenderTransform>
+                        </Rectangle>
+                        <Rectangle Width="4" Height="5" Canvas.Top="0" Fill="{TemplateBinding ScalesBrush}">
+                            <Rectangle.RenderTransform>
+                                <CompositeTransform CenterX="2" CenterY="-40"
+                                    Rotation="240"
+                                    TranslateY="40"
+                                    TranslateX="-2" />
+                            </Rectangle.RenderTransform>
+                        </Rectangle>
+                        <Rectangle Width="4" Height="5" Canvas.Top="0" Fill="{TemplateBinding ScalesBrush}">
+                            <Rectangle.RenderTransform>
+                                <CompositeTransform CenterX="2" CenterY="-40"
+                                    Rotation="270"
+                                    TranslateY="40"
+                                    TranslateX="-2" />
+                            </Rectangle.RenderTransform>
+                        </Rectangle>
+                        <Rectangle Width="4" Height="5" Canvas.Top="0" Fill="{TemplateBinding ScalesBrush}">
+                            <Rectangle.RenderTransform>
+                                <CompositeTransform CenterX="2" CenterY="-40"
+                                    Rotation="300"
+                                    TranslateY="40"
+                                    TranslateX="-2" />
+                            </Rectangle.RenderTransform>
+                        </Rectangle>
+                        <Rectangle Width="4" Height="5" Canvas.Top="0" Fill="{TemplateBinding ScalesBrush}">
+                            <Rectangle.RenderTransform>
+                                <CompositeTransform CenterX="2" CenterY="-40"
+                                    Rotation="330"
+                                    TranslateY="40"
+                                    TranslateX="-2" />
+                            </Rectangle.RenderTransform>
+                        </Rectangle>
+                        <Rectangle Width="4" Height="5" Canvas.Top="0" Fill="{TemplateBinding ScalesBrush}">
+                            <Rectangle.RenderTransform>
+                                <CompositeTransform CenterX="2" CenterY="-40"
+                                    Rotation="0"
+                                    TranslateY="40"
+                                    TranslateX="-2" />
+                            </Rectangle.RenderTransform>
+                        </Rectangle>
+                        <Rectangle Width="4" Height="5" Canvas.Top="0" Fill="{TemplateBinding ScalesBrush}">
+                            <Rectangle.RenderTransform>
+                                <CompositeTransform CenterX="2" CenterY="-40"
+                                    Rotation="30"
+                                    TranslateY="40"
+                                    TranslateX="-2" />
+                            </Rectangle.RenderTransform>
+                        </Rectangle>
+                        <Rectangle Width="4" Height="5" Canvas.Top="0" Fill="{TemplateBinding ScalesBrush}">
+                            <Rectangle.RenderTransform>
+                                <CompositeTransform CenterX="2" CenterY="-40"
+                                    Rotation="60"
+                                    TranslateY="40"
+                                    TranslateX="-2" />
+                            </Rectangle.RenderTransform>
+                        </Rectangle>
+                        <Rectangle Width="4" Height="5" Canvas.Top="0" Fill="{TemplateBinding ScalesBrush}">
+                            <Rectangle.RenderTransform>
+                                <CompositeTransform CenterX="2" CenterY="-40"
+                                    Rotation="90"
+                                    TranslateY="40"
+                                    TranslateX="-2" />
+                            </Rectangle.RenderTransform>
+                        </Rectangle>
+                        <Rectangle Width="4" Height="5" Canvas.Top="0" Fill="{TemplateBinding ScalesBrush}">
+                            <Rectangle.RenderTransform>
+                                <CompositeTransform CenterX="2" CenterY="-40"
+                                    Rotation="120"
+                                    TranslateY="40"
+                                    TranslateX="-2" />
+                            </Rectangle.RenderTransform>
+                        </Rectangle>
+                        <Rectangle Width="4" Height="5" Canvas.Top="0" Fill="{TemplateBinding ScalesBrush}">
+                            <Rectangle.RenderTransform>
+                                <CompositeTransform CenterX="2" CenterY="-40"
+                                    Rotation="150"
+                                    TranslateY="40"
+                                    TranslateX="-2" />
+                            </Rectangle.RenderTransform>
+                        </Rectangle>
+                    </Canvas>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

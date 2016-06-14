@@ -1,0 +1,30 @@
+﻿using System;
+using Windows.UI.Xaml.Data;
+
+using Net.Astropenguin.Logging;
+using Windows.UI.Xaml.Media;
+
+namespace wenku8.Converters
+{
+    public class PanePosConverter : IValueConverter
+    {
+        public static readonly string ID = typeof( PanePosConverter ).Name;
+
+        public object Convert( object value, Type targetType, object parameter, string language )
+        {
+            CompositeTransform Transform = value as CompositeTransform;
+            if ( Transform != null )
+            {
+                bool ModeX = parameter.ToString() == "X";
+                return ModeX ? Transform.TranslateX : Transform.TranslateY;
+            }
+            // Logger.Log( ID, string.Format( "Width is {0}", value ) );
+            return Math.Round( ( ( double ) value ) * double.Parse( ( string ) parameter ), 1 );
+        }
+
+        public object ConvertBack( object value, Type targetType, object parameter, string language )
+        {
+            return 0.0;
+        }
+    }
+}
