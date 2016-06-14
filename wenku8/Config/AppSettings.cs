@@ -74,19 +74,12 @@ namespace wenku8.Config
 
 		public static void Initialize()
 		{
-
 			//// Global
 			if ( !TestKey( Parameters.ENABLE_SYSTEM_LOG ) )
 				Properties.ENABLE_SYSTEM_LOG = false;
 
 			if ( !TestKey( Parameters.ENABLE_RSYSTEM_LOG ) )
-            {
-#if DEBUG || TESTING
-                Properties.ENABLE_RSYSTEM_LOG = true;
-#else
                 Properties.ENABLE_RSYSTEM_LOG = false;
-#endif
-            }
 
 #if Release || Beta
             // Force disable logging
@@ -96,19 +89,10 @@ namespace wenku8.Config
 
 			if ( !TestKey( Parameters.LOG_LEVEL ) )
 				Properties.LOG_LEVEL = "INFO";
-
 			if ( !TestKey( Parameters.RSYSTEM_LOG_ADDRESS ) )
-            {
-#if DEBUG
-                Properties.RSYSTEM_LOG_ADDRESS = "10.10.0.122";
-#else
                 Properties.RSYSTEM_LOG_ADDRESS = "127.0.0.1";
-#endif
-
-            }
 
 			//// Local Book shelf
-
 
 			//// Appearance section
 
