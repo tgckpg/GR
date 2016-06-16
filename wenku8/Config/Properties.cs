@@ -652,32 +652,6 @@ namespace wenku8.Config
 			}
         }
 
-        [Obsolete( "Use AUTH_TOKEN instead" )]
-        public static string ACCOUNT_NAME
-		{
-			get
-			{
-				return GetValue<string>( Parameters.ACCOUNT_NAME );
-			}
-			set
-			{
-				SetParameter( Parameters.ACCOUNT_NAME, value );
-			}
-		}
-
-        [Obsolete( "Use AUTH_TOKEN instead" )]
-		public static string ACCOUNT_PASSWD
-		{
-			get
-			{
-				return GetValue<string>( Parameters.ACCOUNT_PASSWD );
-			}
-			set
-			{
-				SetParameter( Parameters.ACCOUNT_PASSWD, value );
-			}
-		}
-
 		public static bool ENABLE_ONEDRIVE
 		{
 			get

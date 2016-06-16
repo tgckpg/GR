@@ -1,15 +1,24 @@
-﻿namespace wenku8.Ext
+﻿using Windows.Foundation;
+namespace wenku8.Ext
 {
-    delegate void StatusUpdate();
+    enum MemberStatus
+    {
+        LOGGED_IN
+        , LOGGED_OUT
+        , RE_LOGIN_NEEDED
+    }
 
     interface IMember
     {
         bool IsLoggedIn { get; }
         bool WillLogin { get; }
 
-		event StatusUpdate OnStatusChanged;
+        MemberStatus Status { get; set; }
+
+        event TypedEventHandler<object, MemberStatus> OnStatusChanged;
 
         void Logout();
         void Login( string name, string passwd );
     }
+
 }

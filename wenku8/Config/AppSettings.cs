@@ -218,11 +218,6 @@ namespace wenku8.Config
             }
 
             //// Account section
-            if ( !TestKey( Parameters.ACCOUNT_NAME ) )
-				Properties.ACCOUNT_NAME = "";
-			if ( !TestKey( Parameters.ACCOUNT_PASSWD ) )
-				Properties.ACCOUNT_PASSWD = "";
-
 			if ( !TestKey( Parameters.ENABLE_ONEDRIVE ) )
 				Properties.ENABLE_ONEDRIVE = false;
 

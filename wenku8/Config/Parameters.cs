@@ -62,8 +62,6 @@ namespace wenku8.Config
 
 		// Account
 		public const string AUTH_TOKEN = "Account_AuthToken";
-		public const string ACCOUNT_NAME = "Account_Name";
-		public const string ACCOUNT_PASSWD = "Account_Password";
 		public const string ENABLE_ONEDRIVE = "Enable_OneDrive";
 
 		public const string REVIEWS_SIGN = "REVIEWS_SIGN";
