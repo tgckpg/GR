@@ -364,7 +364,7 @@ namespace wenku8.CompositeElement
             Rings.Children.Add( ImageRing );
 
             RotateTransform RTransform = new RotateTransform();
-            RTransform.Angle = AnimationTimer.RandInt( 360 );
+            RTransform.Angle = NTimer.RandInt( 360 );
             RingText.RenderTransform = RTransform;
 
             CreateRotateStory();
@@ -383,7 +383,7 @@ namespace wenku8.CompositeElement
             RingRotateStory = new Storyboard();
 
             double SAngle = ( RingText.RenderTransform as RotateTransform ).Angle;
-            int AniLength = 50 + AnimationTimer.RandInt( 50 );
+            int AniLength = 50 + NTimer.RandInt( 50 );
 
             DoubleAnimationUsingKeyFrames d = new DoubleAnimationUsingKeyFrames();
 
@@ -392,7 +392,7 @@ namespace wenku8.CompositeElement
             StartAngle.KeyTime = KeyTime.FromTimeSpan( TimeSpan.FromSeconds( 0 ) );
 
             LinearDoubleKeyFrame EndAngle = new LinearDoubleKeyFrame();
-            EndAngle.Value = AnimationTimer.RandChoice( -360 - SAngle, 360 + SAngle );
+            EndAngle.Value = NTimer.RandChoice( -360 - SAngle, 360 + SAngle );
             EndAngle.KeyTime = KeyTime.FromTimeSpan( TimeSpan.FromSeconds( AniLength ) );
 
             d.Duration = new Duration( TimeSpan.FromSeconds( AniLength ) );

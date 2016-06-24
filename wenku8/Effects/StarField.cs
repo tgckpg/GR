@@ -27,7 +27,7 @@ namespace wenku8.Effects
         {
             this.ParallaxTarget = ParallaxTarget;
             this.Stage = Stage;
-            GalaticState = AnimationTimer.Instance;
+            GalaticState = NTimer.Instance;
             GalaticState.Interval = TimeSpan.FromMilliseconds( 10 );
         }
 
@@ -60,11 +60,11 @@ namespace wenku8.Effects
         public void AssignRoam( double x, double y, IRoamable Roamer )
         {
             double i = 0;
-            double j = AnimationTimer.RandDouble() * 0.01;
-            double k = AnimationTimer.RandDouble() * 100;
+            double j = NTimer.RandDouble() * 0.01;
+            double k = NTimer.RandDouble() * 100;
             double i2 = 0;
-            double j2 = AnimationTimer.RandDouble() * 0.01;
-            double k2 = AnimationTimer.RandDouble() * 100;
+            double j2 = NTimer.RandDouble() * 0.01;
+            double k2 = NTimer.RandDouble() * 100;
 
             double oy = 0;
             double ox = 0;
@@ -102,13 +102,13 @@ namespace wenku8.Effects
 
             double sh = Resources.LayoutSettings.ScreenHeight;
 
-            double x = AnimationTimer.RandDouble() * 2 * W;
-            double y = AnimationTimer.RandDouble();
+            double x = NTimer.RandDouble() * 2 * W;
+            double y = NTimer.RandDouble();
             y = sh * ( 1 - y * y );
 
-            double dia = 40 + ( AnimationTimer.RandDouble() * 100 * ( y / sh ) );
+            double dia = 40 + ( NTimer.RandDouble() * 100 * ( y / sh ) );
 
-            double s = AnimationTimer.RandDouble();
+            double s = NTimer.RandDouble();
 
             Canvas.SetLeft( o, x );
             Canvas.SetTop( o, y );

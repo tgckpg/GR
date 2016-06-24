@@ -28,8 +28,8 @@ namespace wenku8.Effects.P2DFlow.Spawners
 
         public void Spawn( Particle P )
         {
-            P.v = inVe - 2 * inVe * Chaos * new Vector2( Ext.LFloat(), Ext.LFloat() );
-            P.Pos += Pos + Distrib * new Vector2( Ext.RFloat(), Ext.RFloat() );
+            P.v = inVe - 2 * inVe * Chaos * new Vector2( NTimer.LFloat(), NTimer.LFloat() );
+            P.Pos += Pos + Distrib * new Vector2( NTimer.RFloat(), NTimer.RFloat() );
 
             P.Trait = SpawnTrait;
 
@@ -37,7 +37,7 @@ namespace wenku8.Effects.P2DFlow.Spawners
             P.mf = 0.5f;
             P.ttl = 70;
 
-            float ot = 100.0f + 65.0f * Ext.LFloat();
+            float ot = 100.0f + 65.0f * NTimer.LFloat();
             P.vt = new Vector2( ot, ot );
             P.Tint.M44 = 0;
         }

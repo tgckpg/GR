@@ -33,13 +33,13 @@
         public RectileItem( string aid, string Title, string Intro, string Date, string BannerPath )
 			: base( aid, Title, Intro, Date, BannerPath )
 		{
-            Rotation = AnimationTimer.RandDouble( 360 );
+            Rotation = NTimer.RandDouble( 360 );
 		}
 
 		public RectileItem( string aid, string Title, string Intro, string Date )
 			: base( aid, Title, Intro, Date )
 		{
-            Rotation = AnimationTimer.RandDouble( 360 );
+            Rotation = NTimer.RandDouble( 360 );
 		}
 	}
 }

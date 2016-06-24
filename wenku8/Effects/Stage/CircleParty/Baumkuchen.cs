@@ -86,8 +86,8 @@ namespace wenku8.Effects.Stage.CircleParty
             }
 
             Stage.Children.DrawEach(
-                ( e, i, j ) => SetAnimation( e as Ellipse, 2000 + i * AnimationTimer.RandInt( 5000 ) )
-                , AnimationTimer.RandInt
+                ( e, i, j ) => SetAnimation( e as Ellipse, 2000 + i * NTimer.RandInt( 5000 ) )
+                , NTimer.RandInt
             );
 
             // Pointer sensitive rings
@@ -193,7 +193,7 @@ namespace wenku8.Effects.Stage.CircleParty
 
             ColorAnimationUsingKeyFrames d2 = CreateKeyFrames( C1, C2, standfor, 200 );
 
-            CreateKeyFrames( C2, C1, 0, 1000 + AnimationTimer.RandInt( 200, 3000 ), standfor + 200, d2 );
+            CreateKeyFrames( C2, C1, 0, 1000 + NTimer.RandInt( 200, 3000 ), standfor + 200, d2 );
 
             SolidColorBrush Brushy = new SolidColorBrush();
             Ellie.Stroke = Brushy;

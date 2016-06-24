@@ -131,7 +131,7 @@ namespace wenku8.CompositeElement
             List<object> Choices = new List<object>( Items );
             for( int i = 0; i < l && i < MaxItemsAtOnce; i ++ )
             {
-                object o = AnimationTimer.RandChoiceFromList( Choices );
+                object o = NTimer.RandChoiceFromList( Choices );
                 Choices.Remove( o );
 
                 FrameworkElement Element = ItemTemplate.LoadContent() as FrameworkElement;
@@ -149,7 +149,7 @@ namespace wenku8.CompositeElement
                 };
 
                 SetLeft( Element, i * OffsetX );
-                SetTop( Element, AnimationTimer.RandDouble( 0, SizeAvailable.Height - StarScale ) );
+                SetTop( Element, NTimer.RandDouble( 0, SizeAvailable.Height - StarScale ) );
 
                 Children.Add( Element );
             }
@@ -249,8 +249,8 @@ namespace wenku8.CompositeElement
             }
 
             _taken = _tol < 0
-                ? AnimationTimer.RandDouble( _blend + _tol )
-                : AnimationTimer.RandDouble( _tol, _blend );
+                ? NTimer.RandDouble( _blend + _tol )
+                : NTimer.RandDouble( _tol, _blend );
 
             _totalQuota -= _taken;
 

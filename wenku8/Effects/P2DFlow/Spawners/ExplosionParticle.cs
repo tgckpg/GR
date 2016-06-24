@@ -29,11 +29,11 @@ namespace wenku8.Effects.P2DFlow.Spawners
         {
             Particle OP = pp[ ( int ) Math.Floor( i++ * 0.016 ) ];
 
-            Vector2 XA = new Vector2( 30, 30 ) + 10 * Chaos * new Vector2( Ext.LFloat(), Ext.LFloat() );
-            P.a = Vector2.Transform( XA, Matrix3x2.CreateRotation( 3.14f * Ext.RFloat() ) );
+            Vector2 XA = new Vector2( 30, 30 ) + 10 * Chaos * new Vector2( NTimer.LFloat(), NTimer.LFloat() );
+            P.a = Vector2.Transform( XA, Matrix3x2.CreateRotation( 3.14f * NTimer.RFloat() ) );
             P.Pos = OP.Pos;
 
-            float ot = 60.0f + 40.0f * Ext.LFloat();
+            float ot = 60.0f + 40.0f * NTimer.LFloat();
             P.vt = -Vector2.Normalize( P.v ) * ot;
 
             P.ttl = 40;

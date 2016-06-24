@@ -57,7 +57,7 @@ namespace wenku8.Effects
             List<int> indexes = new List<int>();
             for ( int i = 0; i < charLen; i++ )
             {
-                ranIndex = AnimationTimer.RandInt( 0, charLen );
+                ranIndex = NTimer.RandInt( 0, charLen );
 
                 if ( !indexes.Contains( ranIndex ) )
                 {
@@ -187,7 +187,7 @@ namespace wenku8.Effects
                 return From[ i ];
             }
 
-            return ( char ) AnimationTimer.RandInt( 0x21, 0x7E );
+            return ( char ) NTimer.RandInt( 0x21, 0x7E );
         }
     }
 }

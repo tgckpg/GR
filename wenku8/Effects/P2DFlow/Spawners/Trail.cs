@@ -9,6 +9,8 @@ namespace wenku8.Effects.P2DFlow.Spawners
     class Trail : ISpawner
     {
         public float Chaos = 1.0f;
+        public float gf = 0;
+        public float mf = 0;
 
         public Trail() { }
 
@@ -32,10 +34,12 @@ namespace wenku8.Effects.P2DFlow.Spawners
 
             P.ttl = 30;
 
-            P.a = Vector2.Transform( new Vector2( 10, 10 ), Matrix3x2.CreateRotation( 3.14f * Ext.RFloat() ) );
+            P.a = Vector2.Transform( new Vector2( 10, 10 ), Matrix3x2.CreateRotation( 3.14f * NTimer.RFloat() ) );
             P.Pos = OP.Pos;
+            P.mf = mf;
+            P.gf = gf;
 
-            float ot = 100.0f + 5.0f * Ext.LFloat();
+            float ot = 100.0f + 5.0f * NTimer.LFloat();
             P.vt = -Vector2.Normalize( P.v ) * ot;
         }
     }

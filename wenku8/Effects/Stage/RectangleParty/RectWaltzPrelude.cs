@@ -68,7 +68,7 @@ namespace wenku8.Effects.Stage.RectangleParty
                 }
             }
 
-            IOrderedEnumerable<int[]> RandPos = idx.OrderBy( item => AnimationTimer.RandInt() );
+            IOrderedEnumerable<int[]> RandPos = idx.OrderBy( item => NTimer.RandInt() );
 
             i = 0;
 
@@ -146,7 +146,7 @@ namespace wenku8.Effects.Stage.RectangleParty
             DoubleAnimationUsingKeyFrames d2 = CreateKeyFrames( 1, standfor + 200, 500 );
             DoubleAnimationUsingKeyFrames d3 = CreateKeyFrames(
                 new List<int>() { -360, -270, -180, -90, 0, 90, 180, 270, 360 }
-                .OrderBy( x => AnimationTimer.RandInt() ).First()
+                .OrderBy( x => NTimer.RandInt() ).First()
                 , standfor, 700
             );
             Storyboard.SetTarget( d, Rect );

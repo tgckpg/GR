@@ -164,7 +164,7 @@ namespace wenku8.CompositeElement
         {
             if ( Terminate || Tips == null ) return;
 
-            int i = ( int ) Math.Round( AnimationTimer.RandDouble() * ( L - 1 ) );
+            int i = ( int ) Math.Round( NTimer.RandDouble() * ( L - 1 ) );
             if ( i < EveryMessage.Count )
             {
                 Tips.Text = EveryMessage[ i ];

@@ -29,7 +29,7 @@ namespace wenku8.Effects.Stage.RectangleParty
 
         protected override void SetAnimation( Rectangle Rect, int i, int l )
         {
-            int standfor = i * 1000 + AnimationTimer.RandInt( 5000 );
+            int standfor = i * 1000 + NTimer.RandInt( 5000 );
 
             DoubleAnimationUsingKeyFrames d1 = CreateKeyFrames(
                 90, standfor, 200
@@ -40,12 +40,12 @@ namespace wenku8.Effects.Stage.RectangleParty
 
             ColorItem CItem = new ColorItem( "A", RectColor() );
             Color C1 = CItem.TColor;
-            CItem.L = AnimationTimer.RandInt( 0, 100 );
+            CItem.L = NTimer.RandInt( 0, 100 );
             Color C2 = CItem.TColor;
 
             ColorAnimationUsingKeyFrames d2 = CreateKeyFrames( C1, C2, standfor, 200 );
 
-            CreateKeyFrames( C2, C1, 1000 + AnimationTimer.RandInt( 1000 ), AnimationTimer.RandInt( 200, 5000 ), standfor + 200, d2 );
+            CreateKeyFrames( C2, C1, 1000 + NTimer.RandInt( 1000 ), NTimer.RandInt( 200, 5000 ), standfor + 200, d2 );
 
             SolidColorBrush B = new SolidColorBrush();
             Rect.Fill = B;
