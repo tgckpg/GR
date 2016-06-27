@@ -5,7 +5,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using wenku8.Config;
-using Windows.Data.Html;
 
 namespace wenku8.Model.ListItem
 {
@@ -29,7 +28,7 @@ namespace wenku8.Model.ListItem
         }
 
         public NewsItem( string Title, string Desc, string Link, string Guid, string DateStamp )
-            :base( Title, HtmlUtilities.ConvertToText( Desc ), Guid )
+            :base( Title, Desc, Guid )
         {
             this.Link = new Uri( Link );
 

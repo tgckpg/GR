@@ -21,9 +21,7 @@ namespace wenku8.Model.Topics
         {
             get
             {
-                List<NewsItem> L = new List<NewsItem>();
-                foreach( NewsItem T in base.Topics ) L.Add( T );
-                return L.OrderByDescending( x => x.TimeStamp );
+                return base.Topics.Cast<NewsItem>().OrderByDescending( x => x.TimeStamp );
             }
         }
 
