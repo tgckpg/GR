@@ -15,6 +15,7 @@ namespace wenku8.Effects.P2DFlow.Spawners
     class PointerSpawner : ISpawner
     {
         public float Chaos = 1.0f;
+        public int Texture;
 
         private int i;
 
@@ -43,6 +44,8 @@ namespace wenku8.Effects.P2DFlow.Spawners
         public void Spawn( Particle P )
         {
             P.Trait = SpawnTrait;
+            P.TextureId = Texture;
+
             P.ttl = 2;
             P.Pos = DrawPos;
 

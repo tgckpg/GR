@@ -8,6 +8,7 @@ namespace wenku8.Effects.P2DFlow.Spawners
 {
     class Trail : ISpawner
     {
+        public int Texture;
         public float Chaos = 1.0f;
         public float gf = 0;
         public float mf = 0;
@@ -31,6 +32,8 @@ namespace wenku8.Effects.P2DFlow.Spawners
         public void Spawn( Particle P )
         {
             Particle OP = pp[ ( int ) Math.Floor( i ++ * 0.5 ) ];
+
+            P.TextureId = Texture;
 
             P.ttl = 30;
 

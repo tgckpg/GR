@@ -9,6 +9,7 @@ namespace wenku8.Effects.P2DFlow
         public Vector2 Pos;
         public float ttl = 0;
         public float t = 0;
+        public int TextureId;
 
         // Velocity
         public Vector2 v;
@@ -39,6 +40,8 @@ namespace wenku8.Effects.P2DFlow
                 = Pos.X = Pos.Y
                 = v.X = v.Y
                 = a.X = a.Y = 0;
+
+            TextureId = 0;
 
             vt.X = vt.Y = 1;
 

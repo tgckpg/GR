@@ -9,6 +9,7 @@ namespace wenku8.Effects.P2DFlow.Spawners
 {
     class ExplosionParticle : ISpawner
     {
+        public int Texture;
         public float Chaos = 1.0f;
 
         private int i;
@@ -30,6 +31,7 @@ namespace wenku8.Effects.P2DFlow.Spawners
             Particle OP = pp[ ( int ) Math.Floor( i++ * 0.016 ) ];
 
             Vector2 XA = new Vector2( 30, 30 ) + 10 * Chaos * new Vector2( NTimer.LFloat(), NTimer.LFloat() );
+            P.TextureId = Texture;
             P.a = Vector2.Transform( XA, Matrix3x2.CreateRotation( 3.14f * NTimer.RFloat() ) );
             P.Pos = OP.Pos;
 

@@ -6,14 +6,14 @@ namespace wenku8.Effects.P2DFlow.Spawners
 {
     class LinearSpawner : ISpawner
     {
+        public Vector2 Chaos = Vector2.One;
+        public PFTrait SpawnTrait = PFTrait.NONE;
+        public int Texture;
+
         private Vector2 Pos;
         private Vector2 Distrib;
         private Vector2 inVe;
-        public Vector2 Chaos = Vector2.One;
-
         private int i = 0;
-
-        public PFTrait SpawnTrait = PFTrait.NONE;
 
         public LinearSpawner() { }
 
@@ -32,6 +32,7 @@ namespace wenku8.Effects.P2DFlow.Spawners
             P.Pos += Pos + Distrib * new Vector2( NTimer.RFloat(), NTimer.RFloat() );
 
             P.Trait = SpawnTrait;
+            P.TextureId = Texture;
 
             P.gf = 0.5f;
             P.mf = 0.5f;

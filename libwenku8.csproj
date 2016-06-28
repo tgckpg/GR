@@ -120,6 +120,7 @@
     <Compile Include="wenku8\Converters\TOCTemplateSelector.cs" />
     <Compile Include="wenku8\Converters\TreeMarginConverter.cs" />
     <Compile Include="wenku8\Converters\VDisplayConverter.cs" />
+    <Compile Include="wenku8\Effects\TextureLoader.cs" />
     <Compile Include="wenku8\Effects\NTimer.cs" />
     <Compile Include="wenku8\Effects\P2DFlow\Ext.cs" />
     <Compile Include="wenku8\Effects\P2DFlow\ForceFields\GenericForce.cs" />
@@ -144,7 +145,6 @@
     <Compile Include="wenku8\Effects\Stage\RectangleParty\RectWaltzInterlude.cs" />
     <Compile Include="wenku8\Effects\Stage\CircleParty\Baumkuchen.cs" />
     <Compile Include="wenku8\Effects\Stage\ScreenColorTransform.cs" />
-    <Compile Include="wenku8\Effects\StarField.cs" />
     <Compile Include="wenku8\Effects\TextTransition.cs" />
     <Compile Include="wenku8\Ext\IAutoCache.cs" />
     <Compile Include="wenku8\Ext\IBookLoader.cs" />
