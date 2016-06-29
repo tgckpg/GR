@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Graphics.Canvas.Effects;
+using System;
 using System.Collections.Generic;
 using System.Numerics;
 
@@ -9,6 +10,14 @@ namespace wenku8.Effects.P2DFlow.Spawners
         public Vector2 Chaos = Vector2.One;
         public PFTrait SpawnTrait = PFTrait.NONE;
         public int Texture;
+
+        public float gf = 0.5f;
+        public float mf = 0.5f;
+        public float ttl = 70;
+        public float otMin = 100.0f;
+        public float otMax = 165.0f;
+
+        public Action<Particle> SpawnEx = ( P ) => { };
 
         private Vector2 Pos;
         private Vector2 Distrib;
@@ -34,13 +43,14 @@ namespace wenku8.Effects.P2DFlow.Spawners
             P.Trait = SpawnTrait;
             P.TextureId = Texture;
 
-            P.gf = 0.5f;
-            P.mf = 0.5f;
-            P.ttl = 70;
+            P.gf = gf;
+            P.mf = mf;
+            P.ttl = ttl;
 
-            float ot = 100.0f + 65.0f * NTimer.LFloat();
+            float ot = otMin + ( otMax - otMin ) * NTimer.LFloat();
             P.vt = new Vector2( ot, ot );
-            P.Tint.M44 = 0;
+
+            SpawnEx.Invoke( P );
         }
 
         public int Acquire( int Quota )

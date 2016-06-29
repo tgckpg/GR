@@ -12,6 +12,7 @@ namespace wenku8.Effects.P2DFlow.Spawners
         public float Chaos = 1.0f;
         public float gf = 0;
         public float mf = 0;
+        public Vector2 Scale = Vector2.One;
 
         public Trail() { }
 
@@ -43,6 +44,7 @@ namespace wenku8.Effects.P2DFlow.Spawners
             P.Pos = OP.Pos;
             P.mf = mf;
             P.gf = gf;
+            P.Scale = Scale;
 
             float ot = 100.0f + 5.0f * NTimer.LFloat();
             P.vt = -Vector2.Normalize( P.v ) * ot;

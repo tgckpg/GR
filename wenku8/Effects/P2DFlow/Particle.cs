@@ -29,6 +29,8 @@ namespace wenku8.Effects.P2DFlow
         public Vector2 loss;
 
         public Matrix5x4 Tint;
+        public Vector2 Scale;
+
 
         public Particle() { Reset(); }
 
@@ -43,7 +45,7 @@ namespace wenku8.Effects.P2DFlow
 
             TextureId = 0;
 
-            vt.X = vt.Y = 1;
+            Scale.X = Scale.Y = vt.X = vt.Y = 1;
 
             loss.X = loss.Y = 0.995f;
             Trait = PFTrait.NONE;

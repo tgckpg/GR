@@ -40,11 +40,8 @@ namespace wenku8.CompositeElement
 
         private void RefSV_ViewChanged( object sender, ScrollViewerViewChangedEventArgs e )
         {
-            if ( ViewChanged != null )
-                ViewChanged( this, e );
-
-            if ( PropertyChanged != null )
-                PropertyChanged( this, new PropertyChangedEventArgs( "HorizontalOffset" ) );
+            ViewChanged?.Invoke( this, e );
+            PropertyChanged?.Invoke( this, new PropertyChangedEventArgs( "HorizontalOffset" ) );
         }
 
         public double HorizontalOffset

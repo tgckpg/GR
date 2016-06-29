@@ -11,6 +11,7 @@ namespace wenku8.Effects.P2DFlow.Spawners
     {
         public int Texture;
         public float Chaos = 1.0f;
+        public Action<Particle> SpawnEx = ( P ) => { };
 
         private int i;
         private Particle[] pp;
@@ -41,6 +42,8 @@ namespace wenku8.Effects.P2DFlow.Spawners
             P.ttl = 40;
 
             P.Trait = PFTrait.FRAGMENT;
+
+            SpawnEx?.Invoke( P );
         }
     }
 }
