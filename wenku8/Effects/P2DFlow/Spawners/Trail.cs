@@ -18,10 +18,12 @@ namespace wenku8.Effects.P2DFlow.Spawners
         private int i;
         private Particle[] pp;
 
+        public PFTrait Bind = PFTrait.TRAIL;
+
         public void Prepare( IEnumerable<Particle> part )
         {
             i = 0;
-            pp = part.Where( p => ( p.Trait & PFTrait.TRAIL ) != 0 ).ToArray();
+            pp = part.Where( p => ( p.Trait & Bind ) != 0 ).ToArray();
         }
 
         public int Acquire( int Quota )

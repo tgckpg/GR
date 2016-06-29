@@ -11,8 +11,9 @@ namespace wenku8.Effects.P2DFlow
         NONE = 0,
         IMMORTAL = 1,
         TRAIL = 2,
-        EXPLODE = 4,
-        FRAGMENT = 8,
-        THRUST = 16,
+        TRAIL_O = 4,
+        EXPLODE = 8,
+        FRAGMENT = 16,
+        THRUST = 32,
     }
 }
