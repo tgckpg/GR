@@ -121,7 +121,7 @@ namespace wenku8.CompositeElement
 
             int l = Items.Count();
 
-            ScrambleDist SDist = new ScrambleDist( MaxStar, MinStar, MaxItemsAtOnce );
+            ScrambleDist SDist = new ScrambleDist( MinStar, MaxStar, MaxItemsAtOnce );
 
             Width = SDist.Total;
             Logger.Log( ID, "Total Width: " + SDist.Total, LogType.DEBUG );
