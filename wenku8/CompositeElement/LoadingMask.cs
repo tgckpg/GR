@@ -28,6 +28,16 @@ namespace wenku8.CompositeElement
             set { SetValue( TextProperty, value ); }
         }
 
+        new public ControlState State
+        {
+            get { return base.State; }
+            set
+            {
+                base.State = value;
+                Closed = ( value == ControlState.Foreatii );
+            }
+        }
+
         protected bool Closed = true;
 
         private const string LoadingRingName = "LoadingRing";
@@ -106,7 +116,7 @@ namespace wenku8.CompositeElement
             for( int i = 0; i < L; i ++ )
             {
                 EveryMessage.Add( stx.Str( ( i + 1 ) + "" ) );
-            }
+            } 
 
             LoopMessage();
         }
