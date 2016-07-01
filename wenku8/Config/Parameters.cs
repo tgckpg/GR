@@ -18,6 +18,7 @@ namespace wenku8.Config
 		public const string APPEARANCE_CONTENTREADER_LINEHEIGHT = "Appearance_ContentReader_LineHeight";
 		public const string APPEARANCE_CONTENTREADER_PARAGRAPHSPACING = "Appearance_ContentReader_ParagraphSpacing";
 		public const string APPEARANCE_CONTENTREADER_FONTCOLOR = "Appearance_ContentReader_FontColor";
+		public const string APPEARANCE_CONTENTREADER_CLOCK_ARCOLOR = "Appearance_ContentReader_Clock_Arc_Hand_Color";
 		public const string APPEARANCE_CONTENTREADER_CLOCK_HHCOLOR = "Appearance_ContentReader_Clock_Hour_Hand_Color";
 		public const string APPEARANCE_CONTENTREADER_CLOCK_MHCOLOR = "Appearance_ContentReader_Clock_Minute_Hand_Color";
 		public const string APPEARANCE_CONTENTREADER_CLOCK_SCOLOR = "Appearance_ContentReader_Clock_Scales_Color";

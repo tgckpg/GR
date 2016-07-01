@@ -129,6 +129,8 @@ namespace wenku8.Config
 				Properties.APPEARANCE_CONTENTREADER_TAPBRUSHCOLOR = Color.FromArgb( 0xFF, 0x3F, 0xA9, 0xF5 );
 
             // Clock
+			if ( !TestKey( Parameters.APPEARANCE_CONTENTREADER_CLOCK_ARCOLOR ) )
+				Properties.APPEARANCE_CONTENTREADER_CLOCK_ARCOLOR = Color.FromArgb( 0x0A, 0xFF, 0xFF, 0xFF );
 			if ( !TestKey( Parameters.APPEARANCE_CONTENTREADER_CLOCK_HHCOLOR ) )
 				Properties.APPEARANCE_CONTENTREADER_CLOCK_HHCOLOR = Color.FromArgb( 0x3C, 0xFF, 0xFF, 0xFF );
 			if ( !TestKey( Parameters.APPEARANCE_CONTENTREADER_CLOCK_MHCOLOR ) )

@@ -168,6 +168,17 @@ namespace wenku8.Config
 				SetColor( Parameters.APPEARANCE_CONTENTREADER_TAPBRUSHCOLOR, value );
 			}
 		}
+		public static Color APPEARANCE_CONTENTREADER_CLOCK_ARCOLOR
+		{
+			get
+			{
+				return GetColorFromByte( GetValue<byte[]>( Parameters.APPEARANCE_CONTENTREADER_CLOCK_ARCOLOR ) );
+			}
+			set
+			{
+				SetColor( Parameters.APPEARANCE_CONTENTREADER_CLOCK_ARCOLOR, value );
+			}
+		}
 		public static Color APPEARANCE_CONTENTREADER_CLOCK_HHCOLOR
 		{
 			get

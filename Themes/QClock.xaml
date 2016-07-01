@@ -8,6 +8,7 @@
         <Setter Property="ScalesBrush" Value="White" />
         <Setter Property="MinuteHandBrush" Value="White" />
         <Setter Property="HourHandBrush" Value="White" />
+        <Setter Property="ArcHandBrush" Value="White" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="c:QClock">
@@ -15,6 +16,17 @@
                         <Canvas.RenderTransform>
                             <TranslateTransform X="50" Y="50" />
                         </Canvas.RenderTransform>
+                        <Path Stroke="{TemplateBinding ArcHandBrush}">
+                            <Path.Data>
+                                <PathGeometry>
+                                    <PathFigure x:Name="ArcFigure" StartPoint="0, 0">
+                                        <PathFigure.Segments>
+                                            <ArcSegment x:Name="ArcHand" Size="0, 0" Point="0, 0" IsLargeArc="False" SweepDirection="Clockwise" />
+                                        </PathFigure.Segments>
+                                    </PathFigure>
+                                </PathGeometry>
+                            </Path.Data>
+                        </Path>
                         <!-- Minute Hand -->
                         <Rectangle x:Name="MinuteHand"
                                    Width="3" Height="35" Fill="{TemplateBinding MinuteHandBrush}">
