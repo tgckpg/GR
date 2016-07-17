@@ -12,6 +12,7 @@ namespace wenku8.Resources
 {
     using CompositeElement;
     using Model.Book;
+    using Model.REST;
     using Storage;
 
     static class Shared
@@ -24,6 +25,9 @@ namespace wenku8.Resources
 
         // The default settings by locale
         public static LocaleDefaults LocaleDefaults = new LocaleDefaults();
+
+        // Sharers Request
+        public static SharersRequest ShRequest = new SharersRequest();
 
         private static bool IsTrad = Config.Properties.LANGUAGE_TRADITIONAL;
 

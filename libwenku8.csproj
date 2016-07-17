@@ -90,6 +90,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="wenku8\AdvDM\PostData.cs" />
     <Compile Include="wenku8\AdvDM\RuntimeCache.cs" />
     <Compile Include="wenku8\AdvDM\WBackgroundTransfer.cs" />
     <Compile Include="wenku8\AdvDM\WCacheMode.cs" />
@@ -191,6 +192,8 @@
     <Compile Include="wenku8\Model\ListItem\BookmarkListItem.cs" />
     <Compile Include="wenku8\Model\ListItem\Digest.cs" />
     <Compile Include="wenku8\Model\ListItem\FavItem.cs" />
+    <Compile Include="wenku8\Model\ListItem\HubScirptStatus.cs" />
+    <Compile Include="wenku8\Model\ListItem\HubScriptItem.cs" />
     <Compile Include="wenku8\Model\ListItem\ImageThumb.cs" />
     <Compile Include="wenku8\Model\ListItem\LocalBook.cs" />
     <Compile Include="wenku8\Model\ListItem\NewsItem.cs" />
@@ -203,6 +206,8 @@
     <Compile Include="wenku8\Model\ListItem\Topic.cs" />
     <Compile Include="wenku8\Model\ListItem\TreeItem.cs" />
     <Compile Include="wenku8\Model\Loaders\ContentParser.cs" />
+    <Compile Include="wenku8\Model\REST\JsonStatus.cs" />
+    <Compile Include="wenku8\Model\REST\SharersRequest.cs" />
     <Compile Include="wenku8\Model\SearchableContext.cs" />
     <Compile Include="wenku8\Model\Text\LogLine.cs" />
     <Compile Include="wenku8\Model\Text\Manipulation.cs" />

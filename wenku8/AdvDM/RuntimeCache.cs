@@ -46,26 +46,57 @@ namespace wenku8.AdvDM
 			}
 		}
 
-        virtual protected void SendRequest( Uri Guri
-        , Action<DRequestCompletedEventArgs, string> Handler
-        , Action<string, string, Exception> DowloadFailedHandler, bool precache )
+        virtual public void POST(
+            Uri Guri, PostData Data
+            , Action<DRequestCompletedEventArgs, string> Handler
+            , Action<string, string, Exception> DownloadFailedHandler, bool precache )
         {
-            // Initialize HTTP Request
-            HttpRequest wc = MakeRequest( Guri );
-            wc.Method = "GET";
+            Logger.Log( ID, "POST: " + Data.Name );
+			if ( WCacheMode.OfflineMode )
+			{
+				 DownloadFailedHandler( Guri.OriginalString, "", new Exception( "Currently offline" ) );
+			}
+			else
+			{
+				SendRequest( Guri, Data, Handler, DownloadFailedHandler, precache );
+			}
+        }
 
-			// Download handler
+		virtual protected void SendRequest( Uri uri, PostData Data 
+			, Action<DRequestCompletedEventArgs, string> Handler
+			, Action<string, string, Exception> DowloadFailedHandler, bool precache )
+		{
+			HttpRequest wc = MakeRequest( uri );
+			wc.ContentType = "application/x-www-form-urlencoded";
+            wc.Method = "POST";
+
 			wc.OnRequestComplete += ( e ) => PreHandler(
-				// cache name is just the uri
-				Guri.OriginalString
+                Data.CacheName
 				// When download success, these param will send to handler
-				, e, Guri.OriginalString, Handler
-				// Download failed handler
+				, e, Data.Name, Handler
 				, DowloadFailedHandler
 				// this determine whether PreHandler should cache the downloaded stream
 				, precache
             );
-            // Start Request
+
+            wc.OpenWriteAsync( Data.Data );
+		}
+
+        virtual protected void SendRequest( Uri Guri
+        , Action<DRequestCompletedEventArgs, string> Handler
+        , Action<string, string, Exception> DowloadFailedHandler, bool precache )
+        {
+            HttpRequest wc = MakeRequest( Guri );
+            wc.Method = "GET";
+
+			wc.OnRequestComplete += ( e ) => PreHandler(
+				Guri.OriginalString
+				// When download success, these param will send to handler
+				, e, Guri.OriginalString, Handler
+				, DowloadFailedHandler
+				, precache
+            );
+
             wc.OpenAsync();
 		}
 
@@ -81,7 +112,6 @@ namespace wenku8.AdvDM
 				// Write Cache
 				if ( PreCache )
 				{
-                    // Precache is written in cache Using EscapedataString
                     Shared.Storage.WriteBytes( FileLinks.ROOT_CACHE + cache, e.ResponseBytes );
 				}
 			}

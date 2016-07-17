@@ -83,6 +83,10 @@
 			, APP_VERSION = "appver"
 			, APP_REQUEST = "request"
 			, APP_REQUEST_TOKEN = "timetoken"
+
+
+            // Messaging
+            , SH_SCRIPT_DATA = "ShScriptData"
 			;
 	}
 }

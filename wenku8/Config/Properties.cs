@@ -3,7 +3,7 @@ using Windows.UI;
 
 namespace wenku8.Config
 {
-	class Properties: AppSettings
+	sealed class Properties: AppSettings
 	{
 		public static bool FIRST_TIME_RUN
 		{
