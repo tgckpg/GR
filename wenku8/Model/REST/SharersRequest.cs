@@ -23,6 +23,11 @@ namespace wenku8.Model.REST
             INVALID_SCRIPT = -1
         }
 
+        public enum CommentTarget : byte
+        {
+            SCRIPT = 1, COMMENT = 2
+        }
+
         public PostData ReserveId()
         {
             return new PostData(
@@ -32,6 +37,25 @@ namespace wenku8.Model.REST
                     , "access_token", ACCESS_TOKEN
                 )
             );
+        }
+
+        public PostData GetComments( CommentTarget Target, int Skip, uint Limit, params string[] Ids )
+        {
+            List<string> Params = new List<string>( new string[]
+            {
+                "action", "get-comment"
+                , "skip", Skip.ToString()
+                , "limit", Limit.ToString()
+                , "target", ( Target ^ CommentTarget.COMMENT ) == 0 ? "comment" : "script"
+            } );
+
+            foreach ( string Id in Ids )
+            {
+                Params.Add( "id" );
+                Params.Add( Id );
+            }
+
+            return new PostData( "SH_GET_COMMENTS", Compost( Params.ToArray() ) );
         }
 
         public PostData ScriptUpload( string Id, string ScriptData, string Name, string Zone, string[] Types, string[] Tags = null )
@@ -73,7 +97,6 @@ namespace wenku8.Model.REST
             );
         }
 
-
         public PostData ScriptRemove( string Id )
         {
             return new PostData(
@@ -104,7 +127,7 @@ namespace wenku8.Model.REST
                 "SHHUB_LOGIN"
                 , Compost(
                     "action", "login"
-                    , "username", Username
+                    , "user", Username
                     , "passwd", Passwd
                 )
             );
@@ -113,6 +136,11 @@ namespace wenku8.Model.REST
         public PostData Logout()
         {
             return new PostData( "SHHUB_LOGOUT", Compost( "action", "logout" ) );
+        }
+
+        public PostData SessionValid()
+        {
+            return new PostData( "SHHUB_VALIDATE_SESS", Compost( "action", "session-valid" ) );
         }
 
         public PostData Search( string Query )

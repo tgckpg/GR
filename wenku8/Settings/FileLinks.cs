@@ -20,6 +20,7 @@ namespace wenku8.Settings
         , READING_HISTORY = "ReadingHistory.xml"
         , ADM_DOWNLOAD_REG = "AdvDM_DReg.xml"
 		, ADM_RUNTIME_REG = "AdvDM_RReg.xml"
+		, SH_AUTH_REG = "SHAuths.xml"
 		, EBWIN_DICT_REG = "EBWinDicts.xml"
 
 		, ROOT_CACHE = "Cache/"

@@ -10,10 +10,12 @@ namespace wenku8.Ext
 
     interface IMember
     {
+        MemberStatus Status { get; set; }
+
         bool IsLoggedIn { get; }
         bool WillLogin { get; }
 
-        MemberStatus Status { get; set; }
+        string ServerMessage { get; }
 
         event TypedEventHandler<object, MemberStatus> OnStatusChanged;
 

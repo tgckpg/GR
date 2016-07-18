@@ -7,6 +7,7 @@ using Net.Astropenguin.Logging;
 namespace wenku8.Converters
 {
     using CompositeElement;
+
     public class SizeVisibilityConverter : IValueConverter
     {
         public static readonly string ID = typeof( SizeVisibilityConverter ).Name;

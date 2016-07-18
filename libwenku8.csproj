@@ -118,6 +118,7 @@
     <Compile Include="wenku8\Converters\ParallaxConverter.cs" />
     <Compile Include="wenku8\Converters\ParaTemplateSelector.cs" />
     <Compile Include="wenku8\Converters\RectileConverters.cs" />
+    <Compile Include="wenku8\Converters\HSCTemplateSelector.cs" />
     <Compile Include="wenku8\Converters\TOCTemplateSelector.cs" />
     <Compile Include="wenku8\Converters\TreeMarginConverter.cs" />
     <Compile Include="wenku8\Converters\VDisplayConverter.cs" />
@@ -193,6 +194,7 @@
     <Compile Include="wenku8\Model\ListItem\Digest.cs" />
     <Compile Include="wenku8\Model\ListItem\FavItem.cs" />
     <Compile Include="wenku8\Model\ListItem\HubScirptStatus.cs" />
+    <Compile Include="wenku8\Model\Comments\HSComment.cs" />
     <Compile Include="wenku8\Model\ListItem\HubScriptItem.cs" />
     <Compile Include="wenku8\Model\ListItem\ImageThumb.cs" />
     <Compile Include="wenku8\Model\ListItem\LocalBook.cs" />

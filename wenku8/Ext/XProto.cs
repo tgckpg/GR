@@ -32,6 +32,8 @@ namespace wenku8.Ext
         public const string BookLoader = "wenku8.Model.Loaders.BookLoader, wenku10";
         public const string ListLoader = "wenku8.Model.Loaders.ListLoader, wenku8-protocol";
 
+        public const string SHMember = "wenku10.SHHub.SHMember, wenku10";
+
         public const string NavListSettings = "wenku8.Settings.Layout.NavList, wenku10";
         public const string MainPageSettings = "wenku8.Settings.Layout.MainPage, wenku10";
         public const string MainStage = "wenku10.MainStage, wenku10";
