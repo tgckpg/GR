@@ -45,7 +45,7 @@ namespace wenku8.Model.ListItem
             this.BInst = BInst;
         }
 
-        public SpiderBook( string ProcSetting, bool Test )
+        protected SpiderBook( string ProcSetting, bool Test )
         {
             PSettings = new XRegistry( ProcSetting, null );
             XParameter Param = PSettings.GetParameters().First();
@@ -59,6 +59,14 @@ namespace wenku8.Model.ListItem
                     PSettings.Save();
                 }
             }
+        }
+
+        public static async Task<SpiderBook> CreateAsnyc( string ProcSetting, bool Test )
+        {
+            return await Task.Run( () =>
+            {
+                return new SpiderBook( ProcSetting, Test );
+            } );
         }
 
         protected override void TestProcessed()

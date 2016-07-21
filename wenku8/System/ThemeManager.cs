@@ -11,11 +11,10 @@ using Net.Astropenguin.Loaders;
 
 namespace wenku8.System
 {
-    using Messages;
     using Settings;
     using Settings.Theme;
 
-    class ThemeManager
+    sealed class ThemeManager
     {
         public XRegistry WThemeReg;
 

@@ -238,7 +238,9 @@
     <Compile Include="wenku8\Storage\OneDriveSync.cs" />
     <Compile Include="wenku8\System\ActionCenter.cs" />
     <Compile Include="wenku8\Model\EBDictionary.cs" />
+    <Compile Include="wenku8\System\CryptAES.cs" />
     <Compile Include="wenku8\System\EBDictManager.cs" />
+    <Compile Include="wenku8\System\AuthManager.cs" />
     <Compile Include="wenku8\System\LogControl.cs" />
     <Compile Include="wenku8\System\Messages\ErrorMessage.cs" />
     <Compile Include="wenku8\System\Messages\GeneralMessage.cs" />

@@ -11,9 +11,6 @@ namespace wenku8.Model.REST
 
     sealed class SharersRequest
     {
-        public string ACCESS_TOKEN = "";
-        public string SECRET = "";
-
         public Uri Server = new Uri( "http://w10srv.astropenguin.net/" );
 
         private readonly string LANG = Properties.LANGUAGE;
@@ -28,13 +25,13 @@ namespace wenku8.Model.REST
             SCRIPT = 1, COMMENT = 2
         }
 
-        public PostData ReserveId()
+        public PostData ReserveId( string AccessToken )
         {
             return new PostData(
                 "SHHUB_RESERVE_UUID"
                 , Compost(
                     "action", "reserve-uuid"
-                    , "access_token", ACCESS_TOKEN
+                    , "access_token", AccessToken
                 )
             );
         }
@@ -58,15 +55,15 @@ namespace wenku8.Model.REST
             return new PostData( "SH_GET_COMMENTS", Compost( Params.ToArray() ) );
         }
 
-        public PostData ScriptUpload( string Id, string ScriptData, string Name, string Zone, string[] Types, string[] Tags = null )
+        public PostData ScriptUpload( string AccessToken, string Id, string ScriptData, string Name, string Desc, string Zone, string[] Types, string[] Tags = null )
         {
             List<string> Params = new List<string>( new string[] {
                 "action", "upload"
                 , "uuid", Id
-                , "secret", SECRET
                 , "data", ScriptData
                 , "name", Name
-                , "access_token", ACCESS_TOKEN
+                , "desc", Desc
+                , "access_token", AccessToken 
             } );
 
             ZoneTypeTags( Params, new string[] { Zone }, Types, Tags );
@@ -74,13 +71,13 @@ namespace wenku8.Model.REST
             return new PostData( Id, Compost( Params.ToArray() ) );
         }
 
-        public PostData ScriptDownload( string Id )
+        public PostData ScriptDownload( string Id, string AccessToken = "" )
         {
             return new PostData(
                 Id, Compost(
                     "action", "download"
                     , "uuid", Id
-                    , "access_token", ACCESS_TOKEN
+                    , "access_token", AccessToken 
                 )
             );
         }
@@ -97,13 +94,13 @@ namespace wenku8.Model.REST
             );
         }
 
-        public PostData ScriptRemove( string Id )
+        public PostData ScriptRemove( string AccessToken, string Id )
         {
             return new PostData(
                 Id, Compost(
                     "action", "remove"
                     , "uuid", Id
-                    , "access_token", ACCESS_TOKEN
+                    , "access_token", AccessToken
                 )
             );
         }
@@ -143,7 +140,7 @@ namespace wenku8.Model.REST
             return new PostData( "SHHUB_VALIDATE_SESS", Compost( "action", "session-valid" ) );
         }
 
-        public PostData Search( string Query )
+        public PostData Search( string Query, IEnumerable<string> AccessTokens = null )
         {
             /**
              * Here is how the query is parsed
@@ -194,6 +191,13 @@ namespace wenku8.Model.REST
                     Queries.Add( "name" );
                     Queries.Add( QString[ 0 ].Substring( 0, NameIndex ).Trim() );
                 }
+            }
+
+            if( AccessTokens != null )
+            foreach( string AccessToken in AccessTokens )
+            {
+                Queries.Add( "access_token" );
+                Queries.Add( AccessToken );
             }
 
             return new PostData( "SHHUB_SEARCH", Compost( Queries.ToArray() ) );

@@ -9,10 +9,23 @@ namespace wenku8.Model.Comments
 {
     sealed class HSComment : Comment 
     {
+        public static HSComment ActiveInstance;
+
+        private bool _selected = false;
+
         public IEnumerable<HSComment> Replies { get; set; }
         public bool Folded { get; set; }
         public string Id { get; set; }
         public int Level { get; set; }
+        public bool Selected
+        {
+            get { return _selected; }
+            private set
+            {
+                _selected = value;
+                NotifyChanged( "Selected" );
+            }
+        }
 
         public HSComment( JsonObject Def, int Level = 0 )
         {
@@ -42,7 +55,7 @@ namespace wenku8.Model.Comments
                 }
             }
 
-            Replies = Stacks;
+            Replies = Stacks.OrderByDescending( k => k.TimeStamp );
         }
 
         public HSComment( string Id, int Level = 0 )
@@ -53,5 +66,13 @@ namespace wenku8.Model.Comments
             this.Level = Level;
         }
 
+        public void MarkSelect()
+        {
+            if( ActiveInstance != null )
+                ActiveInstance.Selected = false;
+
+            ActiveInstance = this;
+            ActiveInstance.Selected = true;
+        }
     }
 }
