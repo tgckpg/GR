@@ -11,7 +11,7 @@ namespace wenku8.Model.REST
 
     sealed class SharersRequest
     {
-        public Uri Server = new Uri( "http://w10srv.astropenguin.net/" );
+        public Uri Server = new Uri( "http://w10srv.botanical.astropenguin.net/" );
 
         private readonly string LANG = Properties.LANGUAGE;
 
@@ -55,7 +55,11 @@ namespace wenku8.Model.REST
             return new PostData( "SH_GET_COMMENTS", Compost( Params.ToArray() ) );
         }
 
-        public PostData ScriptUpload( string AccessToken, string Id, string ScriptData, string Name, string Desc, string Zone, string[] Types, string[] Tags = null )
+        public PostData ScriptUpload(
+            string AccessToken, string Id, string ScriptData
+            , string Name, string Desc, string Zone
+            , string[] Types, string[] Tags = null
+            , bool Anon = false )
         {
             List<string> Params = new List<string>( new string[] {
                 "action", "upload"
@@ -63,7 +67,8 @@ namespace wenku8.Model.REST
                 , "data", ScriptData
                 , "name", Name
                 , "desc", Desc
-                , "access_token", AccessToken 
+                , "anon", Anon ? "1" : "0"
+                , "access_token", AccessToken
             } );
 
             ZoneTypeTags( Params, new string[] { Zone }, Types, Tags );

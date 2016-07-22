@@ -8,8 +8,6 @@ namespace wenku8.Converters
 {
     public class NumberSimplifier : IValueConverter
     {
-        public static readonly string ID = typeof( BoolDataConverter ).Name;
-
         private static Regex Number = new Regex( @"(\d[\d,]+)" );
 
         public object Convert( object value, Type targetType, object parameter, string language )

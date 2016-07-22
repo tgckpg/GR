@@ -112,7 +112,6 @@
     <Compile Include="wenku8\Converters\NumerSimplifier.cs" />
     <Compile Include="wenku8\Converters\BookInfoConverter.cs" />
     <Compile Include="wenku8\Converters\ContentStyleConverter.cs" />
-    <Compile Include="wenku8\Converters\BoolDataConverter.cs" />
     <Compile Include="wenku8\Converters\FavConverter.cs" />
     <Compile Include="wenku8\Converters\PaneConverters.cs" />
     <Compile Include="wenku8\Converters\ParallaxConverter.cs" />
