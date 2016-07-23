@@ -205,5 +205,10 @@ namespace wenku8.Model.Book
                 Others.Add( OtherParam.GetValue( "other" ) );
             }
         }
+
+        private string DisplayString( string Raw, BookInfo InfType, string Suffix = "" )
+        {
+            return string.IsNullOrEmpty( Raw ) ? "" : ( TypeName( InfType ) + ": " + Raw + Suffix );
+        }
     }
 }

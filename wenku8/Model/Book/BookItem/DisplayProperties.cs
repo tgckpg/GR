@@ -41,14 +41,14 @@ namespace wenku8.Model.Book
         private string TodayHitCountRaw = "";
         public string TodayHitCount
         {
-            get { return TypeName( BookInfo.DailyHitsCount ) + ": +" + TodayHitCountRaw; }
+            get { return DisplayString( TodayHitCountRaw, BookInfo.DailyHitsCount ); }
             set { TodayHitCountRaw = value; }
         }
 
         private string TotalHitCountRaw = "";
         public string TotalHitCount
         {
-            get { return TypeName( BookInfo.TotalHitsCount ) + ": " + TotalHitCountRaw; }
+            get { return DisplayString( TotalHitCountRaw, BookInfo.TotalHitsCount ); }
             set { TotalHitCountRaw = value; }
         }
 
@@ -56,14 +56,14 @@ namespace wenku8.Model.Book
         private string FavCountRaw = "";
         public string FavCount
         {
-            get { return TypeName( BookInfo.FavCount ) + ": " + FavCountRaw; }
+            get { return DisplayString( FavCountRaw, BookInfo.FavCount ); }
             set { FavCountRaw = value; }
         }
 
         private string PushCountRaw = "";
         public string PushCount
         {
-            get { return TypeName( BookInfo.PushCount ) + ": " + PushCountRaw; }
+            get { return DisplayString( PushCountRaw, BookInfo.PushCount ); }
             set { PushCountRaw = value; NotifyChanged( "PushCount" ); }
         }
 
@@ -71,31 +71,27 @@ namespace wenku8.Model.Book
         internal string RecentUpdateRaw { get; private set; }
         public string RecentUpdate
         {
-            get { return TypeName( BookInfo.Date ) + ": " + RecentUpdateRaw; }
+            get { return DisplayString( RecentUpdateRaw, BookInfo.Date ); }
             set { RecentUpdateRaw = value; }
         }
 
         public string UpdateStatus
         {
-            get
-            {
-                return TypeName( BookInfo.Date ) + ": "
-                    + RecentUpdateRaw + "( " + Status + " ) ";
-            }
+            get { return DisplayString( RecentUpdateRaw, BookInfo.Date, "( " + Status + " ) " ); }
         }
 
         // Assesed by BookInfoView for Author Search
         internal string AuthorRaw { get; private set; }
         public string Author
         {
-            get { return TypeName( BookInfo.Author ) + ": " + AuthorRaw; }
+            get { return DisplayString( AuthorRaw, BookInfo.Author ); }
             set { AuthorRaw = value; }
         }
 
         private string PressRaw = "";
         public string Press
         {
-            get { return TypeName( BookInfo.Press ) + ": " + PressRaw; }
+            get { return DisplayString( PressRaw, BookInfo.Press ); }
             set { PressRaw = value; }
         }
 
@@ -130,16 +126,13 @@ namespace wenku8.Model.Book
         }
         public string StatusLong
         {
-            get
-            {
-                return TypeName( BookInfo.Status ) + ": " + this.Status;
-            }
+            get { return DisplayString( Status, BookInfo.Status ); }
         }
 
         private string LengthRaw = "";
         public string Length
         {
-            get { return TypeName( BookInfo.Length ) + ": " + LengthRaw; }
+            get { return DisplayString( LengthRaw, BookInfo.Length ); }
             set { LengthRaw = value; }
         }
 
