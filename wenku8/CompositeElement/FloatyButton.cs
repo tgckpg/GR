@@ -57,8 +57,8 @@ namespace wenku8.CompositeElement
         public static readonly DependencyProperty TitleProperty = DependencyProperty.Register( "Title", typeof( string ), typeof( FloatyButton ), new PropertyMetadata( "{Title}", OnTitleChanged ) );
         public static readonly DependencyProperty ImageSourceProperty = DependencyProperty.Register( "ImageSource", typeof( ImageSource ), typeof( FloatyButton ), new PropertyMetadata( null, OnImageSourceChanged ) );
 
-        public static readonly DependencyProperty OuterRingBrushProperty = DependencyProperty.Register( "OuterRingBrush", typeof( double ), typeof( FloatyButton ), new PropertyMetadata( new SolidColorBrush( Colors.Black ), OnOuterRingChanged ) );
-        public static readonly DependencyProperty TextBrushProperty = DependencyProperty.Register( "TextBrush", typeof( double ), typeof( FloatyButton ), new PropertyMetadata( new SolidColorBrush( Colors.Black ), OnSimpleTextChanged ) );
+        public static readonly DependencyProperty OuterRingBrushProperty = DependencyProperty.Register( "OuterRingBrush", typeof( Brush ), typeof( FloatyButton ), new PropertyMetadata( new SolidColorBrush( Colors.Black ), OnOuterRingChanged ) );
+        public static readonly DependencyProperty TextBrushProperty = DependencyProperty.Register( "TextBrush", typeof( Brush ), typeof( FloatyButton ), new PropertyMetadata( new SolidColorBrush( Colors.Black ), OnSimpleTextChanged ) );
 
         public static readonly DependencyProperty TextRotationProperty = DependencyProperty.Register( "TextRotation", typeof( double ), typeof( FloatyButton ), new PropertyMetadata( 0.0, OnSimpleTextChanged ) );
         public static readonly DependencyProperty TextSpeedProperty = DependencyProperty.Register( "TextSpeed", typeof( double ), typeof( FloatyButton ), new PropertyMetadata( 0.15, OnSimpleTextChanged ) );

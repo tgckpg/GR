@@ -48,7 +48,6 @@ namespace wenku8.Model.ListItem
         protected SpiderBook( string ProcSetting, bool Test )
         {
             PSettings = new XRegistry( ProcSetting, null );
-            XParameter Param = PSettings.GetParameters().First();
 
             if( Test )
             {
@@ -80,7 +79,7 @@ namespace wenku8.Model.ListItem
                 XParameter Param = PSettings.GetParameter( "Procedures" );
                 ProcMan.ReadParam( Param );
 
-                aid = ProcMan.GUID.ToString();
+                aid = ProcMan.GUID;
                 XParameter SParam = PSettings.GetParameter( "ProcessState" );
 
                 BInst = new BookInstruction( aid, PSettings );
@@ -104,7 +103,6 @@ namespace wenku8.Model.ListItem
 
         protected override async Task Run()
         {
-
             ProceduralSpider Spider = ProcMan.CreateSpider();
 
             ProcConvoy Convoy = null;
@@ -136,6 +134,20 @@ namespace wenku8.Model.ListItem
             PSettings.Save();
 
             ProcessSuccess = true;
+        }
+
+        public void AssignId( string Id )
+        {
+            if ( ProcMan.GUID == Id ) return;
+
+            ProcMan.GUID = Id;
+            if ( ProcMan.GUID == Id )
+            {
+                aid = Id;
+                XParameter Param = PSettings.GetParameter( "Procedures" );
+                Param.SetValue( new XKey( "Guid", Id ) );
+                PSettings.SetParameter( Param );
+            }
         }
 
         public BookInstruction GetBook()

@@ -74,6 +74,13 @@ namespace wenku8.System
             SelectedToken = TokList.FirstOrDefault();
         }
 
+        public string GetATokenById( string Id )
+        {
+            XParameter Param = AuthReg.GetParametersWithKey( "tokname" )
+                .FirstOrDefault( x => x.GetParameter( Id ) != null );
+            return Param == null ? "" : Param.ID;
+        }
+
         public void NewKey()
         {
             string Key = CryptAES.GenKey( 256 );
@@ -141,15 +148,24 @@ namespace wenku8.System
 
         public void AssignTokenId( string Name, string Id )
         {
-            XParameter Token = AuthReg.GetParametersWithKey( "tokname" ).FirstOrDefault( x => x.GetValue( "tokname" ) == Name );
-            Token?.SetParameter( new XParameter( Id ) );
-            AuthReg.Save();
+            AssignId( "tokname", Name, Id );
         }
 
         public void AssignKeyId( string Name, string Id )
         {
-            XParameter Key = AuthReg.GetParametersWithKey( "keyname" ).FirstOrDefault( x => x.GetValue( "keyname" ) == Name );
-            Key?.SetParameter( new XParameter( Id ) );
+            AssignId( "keyname", Name, Id );
+        }
+
+        private void AssignId( string KName, string Name, string Id )
+        {
+            XParameter Key = AuthReg.GetParametersWithKey( KName ).FirstOrDefault( x => x.GetValue( KName ) == Name );
+
+            if( Key != null )
+            {
+                Key.SetParameter( new XParameter( Id ) );
+                AuthReg.SetParameter( Key );
+            }
+
             AuthReg.Save();
         }
     }

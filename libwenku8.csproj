@@ -96,13 +96,13 @@
     <Compile Include="wenku8\AdvDM\WCacheMode.cs" />
     <Compile Include="wenku8\AdvDM\WHTTPRequest.cs" />
     <Compile Include="wenku8\AdvDM\WRuntimeTransfer.cs" />
+    <Compile Include="wenku8\CompositeElement\LSBookItem.cs" />
     <Compile Include="wenku8\CompositeElement\FloatyButton.cs" />
     <Compile Include="wenku8\CompositeElement\LoadingMask.cs" />
     <Compile Include="wenku8\CompositeElement\OneDriveButton.cs" />
     <Compile Include="wenku8\CompositeElement\ParallaxHub.cs" />
     <Compile Include="wenku8\CompositeElement\PassiveSplitView.cs" />
     <Compile Include="wenku8\CompositeElement\QClock.cs" />
-    <Compile Include="wenku8\CompositeElement\Rectile.cs" />
     <Compile Include="wenku8\CompositeElement\StarCanvas.cs" />
     <Compile Include="wenku8\CompositeElement\StateBubble.cs" />
     <Compile Include="wenku8\CompositeElement\VariableGridView.cs" />
@@ -116,7 +116,6 @@
     <Compile Include="wenku8\Converters\PaneConverters.cs" />
     <Compile Include="wenku8\Converters\ParallaxConverter.cs" />
     <Compile Include="wenku8\Converters\ParaTemplateSelector.cs" />
-    <Compile Include="wenku8\Converters\RectileConverters.cs" />
     <Compile Include="wenku8\Converters\HSCTemplateSelector.cs" />
     <Compile Include="wenku8\Converters\TOCTemplateSelector.cs" />
     <Compile Include="wenku8\Converters\TreeMarginConverter.cs" />
@@ -200,7 +199,6 @@
     <Compile Include="wenku8\Model\ListItem\NewsItem.cs" />
     <Compile Include="wenku8\Model\ListItem\PaneNavButton.cs" />
     <Compile Include="wenku8\Model\ListItem\Press.cs" />
-    <Compile Include="wenku8\Model\ListItem\RectileItem.cs" />
     <Compile Include="wenku8\Model\ListItem\SpiderBook.cs" />
     <Compile Include="wenku8\Model\ListItem\SubtleUpdateItem.cs" />
     <Compile Include="wenku8\Model\ListItem\TOCItem.cs" />
@@ -254,6 +252,10 @@
     <Content Include="wenku8\Resources\badwords.txt" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Themes\LSBookItem.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Themes\Generic.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -280,10 +282,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Themes\QClock.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Themes\Rectile.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

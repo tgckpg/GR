@@ -22,8 +22,15 @@ namespace wenku8.Model.ListItem
         public string AuthorId { get; private set; }
 
         public IEnumerable<string> Tags { get; private set; }
-        public IEnumerable<string> Types { get; private set; }
-        public IEnumerable<string> Zones { get; private set; }
+        public IEnumerable<string> Type { get; private set; }
+        public IEnumerable<string> Zone { get; private set; }
+        public IEnumerable<string> ZoneTypeTags
+        {
+            get
+            {
+                return new string[] { Zone.FirstOrDefault(), Type.FirstOrDefault(), Tags.FirstOrDefault() }.Where( x => x != null );
+            }
+        }
 
         public IEnumerable<HubScriptStatus> Histories { get; private set; }
 
@@ -39,7 +46,15 @@ namespace wenku8.Model.ListItem
         }
 
         public string HistoryError { get; private set; }
-        public string ErrorMessage { get { return Desc2; } set { Desc2 = value; } }
+        public string ErrorMessage
+        {
+            get { return Desc2; }
+            set
+            {
+                Desc2 = value;
+                NotifyChanged( "ErrorMessage" );
+            }
+        }
 
         public IStorageFile ScriptFile { get; private set; }
 
@@ -84,10 +99,10 @@ namespace wenku8.Model.ListItem
             }
 
             Tags = Def.GetNamedArray( "tags" ).Remap( x => x.GetString() );
-            Zones = Def.GetNamedArray( "zone" ).Remap( x => x.GetString() );
-            Types = Def.GetNamedArray( "type" ).Remap( x => x.GetString() );
+            Zone = Def.GetNamedArray( "zone" ).Remap( x => x.GetString() );
+            Type = Def.GetNamedArray( "type" ).Remap( x => x.GetString() );
 
-            NotifyChanged( "Histories", "Error", "HistoryError", "Tags", "Zones", "Types", "Author" );
+            NotifyChanged( "Histories", "Error", "HistoryError", "Tags", "Zone", "Type", "Author" );
         }
 
         public async void SetScriptData( string JsonData )
@@ -96,13 +111,13 @@ namespace wenku8.Model.ListItem
 
             if ( !JsonObject.TryParse( JsonData, out JResponse ) )
             {
-                Desc2 = "A server Error has occurred";
+                ErrorMessage = "A server Error has occurred";
                 return;
             }
 
             if ( !JResponse.GetNamedBoolean( "status", false ) )
             {
-                Desc2 = JResponse.GetNamedString( "message" );
+                ErrorMessage = JResponse.GetNamedString( "message" );
                 return;
             }
 

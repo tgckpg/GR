@@ -157,10 +157,17 @@ namespace wenku8.Model.REST
             string[] QString = Query.Split( ':' );
             int l = QString.Length - 1;
 
-            // Default searches script name
-            if ( l < 1 ) return new PostData( "SHHUB_SEARCH", Compost( "action", "search", "name", Query ) );
-
             List<string> Queries = new List<string>( new string[] { "action", "search" } );
+
+            if( AccessTokens != null )
+            foreach( string AccessToken in AccessTokens )
+            {
+                Queries.Add( "access_token" );
+                Queries.Add( AccessToken );
+            }
+
+            // Default searches this script name
+            if ( l < 1 ) return new PostData( "SHHUB_SEARCH", Compost( Queries.ToArray() ) );
 
             for ( int i = 0; i < l; i++ )
             {
@@ -196,13 +203,6 @@ namespace wenku8.Model.REST
                     Queries.Add( "name" );
                     Queries.Add( QString[ 0 ].Substring( 0, NameIndex ).Trim() );
                 }
-            }
-
-            if( AccessTokens != null )
-            foreach( string AccessToken in AccessTokens )
-            {
-                Queries.Add( "access_token" );
-                Queries.Add( AccessToken );
             }
 
             return new PostData( "SHHUB_SEARCH", Compost( Queries.ToArray() ) );
@@ -246,7 +246,7 @@ namespace wenku8.Model.REST
             if( Tags != null )
             foreach ( string Tag in Tags )
             {
-                Params.Add( "tag" );
+                Params.Add( "tags" );
                 Params.Add( Tag );
             }
         }
