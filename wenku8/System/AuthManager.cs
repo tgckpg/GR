@@ -54,20 +54,20 @@ namespace wenku8.System
             TokInc = XTokInc.GetSaveInt( "val" );
 
             // Read Keys
-            XParameter[] Params = AuthReg.GetParametersWithKey( "keyname" );
+            XParameter[] Params = AuthReg.GetParametersWithKey( AppKeys.AM_KEY );
             foreach( XParameter P in Params )
             {
-                KeyList.Add( new CryptAES( P.ID ) { Name = P.GetValue( "keyname" ) } );
+                KeyList.Add( new CryptAES( P.ID ) { Name = P.GetValue( AppKeys.AM_KEY ) } );
             }
 
             KeyList.CollectionChanged += ( a, b ) => { NotifyChanged( "SelectedKey" ); };
             SelectedKey = KeyList.FirstOrDefault();
 
             // Read Tokens
-            Params = AuthReg.GetParametersWithKey( "tokname" );
+            Params = AuthReg.GetParametersWithKey( AppKeys.AM_TOK );
             foreach( XParameter P in Params )
             {
-                TokList.Add( new KeyValuePair<string, string>( P.GetValue( "tokname" ), P.ID ) );
+                TokList.Add( new KeyValuePair<string, string>( P.GetValue( AppKeys.AM_TOK ), P.ID ) );
             }
 
             TokList.CollectionChanged += ( a, b ) => { NotifyChanged( "SelectedToken" ); };
@@ -76,9 +76,32 @@ namespace wenku8.System
 
         public string GetATokenById( string Id )
         {
-            XParameter Param = AuthReg.GetParametersWithKey( "tokname" )
+            XParameter Param = AuthReg.GetParametersWithKey( AppKeys.AM_TOK )
                 .FirstOrDefault( x => x.GetParameter( Id ) != null );
             return Param == null ? "" : Param.ID;
+        }
+
+        public CryptAES GetKeyById( string Id )
+        {
+            XParameter Param = AuthReg.GetParametersWithKey( AppKeys.AM_KEY )
+                .FirstOrDefault( x => x.GetParameter( Id ) != null );
+            return Param == null ? null : new CryptAES( Param.ID );
+        }
+
+        public bool TryDecrypt( string EncData, out string Data )
+        {
+            foreach( CryptAES Crypts in KeyList )
+            {
+                try
+                {
+                    Data = Crypts.Decrypt( EncData );
+                    return true;
+                }
+                catch ( Exception ) { }
+            }
+
+            Data = null;
+            return false;
         }
 
         public void NewKey()
@@ -86,7 +109,7 @@ namespace wenku8.System
             string Key = CryptAES.GenKey( 256 );
 
             XParameter NewKey = new XParameter( Key );
-            NewKey.SetValue( new XKey( "keyname", "New Key " + KeyInc ) );
+            NewKey.SetValue( new XKey( AppKeys.AM_KEY, "New Key " + KeyInc ) );
 
             XKeyInc.SetValue( new XKey( "val", KeyInc + 1 ) );
             AuthReg.SetParameter( NewKey );
@@ -102,7 +125,7 @@ namespace wenku8.System
             string Token = CryptAES.GenKey( 32 );
 
             XParameter NewToken = new XParameter( Token );
-            NewToken.SetValue( new XKey( "tokname", "New AccessToken " + TokInc ) );
+            NewToken.SetValue( new XKey( AppKeys.AM_TOK, "New AccessToken " + TokInc ) );
 
             XTokInc.SetValue( new XKey( "val", TokInc + 1 ) );
             AuthReg.SetParameter( NewToken );
@@ -148,12 +171,12 @@ namespace wenku8.System
 
         public void AssignTokenId( string Name, string Id )
         {
-            AssignId( "tokname", Name, Id );
+            AssignId( AppKeys.AM_TOK, Name, Id );
         }
 
         public void AssignKeyId( string Name, string Id )
         {
-            AssignId( "keyname", Name, Id );
+            AssignId( AppKeys.AM_KEY, Name, Id );
         }
 
         private void AssignId( string KName, string Name, string Id )

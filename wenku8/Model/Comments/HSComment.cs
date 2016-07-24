@@ -15,6 +15,7 @@ namespace wenku8.Model.Comments
 
         public IEnumerable<HSComment> Replies { get; set; }
         public bool Folded { get; set; }
+        public bool Encrypted { get; set; }
         public string Id { get; set; }
         public int Level { get; set; }
         public bool Selected
@@ -39,6 +40,8 @@ namespace wenku8.Model.Comments
             Id = Def.GetNamedString( "_id" );
             Title = Def.GetNamedString( "content" );
             TimeStamp = DateTime.Parse( Def.GetNamedString( "date_created" ) );
+
+            Encrypted = Def.GetNamedBoolean( "enc" );
 
             JsonArray JReplies = Def.GetNamedArray( "replies" );
 

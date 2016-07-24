@@ -57,9 +57,9 @@ namespace wenku8.Model.REST
 
         public PostData ScriptUpload(
             string AccessToken, string Id, string ScriptData
-            , string Name, string Desc, string Zone
-            , string[] Types, string[] Tags = null
-            , bool Anon = false )
+            , string Name, string Desc
+            , string Zone, string[] Types, string[] Tags
+            , bool Encrypted, bool ForceEncrypt, bool Anon )
         {
             List<string> Params = new List<string>( new string[] {
                 "action", "upload"
@@ -67,9 +67,26 @@ namespace wenku8.Model.REST
                 , "data", ScriptData
                 , "name", Name
                 , "desc", Desc
-                , "anon", Anon ? "1" : "0"
                 , "access_token", AccessToken
             } );
+
+            if ( Encrypted )
+            {
+                Params.Add( "enc" );
+                Params.Add( "1" );
+            }
+
+            if( ForceEncrypt )
+            {
+                Params.Add( "force_enc" );
+                Params.Add( "1" );
+            }
+
+            if( Anon )
+            {
+                Params.Add( "anon" );
+                Params.Add( "1" );
+            }
 
             ZoneTypeTags( Params, new string[] { Zone }, Types, Tags );
 
@@ -145,7 +162,7 @@ namespace wenku8.Model.REST
             return new PostData( "SHHUB_VALIDATE_SESS", Compost( "action", "session-valid" ) );
         }
 
-        public PostData Search( string Query, IEnumerable<string> AccessTokens = null )
+        public PostData Search( string Query, int Skip, uint Limit, IEnumerable<string> AccessTokens = null )
         {
             /**
              * Here is how the query is parsed
@@ -157,7 +174,11 @@ namespace wenku8.Model.REST
             string[] QString = Query.Split( ':' );
             int l = QString.Length - 1;
 
-            List<string> Queries = new List<string>( new string[] { "action", "search" } );
+            List<string> Queries = new List<string>( new string[] {
+                "action", "search"
+                , "skip", Skip.ToString()
+                , "limit", Limit.ToString()
+            } );
 
             if( AccessTokens != null )
             foreach( string AccessToken in AccessTokens )
@@ -169,6 +190,7 @@ namespace wenku8.Model.REST
             // Default searches this script name
             if ( l < 1 ) return new PostData( "SHHUB_SEARCH", Compost( Queries.ToArray() ) );
 
+            QLoop:
             for ( int i = 0; i < l; i++ )
             {
                 string QName = QString[ i ];
@@ -189,6 +211,9 @@ namespace wenku8.Model.REST
                     case "types":
                         PropFilter = PropFilter.Substring( 0, PropFilter.Length - 1 );
                         break;
+                    // Page params should be filtered
+                    case "skip": case "limit":
+                        goto QLoop;
                 }
 
                 Queries.Add( PropFilter );

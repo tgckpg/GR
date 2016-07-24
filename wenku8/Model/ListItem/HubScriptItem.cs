@@ -14,12 +14,29 @@ using Net.Astropenguin.Messaging;
 namespace wenku8.Model.ListItem
 {
     using Settings;
+    using AuthManager = System.AuthManager;
+    using CryptAES = System.CryptAES;
 
     sealed class HubScriptItem : ActiveItem
     {
+        private bool _inCollection;
+
         public string Id { get { return Payload as string; } }
         public string Author { get; private set; }
         public string AuthorId { get; private set; }
+
+        public bool InCollection
+        {
+            get { return _inCollection; }
+            set
+            {
+                _inCollection = value;
+                NotifyChanged( "InCollection" );
+            }
+        }
+
+        public bool Encrypted { get; private set; }
+        public bool ForceEncryption { get; private set; }
 
         public IEnumerable<string> Tags { get; private set; }
         public IEnumerable<string> Type { get; private set; }
@@ -101,8 +118,10 @@ namespace wenku8.Model.ListItem
             Tags = Def.GetNamedArray( "tags" ).Remap( x => x.GetString() );
             Zone = Def.GetNamedArray( "zone" ).Remap( x => x.GetString() );
             Type = Def.GetNamedArray( "type" ).Remap( x => x.GetString() );
+            Encrypted = Def.GetNamedBoolean( "enc" );
+            ForceEncryption = Def.GetNamedBoolean( "force_enc" );
 
-            NotifyChanged( "Histories", "Error", "HistoryError", "Tags", "Zone", "Type", "Author" );
+            NotifyChanged( "Histories", "Error", "HistoryError", "Tags", "Zone", "Type", "Author", "Encrypted" );
         }
 
         public async void SetScriptData( string JsonData )
@@ -121,9 +140,34 @@ namespace wenku8.Model.ListItem
                 return;
             }
 
-            ScriptFile = await AppStorage.MkTemp();
-            await ScriptFile.WriteString( JResponse.GetNamedString( "data" ) );
+            string Data = JResponse.GetNamedString( "data" );
+            if ( Encrypted )
+            {
+                AuthManager AMgr = new AuthManager();
+                CryptAES Crypt = AMgr.GetKeyById( Id );
 
+                if ( Crypt != null )
+                {
+                    try
+                    {
+                        Data = Crypt.Decrypt( Data );
+                    }
+                    catch ( Exception )
+                    {
+                        // This will fallback to try all keys
+                        Crypt = null;
+                    }
+                }
+
+                if ( Crypt == null && !AMgr.TryDecrypt( Data, out Data ) )
+                {
+                    MessageBus.SendUI( new Message( typeof( HubScriptItem ), AppKeys.HS_DECRYPT_FAIL, this ) );
+                    return;
+                }
+            }
+
+            ScriptFile = await AppStorage.MkTemp();
+            await ScriptFile.WriteString( Data );
             MessageBus.SendUI( new Message( typeof( HubScriptItem ), AppKeys.SH_SCRIPT_DATA, this ) );
         }
 

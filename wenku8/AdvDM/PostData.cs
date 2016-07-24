@@ -29,13 +29,7 @@ namespace wenku8.AdvDM
             }
         }
 
-        public Stream DataStream
-        {
-            get
-            {
-                return StreamData;
-            }
-        }
+        public Stream DataStream { get { return StreamData; } }
 
         private string StringData;
         private Stream StreamData;

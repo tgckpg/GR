@@ -84,9 +84,15 @@
 			, APP_REQUEST = "request"
 			, APP_REQUEST_TOKEN = "timetoken"
 
-
             // Messaging
-            , SH_SCRIPT_DATA = "ShScriptData"
+            , SH_SCRIPT_DATA = "SharersHubScriptData"
+            , HS_DECRYPT_FAIL = "HubScriptDecryptFail"
+            , HSC_DECRYPT_FAIL = "HSCommentDecryptFail"
+            , SP_PROCESS_COMP = "SpiderProcessComp"
+
+            // Auth Manager
+            , AM_KEY = "keyname"
+            , AM_TOK = "tokname"
 			;
 	}
 }

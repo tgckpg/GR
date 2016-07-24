@@ -33,13 +33,13 @@ namespace wenku8.AdvDM
             base.CreateRequest();
 			WCRequest.Method = "POST";
 			#if TESTING
-			WCRequest.Headers[ HttpRequestHeader.UserAgent ] = "wenku8 Universal Windows App (Testing Channel)";
+			WCRequest.Headers[ HttpRequestHeader.UserAgent ] = "wenku8 Universal Windows App ( Testing Channel )";
 			#elif BETA
-			WCRequest.Headers[ HttpRequestHeader.UserAgent ] = "wenku8 Universal Windows App (Beta Channel)";
+			WCRequest.Headers[ HttpRequestHeader.UserAgent ] = "wenku8 Universal Windows App ( Beta Channel )";
             #elif DEBUG
-			WCRequest.Headers[ HttpRequestHeader.UserAgent ] = "wenku8 Universal Windows App - Dev";
+			WCRequest.Headers[ HttpRequestHeader.UserAgent ] = "wenku8 Universal Windows App - ( Dev Channel )";
 			#else
-			WCRequest.Headers[ HttpRequestHeader.UserAgent ] = "wenku8 Universal Windows App";
+			WCRequest.Headers[ HttpRequestHeader.UserAgent ] = "wenku8 Universal Windows App ( Production Channel )";
 			#endif
 		}
 	}

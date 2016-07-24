@@ -124,6 +124,8 @@ namespace wenku8.Model.ListItem
                 , "CanReprocess", "ProcessFailed"
                 , "Processed", "Processing"
             );
+
+            MessageBus.SendUI( new Message( GetType(), AppKeys.SP_PROCESS_COMP, this ) );
         }
 
         virtual protected async Task Run()
