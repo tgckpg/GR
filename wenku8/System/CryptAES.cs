@@ -17,14 +17,24 @@ namespace wenku8.System
         private SymmetricKeyAlgorithmProvider SymKeyProvider = SymmetricKeyAlgorithmProvider.OpenAlgorithm( SymmetricAlgorithmNames.AesCbcPkcs7 );
         private CryptographicKey Aes256CFB;
 
+        private string _key;
+        public IBuffer KeyBuffer { get { return Base64Buffer( _key ); } }
+
         public static string GenKey( uint Len = 256 )
         {
             return Convert.ToBase64String( CryptographicBuffer.GenerateRandom( Len ).ToArray() );
         }
 
+        public static string RawBytes( string EncData )
+        {
+            int Dat = EncData.IndexOf( "\r\n" );
+            return BitConverter.ToString( Convert.FromBase64String( EncData.Substring( Dat + 2 ) ) ).Replace( '-', ' ' );
+        }
+
         public CryptAES( string Base64Key )
         {
-            Aes256CFB = SymKeyProvider.CreateSymmetricKey( Base64Buffer( Base64Key ) );
+            _key = Base64Key;
+            Aes256CFB = SymKeyProvider.CreateSymmetricKey( KeyBuffer );
         }
 
         public IBuffer Base64Buffer( string Base64Str )

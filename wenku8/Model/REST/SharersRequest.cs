@@ -55,6 +55,16 @@ namespace wenku8.Model.REST
             return new PostData( "SH_GET_COMMENTS", Compost( Params.ToArray() ) );
         }
 
+        public PostData Comment( CommentTarget Target, string Id, string Content )
+        {
+            return new PostData( "SH_POST_COMMENT", Compost(
+                "action", "comment"
+                , "id", Id
+                , "content", Content
+                , "target", ( Target ^ CommentTarget.COMMENT ) == 0 ? "comment" : "script"
+            ) );
+        }
+
         public PostData ScriptUpload(
             string AccessToken, string Id, string ScriptData
             , string Name, string Desc
