@@ -83,7 +83,7 @@ namespace wenku8.Model.ListItem
 
         public void Update( JsonObject Def )
         {
-            Author = "Anonymous";
+            Author = "";
 
             if ( Def.GetNamedValue( "author" ).ValueType == JsonValueType.Object )
             {

@@ -16,6 +16,7 @@ namespace wenku8.Model.Comments
         public IEnumerable<HSComment> Replies { get; set; }
         public bool Folded { get; set; }
         public bool Encrypted { get; set; }
+        public bool DecFailed { get; set; }
         public string Id { get; set; }
         public int Level { get; set; }
         public bool Selected

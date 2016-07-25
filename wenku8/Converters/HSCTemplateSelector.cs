@@ -15,10 +15,14 @@ namespace wenku8.Converters
 
         public DataTemplate Folded { get; set; }
         public DataTemplate Normal { get; set; }
+        public DataTemplate Encrypted { get; set; }
 
         protected override DataTemplate SelectTemplateCore( object item, DependencyObject container )
         {
-            return ( ( HSComment ) item ).Folded ? Folded : Normal;
+            HSComment HSC = ( HSComment ) item;
+
+            if( HSC.Encrypted && HSC.DecFailed ) return Encrypted;
+            return HSC.Folded ? Folded : Normal;
         }
     }
 }
