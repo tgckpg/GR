@@ -140,7 +140,7 @@ namespace wenku8.AdvDM
 
         public bool RequestRegistered( string SaveLocation )
         {
-            XParameter p = WAdvDM.GetParameter( SaveLocation );
+            XParameter p = WAdvDM.Parameter( SaveLocation );
             return ( p != null && ( p.GetValue( AppKeys.DM_PENDING ) != null || p.GetValue( AppKeys.DM_REQUESTID ) != null ) );
         }
 

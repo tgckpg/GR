@@ -76,11 +76,11 @@ namespace wenku8.Model.ListItem
             try
             {
                 ProcMan = new ProcManager();
-                XParameter Param = PSettings.GetParameter( "Procedures" );
+                XParameter Param = PSettings.Parameter( "Procedures" );
                 ProcMan.ReadParam( Param );
 
                 aid = ProcMan.GUID;
-                XParameter SParam = PSettings.GetParameter( "ProcessState" );
+                XParameter SParam = PSettings.Parameter( "ProcessState" );
 
                 BInst = new BookInstruction( aid, PSettings );
                 if ( SParam != null
@@ -144,7 +144,7 @@ namespace wenku8.Model.ListItem
             if ( ProcMan.GUID == Id )
             {
                 aid = Id;
-                XParameter Param = PSettings.GetParameter( "Procedures" );
+                XParameter Param = PSettings.Parameter( "Procedures" );
                 Param.SetValue( new XKey( "Guid", Id ) );
                 PSettings.SetParameter( Param );
             }

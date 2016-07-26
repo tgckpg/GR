@@ -38,7 +38,7 @@ namespace wenku8.Model.Book
 
         private void TryGetInformation()
         {
-            XParameter Param = BookReg.GetParameter( AppKeys.GLOBAL_META );
+            XParameter Param = BookReg.Parameter( AppKeys.GLOBAL_META );
             if( Param != null )
             {
                 Title = Param.GetValue( AppKeys.GLOBAL_NAME );
@@ -197,7 +197,7 @@ namespace wenku8.Model.Book
 
         public Volume[] GetVolumes()
         {
-            XParameter[] Params = BookReg.GetParametersWithKey( AppKeys.GLOBAL_VID );
+            XParameter[] Params = BookReg.Parameters( AppKeys.GLOBAL_VID );
 
             List<Volume> Vols = new List<Volume>();
             foreach( XParameter Param in Params )

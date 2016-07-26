@@ -41,7 +41,7 @@ namespace wenku8.Model.Book.Spider
                 ProcMan.ReadParam( ProcParam );
             }
 
-            foreach( XParameter ValParam in Param.GetParametersWithKey( "Value" ) )
+            foreach( XParameter ValParam in Param.Parameters( "Value" ) )
             {
                 PushConvoyParam( ValParam.GetValue( "Value" ) );
             }

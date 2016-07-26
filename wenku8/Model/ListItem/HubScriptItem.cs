@@ -14,7 +14,7 @@ using Net.Astropenguin.Messaging;
 namespace wenku8.Model.ListItem
 {
     using Settings;
-    using AuthManager = System.AuthManager;
+    using AESManager = System.AESManager;
     using CryptAES = System.CryptAES;
 
     sealed class HubScriptItem : ActiveItem
@@ -143,8 +143,8 @@ namespace wenku8.Model.ListItem
             string Data = JResponse.GetNamedString( "data" );
             if ( Encrypted )
             {
-                AuthManager AMgr = new AuthManager();
-                CryptAES Crypt = AMgr.GetKeyById( Id );
+                AESManager AMgr = new AESManager();
+                CryptAES Crypt = AMgr.GetAuthById( Id );
 
                 if ( Crypt != null )
                 {

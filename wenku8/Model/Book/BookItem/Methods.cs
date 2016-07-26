@@ -183,7 +183,7 @@ namespace wenku8.Model.Book
 
         public void ReadInfo( XRegistry XReg )
         {
-            XParameter Param = XReg.GetParameter( "METADATA" );
+            XParameter Param = XReg.Parameter( "METADATA" );
             if ( Param == null ) return;
 
             Title = Param.GetValue( "Title" );
@@ -199,7 +199,7 @@ namespace wenku8.Model.Book
             Intro = Param.GetValue( "Intro" );
             OriginalUrl = Param.GetValue( "OriginalUrl" );
 
-            XParameter[] OtherParams = Param.GetParametersWithKey( "others" );
+            XParameter[] OtherParams = Param.Parameters( "others" );
             foreach ( XParameter OtherParam in OtherParams )
             {
                 Others.Add( OtherParam.GetValue( "other" ) );

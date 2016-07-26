@@ -44,7 +44,7 @@ namespace wenku8.Storage
 
         public IEnumerable<XParameter> GetAnchors( string cid )
         {
-            XParameter[] Params = Reg.GetParameters();
+            XParameter[] Params = Reg.Parameters();
 
             if ( Params == null ) return null;
 
@@ -59,7 +59,7 @@ namespace wenku8.Storage
 
         internal void RemoveAnchor( string cid, int anchorIndex )
         {
-            XParameter P = Reg.GetParameter( cid + ":" + anchorIndex );
+            XParameter P = Reg.Parameter( cid + ":" + anchorIndex );
             if ( P == null ) return;
             P.ClearKeys();
             P.SetValue( new XKey[] {
@@ -87,7 +87,7 @@ namespace wenku8.Storage
 
 		public void SaveBookmark( string aid, string cid )
 		{
-			XParameter p = WBookAnchors.GetParameter( aid );
+			XParameter p = WBookAnchors.Parameter( aid );
 			if ( p != null )
 			{
 				// Perform update
@@ -110,7 +110,7 @@ namespace wenku8.Storage
 
 		public string GetBookmark( string aid )
 		{
-			XParameter p = WBookAnchors.GetParameter( aid );
+			XParameter p = WBookAnchors.Parameter( aid );
 			if ( p != null )
 				return p.GetValue( AppKeys.GLOBAL_CID );
 			return null;
@@ -119,7 +119,7 @@ namespace wenku8.Storage
 		public void SaveAnchor( string cid, int index )
 		{
 			// If anchor is set
-			XParameter p = WBookAnchors.GetParameter( cid );
+			XParameter p = WBookAnchors.Parameter( cid );
 			if ( p != null )
 			{
 				// Perform update
@@ -150,7 +150,7 @@ namespace wenku8.Storage
 
 		public int GetReadAnchor( string cid )
 		{
-			XParameter p = WBookAnchors.GetParameter( cid );
+			XParameter p = WBookAnchors.Parameter( cid );
 			if( p!= null )
 				return int.Parse( p.GetValue( AppKeys.LBS_INDEX ) );
 			return 0;

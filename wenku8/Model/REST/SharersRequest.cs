@@ -20,10 +20,8 @@ namespace wenku8.Model.REST
             INVALID_SCRIPT = -1
         }
 
-        public enum CommentTarget : byte
-        {
-            SCRIPT = 1, COMMENT = 2
-        }
+        public enum CommentTarget : byte { SCRIPT = 1, COMMENT = 2 }
+        public enum RequestTarget : byte { KEY = 1, TOKEN = 2 }
 
         public PostData ReserveId( string AccessToken )
         {
@@ -104,13 +102,13 @@ namespace wenku8.Model.REST
             return new PostData( Id, Compost( Params.ToArray() ) );
         }
 
-        public PostData ScriptDownload( string Id, string AccessToken = "" )
+        public PostData ScriptDownload( string Id, string AccessToken )
         {
             return new PostData(
                 Id, Compost(
                     "action", "download"
                     , "uuid", Id
-                    , "access_token", AccessToken 
+                    , "access_token", string.IsNullOrEmpty( AccessToken ) ? "" : AccessToken
                 )
             );
         }
@@ -148,6 +146,42 @@ namespace wenku8.Model.REST
                     , "passwd", Passwd
                     , "email", Email
                 )
+            );
+        }
+
+        public PostData PlaceRequest( RequestTarget Target, string PubKey, string Id, string Remarks )
+        {
+            string ParamTarget = ( Target ^ RequestTarget.KEY ) == 0 ? "key" : "tokne";
+            return new PostData(
+                "KEY_REQUEST: " + ParamTarget
+                , Compost(
+                    "action", "place-request"
+                    , "id", Id
+                    , "target", ParamTarget
+                    , "remarks", Remarks
+                    , "pubkey", PubKey
+                )
+            );
+        }
+
+        public PostData GetRequests( RequestTarget Target, string Id )
+        {
+            string ParamTarget = ( Target ^ RequestTarget.KEY ) == 0 ? "key" : "tokne";
+            return new PostData(
+                "SH_GET_REQUEST: " + ParamTarget
+                , Compost(
+                    "action", "get-requests"
+                    , "id", Id
+                    , "target", ParamTarget
+                )
+            );
+        }
+
+        public PostData MyRequests()
+        {
+            return new PostData(
+                "SH_MY_REQUESTS"
+                , Compost( "action", "my-requests" )
             );
         }
 

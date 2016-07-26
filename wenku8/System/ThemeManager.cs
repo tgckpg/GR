@@ -84,7 +84,7 @@ namespace wenku8.System
 		{
 			WThemeReg.SetParameter( TargetName, ColorSet.ToXKeys() );
 			Save();
-			XParameter p = WThemeReg.GetParameter( TargetName );
+			XParameter p = WThemeReg.Parameter( TargetName );
 			return new ThemeSet( TargetName
 				, true
 				, ColorSet.ColorDefs[ "a" ], ColorSet.ColorDefs[ "b" ]
@@ -108,12 +108,12 @@ namespace wenku8.System
 
 		public bool TestName( string Name )
 		{
-			return ( WThemeReg.GetParameter( Name ) != null );
+			return ( WThemeReg.Parameter( Name ) != null );
 		}
 
         public  ThemeSet[] GetThemes()
         {
-            XParameter[] p = WThemeReg.GetParameters();
+            XParameter[] p = WThemeReg.Parameters();
 
             int l = p.Count();
             ThemeSet[] t = new ThemeSet[ l + 2 ];

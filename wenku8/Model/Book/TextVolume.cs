@@ -44,7 +44,7 @@ namespace wenku8.Model.Book
 
             VolReg = new XRegistry( "<VolumeMeta />", MetaLocation );
 
-            XParameter Param = VolReg.GetParameter( AppKeys.GLOBAL_META );
+            XParameter Param = VolReg.Parameter( AppKeys.GLOBAL_META );
             Title = Param.GetValue( AppKeys.GLOBAL_NAME );
         }
 
@@ -68,7 +68,7 @@ namespace wenku8.Model.Book
 
         public Chapter[] GetChapters()
         {
-            XParameter[] Params = VolReg.GetParametersWithKey( AppKeys.GLOBAL_CID );
+            XParameter[] Params = VolReg.Parameters( AppKeys.GLOBAL_CID );
 
             List<Chapter> Chapters = new List<Chapter>();
             foreach( XParameter Param in Params )

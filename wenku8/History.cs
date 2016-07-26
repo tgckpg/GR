@@ -38,7 +38,7 @@ namespace wenku8
 
 		public ActiveItem[] GetListItems()
 		{
-			XParameter[] allHistory = Registry.GetParameters();
+			XParameter[] allHistory = Registry.Parameters();
 			Array.Sort( allHistory, delegate ( XParameter a, XParameter b ) {
 				DateTime date = DateTime.Parse( a.GetValue( AppKeys.LBS_DATE ) );
 				DateTime dateb = DateTime.Parse( b.GetValue( AppKeys.LBS_DATE ) );

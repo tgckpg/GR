@@ -12,85 +12,104 @@ using Net.Astropenguin.Logging;
 
 namespace wenku8.System
 {
-    using AdvDM;
-    using Model.REST;
-    using Resources;
     using Settings;
 
-    sealed class AuthManager : ActiveData
+    class AuthManager<T> : ActiveData
     {
-        public static readonly string ID = typeof( AuthManager ).Name;
+        public enum KeyType : byte { AES = 1, RSA = 2 }
+        public static readonly string ID = typeof( AuthManager<T> ).Name;
+
+        protected string AuthKey;
+        protected string AuthIncKey;
+        protected string AuthName;
 
         private XRegistry AuthReg;
 
-        public ObservableCollection<CryptAES> KeyList { get; private set; }
-        public ObservableCollection<KeyValuePair<string, string>> TokList { get; private set; }
-        public CryptAES SelectedKey { get; private set; }
-        public KeyValuePair<string, string> SelectedToken { get; private set; }
+        public ObservableCollection<T> AuthList { get; private set; }
+        public T SelectedItem { get; private set; }
 
-        private XParameter XKeyInc;
-        private XParameter XTokInc;
-        private int KeyInc = 0;
-        private int TokInc = 0;
+        private XParameter XAuthInc;
+        private int AuthInc = 0;
 
-        public AuthManager()
+        public AuthManager( string AuthKey, string AuthIncKey, string AuthName )
         {
-            KeyList = new ObservableCollection<CryptAES>();
-            TokList = new ObservableCollection<KeyValuePair<string, string>>();
+            this.AuthKey = AuthKey;
+            this.AuthIncKey = AuthIncKey;
+            this.AuthName = AuthName;
+
+            AuthList = new ObservableCollection<T>();
             AuthReg = new XRegistry( "<keys />", FileLinks.ROOT_SETTING + FileLinks.SH_KEY_REG );
 
-            XKeyInc = AuthReg.GetParameter( "keyinc" );
+            XAuthInc = AuthReg.Parameter( AuthIncKey );
 
-            if ( XKeyInc == null )
-                XKeyInc = new XParameter( "keyinc" );
+            if ( XAuthInc == null )
+                XAuthInc = new XParameter( AuthIncKey );
 
-            KeyInc = XKeyInc.GetSaveInt( "val" );
-
-            XTokInc = AuthReg.GetParameter( "keyinc" );
-
-            if ( XTokInc == null )
-                XTokInc = new XParameter( "tokinc" );
-
-            TokInc = XTokInc.GetSaveInt( "val" );
+            AuthInc = XAuthInc.GetSaveInt( "val" );
 
             // Read Keys
-            XParameter[] Params = AuthReg.GetParametersWithKey( AppKeys.AM_KEY );
+            XParameter[] Params = AuthReg.Parameters( AuthKey );
+
             foreach( XParameter P in Params )
             {
-                KeyList.Add( new CryptAES( P.ID ) { Name = P.GetValue( AppKeys.AM_KEY ) } );
+                AuthList.Add( CreateInstance( P ) );
             }
 
-            KeyList.CollectionChanged += ( a, b ) => { NotifyChanged( "SelectedKey" ); };
-            SelectedKey = KeyList.FirstOrDefault();
-
-            // Read Tokens
-            Params = AuthReg.GetParametersWithKey( AppKeys.AM_TOK );
-            foreach( XParameter P in Params )
-            {
-                TokList.Add( new KeyValuePair<string, string>( P.GetValue( AppKeys.AM_TOK ), P.ID ) );
-            }
-
-            TokList.CollectionChanged += ( a, b ) => { NotifyChanged( "SelectedToken" ); };
-            SelectedToken = TokList.FirstOrDefault();
+            AuthList.CollectionChanged += ( a, b ) => { NotifyChanged( "SelectedItem" ); };
+            SelectedItem = AuthList.FirstOrDefault();
         }
 
-        public string GetATokenById( string Id )
+        public T GetAuthById( string Id )
         {
-            XParameter Param = AuthReg.GetParametersWithKey( AppKeys.AM_TOK )
-                .FirstOrDefault( x => x.GetParameter( Id ) != null );
-            return Param == null ? "" : Param.ID;
+            XParameter Param = AuthReg.Parameters( AuthKey )
+                .FirstOrDefault( x => x.Parameter( Id ) != null );
+            return Param == null ? default( T ) : CreateInstance( Param );
         }
 
-        public CryptAES GetKeyById( string Id )
+        public void NewAuth()
         {
-            XParameter Param = AuthReg.GetParametersWithKey( AppKeys.AM_KEY )
-                .FirstOrDefault( x => x.GetParameter( Id ) != null );
-            return Param == null ? null : new CryptAES( Param.ID );
+            XParameter NewKey = new XParameter( CryptAES.GenKey( 256 ) );
+            NewKey.SetValue( new XKey[] {
+                new XKey( AuthKey, "New " + AuthName + " " + AuthInc )
+            } );
+
+            XAuthInc.SetValue( new XKey( "val", AuthInc++ ) );
+            AuthReg.SetParameter( NewKey );
+            AuthReg.SetParameter( XAuthInc );
+            AuthReg.Save();
+
+            AuthList.Add( CreateInstance( NewKey ) );
+            SelectedItem = AuthList.LastOrDefault();
+        }
+
+        public void AssignId( string Name, string Id )
+        {
+            XParameter Key = AuthReg.Parameters( AuthKey ).FirstOrDefault( x => x.GetValue( AuthKey ) == Name );
+
+            if ( Key == null ) return;
+
+            Key.SetParameter( new XParameter( Id ) );
+            AuthReg.SetParameter( Key );
+            AuthReg.Save();
+        }
+
+        virtual protected T CreateInstance( XParameter P )
+        {
+            return default( T );
+        }
+    }
+
+    class AESManager : AuthManager<CryptAES>
+    {
+        public AESManager()
+            :base( "aes", "aesinc", "SymKey" )
+        {
+
         }
 
         public bool TryDecrypt( string EncData, out string Data )
         {
-            foreach( CryptAES Crypts in KeyList )
+            foreach( CryptAES Crypts in AuthList )
             {
                 try
                 {
@@ -104,92 +123,37 @@ namespace wenku8.System
             return false;
         }
 
-        public void NewKey()
+        override protected CryptAES CreateInstance( XParameter P )
         {
-            string Key = CryptAES.GenKey( 256 );
+            return new CryptAES( P.ID ) { Name = P.GetValue( AuthKey ) };
+        }
+    }
 
-            XParameter NewKey = new XParameter( Key );
-            NewKey.SetValue( new XKey( AppKeys.AM_KEY, "New Key " + KeyInc ) );
+    class RSAManager : AuthManager<CryptRSA>
+    {
+        public RSAManager()
+            : base( "rsa", "rsainc", "AsymKey" )
+        {
 
-            XKeyInc.SetValue( new XKey( "val", KeyInc + 1 ) );
-            AuthReg.SetParameter( NewKey );
-            AuthReg.SetParameter( XKeyInc );
-            AuthReg.Save();
-
-            KeyList.Add( new CryptAES( Key ) { Name = "New Key " + ( KeyInc++ ) } );
-            SelectedKey = KeyList.LastOrDefault();
         }
 
-        public void NewAccessToken()
+        override protected CryptRSA CreateInstance( XParameter P )
         {
-            string Token = CryptAES.GenKey( 32 );
+            return new CryptRSA( "", P.ID ) { Name = P.GetValue( AuthKey ) };
+        }
+    }
 
-            XParameter NewToken = new XParameter( Token );
-            NewToken.SetValue( new XKey( AppKeys.AM_TOK, "New AccessToken " + TokInc ) );
+    sealed class TokenManager : AuthManager<KeyValuePair<string, string>>
+    {
+        public TokenManager()
+            : base( "tok", "tokinc", "Access Token" )
+        {
 
-            XTokInc.SetValue( new XKey( "val", TokInc + 1 ) );
-            AuthReg.SetParameter( NewToken );
-            AuthReg.SetParameter( XTokInc );
-            AuthReg.Save();
-
-            TokList.Add( new KeyValuePair<string, string>( "New AccessToken " + ( TokInc++ ), Token ) );
-            SelectedToken = TokList.LastOrDefault();
         }
 
-        public async Task<string> ReserveId( string AccessToken )
+        protected override KeyValuePair<string, string> CreateInstance( XParameter P )
         {
-            TaskCompletionSource<string> TCS = new TaskCompletionSource<string>();
-
-            RuntimeCache RCache = new RuntimeCache();
-            RCache.POST(
-                Shared.ShRequest.Server
-                , Shared.ShRequest.ReserveId( AccessToken )
-                , ( e, QueryId ) =>
-                {
-                    try
-                    {
-                        JsonObject JDef = JsonStatus.Parse( e.ResponseString );
-                        string Id = JDef.GetNamedString( "data" );
-                        TCS.SetResult( Id );
-                    }
-                    catch( Exception ex )
-                    {
-                        Logger.Log( ID, ex.Message, LogType.WARNING );
-                        TCS.SetCanceled();
-                    }
-                }
-                , ( cache, Id, ex ) =>
-                {
-                    Logger.Log( ID, ex.Message, LogType.WARNING );
-                    TCS.SetCanceled();
-                }
-                , false
-            );
-
-            return await TCS.Task;
-        }
-
-        public void AssignTokenId( string Name, string Id )
-        {
-            AssignId( AppKeys.AM_TOK, Name, Id );
-        }
-
-        public void AssignKeyId( string Name, string Id )
-        {
-            AssignId( AppKeys.AM_KEY, Name, Id );
-        }
-
-        private void AssignId( string KName, string Name, string Id )
-        {
-            XParameter Key = AuthReg.GetParametersWithKey( KName ).FirstOrDefault( x => x.GetValue( KName ) == Name );
-
-            if( Key != null )
-            {
-                Key.SetParameter( new XParameter( Id ) );
-                AuthReg.SetParameter( Key );
-            }
-
-            AuthReg.Save();
+            return new KeyValuePair<string, string>( P.GetValue( AuthKey ), P.ID );
         }
     }
 }

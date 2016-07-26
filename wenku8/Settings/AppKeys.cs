@@ -89,10 +89,6 @@
             , HS_DECRYPT_FAIL = "HubScriptDecryptFail"
             , HSC_DECRYPT_FAIL = "HSCommentDecryptFail"
             , SP_PROCESS_COMP = "SpiderProcessComp"
-
-            // Auth Manager
-            , AM_KEY = "keyname"
-            , AM_TOK = "tokname"
 			;
 	}
 }

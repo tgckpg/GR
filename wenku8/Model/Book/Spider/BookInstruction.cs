@@ -119,14 +119,14 @@ namespace wenku8.Model.Book.Spider
         protected void TryReadTOC( XRegistry Settings )
         {
             XRegistry XReg = new XRegistry( "<VolInfo />", TOCPath );
-            XParameter[] VParams = XReg.GetParametersWithKey( "VInst" );
+            XParameter[] VParams = XReg.Parameters( "VInst" );
             if ( VParams.Count() == 0 ) return;
 
             foreach ( XParameter VParam in VParams )
             {
                 VolInstruction VInst = new VolInstruction( VParam, Settings );
 
-                IEnumerable<XParameter> CParams = VParam.GetParametersWithKey( "EpInst" );
+                IEnumerable<XParameter> CParams = VParam.Parameters( "EpInst" );
                 foreach ( XParameter CParam in CParams )
                 {
                     VInst.PushInstruction( new EpInstruction( CParam, Settings ) );

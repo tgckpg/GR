@@ -261,7 +261,7 @@ namespace wenku8.System
         private void UpdateDictList()
         {
             IEnumerable<XParameter> Params = DictReg
-                .GetParametersWithKey( "Title" )
+                .Parameters( "Title" )
                 .Where( x => !x.GetBool( "Corrupted" ) );
 
             StringResources stx = new StringResources( "Settings" );
