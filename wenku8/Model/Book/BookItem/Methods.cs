@@ -172,7 +172,7 @@ namespace wenku8.Model.Book
             foreach( string S in Others )
             {
                 XParameter OtherParam = new XParameter( "others" );
-                OtherParam.ID += i++;
+                OtherParam.Id += i++;
                 OtherParam.SetValue( new XKey( "other", S ) );
                 Param.SetParameter( OtherParam );
             }

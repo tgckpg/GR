@@ -73,7 +73,7 @@ namespace wenku8.Model.Book
             List<Chapter> Chapters = new List<Chapter>();
             foreach( XParameter Param in Params )
             {
-                LocalChapter C = new LocalChapter( Param.GetValue( AppKeys.GLOBAL_NAME ), aid, id, Param.ID );
+                LocalChapter C = new LocalChapter( Param.GetValue( AppKeys.GLOBAL_NAME ), aid, id, Param.Id );
                 Chapters.Add( C );
             }
 

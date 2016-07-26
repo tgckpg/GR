@@ -33,9 +33,13 @@ namespace wenku8.System
             }
         }
 
-        public CryptRSA( uint Len = 256 )
+        public CryptRSA()
         {
-            RSAKeyPair = AsymKeyProvider.CreateKeyPair( 256 );
+            // Today is 26 July 2016
+            // Assuming this app or I am still around in 2030
+            // but technology is evolving fast, it might probably be shorter.
+            // 14 years huh, I wonder how many traces were there left?
+            RSAKeyPair = AsymKeyProvider.CreateKeyPair( 4096 );
         }
 
         public string GenPublicKey()

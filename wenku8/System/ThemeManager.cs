@@ -125,7 +125,7 @@ namespace wenku8.System
             for ( int i = 0; i < l; i++ )
             {
                 t[ i + 2 ] = new ThemeSet(
-                    p[ i ].ID, true
+                    p[ i ].Id, true
                     , StringColor( p[ i ].GetValue( "a" ) ), StringColor( p[ i ].GetValue( "b" ) )
                     , StringColor( p[ i ].GetValue( "c" ) ), StringColor( p[ i ].GetValue( "d" ) )
                     , StringColor( p[ i ].GetValue( "e" ) ), StringColor( p[ i ].GetValue( "f" ) )

@@ -6,8 +6,9 @@ using System.Text;
 using System.Threading.Tasks;
 using Windows.Data.Json;
 
-using Net.Astropenguin.IO;
 using Net.Astropenguin.DataModel;
+using Net.Astropenguin.Helpers;
+using Net.Astropenguin.IO;
 using Net.Astropenguin.Logging;
 
 namespace wenku8.System
@@ -31,7 +32,7 @@ namespace wenku8.System
         private XParameter XAuthInc;
         private int AuthInc = 0;
 
-        public AuthManager( string AuthKey, string AuthIncKey, string AuthName )
+        protected AuthManager( string AuthKey, string AuthIncKey, string AuthName )
         {
             this.AuthKey = AuthKey;
             this.AuthIncKey = AuthIncKey;
@@ -73,13 +74,19 @@ namespace wenku8.System
                 new XKey( AuthKey, "New " + AuthName + " " + AuthInc )
             } );
 
-            XAuthInc.SetValue( new XKey( "val", AuthInc++ ) );
+            XAuthInc.SetValue( new XKey( "val", ++AuthInc ) );
+
+            T Inst = CreateInstance( NewKey );
+
             AuthReg.SetParameter( NewKey );
             AuthReg.SetParameter( XAuthInc );
             AuthReg.Save();
 
-            AuthList.Add( CreateInstance( NewKey ) );
-            SelectedItem = AuthList.LastOrDefault();
+            Worker.UIInvoke( () =>
+            {
+                AuthList.Add( Inst );
+                SelectedItem = AuthList.LastOrDefault();
+            } );
         }
 
         public void AssignId( string Name, string Id )
@@ -99,13 +106,9 @@ namespace wenku8.System
         }
     }
 
-    class AESManager : AuthManager<CryptAES>
+    sealed class AESManager : AuthManager<CryptAES>
     {
-        public AESManager()
-            :base( "aes", "aesinc", "SymKey" )
-        {
-
-        }
+        public AESManager() :base( "aes", "aesinc", "SymKey" ) { }
 
         public bool TryDecrypt( string EncData, out string Data )
         {
@@ -125,35 +128,54 @@ namespace wenku8.System
 
         override protected CryptAES CreateInstance( XParameter P )
         {
-            return new CryptAES( P.ID ) { Name = P.GetValue( AuthKey ) };
+            return new CryptAES( P.Id ) { Name = P.GetValue( AuthKey ) };
         }
     }
 
-    class RSAManager : AuthManager<CryptRSA>
+    sealed class RSAManager : AuthManager<CryptRSA>
     {
-        public RSAManager()
-            : base( "rsa", "rsainc", "AsymKey" )
-        {
+        private RSAManager() : base( "rsa", "rsainc", "AsymKey" ) { }
 
+        // This is because Generating / Reading Private key pairs are slow
+        // TODO: Perhaps port the NTRUCrypt in the future and see if it is faster
+        public static async Task<RSAManager> CreateAsync()
+        {
+            return await Task.Run( () => new RSAManager() );
+        }
+
+        [Obsolete( "You should use async instead because generating RSA keys are resources intensive", true )]
+        new public void NewAuth() { }
+
+        public async Task NewAuthAsync()
+        {
+            await Task.Run( () => { base.NewAuth(); } );
         }
 
         override protected CryptRSA CreateInstance( XParameter P )
         {
-            return new CryptRSA( "", P.ID ) { Name = P.GetValue( AuthKey ) };
+            CryptRSA RSA;
+            if ( P.GetBool( "keypair" ) )
+            {
+                RSA = new CryptRSA( "", P.Id ) { Name = P.GetValue( AuthKey ) };
+            }
+            else
+            {
+                RSA = new CryptRSA() { Name = P.GetValue( AuthKey ) };
+                P.SetValue( new XKey( "keypair", true ) );
+                P.Id = RSA.GetPrivateKey();
+            }
+
+            return RSA;
         }
     }
 
     sealed class TokenManager : AuthManager<KeyValuePair<string, string>>
     {
-        public TokenManager()
-            : base( "tok", "tokinc", "Access Token" )
-        {
-
-        }
+        public TokenManager() : base( "tok", "tokinc", "Access Token" ) { }
 
         protected override KeyValuePair<string, string> CreateInstance( XParameter P )
         {
-            return new KeyValuePair<string, string>( P.GetValue( AuthKey ), P.ID );
+            return new KeyValuePair<string, string>( P.GetValue( AuthKey ), P.Id );
         }
     }
 }

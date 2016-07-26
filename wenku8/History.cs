@@ -53,7 +53,7 @@ namespace wenku8
 				ll[i] = new ActiveItem(
 					allHistory[i].GetValue( AppKeys.GLOBAL_NAME )
 					, date.ToLocalTime().ToString()
-					, allHistory[i].ID
+					, allHistory[i].Id
 				);
 			}
 

@@ -147,7 +147,7 @@ namespace wenku8.Model.Book.Spider
                 foreach ( SVolume Vol in SVols )
                 {
                     XParameter VParam = Vol.Inst.ToXParam();
-                    VParam.ID += i++;
+                    VParam.Id += i++;
                     VParam.SetValue( new XKey( "VInst", true ) );
 
                     int j = 0;
@@ -157,7 +157,7 @@ namespace wenku8.Model.Book.Spider
                         if ( SC == null ) continue;
 
                         XParameter CParam =  SC.Inst.ToXParam();
-                        CParam.ID += j++;
+                        CParam.Id += j++;
                         CParam.SetValue( new XKey( "EpInst", true ) );
 
                         VParam.SetParameter( CParam );

@@ -202,8 +202,8 @@ namespace wenku8.Model.Book
             List<Volume> Vols = new List<Volume>();
             foreach( XParameter Param in Params )
             {
-                TextVolume TVol = new TextVolume( Id, Param.ID );
-                Vols.Add( new Volume( Param.ID, false, TVol.Title, TVol.GetChapters() ) );
+                TextVolume TVol = new TextVolume( Id, Param.Id );
+                Vols.Add( new Volume( Param.Id, false, TVol.Title, TVol.GetChapters() ) );
             }
 
             return Vols.ToArray();

@@ -205,7 +205,7 @@ namespace wenku8.Storage
 			string[] list = new string[l = p.Count() ];
 			for ( int i = 0; i < l; i++ )
 			{
-				list[i] = p[i].ID;
+				list[i] = p[i].Id;
 			}
 			return list;
 		}
@@ -239,7 +239,7 @@ namespace wenku8.Storage
 			string[] id = new string[l = p.Count() ];
 			for ( int i = 0; i < l; i++ )
 			{
-				id[i] = p[i].ID;
+				id[i] = p[i].Id;
 			}
 			return id;
 		}
