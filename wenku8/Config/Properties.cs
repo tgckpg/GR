@@ -17,6 +17,18 @@ namespace wenku8.Config
 			}
 		}
 
+        public static string VERSION
+        {
+			get
+			{
+				return GetValue<string>( Parameters.VERSION );
+			}
+			set
+			{
+				SetParameter( Parameters.VERSION, value );
+			}
+        }
+
         #region Logging
         public static bool ENABLE_SYSTEM_LOG
 		{

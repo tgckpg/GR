@@ -25,6 +25,8 @@ namespace wenku8.Model.ListItem
         public string Author { get; private set; }
         public string AuthorId { get; private set; }
 
+        public int Hits { get; private set; }
+
         public bool InCollection
         {
             get { return _inCollection; }
@@ -114,6 +116,8 @@ namespace wenku8.Model.ListItem
                     HistoryError = ex.Message;
                 }
             }
+
+            Hits = ( int ) Def.GetNamedNumber( "hits", 0 );
 
             Tags = Def.GetNamedArray( "tags" ).Remap( x => x.GetString() );
             Zone = Def.GetNamedArray( "zone" ).Remap( x => x.GetString() );

@@ -18,7 +18,7 @@ namespace wenku8.Storage
     using Resources;
     using Settings;
 
-    class OneDriveSync
+    sealed class OneDriveSync
     {
         public static readonly string ID = typeof( OneDriveSync ).Name;
 
