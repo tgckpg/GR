@@ -22,7 +22,6 @@ namespace wenku8.Settings
 		, ADM_RUNTIME_REG = "AdvDM_RReg.xml"
 		, EBWIN_DICT_REG = "EBWinDicts.xml"
 		, SH_AUTH_REG = "SHAuths.xml"
-		, SH_KEY_REG = "SHKeys.xml"
         , SH_SCRIPT_ID = "SHScriptId.xml"
 
 		, ROOT_CACHE = "Cache/"
@@ -37,6 +36,7 @@ namespace wenku8.Settings
         , ROOT_LOCAL_VOL = "shared/transfers/LVolumes/"
         , ROOT_SPIDER_VOL = "shared/transfers/SVolumes/"
 		, ROOT_SETTING = "Setting/"
+		, ROOT_AUTHMGR = "AuthManager/"
         , ROOT_EBWIN = "EBWin/"
 		, ROOT_WTEXT = "WText/"
 		, ROOT_ANCHORS = "Anchor/"

@@ -39,7 +39,7 @@ namespace wenku8.System
             this.AuthName = AuthName;
 
             AuthList = new ObservableCollection<T>();
-            AuthReg = new XRegistry( "<keys />", FileLinks.ROOT_SETTING + FileLinks.SH_KEY_REG );
+            AuthReg = new XRegistry( "<keys />", FileLinks.ROOT_AUTHMGR + AuthKey + ".xml" );
 
             XAuthInc = AuthReg.Parameter( AuthIncKey );
 

@@ -29,7 +29,10 @@ namespace wenku8.Model.Comments
             }
         }
 
-        public HSComment( JsonObject Def, int Level = 0 )
+        // Required for Activator
+        public HSComment( JsonObject Def ) :this( Def, 0 ) { } 
+
+        public HSComment( JsonObject Def, int Level )
         {
             Folded = false;
             this.Level = Level;

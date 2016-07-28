@@ -20,8 +20,7 @@ namespace wenku8.Model.REST
             INVALID_SCRIPT = -1
         }
 
-        public enum CommentTarget : byte { SCRIPT = 1, COMMENT = 2 }
-        public enum RequestTarget : byte { KEY = 1, TOKEN = 2 }
+        public enum SHTarget : byte { SCRIPT = 1, COMMENT = 2, KEY = 4, TOKEN = 8 }
 
         public PostData ReserveId( string AccessToken )
         {
@@ -34,14 +33,14 @@ namespace wenku8.Model.REST
             );
         }
 
-        public PostData GetComments( CommentTarget Target, int Skip, uint Limit, params string[] Ids )
+        public PostData GetComments( SHTarget Target, int Skip, uint Limit, params string[] Ids )
         {
             List<string> Params = new List<string>( new string[]
             {
                 "action", "get-comment"
                 , "skip", Skip.ToString()
                 , "limit", Limit.ToString()
-                , "target", ( Target ^ CommentTarget.COMMENT ) == 0 ? "comment" : "script"
+                , "target", ( Target ^ SHTarget.COMMENT ) == 0 ? "comment" : "script"
             } );
 
             foreach ( string Id in Ids )
@@ -53,14 +52,14 @@ namespace wenku8.Model.REST
             return new PostData( "SH_GET_COMMENTS", Compost( Params.ToArray() ) );
         }
 
-        public PostData Comment( CommentTarget Target, string Id, string Content, bool Encrypted )
+        public PostData Comment( SHTarget Target, string Id, string Content, bool Encrypted )
         {
             return new PostData( "SH_POST_COMMENT", Compost(
                 "action", "comment"
                 , "id", Id
                 , "content", Content
                 , "enc", Encrypted ? "1" : "0"
-                , "target", ( Target ^ CommentTarget.COMMENT ) == 0 ? "comment" : "script"
+                , "target", ( Target ^ SHTarget.COMMENT ) == 0 ? "comment" : "script"
             ) );
         }
 
@@ -149,9 +148,9 @@ namespace wenku8.Model.REST
             );
         }
 
-        public PostData PlaceRequest( RequestTarget Target, string PubKey, string Id, string Remarks )
+        public PostData PlaceRequest( SHTarget Target, string PubKey, string Id, string Remarks )
         {
-            string ParamTarget = ( Target ^ RequestTarget.KEY ) == 0 ? "key" : "tokne";
+            string ParamTarget = ( Target ^ SHTarget.KEY ) == 0 ? "key" : "token";
             return new PostData(
                 "KEY_REQUEST: " + ParamTarget
                 , Compost(
@@ -164,14 +163,16 @@ namespace wenku8.Model.REST
             );
         }
 
-        public PostData GetRequests( RequestTarget Target, string Id )
+        public PostData GetRequests( SHTarget Target, string Id, int Skip, uint Limit )
         {
-            string ParamTarget = ( Target ^ RequestTarget.KEY ) == 0 ? "key" : "tokne";
+            string ParamTarget = ( Target ^ SHTarget.KEY ) == 0 ? "key" : "token";
             return new PostData(
                 "SH_GET_REQUEST: " + ParamTarget
                 , Compost(
                     "action", "get-requests"
                     , "id", Id
+                    , "skip", Skip.ToString()
+                    , "limit", Limit.ToString()
                     , "target", ParamTarget
                 )
             );
