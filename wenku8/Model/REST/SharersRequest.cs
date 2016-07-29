@@ -163,6 +163,17 @@ namespace wenku8.Model.REST
             );
         }
 
+        public PostData GrantRequest( string Id, string Grant )
+        {
+            return new PostData(
+                "GRANT_REQUEST: " + Id
+                , Compost(
+                    "action", "grant-request"
+                    , "grant", Grant
+                )
+            );
+        }
+
         public PostData GetRequests( SHTarget Target, string Id, int Skip, uint Limit )
         {
             string ParamTarget = ( Target ^ SHTarget.KEY ) == 0 ? "key" : "token";

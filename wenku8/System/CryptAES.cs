@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text;
 using System.Threading.Tasks;
 using Windows.Security.Cryptography;
@@ -22,7 +21,7 @@ namespace wenku8.System
 
         public static string GenKey( uint Len = 256 )
         {
-            return Convert.ToBase64String( CryptographicBuffer.GenerateRandom( Len ).ToArray() );
+            return CryptographicBuffer.EncodeToBase64String( CryptographicBuffer.GenerateRandom( Len ) );
         }
 
         public static string RawBytes( string EncData )
@@ -39,7 +38,7 @@ namespace wenku8.System
 
         public IBuffer Base64Buffer( string Base64Str )
         {
-            return Convert.FromBase64String( Base64Str ).AsBuffer();
+            return CryptographicBuffer.DecodeFromBase64String( Base64Str );
         }
 
         public string Encrypt( string Data )
@@ -48,7 +47,7 @@ namespace wenku8.System
             IBuffer iv = CryptographicBuffer.GenerateRandom( SymKeyProvider.BlockLength );
 
             IBuffer EncBuffer = CryptographicEngine.Encrypt( Aes256CFB, DataEnc, iv );
-            return Convert.ToBase64String( iv.ToArray() ) + "\r\n" + Convert.ToBase64String( EncBuffer.ToArray() );
+            return CryptographicBuffer.EncodeToBase64String( iv ) + "\r\n" + CryptographicBuffer.EncodeToBase64String( EncBuffer );
         }
 
         public string Decrypt( string EncData )

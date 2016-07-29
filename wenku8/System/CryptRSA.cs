@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text;
 using System.Threading.Tasks;
 using Windows.Security.Cryptography;
@@ -14,7 +13,7 @@ namespace wenku8.System
     {
         public string Name { get; set; }
 
-        private AsymmetricKeyAlgorithmProvider AsymKeyProvider = AsymmetricKeyAlgorithmProvider.OpenAlgorithm( AsymmetricAlgorithmNames.RsaSignPkcs1Sha512 );
+        private AsymmetricKeyAlgorithmProvider AsymKeyProvider = AsymmetricKeyAlgorithmProvider.OpenAlgorithm( AsymmetricAlgorithmNames.RsaPkcs1 );
         private CryptographicKey RSAKeyPair;
 
         public CryptRSA( string PublicKey, string PrivateKey = null )
@@ -22,13 +21,13 @@ namespace wenku8.System
             if ( string.IsNullOrEmpty( PrivateKey ) )
             {
                 RSAKeyPair = AsymKeyProvider.ImportPublicKey(
-                    Convert.FromBase64String( PublicKey ).AsBuffer()
+                    CryptographicBuffer.DecodeFromBase64String( PublicKey )
                 );
             }
             else
             {
                 RSAKeyPair = AsymKeyProvider.ImportKeyPair(
-                    Convert.FromBase64String( PrivateKey ).AsBuffer()
+                    CryptographicBuffer.DecodeFromBase64String( PrivateKey )
                 );
             }
         }
@@ -44,38 +43,44 @@ namespace wenku8.System
 
         public string GenPublicKey()
         {
-            return Convert.ToBase64String(
-                RSAKeyPair.ExportPublicKey( CryptographicPublicKeyBlobType.X509SubjectPublicKeyInfo ).ToArray()
+            return CryptographicBuffer.EncodeToBase64String(
+                RSAKeyPair.ExportPublicKey( CryptographicPublicKeyBlobType.X509SubjectPublicKeyInfo )
             );
         }
 
         public string GetPrivateKey()
         {
-            return Convert.ToBase64String(
-                RSAKeyPair.Export().ToArray()
+            return CryptographicBuffer.EncodeToBase64String(
+                RSAKeyPair.Export()
             );
         }
 
-        public string Encrypt( string Data )
+        public string Encrypt( string Data, bool DeBase64 = true )
         {
-            IBuffer DataEnc = CryptographicBuffer.ConvertStringToBinary( Data, BinaryStringEncoding.Utf8 );
+            IBuffer DataEnc = DeBase64
+                ? CryptographicBuffer.DecodeFromBase64String( Data )
+                : CryptographicBuffer.ConvertStringToBinary( Data, BinaryStringEncoding.Utf8 )
+                ;
             return Encrypt( DataEnc );
         }
 
         public string Encrypt( IBuffer Data )
         {
             IBuffer EncBuffer = CryptographicEngine.Encrypt( RSAKeyPair, Data, null );
-            return Convert.ToBase64String( EncBuffer.ToArray() );
+            return CryptographicBuffer.EncodeToBase64String( EncBuffer );
         }
 
-        public string Decrypt( string EncData )
+        public string Decrypt( string EncData, bool EnBase64 = true )
         {
-            return CryptographicBuffer.ConvertBinaryToString( BinaryStringEncoding.Utf8, DecryptToBuffer( EncData ) );
+            IBuffer Data = CryptographicBuffer.DecodeFromBase64String( EncData );
+            return EnBase64
+                ? CryptographicBuffer.EncodeToBase64String( Decrypt( Data ) )
+                : CryptographicBuffer.ConvertBinaryToString( BinaryStringEncoding.Utf8, Decrypt( Data ) )
+                ;
         }
 
-        public IBuffer DecryptToBuffer( string EncData )
+        public IBuffer Decrypt( IBuffer Data )
         {
-            IBuffer Data = Convert.FromBase64String( EncData ).AsBuffer();
             IBuffer DecBuffer = CryptographicEngine.Decrypt( RSAKeyPair, Data, null );
             return DecBuffer;
         }

@@ -64,6 +64,10 @@ namespace wenku8.Model.ListItem
             }
         }
 
+        // Not to be confused with Error, which indicate the Script status
+        // Failtered items are caused by invalid return result from server
+        public bool Faultered { get; private set; }
+
         public string HistoryError { get; private set; }
         public string ErrorMessage
         {
@@ -76,6 +80,36 @@ namespace wenku8.Model.ListItem
         }
 
         public IStorageFile ScriptFile { get; private set; }
+
+        private HubScriptItem( string Name, string Mesg )
+            : base( Name, Mesg, null )
+        {
+            Faultered = true;
+            Zone = new string[ 0 ];
+            Type = new string[ 0 ];
+            Tags = new string[ 0 ];
+        }
+
+        public static HubScriptItem Create( JsonObject Def )
+        {
+            try
+            {
+                return new HubScriptItem( Def );
+            }
+            catch( Exception ex )
+            {
+                string Name = "ERROR";
+                string Mesg = "";
+
+                IJsonValue JValue;
+                if ( Def.TryGetValue( "name", out JValue ) ) Name = JValue.GetString();
+                if ( Def.TryGetValue( "uuid", out JValue ) ) Mesg += "Id: " + JValue.GetString();
+
+                Mesg += "\n" + ex.Message;
+
+                return new HubScriptItem( Name, Mesg );
+            }
+        }
 
         public HubScriptItem( JsonObject Def )
             : base( Def.GetNamedString( "name" ), Def.GetNamedString( "desc" ), Def.GetNamedString( "uuid" ) )
