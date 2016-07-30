@@ -55,6 +55,12 @@ namespace wenku8.System
             );
         }
 
+        /// <summary>
+        /// Encrypt string
+        /// </summary>
+        /// <param name="Data">Data to encript</param>
+        /// <param name="DeBase64">Decode the Data from base64 encoding before encrypting it</param>
+        /// <returns></returns>
         public string Encrypt( string Data, bool DeBase64 = true )
         {
             IBuffer DataEnc = DeBase64
@@ -70,6 +76,12 @@ namespace wenku8.System
             return CryptographicBuffer.EncodeToBase64String( EncBuffer );
         }
 
+        /// <summary>
+        /// Decrypt string
+        /// </summary>
+        /// <param name="EncData">The encrypted data</param>
+        /// <param name="EnBase64">Encodes the decrypted result to base64 string</param>
+        /// <returns></returns>
         public string Decrypt( string EncData, bool EnBase64 = true )
         {
             IBuffer Data = CryptographicBuffer.DecodeFromBase64String( EncData );

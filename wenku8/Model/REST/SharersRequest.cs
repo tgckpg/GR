@@ -49,18 +49,21 @@ namespace wenku8.Model.REST
                 Params.Add( Id );
             }
 
-            return new PostData( "SH_GET_COMMENTS", Compost( Params.ToArray() ) );
+            return new PostData( "SH_GET_COMMENTS", Target.ToString(), Compost( Params.ToArray() ) );
         }
 
         public PostData Comment( SHTarget Target, string Id, string Content, bool Encrypted )
         {
-            return new PostData( "SH_POST_COMMENT", Compost(
-                "action", "comment"
-                , "id", Id
-                , "content", Content
-                , "enc", Encrypted ? "1" : "0"
-                , "target", ( Target ^ SHTarget.COMMENT ) == 0 ? "comment" : "script"
-            ) );
+            return new PostData(
+                "SH_POST_COMMENT[" + Target.ToString() + "]", Id
+                , Compost(
+                    "action", "comment"
+                    , "id", Id
+                    , "content", Content
+                    , "enc", Encrypted ? "1" : "0"
+                    , "target", ( Target ^ SHTarget.COMMENT ) == 0 ? "comment" : "script"
+                )
+            );
         }
 
         public PostData ScriptUpload(
@@ -98,13 +101,13 @@ namespace wenku8.Model.REST
 
             ZoneTypeTags( Params, new string[] { Zone }, Types, Tags );
 
-            return new PostData( Id, Compost( Params.ToArray() ) );
+            return new PostData( "SCRIPT_UPLOAD", Id, Compost( Params.ToArray() ) );
         }
 
         public PostData ScriptDownload( string Id, string AccessToken )
         {
             return new PostData(
-                Id, Compost(
+                "SCRIPT_DOWNLOAD", Id, Compost(
                     "action", "download"
                     , "uuid", Id
                     , "access_token", string.IsNullOrEmpty( AccessToken ) ? "" : AccessToken
@@ -115,7 +118,8 @@ namespace wenku8.Model.REST
         public PostData StatusReport( string Id, string StatusType, string Desc = "" )
         {
             return new PostData(
-                Id, Compost(
+                "STATUS_REPORT", Id
+                , Compost(
                     "action", "status-report"
                     , "uuid", Id
                     , "type", StatusType
@@ -127,7 +131,8 @@ namespace wenku8.Model.REST
         public PostData ScriptRemove( string AccessToken, string Id )
         {
             return new PostData(
-                Id, Compost(
+                "SCRIPT_REMOVE", Id
+                , Compost(
                     "action", "remove"
                     , "uuid", Id
                     , "access_token", AccessToken
@@ -152,7 +157,7 @@ namespace wenku8.Model.REST
         {
             string ParamTarget = ( Target ^ SHTarget.KEY ) == 0 ? "key" : "token";
             return new PostData(
-                "KEY_REQUEST: " + ParamTarget
+                "KEY_REQUEST", Target.ToString()
                 , Compost(
                     "action", "place-request"
                     , "id", Id
@@ -166,11 +171,28 @@ namespace wenku8.Model.REST
         public PostData GrantRequest( string Id, string Grant )
         {
             return new PostData(
-                "GRANT_REQUEST: " + Id
+                "GRANT_REQUEST", Id
                 , Compost(
                     "action", "grant-request"
+                    , "id", Id
                     , "grant", Grant
                 )
+            );
+        }
+
+        public PostData WithdrawRequest( string Id )
+        {
+            return new PostData(
+                "WITHDRAW_REQUEST", Id
+                , Compost( "action", "withdraw-request", "id", Id )
+            );
+        }
+
+        public PostData ClearGrants( string Id )
+        {
+            return new PostData(
+                "CLEAR_GRANTS", Id
+                , Compost( "action", "clear-grant-records", "id", Id )
             );
         }
 
@@ -178,7 +200,7 @@ namespace wenku8.Model.REST
         {
             string ParamTarget = ( Target ^ SHTarget.KEY ) == 0 ? "key" : "token";
             return new PostData(
-                "SH_GET_REQUEST: " + ParamTarget
+                "SH_GET_REQUEST[" + ParamTarget + "]", Id
                 , Compost(
                     "action", "get-requests"
                     , "id", Id
@@ -245,7 +267,12 @@ namespace wenku8.Model.REST
             }
 
             // Default searches this script name
-            if ( l < 1 ) return new PostData( "SHHUB_SEARCH", Compost( Queries.ToArray() ) );
+            if ( l < 1 )
+            {
+                Queries.Add( "name" );
+                Queries.Add( Query );
+                return new PostData( "SHHUB_SEARCH", Compost( Queries.ToArray() ) );
+            }
 
             QLoop:
             for ( int i = 0; i < l; i++ )
@@ -287,7 +314,7 @@ namespace wenku8.Model.REST
                 }
             }
 
-            return new PostData( "SHHUB_SEARCH", Compost( Queries.ToArray() ) );
+            return new PostData( "SHHUB_SEARCH", Query, Compost( Queries.ToArray() ) );
         }
 
         private string Compost( params string[] Pairs )

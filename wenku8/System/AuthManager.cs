@@ -89,6 +89,16 @@ namespace wenku8.System
             } );
         }
 
+        public void ImportAuth( string Name, string Auth )
+        {
+            XParameter ImpKey = AuthReg.Parameter( Auth );
+            if ( ImpKey == null ) ImpKey = new XParameter( Auth );
+            ImpKey.SetValue( new XKey( AuthKey, Name ) );
+
+            AuthReg.SetParameter( ImpKey );
+            AuthReg.Save();
+        }
+
         public void AssignId( string Name, string Id )
         {
             XParameter Key = AuthReg.Parameters( AuthKey ).FirstOrDefault( x => x.GetValue( AuthKey ) == Name );

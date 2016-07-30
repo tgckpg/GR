@@ -7,7 +7,7 @@ using Windows.UI.Xaml;
 
 namespace wenku8.Effects
 {
-    class NTimer : DispatcherTimer
+    sealed class NTimer : DispatcherTimer
     {
         private NTimer() : base() { }
 

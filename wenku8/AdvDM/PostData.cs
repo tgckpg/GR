@@ -9,9 +9,10 @@ namespace wenku8.AdvDM
 {
     sealed class PostData
     {
-        public string Name;
+        public string Id;
 
         public string CacheName { get; private set; }
+        public string LogStamp { get; private set; }
 
         public string Data
         {
@@ -34,17 +35,33 @@ namespace wenku8.AdvDM
         private string StringData;
         private Stream StreamData;
 
-        public PostData( string Name, string Data )
+        public PostData( string Name, string Id, string Data )
+            :this( Id, Data )
         {
-            this.Name = Name;
-            CacheName = wenku8.System.Utils.MD5( Name );
+            LogStamp = Name + ": " + Id;
+        }
+
+        public PostData( string Name, string Id, Stream Data )
+            :this( Id, Data )
+        {
+            LogStamp = Name + ": " + Id;
+        }
+
+        public PostData( string Id, string Data )
+        {
+            this.Id = Id;
+            LogStamp = Id;
+
+            CacheName = wenku8.System.Utils.MD5( Id );
             StringData = Data;
         }
 
-        public PostData( string Name, Stream Data )
+        public PostData( string Id, Stream Data )
         {
-            this.Name = Name;
-            CacheName = wenku8.System.Utils.MD5( Name );
+            this.Id = Id;
+            LogStamp = Id;
+
+            CacheName = wenku8.System.Utils.MD5( Id );
             StreamData = Data;
         }
     }

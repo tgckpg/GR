@@ -85,10 +85,11 @@
 			, APP_REQUEST_TOKEN = "timetoken"
 
             // Messaging
-            , SH_SCRIPT_DATA = "SharersHubScriptData"
-            , HS_DECRYPT_FAIL = "HubScriptDecryptFail"
-            , HSC_DECRYPT_FAIL = "HSCommentDecryptFail"
-            , SP_PROCESS_COMP = "SpiderProcessComp"
+            , SH_SCRIPT_DATA = "SH_Script_Data"
+            , SH_SHOW_GRANTS = "SH_Show_Grants"
+            , HS_DECRYPT_FAIL = "HS_Decrypt_Fail"
+            , HSC_DECRYPT_FAIL = "HSC_Decrypt_Fail"
+            , SP_PROCESS_COMP = "Spider_Process_Comp"
 			;
 	}
 }

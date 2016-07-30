@@ -120,6 +120,7 @@
     <Compile Include="wenku8\Converters\TOCTemplateSelector.cs" />
     <Compile Include="wenku8\Converters\TreeMarginConverter.cs" />
     <Compile Include="wenku8\Converters\VDisplayConverter.cs" />
+    <Compile Include="wenku8\Effects\SimpleStory.cs" />
     <Compile Include="wenku8\Effects\TextureLoader.cs" />
     <Compile Include="wenku8\Effects\NTimer.cs" />
     <Compile Include="wenku8\Effects\P2DFlow\Ext.cs" />
@@ -191,6 +192,7 @@
     <Compile Include="wenku8\Model\ListItem\BookmarkListItem.cs" />
     <Compile Include="wenku8\Model\ListItem\Digest.cs" />
     <Compile Include="wenku8\Model\ListItem\FavItem.cs" />
+    <Compile Include="wenku8\Model\ListItem\GrantProcess.cs" />
     <Compile Include="wenku8\Model\ListItem\HubScirptStatus.cs" />
     <Compile Include="wenku8\Model\Comments\HSComment.cs" />
     <Compile Include="wenku8\Model\ListItem\HubScriptItem.cs" />
@@ -199,6 +201,7 @@
     <Compile Include="wenku8\Model\ListItem\NewsItem.cs" />
     <Compile Include="wenku8\Model\ListItem\PaneNavButton.cs" />
     <Compile Include="wenku8\Model\ListItem\Press.cs" />
+    <Compile Include="wenku8\Model\ListItem\SHGrant.cs" />
     <Compile Include="wenku8\Model\ListItem\SHRequest.cs" />
     <Compile Include="wenku8\Model\ListItem\SpiderBook.cs" />
     <Compile Include="wenku8\Model\ListItem\SubtleUpdateItem.cs" />

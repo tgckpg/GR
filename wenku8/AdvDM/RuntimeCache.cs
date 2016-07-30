@@ -51,7 +51,7 @@ namespace wenku8.AdvDM
             , Action<DRequestCompletedEventArgs, string> Handler
             , Action<string, string, Exception> DownloadFailedHandler, bool precache )
         {
-            Logger.Log( ID, "POST: " + Data.Name );
+            Logger.Log( ID, Data.LogStamp );
 			if ( WCacheMode.OfflineMode )
 			{
 				 DownloadFailedHandler( Guri.OriginalString, "", new Exception( "Currently offline" ) );
@@ -73,7 +73,7 @@ namespace wenku8.AdvDM
 			wc.OnRequestComplete += ( e ) => PreHandler(
                 Data.CacheName
 				// When download success, these param will send to handler
-				, e, Data.Name, Handler
+				, e, Data.Id, Handler
 				, DowloadFailedHandler
 				// this determine whether PreHandler should cache the downloaded stream
 				, precache
