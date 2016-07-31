@@ -5,7 +5,7 @@ using Net.Astropenguin.DataModel;
 
 namespace wenku8.Model.ListItem
 {
-    class PaneNavButton : ActiveData
+    sealed class PaneNavButton : ActiveData
     {
         public Control Icon { get; private set; }
         public Type Page { get; private set; }

@@ -212,7 +212,6 @@ namespace wenku8.Model.ListItem
 
         // As all the grantings are not valid
         // We should remove all grant records at once
-        // Providing a new public key
         private void ClearGrants()
         {
             new RuntimeCache().POST(

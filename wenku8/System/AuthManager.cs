@@ -14,6 +14,7 @@ using Net.Astropenguin.Logging;
 namespace wenku8.System
 {
     using Settings;
+    using Model.ListItem;
 
     class AuthManager<T> : ActiveData
     {
@@ -65,6 +66,31 @@ namespace wenku8.System
             XParameter Param = AuthReg.Parameters( AuthKey )
                 .FirstOrDefault( x => x.Parameter( Id ) != null );
             return Param == null ? default( T ) : CreateInstance( Param );
+        }
+
+        public int ControlCount( string Id )
+        {
+            XParameter Param = AuthReg.Parameter( Id );
+            return Param.Params.Count();
+        }
+
+        public void RenameAuth( string Old, string New )
+        {
+            XParameter Param = AuthReg.Parameters( AuthKey, Old ).FirstOrDefault();
+            if( Param != null )
+            {
+                Param.SetValue( new XKey( AuthKey, New ) );
+                AuthReg.SetParameter( Param );
+                AuthReg.Save();
+            }
+        }
+
+        public void RemoveAuth( string Id, T Item = default( T ) )
+        {
+            AuthReg.RemoveParameter( Id );
+            AuthReg.Save();
+
+            if( Item != null ) AuthList.Remove( Item );
         }
 
         public void NewAuth()
@@ -179,13 +205,13 @@ namespace wenku8.System
         }
     }
 
-    sealed class TokenManager : AuthManager<KeyValuePair<string, string>>
+    sealed class TokenManager : AuthManager<NameValue<string>>
     {
         public TokenManager() : base( "tok", "tokinc", "Access Token" ) { }
 
-        protected override KeyValuePair<string, string> CreateInstance( XParameter P )
+        protected override NameValue<string> CreateInstance( XParameter P )
         {
-            return new KeyValuePair<string, string>( P.GetValue( AuthKey ), P.Id );
+            return new NameValue<string>( P.GetValue( AuthKey ), P.Id );
         }
     }
 }

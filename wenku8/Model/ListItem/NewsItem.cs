@@ -8,7 +8,7 @@ using wenku8.Config;
 
 namespace wenku8.Model.ListItem
 {
-    class NewsItem : Topic 
+    sealed class NewsItem : Topic 
     {
         public Uri Link { get; private set; }
 

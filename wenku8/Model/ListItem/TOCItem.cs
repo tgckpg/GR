@@ -1,7 +1,7 @@
 ﻿namespace wenku8.Model.ListItem
 {
     using Book;
-    class TOCItem : TreeItem 
+    sealed class TOCItem : TreeItem 
     {
         private Volume Vol;
         private Chapter Ch;

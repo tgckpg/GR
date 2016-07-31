@@ -7,17 +7,18 @@ using Windows.Security.Cryptography;
 using Windows.Security.Cryptography.Core;
 using Windows.Storage.Streams;
 
+using Net.Astropenguin.DataModel;
+
 namespace wenku8.System
 {
-    sealed class CryptAES
-    {
-        public string Name { get; set; }
+    using Model.ListItem;
 
+    sealed class CryptAES : NameValue<string>
+    {
         private SymmetricKeyAlgorithmProvider SymKeyProvider = SymmetricKeyAlgorithmProvider.OpenAlgorithm( SymmetricAlgorithmNames.AesCbcPkcs7 );
         private CryptographicKey Aes256CFB;
 
-        private string _key;
-        public IBuffer KeyBuffer { get { return Base64Buffer( _key ); } }
+        public IBuffer KeyBuffer { get { return Base64Buffer( _Value ); } }
 
         public static string GenKey( uint Len = 256 )
         {
@@ -31,8 +32,8 @@ namespace wenku8.System
         }
 
         public CryptAES( string Base64Key )
+            : base( "", Base64Key )
         {
-            _key = Base64Key;
             Aes256CFB = SymKeyProvider.CreateSymmetricKey( KeyBuffer );
         }
 

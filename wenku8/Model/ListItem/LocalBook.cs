@@ -67,33 +67,34 @@ namespace wenku8.Model.ListItem
                 Desc = "Invalid file name";
                 CanProcess = false;
             }
-
-            TestProcessed();
         }
 
-        public LocalBook( string id )
-            :base( null, null, null )
-        {
-            aid = id;
-            TestProcessed();
-        }
+        public LocalBook() : base( null, null, null ) { }
 
-        // For extension
-        protected LocalBook() : base( null, null, null ) { }
-
-        virtual protected void TestProcessed()
+        virtual protected async Task TestProcessed()
         {
-            LocalTextDocument Doc = new LocalTextDocument( aid );
-            if( Doc.IsValid )
+            await Task.Run( () =>
             {
-                Processed = File == null;
-                CanProcess = !Processed;
+                LocalTextDocument Doc = new LocalTextDocument( aid );
+                if ( Doc.IsValid )
+                {
+                    Processed = File == null;
+                    CanProcess = !Processed;
 
-                ProcessSuccess = true;
+                    ProcessSuccess = true;
 
-                Name = Doc.Title;
-                Desc = Doc.Id;
-            }
+                    Name = Doc.Title;
+                    Desc = Doc.Id;
+                }
+            } );
+        }
+
+        public static async Task<LocalBook> CreateAsync( string Id )
+        {
+            LocalBook Book = new LocalBook();
+            Book.aid = Id;
+            await Book.TestProcessed();
+            return Book;
         }
 
         public async Task Process()

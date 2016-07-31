@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Windows.Storage;
 
+using Net.Astropenguin.Helpers;
 using Net.Astropenguin.IO;
 using Net.Astropenguin.Logging;
 using Net.Astropenguin.Messaging;
@@ -20,7 +21,7 @@ namespace wenku8.Model.ListItem
     using Resources;
     using Settings;
 
-    class SpiderBook : LocalBook
+    sealed class SpiderBook : LocalBook
     {
         private ProcManager ProcMan;
         private BookInstruction BInst;
@@ -32,73 +33,78 @@ namespace wenku8.Model.ListItem
             get { return FileLinks.ROOT_SPIDER_VOL + aid + "/METADATA.xml"; }
         }
 
-        public SpiderBook( string id )
-        {
-            aid = id;
-            PSettings = new XRegistry( "<ProcSpider />", MetaLocation );
-            TestProcessed();
-        }
+        private SpiderBook() { }
 
         public SpiderBook( BookInstruction BInst )
-            :this( BInst.Id )
         {
             this.BInst = BInst;
+            aid = BInst.Id;
+            PSettings = new XRegistry( "<ProcSpider />", MetaLocation );
         }
 
-        protected SpiderBook( string ProcSetting, bool Test )
+        public static async Task<SpiderBook> ImportFile( string ProcSetting )
         {
-            PSettings = new XRegistry( ProcSetting, null );
+            SpiderBook Book = new SpiderBook();
+            Book.PSettings = new XRegistry( ProcSetting, null );
 
-            if( Test )
+            await Book.TestProcessed();
+            if ( Book.CanProcess || Book.ProcessSuccess )
             {
-                TestProcessed();
-                if ( CanProcess || ProcessSuccess )
-                {
-                    PSettings.Location = MetaLocation;
-                    PSettings.Save();
-                }
+                Book.PSettings.Location = Book.MetaLocation;
+                Book.PSettings.Save();
             }
+
+            return Book;
         }
 
-        public static async Task<SpiderBook> CreateAsnyc( string ProcSetting, bool Test )
+        public static async Task<SpiderBook> CreateAsyncSpider( string Id )
         {
-            return await Task.Run( () =>
-            {
-                return new SpiderBook( ProcSetting, Test );
-            } );
+            SpiderBook Book = new SpiderBook();
+            Book.aid = Id;
+            Book.PSettings = new XRegistry( "<ProcSpider />", Book.MetaLocation );
+
+            await Book.TestProcessed();
+            return Book;
         }
 
-        protected override void TestProcessed()
+        protected override async Task TestProcessed()
         {
             Name = "Spider Script";
             Desc = "Click to crawl";
 
-            try
+            await Task.Run( () =>
             {
-                ProcMan = new ProcManager();
-                XParameter Param = PSettings.Parameter( "Procedures" );
-                ProcMan.ReadParam( Param );
-
-                aid = ProcMan.GUID;
-                XParameter SParam = PSettings.Parameter( "ProcessState" );
-
-                BInst = new BookInstruction( aid, PSettings );
-                if ( SParam != null
-                    && ( ProcessSuccess = SParam.GetBool( "Success" ) ) )
+                try
                 {
-                    Name = BInst.Title;
-                    Desc = BInst.RecentUpdate;
-                }
+                    ProcMan = new ProcManager();
+                    XParameter Param = PSettings.Parameter( "Procedures" );
+                    ProcMan.ReadParam( Param );
 
-                CanProcess = true;
-            }
-            catch( Exception ex )
-            {
-                Name = ex.Message;
-                Desc = "ERROR";
-                CanProcess = false;
-                ProcessSuccess = false;
-            }
+                    aid = ProcMan.GUID;
+                    XParameter SParam = PSettings.Parameter( "ProcessState" );
+
+                    BInst = new BookInstruction( aid, PSettings );
+                    if ( SParam != null
+                        && ( ProcessSuccess = SParam.GetBool( "Success" ) ) )
+                    {
+                        Worker.UIInvoke( () =>
+                        {
+                            Name = BInst.Title;
+                            Desc = BInst.RecentUpdate;
+                        } );
+                    }
+
+                    CanProcess = true;
+                }
+                catch ( Exception ex )
+                {
+                    Logger.Log( ID, ex.Message );
+                    Name = ex.Message;
+                    Desc = "ERROR";
+                    CanProcess = false;
+                    ProcessSuccess = false;
+                }
+            } );
         }
 
         protected override async Task Run()

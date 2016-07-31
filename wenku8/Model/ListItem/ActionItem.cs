@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace wenku8.Model.ListItem
 {
-    class ActionItem : ActiveItem
+    sealed class ActionItem : ActiveItem
     {
         public object Param { get; private set; }
 

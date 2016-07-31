@@ -7,9 +7,11 @@ using Windows.Security.Cryptography;
 using Windows.Security.Cryptography.Core;
 using Windows.Storage.Streams;
 
+using Net.Astropenguin.DataModel;
+
 namespace wenku8.System
 {
-    sealed class CryptRSA
+    sealed class CryptRSA : INamable
     {
         public string Name { get; set; }
 

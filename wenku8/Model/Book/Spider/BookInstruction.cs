@@ -52,7 +52,7 @@ namespace wenku8.Model.Book.Spider
             Id = C.aid;
             SpiderBook Sb = new SpiderBook( this );
             ReadInfo( Sb.PSettings );
-            TryReadTOC( Sb.PSettings );
+            PackSavedVols( Sb.PSettings );
         }
 
         public BookInstruction( string GUID, XRegistry Settings )
@@ -60,7 +60,7 @@ namespace wenku8.Model.Book.Spider
         {
             Id = GUID;
             ReadInfo( Settings );
-            TryReadTOC( Settings );
+            PackSavedVols( Settings );
         }
 
         public void PushInstruction( IInstructionSet Inst )
@@ -116,7 +116,7 @@ namespace wenku8.Model.Book.Spider
             Packed = true;
         }
 
-        protected void TryReadTOC( XRegistry Settings )
+        public void PackSavedVols( XRegistry Settings )
         {
             XRegistry XReg = new XRegistry( "<VolInfo />", TOCPath );
             XParameter[] VParams = XReg.Parameters( "VInst" );
