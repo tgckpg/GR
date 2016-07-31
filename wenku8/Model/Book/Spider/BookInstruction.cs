@@ -24,11 +24,11 @@ namespace wenku8.Model.Book.Spider
         }
 
         private SortedDictionary<int, ConvoyInstructionSet> Insts;
-        private bool Packed = false;
+        public bool? Packed { get; private set; }
 
         public bool Packable
         {
-            get { return Packed || 0 < Insts.Count; }
+            get { return 0 < Insts.Count; }
         }
 
         public int LastIndex
@@ -60,7 +60,6 @@ namespace wenku8.Model.Book.Spider
         {
             Id = GUID;
             ReadInfo( Settings );
-            PackSavedVols( Settings );
         }
 
         public void PushInstruction( IInstructionSet Inst )
@@ -87,13 +86,16 @@ namespace wenku8.Model.Book.Spider
             int i = Ep.Index;
             while ( Insts.ContainsKey( i ) ) i++;
             Insts.Add( i, Ep );
-        }
+        } 
 
         public void PackVolumes()
         {
-            if ( Packed ) return;
+            if ( Packed == true ) return;
+            // If VolInstructions were not present
+            // All episodes will be pushed into this <Ownerless> Volume
             VolInstruction Ownerless = new VolInstruction( -1, "<Ownerless>" );
             VolInstruction VInst = Ownerless;
+
             foreach ( ConvoyInstructionSet Inst in Insts.Values )
             {
                 if ( Inst is VolInstruction )
@@ -118,9 +120,15 @@ namespace wenku8.Model.Book.Spider
 
         public void PackSavedVols( XRegistry Settings )
         {
+            if ( Packed != null ) return;
+
             XRegistry XReg = new XRegistry( "<VolInfo />", TOCPath );
             XParameter[] VParams = XReg.Parameters( "VInst" );
-            if ( VParams.Count() == 0 ) return;
+            if ( VParams.Count() == 0 )
+            {
+                Packed = false;
+                return;
+            }
 
             foreach ( XParameter VParam in VParams )
             {
@@ -135,10 +143,10 @@ namespace wenku8.Model.Book.Spider
                 PushInstruction( VInst );
             }
 
-            Packed = true;
+            Packed = 0 < Insts.Count;
         }
 
-        public async Task CompileTOC( IEnumerable<SVolume> SVols )
+        public async Task SaveTOC( IEnumerable<SVolume> SVols )
         {
             await Task.Run( () =>
             {
@@ -172,12 +180,12 @@ namespace wenku8.Model.Book.Spider
 
         public override Volume[] GetVolumes()
         {
-            if ( !Packed ) throw new Exception( "Unpacked Book instruction" );
+            if ( Packed == null ) throw new Exception( "Book instruction is not packed" );
 
             return Insts.Values
                 .Where( x => x is VolInstruction )
                 .Remap( x => ( x as VolInstruction ).ToVolume( Id ) )
-                .Distinct( new VolDistinct ())
+                .Distinct( new VolDistinct() )
                 .ToArray();
         }
 
