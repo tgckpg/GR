@@ -7,8 +7,7 @@ using System.Threading.Tasks;
 using Windows.Storage;
 
 using Net.Astropenguin.IO;
-
-using libtaotu.Controls;
+using Net.Astropenguin.Messaging;
 
 namespace wenku8.Model.Book.Spider
 {
@@ -180,7 +179,11 @@ namespace wenku8.Model.Book.Spider
 
         public override Volume[] GetVolumes()
         {
-            if ( Packed == null ) throw new Exception( "Book instruction is not packed" );
+            if ( Packed == null )
+            {
+                MessageBus.SendUI( new Message( GetType(), AppKeys.HS_NO_VOLDATA, this ) );
+                return new Volume[ 0 ];
+            }
 
             return Insts.Values
                 .Where( x => x is VolInstruction )

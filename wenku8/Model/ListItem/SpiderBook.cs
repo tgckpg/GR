@@ -35,11 +35,31 @@ namespace wenku8.Model.ListItem
 
         private SpiderBook() { }
 
+        private void InitProcMan()
+        {
+            if ( ProcMan != null ) return;
+            ProcMan = new ProcManager();
+            XParameter Param = PSettings.Parameter( "Procedures" );
+            ProcMan.ReadParam( Param );
+
+            aid = ProcMan.GUID;
+        }
+
         public SpiderBook( BookInstruction BInst )
         {
             this.BInst = BInst;
             aid = BInst.Id;
+
+            CanProcess = true;
+
             PSettings = new XRegistry( "<ProcSpider />", MetaLocation );
+            InitProcMan();
+
+            XParameter SParam = PSettings.Parameter( "ProcessState" );
+            if ( SParam != null )
+            {
+                ProcessSuccess = SParam.GetBool( "Success" );
+            }
         }
 
         public static async Task<SpiderBook> ImportFile( string ProcSetting )
@@ -76,11 +96,7 @@ namespace wenku8.Model.ListItem
             {
                 try
                 {
-                    ProcMan = new ProcManager();
-                    XParameter Param = PSettings.Parameter( "Procedures" );
-                    ProcMan.ReadParam( Param );
-
-                    aid = ProcMan.GUID;
+                    InitProcMan();
                     XParameter SParam = PSettings.Parameter( "ProcessState" );
 
                     BInst = new BookInstruction( aid, PSettings );
@@ -109,6 +125,7 @@ namespace wenku8.Model.ListItem
 
         protected override async Task Run()
         {
+            InitProcMan();
             ProceduralSpider Spider = ProcMan.CreateSpider();
 
             ProcConvoy Convoy = null;

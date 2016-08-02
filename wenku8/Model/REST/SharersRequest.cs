@@ -11,13 +11,19 @@ namespace wenku8.Model.REST
 
     sealed class SharersRequest
     {
+
+#if DEBUG
         public Uri Server = new Uri( "http://w10srv.botanical.astropenguin.net/" );
+#else
+        public Uri Server = new Uri( "http://w10srv.astropenguin.net/" );
+#endif
 
         private readonly string LANG = Properties.LANGUAGE;
 
         public enum StatusType
         {
-            INVALID_SCRIPT = -1
+            HS_INVALID = -1
+            , HS_NO_VOLDATA = -2
         }
 
         public enum SHTarget : byte { SCRIPT = 1, COMMENT = 2, KEY = 4, TOKEN = 8 }

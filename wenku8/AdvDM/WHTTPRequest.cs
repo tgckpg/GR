@@ -9,8 +9,9 @@ using Net.Astropenguin.Loaders;
 
 namespace wenku8.AdvDM
 {
-	class WHTTPRequest : HttpRequest
+	sealed class WHTTPRequest : HttpRequest
 	{
+        public static CookieContainer Cookies = new CookieContainer();
 		public WHTTPRequest( Uri RequestUri )
             :base( RequestUri )
 		{
@@ -38,9 +39,14 @@ namespace wenku8.AdvDM
 			WCRequest.Headers[ HttpRequestHeader.UserAgent ] = "wenku8 Universal Windows App ( Beta Channel )";
             #elif DEBUG
 			WCRequest.Headers[ HttpRequestHeader.UserAgent ] = "wenku8 Universal Windows App - ( Dev Channel )";
-			#else
+#else
 			WCRequest.Headers[ HttpRequestHeader.UserAgent ] = "wenku8 Universal Windows App ( Production Channel )";
-			#endif
+#endif
+
+            if ( WCRequest.SupportsCookieContainer )
+            {
+                WCRequest.CookieContainer = Cookies;
+            }
 		}
 	}
 }
