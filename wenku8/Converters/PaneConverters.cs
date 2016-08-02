@@ -6,7 +6,7 @@ using Windows.UI.Xaml.Media;
 
 namespace wenku8.Converters
 {
-    public class PanePosConverter : IValueConverter
+    sealed public class PanePosConverter : IValueConverter
     {
         public static readonly string ID = typeof( PanePosConverter ).Name;
 

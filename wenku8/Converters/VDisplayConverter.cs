@@ -5,7 +5,7 @@ using libtranslate;
 
 namespace wenku8.Converters
 {
-    public class VDisplayConverter : IValueConverter
+    sealed public class VDisplayConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, string language)
         {

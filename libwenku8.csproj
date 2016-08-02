@@ -109,13 +109,12 @@
     <Compile Include="wenku8\Config\AppSettings.cs" />
     <Compile Include="wenku8\Config\Parameters.cs" />
     <Compile Include="wenku8\Config\Properties.cs" />
+    <Compile Include="wenku8\Converters\SHRequestTemplateSelector.cs" />
     <Compile Include="wenku8\Converters\NumerSimplifier.cs" />
     <Compile Include="wenku8\Converters\BookInfoConverter.cs" />
     <Compile Include="wenku8\Converters\ContentStyleConverter.cs" />
-    <Compile Include="wenku8\Converters\FavConverter.cs" />
     <Compile Include="wenku8\Converters\PaneConverters.cs" />
     <Compile Include="wenku8\Converters\ParallaxConverter.cs" />
-    <Compile Include="wenku8\Converters\ParaTemplateSelector.cs" />
     <Compile Include="wenku8\Converters\HSCTemplateSelector.cs" />
     <Compile Include="wenku8\Converters\TOCTemplateSelector.cs" />
     <Compile Include="wenku8\Converters\TreeMarginConverter.cs" />

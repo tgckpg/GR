@@ -13,6 +13,8 @@ namespace wenku8.Model.ListItem
 
     sealed class SHGrant : ActiveData
     {
+        public bool SourceRemoved { get { return string.IsNullOrEmpty( ScriptId ); } }
+
         public string Id { get; set; }
         public string[] Grants { get; private set; }
 

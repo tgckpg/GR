@@ -10,7 +10,7 @@ using Windows.UI.Xaml.Data;
 
 namespace wenku8.Converters
 {
-    public class ContentStyleConverter : IValueConverter
+    sealed public class ContentStyleConverter : IValueConverter
     {
         public static readonly string ID = typeof( ContentStyleConverter ).Name;
 
@@ -34,7 +34,6 @@ namespace wenku8.Converters
                     return S;
                 }
             }
-
 
             Logger.Log( ID, string.Format( "No such style \"{0}\"", AlignMode ), LogType.WARNING );
             return null;

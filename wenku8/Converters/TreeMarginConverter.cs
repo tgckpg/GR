@@ -4,10 +4,8 @@ using Windows.UI.Xaml;
 
 namespace wenku8.Converters
 {
-    public class TreeMarginConverter : IValueConverter
+    sealed public class TreeMarginConverter : IValueConverter
     {
-        public static readonly string ID = typeof( TreeMarginConverter ).Name;
-
         public object Convert( object value, Type targetType, object parameter, string language )
         {
             int level = ( int ) value;

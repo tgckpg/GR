@@ -24,14 +24,14 @@ namespace wenku8.System
             return new ThemeSet(
                 stx.Text( "Appearance_Theme_Dark" ) + " ( " + stx.Text( "Appearance_Theme_System" ) + " ) "
                 , false
-                , Color.FromArgb( 0xFF, 0xDD, 0xA0, 0xDD )
-                , Color.FromArgb( 0xFF, 0xDA, 0x70, 0xD6 )
+                , Color.FromArgb( 0xFF, 0xA3, 0x49, 0xA4 )
+                , Color.FromArgb( 0xFF, 0x89, 0x2B, 0xA1 )
                 , Colors.Black
                 , Color.FromArgb( 0xD0, 0x1A, 0x1A, 0x1A )
                 , Colors.White
                 , Colors.White
                 , Color.FromArgb( 0xFF, 0xB3, 0xB3, 0xB3 )
-                , Color.FromArgb( 0xFF, 0x7A, 0xC9, 0x43 )
+                , Color.FromArgb( 0xFF, 0xE6, 0x3D, 0x00 )
                 , Color.FromArgb( 0xFF, 0x66, 0x2D, 0x91 )
                 , Color.FromArgb( 0xFF, 0xEA, 0xEA, 0xEA )
             );

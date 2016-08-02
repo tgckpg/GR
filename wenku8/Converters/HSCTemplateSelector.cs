@@ -9,10 +9,8 @@ using Windows.UI.Xaml.Controls;
 namespace wenku8.Converters
 {
     using Model.Comments;
-    public class HSCTemplateSelector : DataTemplateSelector
+    sealed public class HSCTemplateSelector : DataTemplateSelector
     {
-        public bool IsHorizontal = true;
-
         public DataTemplate Folded { get; set; }
         public DataTemplate Normal { get; set; }
         public DataTemplate Encrypted { get; set; }

@@ -104,6 +104,19 @@ namespace wenku8.Model.REST
             return new PostData( "SCRIPT_UPLOAD", Id, Compost( Params.ToArray() ) );
         }
 
+        public PostData Publish( string Id, bool Public, string AccessToken )
+        {
+            return new PostData(
+                "SCRIPT_PUBLISH", Id
+                , Compost(
+                    "action", "publish"
+                    , "uuid", Id
+                    , "public", Public ? "1" : "0"
+                    , "access_token", string.IsNullOrEmpty( AccessToken ) ? "" : AccessToken
+                )
+            );
+        }
+
         public PostData ScriptDownload( string Id, string AccessToken )
         {
             return new PostData(
@@ -135,7 +148,7 @@ namespace wenku8.Model.REST
                 , Compost(
                     "action", "remove"
                     , "uuid", Id
-                    , "access_token", AccessToken
+                    , "access_token", string.IsNullOrEmpty( AccessToken ) ? "" : AccessToken
                 )
             );
         }

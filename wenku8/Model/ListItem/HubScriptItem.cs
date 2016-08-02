@@ -9,6 +9,7 @@ using Windows.Storage;
 
 using Net.Astropenguin.IO;
 using Net.Astropenguin.Linq;
+using Net.Astropenguin.Loaders;
 using Net.Astropenguin.Messaging;
 
 namespace wenku8.Model.ListItem
@@ -19,7 +20,6 @@ namespace wenku8.Model.ListItem
 
     sealed class HubScriptItem : ActiveItem
     {
-        private bool _inCollection;
 
         public string Id { get { return Payload as string; } }
         public string Author { get; private set; }
@@ -27,13 +27,25 @@ namespace wenku8.Model.ListItem
 
         public int Hits { get; private set; }
 
+        private bool _InCollection;
         public bool InCollection
         {
-            get { return _inCollection; }
+            get { return _InCollection; }
             set
             {
-                _inCollection = value;
+                _InCollection = value;
                 NotifyChanged( "InCollection" );
+            }
+        }
+
+        private bool _Public;
+        public bool Public
+        {
+            get { return _Public; }
+            set
+            {
+                _Public = value;
+                NotifyChanged( "Public" );
             }
         }
 
@@ -156,6 +168,8 @@ namespace wenku8.Model.ListItem
             Tags = Def.GetNamedArray( "tags" ).Remap( x => x.GetString() );
             Zone = Def.GetNamedArray( "zone" ).Remap( x => x.GetString() );
             Type = Def.GetNamedArray( "type" ).Remap( x => x.GetString() );
+
+            _Public = Def.GetNamedBoolean( "public", false );
             Encrypted = Def.GetNamedBoolean( "enc" );
             ForceEncryption = Def.GetNamedBoolean( "force_enc" );
 

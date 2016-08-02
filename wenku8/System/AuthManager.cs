@@ -136,6 +136,22 @@ namespace wenku8.System
             AuthReg.Save();
         }
 
+        public void UnassignId( string Id )
+        {
+            XParameter[] Params = AuthReg.Parameters();
+
+            foreach( XParameter Param in Params )
+            {
+                if( Param.Parameter( Id ) != null )
+                {
+                    Param.RemoveParameter( Id );
+                    AuthReg.SetParameter( Param );
+                }
+            }
+
+            AuthReg.Save();
+        }
+
         virtual protected T CreateInstance( XParameter P )
         {
             return default( T );

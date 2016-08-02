@@ -86,6 +86,7 @@
 
             // Messaging
             , SH_SCRIPT_DATA = "SH_Script_Data"
+            , SH_SCRIPT_REMOVE = "SH_Script_Remove"
             , SH_SHOW_GRANTS = "SH_Show_Grants"
             , HS_DECRYPT_FAIL = "HS_Decrypt_Fail"
             , HSC_DECRYPT_FAIL = "HSC_Decrypt_Fail"

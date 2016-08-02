@@ -27,6 +27,8 @@ namespace wenku8.Model.ListItem
         public int NGrants { get { return GrantDef.Grants.Length; } }
         public SHTarget Target { get { return GrantDef.Target; } }
 
+        public SHGrant GrantDef { get; private set; }
+
         #region Display Properties
         private string _Title;
         public string Title
@@ -73,12 +75,12 @@ namespace wenku8.Model.ListItem
         }
         #endregion
 
-        private SHGrant GrantDef;
-
         public GrantProcess( SHGrant GrantDef )
         {
             this.GrantDef = GrantDef;
             _Title = GrantDef.ScriptName;
+
+            if ( GrantDef.SourceRemoved ) Processed = true;
         }
 
         public async void Parse( IEnumerable<CryptRSA> Crypts )
@@ -185,6 +187,19 @@ namespace wenku8.Model.ListItem
             ProcessSuccess = true;
 
             // Close this request
+            var j = Withdraw();
+
+            ProcessEnd:
+            IsLoading = false;
+            Processed = true;
+
+            if ( !ProcessSuccess ) ClearGrants();
+        }
+
+        public async Task<bool> Withdraw()
+        {
+            TaskCompletionSource<bool> TCS = new TaskCompletionSource<bool>();
+
             new RuntimeCache().POST(
                 Shared.ShRequest.Server
                 , Shared.ShRequest.WithdrawRequest( GrantDef.Id )
@@ -193,21 +208,23 @@ namespace wenku8.Model.ListItem
                     try
                     {
                         JsonStatus.Parse( e.ResponseString );
+                        TCS.TrySetResult( true );
                     }
                     catch ( Exception ex )
                     {
                         Logger.Log( ID, "Unable to withdraw request: " + ex.Message, LogType.WARNING );
+                        TCS.TrySetResult( false );
                     }
                 }
-                , ( a, b, ex ) => { Logger.Log( ID, ex.Message, LogType.WARNING ); }
+                , ( a, b, ex ) =>
+                {
+                    Logger.Log( ID, ex.Message, LogType.WARNING );
+                    TCS.TrySetResult( false );
+                }
                 , false
             );
 
-            ProcessEnd:
-            IsLoading = false;
-            Processed = true;
-
-            if ( !ProcessSuccess ) ClearGrants();
+            return await TCS.Task;
         }
 
         // As all the grantings are not valid

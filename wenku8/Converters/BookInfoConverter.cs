@@ -5,7 +5,7 @@ namespace wenku8.Converters
 {
     using Model.Book;
 
-    public class BookInfoConverter : IValueConverter
+    sealed public class BookInfoConverter : IValueConverter
     {
         public object Convert( object value, Type targetType, object parameter, string language )
         {

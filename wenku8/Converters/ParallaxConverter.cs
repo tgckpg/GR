@@ -3,7 +3,7 @@ using Windows.UI.Xaml.Data;
 
 namespace wenku8.Converters
 {
-    public class ParallaxConverter : IValueConverter
+    sealed public class ParallaxConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, string language)
         {

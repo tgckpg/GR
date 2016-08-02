@@ -6,7 +6,7 @@ using Net.Astropenguin.Loaders;
 
 namespace wenku8.Converters
 {
-    public sealed class NumberSimplifier : IValueConverter
+    sealed public class NumberSimplifier : IValueConverter
     {
         private static Regex Number = new Regex( @"(\d[\d,]+)" );
 
