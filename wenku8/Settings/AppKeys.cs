@@ -90,6 +90,7 @@
             , SH_SHOW_GRANTS = "SH_Show_Grants"
             , HS_DECRYPT_FAIL = "HS_Decrypt_Fail"
             , HS_NO_VOLDATA = "HS_NoVolumeData"
+            , HS_DETAIL_VIEW = "HS_DetailView"
             , HSC_DECRYPT_FAIL = "HSC_Decrypt_Fail"
             , SP_PROCESS_COMP = "Spider_Process_Comp"
 			;

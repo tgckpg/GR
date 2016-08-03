@@ -20,8 +20,7 @@ namespace wenku8.Model.ListItem
 
     sealed class HubScriptItem : ActiveItem
     {
-
-        public string Id { get { return Payload as string; } }
+        public string Id { get { return Payload; } }
         public string Author { get; private set; }
         public string AuthorId { get; private set; }
 
@@ -124,7 +123,7 @@ namespace wenku8.Model.ListItem
         }
 
         public HubScriptItem( JsonObject Def )
-            : base( Def.GetNamedString( "name" ), Def.GetNamedString( "desc" ), Def.GetNamedString( "uuid" ) )
+            : base()
         {
             Update( Def );
         }
@@ -132,6 +131,10 @@ namespace wenku8.Model.ListItem
         public void Update( JsonObject Def )
         {
             Author = "";
+
+            Name = Def.GetNamedString( "name" );
+            Desc = Def.GetNamedString( "desc" );
+            Payload = Def.GetNamedString( "uuid" );
 
             if ( Def.GetNamedValue( "author" ).ValueType == JsonValueType.Object )
             {

@@ -44,6 +44,8 @@ namespace wenku8.Model.ListItem
             protected set;
         }
 
+        protected ActiveItem() { }
+
         public ActiveItem( string Name, string Description, string Payload )
             : this( Name, Description, null, Payload )
         {
