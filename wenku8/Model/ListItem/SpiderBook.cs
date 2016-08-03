@@ -28,10 +28,8 @@ namespace wenku8.Model.ListItem
         public XRegistry PSettings { get; private set; }
         public bool IsSpider { get { return true; } }
 
-        public string MetaLocation
-        {
-            get { return FileLinks.ROOT_SPIDER_VOL + aid + "/METADATA.xml"; }
-        }
+        public string MetaRoot { get { return FileLinks.ROOT_SPIDER_VOL + aid + "/"; } } 
+        public string MetaLocation { get { return MetaRoot + "METADATA.xml"; } }
 
         private SpiderBook() { }
 
@@ -166,10 +164,25 @@ namespace wenku8.Model.ListItem
             ProcMan.GUID = Id;
             if ( ProcMan.GUID == Id )
             {
+                string OldRoot = MetaRoot;
+
                 aid = Id;
                 XParameter Param = PSettings.Parameter( "Procedures" );
                 Param.SetValue( new XKey( "Guid", Id ) );
                 PSettings.SetParameter( Param );
+
+                // Begin Move location
+                PSettings.Location = MetaLocation;
+                try
+                {
+                    Shared.Storage.MoveDir( OldRoot, MetaRoot );
+                }
+                catch ( Exception )
+                {
+                    Logger.Log( ID, string.Format( "Failed to move SVol: {0} => {1}", OldRoot, MetaRoot ), LogType.WARNING );
+                }
+
+                PSettings.Save();
             }
         }
 
