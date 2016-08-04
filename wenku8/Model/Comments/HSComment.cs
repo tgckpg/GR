@@ -59,10 +59,12 @@ namespace wenku8.Model.Comments
                 else
                 {
                     Stacks.Add( new HSComment( JValue.GetString(), Level + 1 ) );
+                    // Break because we only need *one* item to note for "Load more"
+                    break;
                 }
             }
 
-            Replies = Stacks.OrderByDescending( k => k.TimeStamp );
+            Replies = Stacks.OrderBy( k => k.TimeStamp );
         }
 
         public HSComment( string Id, int Level = 0 )
