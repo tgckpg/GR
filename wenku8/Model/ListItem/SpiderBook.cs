@@ -60,7 +60,7 @@ namespace wenku8.Model.ListItem
             }
         }
 
-        public static async Task<SpiderBook> ImportFile( string ProcSetting )
+        public static async Task<SpiderBook> ImportFile( string ProcSetting, bool Save )
         {
             SpiderBook Book = new SpiderBook();
             Book.PSettings = new XRegistry( ProcSetting, null );
@@ -69,7 +69,7 @@ namespace wenku8.Model.ListItem
             if ( Book.CanProcess || Book.ProcessSuccess )
             {
                 Book.PSettings.Location = Book.MetaLocation;
-                Book.PSettings.Save();
+                if( Save ) Book.PSettings.Save();
             }
 
             return Book;

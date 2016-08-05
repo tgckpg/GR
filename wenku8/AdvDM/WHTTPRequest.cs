@@ -12,6 +12,8 @@ namespace wenku8.AdvDM
 	sealed class WHTTPRequest : HttpRequest
 	{
         public static CookieContainer Cookies = new CookieContainer();
+        internal static string UA = "WHTTPRequest";
+
 		public WHTTPRequest( Uri RequestUri )
             :base( RequestUri )
 		{
@@ -33,15 +35,7 @@ namespace wenku8.AdvDM
 		{
             base.CreateRequest();
 			WCRequest.Method = "POST";
-			#if TESTING
-			WCRequest.Headers[ HttpRequestHeader.UserAgent ] = "wenku8 Universal Windows App ( Testing Channel )";
-			#elif BETA
-			WCRequest.Headers[ HttpRequestHeader.UserAgent ] = "wenku8 Universal Windows App ( Beta Channel )";
-            #elif DEBUG
-			WCRequest.Headers[ HttpRequestHeader.UserAgent ] = "wenku8 Universal Windows App - ( Dev Channel )";
-#else
-			WCRequest.Headers[ HttpRequestHeader.UserAgent ] = "wenku8 Universal Windows App ( Production Channel )";
-#endif
+            WCRequest.Headers[ HttpRequestHeader.UserAgent ] = UA;
 
             if ( WCRequest.SupportsCookieContainer )
             {

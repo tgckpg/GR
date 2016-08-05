@@ -187,6 +187,22 @@ namespace wenku8.Model.REST
             );
         }
 
+        public PostData EditProfile( string DisplayName )
+        {
+            return new PostData(
+                "EDIT_PROFILE"
+                , Compost(
+                    "action", "edit-profile"
+                    , "display_name", DisplayName
+                )
+            );
+        }
+
+        public PostData MyProfile()
+        {
+            return new PostData( "MY_PROFILE", Compost( "action", "my-profile" ) );
+        }
+
         public PostData GrantRequest( string Id, string Grant )
         {
             return new PostData(
