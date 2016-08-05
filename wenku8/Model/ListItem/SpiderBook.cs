@@ -210,7 +210,7 @@ namespace wenku8.Model.ListItem
             ProcessSuccess = false;
             CanProcess = false;
 
-            Desc = "Script is not available";
+            Desc = "Script is unavailable";
         }
     }
 }
