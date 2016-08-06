@@ -121,6 +121,8 @@ namespace wenku8.System
             if ( ImpKey == null ) ImpKey = new XParameter( Auth );
             ImpKey.SetValue( new XKey( AuthKey, Name ) );
 
+            AuthList.Add( CreateInstance( ImpKey ) );
+
             AuthReg.SetParameter( ImpKey );
             AuthReg.Save();
         }

@@ -12,7 +12,7 @@ namespace wenku8.Model.REST
     sealed class SharersRequest
     {
 
-#if DEBUG
+#if false
         public Uri Server = new Uri( "http://w10srv.botanical.astropenguin.net/" );
 #else
         public Uri Server = new Uri( "http://w10srv.astropenguin.net/" );
@@ -194,6 +194,18 @@ namespace wenku8.Model.REST
                 , Compost(
                     "action", "edit-profile"
                     , "display_name", DisplayName
+                )
+            );
+        }
+
+        public PostData ChangePassword( string CurrPasswd, string NewPasswd )
+        {
+            return new PostData(
+                "CHANGE_PASSWORD"
+                , Compost(
+                    "action", "passwd"
+                    , "curr", CurrPasswd
+                    , "new", NewPasswd
                 )
             );
         }
