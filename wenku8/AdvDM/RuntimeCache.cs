@@ -23,7 +23,7 @@ namespace wenku8.AdvDM
 
         public RuntimeCache()
         {
-            MakeRequest = a => new WHTTPRequest( a ) { EN_UITHREAD = EN_UI_Thead };
+            MakeRequest = a => new WHttpRequest( a ) { EN_UITHREAD = EN_UI_Thead };
         }
 
         public RuntimeCache( Func<Uri, HttpRequest> RequestMaker )

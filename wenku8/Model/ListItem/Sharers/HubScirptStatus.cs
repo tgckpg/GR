@@ -7,7 +7,7 @@ using Windows.Data.Json;
 
 using Net.Astropenguin.DataModel;
 
-namespace wenku8.Model.ListItem
+namespace wenku8.Model.ListItem.Sharers
 {
     sealed class HubScriptStatus : ActiveData
     {

@@ -15,7 +15,7 @@ namespace wenku8.Model.Book.Spider
     using ListItem;
     using Settings;
 
-    class BookInstruction : BookItem, IInstructionSet
+    sealed class BookInstruction : BookItem, IInstructionSet
     {
         public override string VolumeRoot
         {
@@ -92,7 +92,7 @@ namespace wenku8.Model.Book.Spider
             if ( Packed == true ) return;
             // If VolInstructions were not present
             // All episodes will be pushed into this <Ownerless> Volume
-            VolInstruction Ownerless = new VolInstruction( -1, "<Ownerless>" );
+            VolInstruction Ownerless = new VolInstruction( -1, string.IsNullOrEmpty( Title ) ? "Vol 1" : Title );
             VolInstruction VInst = Ownerless;
 
             foreach ( ConvoyInstructionSet Inst in Insts.Values )

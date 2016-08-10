@@ -8,7 +8,7 @@ using Windows.UI.Xaml.Controls;
 
 namespace wenku8.Converters
 {
-    using Model.ListItem;
+    using Model.ListItem.Sharers;
 
     sealed public class SHRequestTemplateSelector : DataTemplateSelector
     {

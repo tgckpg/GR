@@ -16,7 +16,7 @@ namespace wenku8.Model.Book.Spider
     using Settings;
     using System;
 
-    class SChapter : Chapter
+    sealed class SChapter : Chapter
     {
         public EpInstruction Inst { get; private set; }
 

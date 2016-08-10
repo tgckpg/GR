@@ -1,9 +1,15 @@
 ﻿using Net.Astropenguin.DataModel;
 using System.ComponentModel;
+using System;
 
 namespace wenku8.Model.ListItem
 {
-    class NameValue<T> : ActiveData, INamable
+    interface INameValue
+    {
+        string Name { get; }
+        object Value { get; }
+    }
+    class NameValue<T> : ActiveData, INamable, INameValue
     {
         protected string _Name;
         virtual public string Name
@@ -18,6 +24,8 @@ namespace wenku8.Model.ListItem
             get { return _Value; }
             set { _Value = value;  NotifyChanged( "Value" ); }
         }
+
+        object INameValue.Value { get { return _Value; } }
 
         public NameValue( string Name, T Value )
         {

@@ -10,7 +10,7 @@ using Net.Astropenguin.IO;
 
 namespace wenku8.Model.Book.Spider
 {
-    class EpInstruction : ConvoyInstructionSet
+    sealed class EpInstruction : ConvoyInstructionSet
     {
         public int Index { get; private set; }
         public string Title { get; private set; }

@@ -15,7 +15,7 @@ namespace wenku8.Model.Book.Spider
 {
     using System;
 
-    class VolInstruction : ConvoyInstructionSet
+    sealed class VolInstruction : ConvoyInstructionSet
     {
         public int Index { get; private set; }
         public string Title { get; private set; }

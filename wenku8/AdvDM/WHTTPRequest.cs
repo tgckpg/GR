@@ -9,18 +9,18 @@ using Net.Astropenguin.Loaders;
 
 namespace wenku8.AdvDM
 {
-	sealed class WHTTPRequest : HttpRequest
+	sealed class WHttpRequest : HttpRequest
 	{
         public static CookieContainer Cookies = new CookieContainer();
         internal static string UA = "WHTTPRequest";
 
-		public WHTTPRequest( Uri RequestUri )
+		public WHttpRequest( Uri RequestUri )
             :base( RequestUri )
 		{
 			WCacheMode.OfflineEnabled += WCacheMode_OfflineEnabled;
 		}
 
-        ~WHTTPRequest()
+        ~WHttpRequest()
         {
 			WCacheMode.OfflineEnabled -= WCacheMode_OfflineEnabled;
         }

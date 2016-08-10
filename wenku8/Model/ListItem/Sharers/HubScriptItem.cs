@@ -12,7 +12,7 @@ using Net.Astropenguin.Linq;
 using Net.Astropenguin.Loaders;
 using Net.Astropenguin.Messaging;
 
-namespace wenku8.Model.ListItem
+namespace wenku8.Model.ListItem.Sharers
 {
     using Settings;
     using AESManager = System.AESManager;
@@ -199,7 +199,7 @@ namespace wenku8.Model.ListItem
             if ( Encrypted )
             {
                 AESManager AMgr = new AESManager();
-                CryptAES Crypt = AMgr.GetAuthById( Id );
+                CryptAES Crypt = ( CryptAES ) AMgr.GetAuthById( Id );
 
                 if ( Crypt != null )
                 {

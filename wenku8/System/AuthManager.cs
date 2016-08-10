@@ -160,7 +160,7 @@ namespace wenku8.System
         }
     }
 
-    sealed class AESManager : AuthManager<CryptAES>
+    sealed class AESManager : AuthManager<INameValue>
     {
         public AESManager() :base( "aes", "aesinc", "SymKey" ) { }
 
@@ -180,7 +180,7 @@ namespace wenku8.System
             return false;
         }
 
-        override protected CryptAES CreateInstance( XParameter P )
+        override protected INameValue CreateInstance( XParameter P )
         {
             return new CryptAES( P.Id ) { Name = P.GetValue( AuthKey ) };
         }
@@ -223,11 +223,11 @@ namespace wenku8.System
         }
     }
 
-    sealed class TokenManager : AuthManager<NameValue<string>>
+    sealed class TokenManager : AuthManager<INameValue>
     {
         public TokenManager() : base( "tok", "tokinc", "Access Token" ) { }
 
-        protected override NameValue<string> CreateInstance( XParameter P )
+        protected override INameValue CreateInstance( XParameter P )
         {
             return new NameValue<string>( P.GetValue( AuthKey ), P.Id );
         }

@@ -10,7 +10,7 @@ using Net.Astropenguin.Helpers;
 using Net.Astropenguin.Loaders;
 using Net.Astropenguin.Logging;
 
-namespace wenku8.Model.ListItem
+namespace wenku8.Model.ListItem.Sharers
 {
     using AdvDM;
     using REST;
@@ -92,7 +92,7 @@ namespace wenku8.Model.ListItem
             {
                 case SHTarget.KEY:
                     // Download that script for decryption testing
-                    string AccessToken = AccessToken = new TokenManager().GetAuthById( GrantDef.ScriptId ).Value;
+                    string AccessToken = ( string ) new TokenManager().GetAuthById( GrantDef.ScriptId )?.Value;
 
                     TaskCompletionSource<string> ScriptData = new TaskCompletionSource<string>();
                     new RuntimeCache().POST(

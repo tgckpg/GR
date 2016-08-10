@@ -12,7 +12,7 @@ namespace wenku8.Model.REST
     sealed class SharersRequest
     {
 
-#if false
+#if DEBUG
         public Uri Server = new Uri( "http://w10srv.botanical.astropenguin.net/" );
 #else
         public Uri Server = new Uri( "http://w10srv.astropenguin.net/" );
@@ -260,10 +260,17 @@ namespace wenku8.Model.REST
 
         public PostData MyRequests()
         {
-            return new PostData(
-                "SH_MY_REQUESTS"
-                , Compost( "action", "my-requests" )
-            );
+            return new PostData( "SH_MY_REQUESTS", Compost( "action", "my-requests" ) );
+        }
+
+        public PostData MyInbox()
+        {
+            return new PostData( "SH_MY_INBOX", Compost( "action", "my-inbox" ) );
+        }
+
+        public PostData MessageRead( string Id )
+        {
+            return new PostData( "MESG_READ", Id, Compost( "action", "mesg-read", "id", Id ) );
         }
 
         public PostData Login( string Username, string Passwd )

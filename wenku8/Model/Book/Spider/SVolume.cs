@@ -5,16 +5,11 @@ using System.Text;
 using System.Threading.Tasks;
 using Windows.Storage;
 
-using Net.Astropenguin.IO;
-
-using libtaotu.Controls;
 using libtaotu.Models.Procedure;
 
 namespace wenku8.Model.Book.Spider
 {
-    using System;
-
-    class SVolume : Volume
+    sealed class SVolume : Volume
     {
         public VolInstruction Inst { get; private set; }
 
