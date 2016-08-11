@@ -47,9 +47,7 @@ namespace wenku8.Resources
             }
             catch ( Exception ex )
             {
-                MessageBus.Send(
-                    new Message( typeof( ActionCenter ), ex.Message )
-                );
+                MessageBus.Send( typeof( ActionCenter ), ex.Message );
             }
         }
 

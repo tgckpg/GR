@@ -111,7 +111,7 @@ namespace wenku8.Model.ListItem.Sharers
                             }
                         }
                         , ( a, b, c ) => { ScriptData.SetCanceled(); }
-                        , false
+                        , true
                     );
 
                     string EncData;

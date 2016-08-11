@@ -98,13 +98,11 @@ namespace wenku8.System
 			return false;
 		}
 
-        internal static string MD5( string str )
+        internal static string Md5( string str )
         {
             HashAlgorithmProvider alg = HashAlgorithmProvider.OpenAlgorithm( HashAlgorithmNames.Md5 );
             IBuffer buff = CryptographicBuffer.ConvertStringToBinary( str, BinaryStringEncoding.Utf8 );
-            IBuffer hashed = alg.HashData( buff );
-
-            return CryptographicBuffer.EncodeToHexString( hashed );
+            return CryptographicBuffer.EncodeToHexString( alg.HashData( buff ) );
         }
 
         internal async static Task<string> Sha1( IStorageFile File )

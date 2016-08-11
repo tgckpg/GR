@@ -31,7 +31,7 @@ namespace wenku8.Model.Book.Spider
         public StorageFile TempFile { get; private set; }
 
         public SChapter( EpInstruction Inst, string aid, string vid )
-            : base( Inst.Title, aid, vid, Utils.MD5( Inst.Title ) )
+            : base( Inst.Title, aid, vid, Utils.Md5( Inst.Title ) )
         {
             this.Inst = Inst;
         }

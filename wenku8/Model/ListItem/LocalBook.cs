@@ -126,7 +126,7 @@ namespace wenku8.Model.ListItem
                 , "Processed", "Processing"
             );
 
-            MessageBus.SendUI( new Message( GetType(), AppKeys.SP_PROCESS_COMP, this ) );
+            MessageBus.SendUI( GetType(), AppKeys.SP_PROCESS_COMP, this );
         }
 
         virtual protected async Task Run()

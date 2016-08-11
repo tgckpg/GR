@@ -216,14 +216,14 @@ namespace wenku8.Model.ListItem.Sharers
 
                 if ( Crypt == null && !AMgr.TryDecrypt( Data, out Data ) )
                 {
-                    MessageBus.SendUI( new Message( typeof( HubScriptItem ), AppKeys.HS_DECRYPT_FAIL, this ) );
+                    MessageBus.SendUI( typeof( HubScriptItem ), AppKeys.HS_DECRYPT_FAIL, this );
                     return;
                 }
             }
 
             ScriptFile = await AppStorage.MkTemp();
             await ScriptFile.WriteString( Data );
-            MessageBus.SendUI( new Message( typeof( HubScriptItem ), AppKeys.SH_SCRIPT_DATA, this ) );
+            MessageBus.SendUI( typeof( HubScriptItem ), AppKeys.SH_SCRIPT_DATA, this );
         }
 
     }

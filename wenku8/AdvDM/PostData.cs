@@ -52,7 +52,7 @@ namespace wenku8.AdvDM
             this.Id = Id;
             LogStamp = Id;
 
-            CacheName = wenku8.System.Utils.MD5( Id );
+            CacheName = wenku8.System.Utils.Md5( Id );
             StringData = Data;
         }
 
@@ -61,7 +61,7 @@ namespace wenku8.AdvDM
             this.Id = Id;
             LogStamp = Id;
 
-            CacheName = wenku8.System.Utils.MD5( Id );
+            CacheName = wenku8.System.Utils.Md5( Id );
             StreamData = Data;
         }
     }

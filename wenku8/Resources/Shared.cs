@@ -54,7 +54,7 @@ namespace wenku8.Resources
                         mesg = string.Format( mesg, args );
                     }
 
-                    MessageBus.SendUI( new Message( typeof( LoadingMask ), mesg ) );
+                    MessageBus.SendUI( typeof( LoadingMask ), mesg );
                 } );
 
             } );

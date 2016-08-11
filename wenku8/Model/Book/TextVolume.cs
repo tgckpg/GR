@@ -30,7 +30,7 @@ namespace wenku8.Model.Book
         {
             this.aid = aid;
             this.Title = Title;
-            id = Utils.MD5( Title );
+            id = Utils.Md5( Title );
 
             Episodes = VolGroup;
             VolReg = new XRegistry( "<VolumeMeta />", MetaLocation );
@@ -62,7 +62,7 @@ namespace wenku8.Model.Book
 
             VolReg.SetParameter( AppKeys.GLOBAL_META, new XKey( AppKeys.GLOBAL_NAME, Title.Trim() ) );
 
-            MessageBus.SendUI( new Message( typeof( ListItem.LocalBook ), "Saving ... " + Title, aid ) );
+            MessageBus.SendUI( typeof( ListItem.LocalBook ), "Saving ... " + Title, aid );
             VolReg.Save();
         }
 
