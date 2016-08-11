@@ -39,6 +39,14 @@ namespace wenku8.Model.REST
             );
         }
 
+        public PostData GetCommentStack( string Id )
+        {
+            return new PostData(
+                "SH_GET_COMMENTSTACK", Id
+                , Compost( "action", "get-comment-stack" , "id", Id )
+            );
+        }
+
         public PostData GetComments( SHTarget Target, int Skip, uint Limit, params string[] Ids )
         {
             List<string> Params = new List<string>( new string[]

@@ -26,7 +26,6 @@ namespace wenku8.Model.ListItem.Sharers
         public string CommId { get { return Desc2; } }
 
         public HubScriptItem HubScript { get; private set; }
-        public NameValue<Action> Activity;
 
         public InboxMessage( JsonObject JDef )
         {
@@ -46,16 +45,14 @@ namespace wenku8.Model.ListItem.Sharers
             Name = JDef.GetNamedString( "mesg" );
             TimeStamp = DateTime.Parse( JDef.GetNamedString( "date" ) );
             Payload = JDef.GetNamedString( "id" );
-
-            Activity = new NameValue<Action>( Name, OpenComment );
         }
 
-        private void OpenComment()
+        internal void OpenComment()
         {
             RuntimeCache RCache = new RuntimeCache();
 
             // Flag message as read
-            // This will remove the message from inbox on the server
+            // i.e. Remove the message from inbox at server
             RCache.POST(
                 Shared.ShRequest.Server
                 , Shared.ShRequest.MessageRead( Payload )

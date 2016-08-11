@@ -192,6 +192,7 @@
     <Compile Include="wenku8\Model\ListItem\BookmarkListItem.cs" />
     <Compile Include="wenku8\Model\ListItem\Digest.cs" />
     <Compile Include="wenku8\Model\ListItem\FavItem.cs" />
+    <Compile Include="wenku8\Model\ListItem\Sharers\Activity.cs" />
     <Compile Include="wenku8\Model\ListItem\Sharers\GrantProcess.cs" />
     <Compile Include="wenku8\Model\ListItem\Sharers\HubScirptStatus.cs" />
     <Compile Include="wenku8\Model\Comments\HSComment.cs" />
