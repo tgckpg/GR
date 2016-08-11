@@ -14,7 +14,7 @@ namespace wenku8.Storage
     using Model.Book;
     using Settings;
 
-    class CustomAnchor : ActiveData
+    sealed class CustomAnchor : ActiveData
     {
         XRegistry Reg;
 
@@ -72,7 +72,7 @@ namespace wenku8.Storage
         }
     }
 
-    class AutoAnchor
+    sealed class AutoAnchor
     {
         public static readonly string ID = typeof( AutoAnchor ).Name;
 
@@ -93,7 +93,10 @@ namespace wenku8.Storage
 				// Perform update
 				try
 				{
-					p.SetValue( new XKey( AppKeys.GLOBAL_CID, cid ) );
+					p.SetValue( new XKey[] {
+                        new XKey( AppKeys.GLOBAL_CID, cid )
+                        , BookStorage.TimeKey
+                    } );
                     WBookAnchors.SetParameter( p );
 				}
 				catch ( Exception ex )

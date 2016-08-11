@@ -14,7 +14,7 @@ namespace wenku8.Storage
     using Settings;
     using Model.ListItem;
 
-    class BookStorage
+    sealed class BookStorage
 	{
         public static readonly string ID = typeof( BookStorage ).Name;
 
