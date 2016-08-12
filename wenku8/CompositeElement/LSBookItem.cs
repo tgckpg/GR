@@ -17,6 +17,7 @@ using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Shapes;
 
 using Net.Astropenguin.UI;
+using wenku8.Effects;
 
 namespace wenku8.CompositeElement
 {
@@ -33,8 +34,8 @@ namespace wenku8.CompositeElement
         public static readonly DependencyProperty TitleProperty = DependencyProperty.Register( "Title", typeof( string ), typeof( LSBookItem ), new PropertyMetadata( "{Title}", VisualDataChanged ) );
         public static readonly DependencyProperty DescProperty = DependencyProperty.Register( "Desc", typeof( string ), typeof( LSBookItem ), new PropertyMetadata( "{Desc}", VisualDataChanged ) );
 
-        public static readonly DependencyProperty FavStateProperty = DependencyProperty.Register( "FavState", typeof( ControlState ), typeof( LSBookItem ), new PropertyMetadata( ControlState.Foreatii, VisualDataChanged ) );
-        public static readonly DependencyProperty SpiderStateProperty = DependencyProperty.Register( "SpiderState", typeof( ControlState ), typeof( LSBookItem ), new PropertyMetadata( ControlState.Foreatii, VisualDataChanged ) );
+        public static readonly DependencyProperty FavStateProperty = DependencyProperty.Register( "FavState", typeof( TransitionState ), typeof( LSBookItem ), new PropertyMetadata( TransitionState.Inactive, VisualDataChanged ) );
+        public static readonly DependencyProperty SpiderStateProperty = DependencyProperty.Register( "SpiderState", typeof( TransitionState ), typeof( LSBookItem ), new PropertyMetadata( TransitionState.Inactive, VisualDataChanged ) );
         public static readonly DependencyProperty FailedStateProperty = DependencyProperty.Register( "FailedState", typeof( ControlState ), typeof( LSBookItem ), new PropertyMetadata( ControlState.Foreatii, VisualDataChanged ) );
         public static readonly DependencyProperty CheckedStateProperty = DependencyProperty.Register( "CheckedState", typeof( ControlState ), typeof( LSBookItem ), new PropertyMetadata( ControlState.Foreatii, VisualDataChanged ) );
         public static readonly DependencyProperty IsLoadingProperty = DependencyProperty.Register( "IsLoading", typeof( bool ), typeof( LSBookItem ), new PropertyMetadata( false, ChangeState ) );

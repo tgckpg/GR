@@ -118,6 +118,7 @@
     <Compile Include="wenku8\Converters\ParallaxConverter.cs" />
     <Compile Include="wenku8\Converters\HSCTemplateSelector.cs" />
     <Compile Include="wenku8\Converters\TOCTemplateSelector.cs" />
+    <Compile Include="wenku8\Converters\TransStateConverter.cs" />
     <Compile Include="wenku8\Converters\TreeMarginConverter.cs" />
     <Compile Include="wenku8\Converters\VDisplayConverter.cs" />
     <Compile Include="wenku8\Effects\SimpleStory.cs" />
@@ -147,6 +148,7 @@
     <Compile Include="wenku8\Effects\Stage\CircleParty\Baumkuchen.cs" />
     <Compile Include="wenku8\Effects\Stage\ScreenColorTransform.cs" />
     <Compile Include="wenku8\Effects\TextTransition.cs" />
+    <Compile Include="wenku8\Effects\TransitionDisplay.cs" />
     <Compile Include="wenku8\Ext\IAutoCache.cs" />
     <Compile Include="wenku8\Ext\IBookLoader.cs" />
     <Compile Include="wenku8\Ext\IFavSection.cs" />

@@ -33,5 +33,27 @@ namespace wenku8.Effects
             Storyboard.SetTargetProperty( d, Property );
             Board.Children.Add( d );
         }
+
+        public static void ObjectAnimation( Storyboard Board, UIElement Element, string Property, object From, object To, double Duration = 350 )
+        {
+            ObjectAnimationUsingKeyFrames d = new ObjectAnimationUsingKeyFrames();
+
+            DiscreteObjectKeyFrame still = new DiscreteObjectKeyFrame();
+            still.Value = From;
+            still.KeyTime = KeyTime.FromTimeSpan( TimeSpan.FromSeconds( 0 ) );
+
+            DiscreteObjectKeyFrame move = new DiscreteObjectKeyFrame();
+            move.Value = To;
+            move.KeyTime = KeyTime.FromTimeSpan( TimeSpan.FromMilliseconds( Duration ) );
+
+            d.Duration = new Duration( TimeSpan.FromMilliseconds( Duration ) );
+
+            d.KeyFrames.Add( still );
+            d.KeyFrames.Add( move );
+
+            Storyboard.SetTarget( d, Element );
+            Storyboard.SetTargetProperty( d, Property );
+            Board.Children.Add( d );
+        }
     }
 }

@@ -3,7 +3,8 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:p="using:Net.Astropenguin.UI"
     xmlns:i="using:Net.Astropenguin.UI.Icons"
-    xmlns:c="using:wenku8.CompositeElement">
+    xmlns:c="using:wenku8.CompositeElement"
+    xmlns:e="using:wenku8.Effects">
 
     <Style TargetType="c:LSBookItem">
         <Setter Property="Template">
@@ -50,25 +51,28 @@
                         </p:StateControl>
 
                         <!-- Fav Icon -->
-                        <p:StateControl State="{TemplateBinding FavState}"
-                                        VerticalAlignment="Bottom" HorizontalAlignment="Left"
-                                        Width="90" Height="90">
-                            <Grid VerticalAlignment="Top" HorizontalAlignment="Right"
-                                  Width="180" Height="180">
+                        <Border p:Clip.ToBounds="True"
+                                VerticalAlignment="Bottom" HorizontalAlignment="Left"
+                                Width="90" Height="90">
+                            <Border e:TransitionDisplay.State="{TemplateBinding FavState}"
+                                    e:TransitionDisplay.Mode="A01_X_N30_N30"
+                                    VerticalAlignment="Top" HorizontalAlignment="Right"
+                                    Width="180" Height="180">
                                 <i:IconFav AutoScale="True" Opacity="0.5"
                                            Foreground="#DD1450" />
-                            </Grid>
-                        </p:StateControl>
+                            </Border>
+                        </Border>
 
                         <!-- Spider Icon -->
-                        <p:StateControl State="{TemplateBinding SpiderState}"
-                                        p:Clip.ToBounds="True"
-                                        VerticalAlignment="Top" HorizontalAlignment="Right"
-                                        Width="90" Height="90">
+                        <Border e:TransitionDisplay.State="{TemplateBinding SpiderState}"
+                                e:TransitionDisplay.Mode="A01_Y_N30_N30"
+                                p:Clip.ToBounds="True"
+                                VerticalAlignment="Top" HorizontalAlignment="Right"
+                                Width="90" Height="90">
                             <Grid Width="100" Height="90">
                                 <i:IconSpider AutoScale="True" Opacity="0.5" />
                             </Grid>
-                        </p:StateControl>
+                        </Border>
 
                         <!-- Title -->
                         <Border Background="{StaticResource Shades90}">
