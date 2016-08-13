@@ -1,4 +1,6 @@
-﻿using Windows.Foundation;
+﻿using System.Threading.Tasks;
+using Windows.Foundation;
+
 namespace wenku8.Ext
 {
     enum MemberStatus
@@ -14,11 +16,13 @@ namespace wenku8.Ext
 
         bool IsLoggedIn { get; }
         bool WillLogin { get; }
+        bool CanRegister { get; }
 
         string ServerMessage { get; }
 
         event TypedEventHandler<object, MemberStatus> OnStatusChanged;
 
+        Task<bool> Register();
         void Logout();
         void Login( string name, string passwd );
     }

@@ -29,6 +29,7 @@ namespace wenku8.System
 
         public ObservableCollection<T> AuthList { get; private set; }
         public T SelectedItem { get; private set; }
+        public string SettingsFile { get; private set; }
 
         private XParameter XAuthInc;
         private int AuthInc = 0;
@@ -39,8 +40,9 @@ namespace wenku8.System
             this.AuthIncKey = AuthIncKey;
             this.AuthName = AuthName;
 
+            SettingsFile = FileLinks.ROOT_AUTHMGR + AuthKey + ".xml";
             AuthList = new ObservableCollection<T>();
-            AuthReg = new XRegistry( "<keys />", FileLinks.ROOT_AUTHMGR + AuthKey + ".xml" );
+            AuthReg = new XRegistry( "<keys />", SettingsFile );
 
             XAuthInc = AuthReg.Parameter( AuthIncKey );
 
