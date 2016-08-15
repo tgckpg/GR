@@ -20,12 +20,17 @@ namespace wenku8.Effects
         A01,
         A01_X_N30_0,
         A01_X_0_N30,
+        A01_X_30_0,
+        A01_X_0_30,
         A01_X_N30_30,
         A01_X_30_N30,
         A01_X_30_30,
         A01_X_N30_N30,
+
         A01_Y_N30_0,
         A01_Y_0_N30,
+        A01_Y_30_0,
+        A01_Y_0_30,
         A01_Y_N30_30,
         A01_Y_30_N30,
         A01_Y_30_30,
@@ -102,6 +107,8 @@ namespace wenku8.Effects
 
                 case TransitionMode.A01_X_N30_0: TStruct.FromTo( -30, 0 ); goto TransX;
                 case TransitionMode.A01_X_0_N30: TStruct.FromTo( 0, -30 ); goto TransX;
+                case TransitionMode.A01_X_30_0: TStruct.FromTo( 30, 0 ); goto TransX;
+                case TransitionMode.A01_X_0_30: TStruct.FromTo( 0, 30 ); goto TransX;
                 case TransitionMode.A01_X_N30_30: TStruct.FromTo( -30, 30 ); goto TransX;
                 case TransitionMode.A01_X_30_N30: TStruct.FromTo( 30, -30 ); goto TransX;
                 case TransitionMode.A01_X_30_30: TStruct.FromTo( 30, 30 ); goto TransX;
@@ -109,6 +116,8 @@ namespace wenku8.Effects
 
                 case TransitionMode.A01_Y_N30_0: TStruct.FromTo( -30, 0 ); goto TransY;
                 case TransitionMode.A01_Y_0_N30: TStruct.FromTo( 0, -30 ); goto TransY;
+                case TransitionMode.A01_Y_30_0: TStruct.FromTo( 30, 0 ); goto TransY;
+                case TransitionMode.A01_Y_0_30: TStruct.FromTo( 0, 30 ); goto TransY;
                 case TransitionMode.A01_Y_N30_30: TStruct.FromTo( -30, 30 ); goto TransY;
                 case TransitionMode.A01_Y_30_N30: TStruct.FromTo( 30, -30 ); goto TransY;
                 case TransitionMode.A01_Y_30_30: TStruct.FromTo( 30, 30 ); goto TransY;
