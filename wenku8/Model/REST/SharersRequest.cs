@@ -15,7 +15,7 @@ namespace wenku8.Model.REST
 #if DEBUG
         public Uri Server = new Uri( "http://w10srv.botanical.astropenguin.net/" );
 #else
-        public Uri Server = new Uri( "http://w10srv.astropenguin.net/" );
+        public Uri Server = new Uri( "https://w10srv.astropenguin.net/" );
 #endif
 
         private readonly string LANG = Properties.LANGUAGE;
