@@ -9,7 +9,7 @@ namespace wenku8.Model.ListItem
     using Settings;
     using Book;
 
-    class BookmarkListItem : TreeItem
+    sealed class BookmarkListItem : TreeItem
     {
         XParameter BindParam;
         Volume BindVolume;

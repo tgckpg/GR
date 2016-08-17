@@ -1,6 +1,6 @@
 ﻿namespace wenku8.Model.ListItem
 {
-	class Digests : ActiveItem
+	sealed class Digests : ActiveItem
 	{
         public int TreeLevel { get { return 1; } }
 

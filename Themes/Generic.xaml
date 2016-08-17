@@ -45,7 +45,7 @@
         <ResourceDictionary Source="/libwenku8/Themes/ParallaxHub.xaml" />
         <ResourceDictionary Source="/libwenku8/Themes/PassiveSplitView.xaml" />
         <ResourceDictionary Source="/libwenku8/Themes/FloatyButton.xaml" />
-        <ResourceDictionary Source="/libwenku8/Themes/Rectile.xaml" />
+        <ResourceDictionary Source="/libwenku8/Themes/LSBookItem.xaml" />
         <ResourceDictionary Source="/libwenku8/Themes/QClock.xaml" />
         <ResourceDictionary Source="/libwenku8/Themes/OneDriveButton.xaml" />
         <ResourceDictionary Source="/libwenku8/Themes/LoadingMask.xaml" />

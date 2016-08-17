@@ -9,15 +9,18 @@ using Net.Astropenguin.Loaders;
 
 namespace wenku8.AdvDM
 {
-	class WHTTPRequest : HttpRequest
+	sealed class WHttpRequest : HttpRequest
 	{
-		public WHTTPRequest( Uri RequestUri )
+        public static CookieContainer Cookies = new CookieContainer();
+        internal static string UA = "WHTTPRequest";
+
+		public WHttpRequest( Uri RequestUri )
             :base( RequestUri )
 		{
 			WCacheMode.OfflineEnabled += WCacheMode_OfflineEnabled;
 		}
 
-        ~WHTTPRequest()
+        ~WHttpRequest()
         {
 			WCacheMode.OfflineEnabled -= WCacheMode_OfflineEnabled;
         }
@@ -32,15 +35,12 @@ namespace wenku8.AdvDM
 		{
             base.CreateRequest();
 			WCRequest.Method = "POST";
-			#if TESTING
-			WCRequest.Headers[ HttpRequestHeader.UserAgent ] = "wenku8 Universal Windows App (Testing Channel)";
-			#elif BETA
-			WCRequest.Headers[ HttpRequestHeader.UserAgent ] = "wenku8 Universal Windows App (Beta Channel)";
-            #elif DEBUG
-			WCRequest.Headers[ HttpRequestHeader.UserAgent ] = "wenku8 Universal Windows App - Dev";
-			#else
-			WCRequest.Headers[ HttpRequestHeader.UserAgent ] = "wenku8 Universal Windows App";
-			#endif
+            WCRequest.Headers[ HttpRequestHeader.UserAgent ] = UA;
+
+            if ( WCRequest.SupportsCookieContainer )
+            {
+                WCRequest.CookieContainer = Cookies;
+            }
 		}
 	}
 }

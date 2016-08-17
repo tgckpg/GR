@@ -30,7 +30,7 @@ namespace wenku8.Model.Book
         {
             this.aid = aid;
             this.Title = Title;
-            id = Utils.MD5( Title );
+            id = Utils.Md5( Title );
 
             Episodes = VolGroup;
             VolReg = new XRegistry( "<VolumeMeta />", MetaLocation );
@@ -44,7 +44,7 @@ namespace wenku8.Model.Book
 
             VolReg = new XRegistry( "<VolumeMeta />", MetaLocation );
 
-            XParameter Param = VolReg.GetParameter( AppKeys.GLOBAL_META );
+            XParameter Param = VolReg.Parameter( AppKeys.GLOBAL_META );
             Title = Param.GetValue( AppKeys.GLOBAL_NAME );
         }
 
@@ -62,18 +62,18 @@ namespace wenku8.Model.Book
 
             VolReg.SetParameter( AppKeys.GLOBAL_META, new XKey( AppKeys.GLOBAL_NAME, Title.Trim() ) );
 
-            MessageBus.SendUI( new Message( typeof( ListItem.LocalBook ), "Saving ... " + Title, aid ) );
+            MessageBus.SendUI( typeof( ListItem.LocalBook ), "Saving ... " + Title, aid );
             VolReg.Save();
         }
 
         public Chapter[] GetChapters()
         {
-            XParameter[] Params = VolReg.GetParametersWithKey( AppKeys.GLOBAL_CID );
+            XParameter[] Params = VolReg.Parameters( AppKeys.GLOBAL_CID );
 
             List<Chapter> Chapters = new List<Chapter>();
             foreach( XParameter Param in Params )
             {
-                LocalChapter C = new LocalChapter( Param.GetValue( AppKeys.GLOBAL_NAME ), aid, id, Param.ID );
+                LocalChapter C = new LocalChapter( Param.GetValue( AppKeys.GLOBAL_NAME ), aid, id, Param.Id );
                 Chapters.Add( C );
             }
 

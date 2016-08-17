@@ -13,7 +13,7 @@ namespace wenku8.Model
 
     abstract class SearchableContext : ActiveData, ISearchableSection<ActiveItem>
     {
-        private string Terms;
+        protected string Terms;
         protected IEnumerable<ActiveItem> Data;
 
         public IEnumerable<ActiveItem> SearchSet
@@ -30,7 +30,7 @@ namespace wenku8.Model
             }
         }
 
-        public string SearchTerm
+        virtual public string SearchTerm
         {
             get
             {

@@ -149,7 +149,7 @@ namespace wenku8.System
 
                 IStorageFile CATALOG = await SrcFolder.GetFileAsync( "CATALOGS" );
                 string hash = await Utils.Sha1( CATALOG );
-                SrcDict.ID = hash;
+                SrcDict.Id = hash;
 
                 CanInstall = !Data.Any( x => x.Payload == hash );
 
@@ -189,7 +189,7 @@ namespace wenku8.System
             try
             {
                 IStorageFolder TargetFolder = await Shared.Storage.CreateDirFromISOStorage(
-                    FileLinks.ROOT_EBWIN + SrcDict.ID 
+                    FileLinks.ROOT_EBWIN + SrcDict.Id 
                 );
 
                 SrcDict.SetValue( new XKey( "Corrupted", true ) );
@@ -261,7 +261,7 @@ namespace wenku8.System
         private void UpdateDictList()
         {
             IEnumerable<XParameter> Params = DictReg
-                .GetParametersWithKey( "Title" )
+                .Parameters( "Title" )
                 .Where( x => !x.GetBool( "Corrupted" ) );
 
             StringResources stx = new StringResources( "Settings" );
@@ -269,7 +269,7 @@ namespace wenku8.System
                 ( x ) => new ActiveItem(
                     x.GetValue( "Title" )
                     , x.GetValue( "Size" )
-                    , x.ID
+                    , x.Id
                 )
             );
         }

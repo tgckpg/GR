@@ -7,15 +7,15 @@ using Windows.UI.Xaml;
 
 namespace wenku8.Effects
 {
-    class AnimationTimer : DispatcherTimer
+    sealed class NTimer : DispatcherTimer
     {
-        private AnimationTimer() : base() { }
+        private NTimer() : base() { }
 
         private static readonly Random R = new Random();
         private static readonly object SyncLock = new object();
 
-        private static AnimationTimer __instance;
-        public static AnimationTimer Instance
+        private static NTimer __instance;
+        public static NTimer Instance
         {
             get
             {
@@ -23,7 +23,7 @@ namespace wenku8.Effects
                 {
                     lock ( SyncLock )
                     {
-                        __instance = new AnimationTimer();
+                        __instance = new NTimer();
                     }
                 }
 
@@ -95,5 +95,16 @@ namespace wenku8.Effects
                 return R.Next( maxValue );
             }
         }
+
+        public static float RFloat()
+        {
+            return 2.0f * ( ( float ) R.NextDouble() ) - 1;
+        }
+
+        public static float LFloat()
+        {
+            return ( float ) R.NextDouble();
+        }
+
     }
 }

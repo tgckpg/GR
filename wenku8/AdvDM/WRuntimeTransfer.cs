@@ -73,7 +73,7 @@ namespace wenku8.AdvDM
 		#endregion
 
 		private bool ResumeSession = true, IsCycleStarted = false;
-		private WHTTPRequest CurrentTransfer;
+		private WHttpRequest CurrentTransfer;
 		private Action<DRequestCompletedEventArgs, TransferInst> ResponseProccessor;
 		private TransferInst LastThread;
 		public TransferInst CurrentThread;
@@ -101,7 +101,7 @@ namespace wenku8.AdvDM
 
         public WRuntimeTransfer()
         {
-            CurrentTransfer = new WHTTPRequest(
+            CurrentTransfer = new WHttpRequest(
                 X.Static<Func<XKey[], Uri>>
                 ( XProto.WRuntimeCache, "Protocol" )
                 ( null )

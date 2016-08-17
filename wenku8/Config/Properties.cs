@@ -3,7 +3,7 @@ using Windows.UI;
 
 namespace wenku8.Config
 {
-	class Properties: AppSettings
+	sealed class Properties: AppSettings
 	{
 		public static bool FIRST_TIME_RUN
 		{
@@ -16,6 +16,18 @@ namespace wenku8.Config
 				SetParameter( Parameters.FIRST_TIME_RUN, value );
 			}
 		}
+
+        public static string VERSION
+        {
+			get
+			{
+				return GetValue<string>( Parameters.VERSION );
+			}
+			set
+			{
+				SetParameter( Parameters.VERSION, value );
+			}
+        }
 
         #region Logging
         public static bool ENABLE_SYSTEM_LOG
@@ -166,6 +178,17 @@ namespace wenku8.Config
 			set
 			{
 				SetColor( Parameters.APPEARANCE_CONTENTREADER_TAPBRUSHCOLOR, value );
+			}
+		}
+		public static Color APPEARANCE_CONTENTREADER_CLOCK_ARCOLOR
+		{
+			get
+			{
+				return GetColorFromByte( GetValue<byte[]>( Parameters.APPEARANCE_CONTENTREADER_CLOCK_ARCOLOR ) );
+			}
+			set
+			{
+				SetColor( Parameters.APPEARANCE_CONTENTREADER_CLOCK_ARCOLOR, value );
 			}
 		}
 		public static Color APPEARANCE_CONTENTREADER_CLOCK_HHCOLOR
@@ -651,32 +674,6 @@ namespace wenku8.Config
 				SetParameter( Parameters.AUTH_TOKEN, value );
 			}
         }
-
-        [Obsolete( "Use AUTH_TOKEN instead" )]
-        public static string ACCOUNT_NAME
-		{
-			get
-			{
-				return GetValue<string>( Parameters.ACCOUNT_NAME );
-			}
-			set
-			{
-				SetParameter( Parameters.ACCOUNT_NAME, value );
-			}
-		}
-
-        [Obsolete( "Use AUTH_TOKEN instead" )]
-		public static string ACCOUNT_PASSWD
-		{
-			get
-			{
-				return GetValue<string>( Parameters.ACCOUNT_PASSWD );
-			}
-			set
-			{
-				SetParameter( Parameters.ACCOUNT_PASSWD, value );
-			}
-		}
 
 		public static bool ENABLE_ONEDRIVE
 		{

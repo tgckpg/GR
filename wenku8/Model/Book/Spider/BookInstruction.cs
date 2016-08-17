@@ -7,8 +7,7 @@ using System.Threading.Tasks;
 using Windows.Storage;
 
 using Net.Astropenguin.IO;
-
-using libtaotu.Controls;
+using Net.Astropenguin.Messaging;
 
 namespace wenku8.Model.Book.Spider
 {
@@ -16,7 +15,7 @@ namespace wenku8.Model.Book.Spider
     using ListItem;
     using Settings;
 
-    class BookInstruction : BookItem, IInstructionSet
+    sealed class BookInstruction : BookItem, IInstructionSet
     {
         public override string VolumeRoot
         {
@@ -24,11 +23,11 @@ namespace wenku8.Model.Book.Spider
         }
 
         private SortedDictionary<int, ConvoyInstructionSet> Insts;
-        private bool Packed = false;
+        public bool? Packed { get; private set; }
 
         public bool Packable
         {
-            get { return Packed || 0 < Insts.Count; }
+            get { return 0 < Insts.Count; }
         }
 
         public int LastIndex
@@ -52,7 +51,7 @@ namespace wenku8.Model.Book.Spider
             Id = C.aid;
             SpiderBook Sb = new SpiderBook( this );
             ReadInfo( Sb.PSettings );
-            TryReadTOC( Sb.PSettings );
+            PackSavedVols( Sb.PSettings );
         }
 
         public BookInstruction( string GUID, XRegistry Settings )
@@ -60,7 +59,6 @@ namespace wenku8.Model.Book.Spider
         {
             Id = GUID;
             ReadInfo( Settings );
-            TryReadTOC( Settings );
         }
 
         public void PushInstruction( IInstructionSet Inst )
@@ -87,13 +85,16 @@ namespace wenku8.Model.Book.Spider
             int i = Ep.Index;
             while ( Insts.ContainsKey( i ) ) i++;
             Insts.Add( i, Ep );
-        }
+        } 
 
         public void PackVolumes()
         {
-            if ( Packed ) return;
-            VolInstruction Ownerless = new VolInstruction( -1, "<Ownerless>" );
+            if ( Packed == true ) return;
+            // If VolInstructions were not present
+            // All episodes will be pushed into this <Ownerless> Volume
+            VolInstruction Ownerless = new VolInstruction( -1, string.IsNullOrEmpty( Title ) ? "Vol 1" : Title );
             VolInstruction VInst = Ownerless;
+
             foreach ( ConvoyInstructionSet Inst in Insts.Values )
             {
                 if ( Inst is VolInstruction )
@@ -116,17 +117,23 @@ namespace wenku8.Model.Book.Spider
             Packed = true;
         }
 
-        protected void TryReadTOC( XRegistry Settings )
+        public void PackSavedVols( XRegistry Settings )
         {
+            if ( Packed != null ) return;
+
             XRegistry XReg = new XRegistry( "<VolInfo />", TOCPath );
-            XParameter[] VParams = XReg.GetParametersWithKey( "VInst" );
-            if ( VParams.Count() == 0 ) return;
+            XParameter[] VParams = XReg.Parameters( "VInst" );
+            if ( VParams.Count() == 0 )
+            {
+                Packed = false;
+                return;
+            }
 
             foreach ( XParameter VParam in VParams )
             {
                 VolInstruction VInst = new VolInstruction( VParam, Settings );
 
-                IEnumerable<XParameter> CParams = VParam.GetParametersWithKey( "EpInst" );
+                IEnumerable<XParameter> CParams = VParam.Parameters( "EpInst" );
                 foreach ( XParameter CParam in CParams )
                 {
                     VInst.PushInstruction( new EpInstruction( CParam, Settings ) );
@@ -135,10 +142,10 @@ namespace wenku8.Model.Book.Spider
                 PushInstruction( VInst );
             }
 
-            Packed = true;
+            Packed = 0 < Insts.Count;
         }
 
-        public async Task CompileTOC( IEnumerable<SVolume> SVols )
+        public async Task SaveTOC( IEnumerable<SVolume> SVols )
         {
             await Task.Run( () =>
             {
@@ -147,7 +154,7 @@ namespace wenku8.Model.Book.Spider
                 foreach ( SVolume Vol in SVols )
                 {
                     XParameter VParam = Vol.Inst.ToXParam();
-                    VParam.ID += i++;
+                    VParam.Id += i++;
                     VParam.SetValue( new XKey( "VInst", true ) );
 
                     int j = 0;
@@ -157,7 +164,7 @@ namespace wenku8.Model.Book.Spider
                         if ( SC == null ) continue;
 
                         XParameter CParam =  SC.Inst.ToXParam();
-                        CParam.ID += j++;
+                        CParam.Id += j++;
                         CParam.SetValue( new XKey( "EpInst", true ) );
 
                         VParam.SetParameter( CParam );
@@ -172,12 +179,16 @@ namespace wenku8.Model.Book.Spider
 
         public override Volume[] GetVolumes()
         {
-            if ( !Packed ) throw new Exception( "Unpacked Book instruction" );
+            if ( Packed == null )
+            {
+                MessageBus.SendUI( GetType(), AppKeys.HS_NO_VOLDATA, this );
+                return new Volume[ 0 ];
+            }
 
             return Insts.Values
                 .Where( x => x is VolInstruction )
                 .Remap( x => ( x as VolInstruction ).ToVolume( Id ) )
-                .Distinct( new VolDistinct ())
+                .Distinct( new VolDistinct() )
                 .ToArray();
         }
 

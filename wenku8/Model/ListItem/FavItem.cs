@@ -24,8 +24,8 @@ namespace wenku8.Model.ListItem
             get
             {
                 return wSync
-                    ? stx.Text( "ContextMenu_WUnsync" )
-                    : stx.Text( "ContextMenu_WSync" )
+                    ? stx.Text( "WUnsync" )
+                    : stx.Text( "WSync" )
                     ;
             }
         }
@@ -35,8 +35,8 @@ namespace wenku8.Model.ListItem
             get
             {
                 return _autoCache
-                    ? stx.Text( "ContextMenu_DisAutomation" )
-                    : stx.Text( "ContextMenu_AutoUpdate" )
+                    ? stx.Text( "DisAutomation" )
+                    : stx.Text( "AutoUpdate" )
                     ;
             }
             set

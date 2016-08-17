@@ -22,7 +22,7 @@ namespace wenku8.Ext
 
         public const string FavSection = "wenku8.Model.Section.FavSection, wenku8-protocol";
         public const string NavListSection = "wenku8.Model.Section.NavListSection, wenku8-protocol";
-        public const string RectileSection = "wenku8.Model.Section.RectileSection, wenku8-protocol";
+        public const string StaffPicksSection = "wenku8.Model.Section.StaffPicksSection, wenku8-protocol";
         public const string NavSelections = "wenku8.Model.Section.NavSelections, wenku8-protocol";
 
         public const string Member = "wenku8.Member, wenku8-protocol";
@@ -31,6 +31,8 @@ namespace wenku8.Ext
         public const string AutoCache = "wenku8.Model.Loaders.AutoCache, wenku10";
         public const string BookLoader = "wenku8.Model.Loaders.BookLoader, wenku10";
         public const string ListLoader = "wenku8.Model.Loaders.ListLoader, wenku8-protocol";
+
+        public const string SHMember = "wenku10.SHHub.SHMember, wenku10";
 
         public const string NavListSettings = "wenku8.Settings.Layout.NavList, wenku10";
         public const string MainPageSettings = "wenku8.Settings.Layout.MainPage, wenku10";

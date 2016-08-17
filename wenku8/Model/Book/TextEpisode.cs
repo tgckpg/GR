@@ -23,7 +23,7 @@ namespace wenku8.Model.Book
         {
             this.aid = aid;
             this.Title = Title;
-            id = Utils.MD5( Title );
+            id = Utils.Md5( Title );
         }
 
         public TextEpisode( string id, string aid, bool b )
@@ -34,7 +34,7 @@ namespace wenku8.Model.Book
 
         public async Task Save( string vid )
         {
-            MessageBus.SendUI( new Message( typeof( ListItem.LocalBook ), "Saving ... " + Title, aid ) );
+            MessageBus.SendUI( typeof( ListItem.LocalBook ), "Saving ... " + Title, aid );
             await new ContentParser().OrganizeBookContent( Content, new LocalChapter( Title, aid, vid, id ) );
         }
 

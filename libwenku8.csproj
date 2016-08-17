@@ -90,44 +90,65 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="wenku8\AdvDM\PostData.cs" />
     <Compile Include="wenku8\AdvDM\RuntimeCache.cs" />
     <Compile Include="wenku8\AdvDM\WBackgroundTransfer.cs" />
     <Compile Include="wenku8\AdvDM\WCacheMode.cs" />
-    <Compile Include="wenku8\AdvDM\WHTTPRequest.cs" />
+    <Compile Include="wenku8\AdvDM\SHttpRequest.cs" />
+    <Compile Include="wenku8\AdvDM\WHttpRequest.cs" />
     <Compile Include="wenku8\AdvDM\WRuntimeTransfer.cs" />
+    <Compile Include="wenku8\CompositeElement\LSBookItem.cs" />
     <Compile Include="wenku8\CompositeElement\FloatyButton.cs" />
     <Compile Include="wenku8\CompositeElement\LoadingMask.cs" />
     <Compile Include="wenku8\CompositeElement\OneDriveButton.cs" />
     <Compile Include="wenku8\CompositeElement\ParallaxHub.cs" />
     <Compile Include="wenku8\CompositeElement\PassiveSplitView.cs" />
     <Compile Include="wenku8\CompositeElement\QClock.cs" />
-    <Compile Include="wenku8\CompositeElement\Rectile.cs" />
     <Compile Include="wenku8\CompositeElement\StarCanvas.cs" />
     <Compile Include="wenku8\CompositeElement\StateBubble.cs" />
     <Compile Include="wenku8\CompositeElement\VariableGridView.cs" />
     <Compile Include="wenku8\Config\AppSettings.cs" />
     <Compile Include="wenku8\Config\Parameters.cs" />
     <Compile Include="wenku8\Config\Properties.cs" />
+    <Compile Include="wenku8\Converters\SHRequestTemplateSelector.cs" />
     <Compile Include="wenku8\Converters\NumerSimplifier.cs" />
     <Compile Include="wenku8\Converters\BookInfoConverter.cs" />
     <Compile Include="wenku8\Converters\ContentStyleConverter.cs" />
-    <Compile Include="wenku8\Converters\BoolDataConverter.cs" />
-    <Compile Include="wenku8\Converters\FavConverter.cs" />
     <Compile Include="wenku8\Converters\PaneConverters.cs" />
     <Compile Include="wenku8\Converters\ParallaxConverter.cs" />
-    <Compile Include="wenku8\Converters\ParaTemplateSelector.cs" />
-    <Compile Include="wenku8\Converters\RectileConverters.cs" />
+    <Compile Include="wenku8\Converters\HSCTemplateSelector.cs" />
     <Compile Include="wenku8\Converters\TOCTemplateSelector.cs" />
+    <Compile Include="wenku8\Converters\TransStateConverter.cs" />
     <Compile Include="wenku8\Converters\TreeMarginConverter.cs" />
     <Compile Include="wenku8\Converters\VDisplayConverter.cs" />
-    <Compile Include="wenku8\Effects\AnimationTimer.cs" />
+    <Compile Include="wenku8\Effects\SimpleStory.cs" />
+    <Compile Include="wenku8\Effects\TextureLoader.cs" />
+    <Compile Include="wenku8\Effects\NTimer.cs" />
+    <Compile Include="wenku8\Effects\P2DFlow\Ext.cs" />
+    <Compile Include="wenku8\Effects\P2DFlow\ForceFields\GenericForce.cs" />
+    <Compile Include="wenku8\Effects\P2DFlow\ForceFields\GlobalForceField.cs" />
+    <Compile Include="wenku8\Effects\P2DFlow\ForceFields\IForceField.cs" />
+    <Compile Include="wenku8\Effects\P2DFlow\ForceFields\Thrust.cs" />
+    <Compile Include="wenku8\Effects\P2DFlow\ForceFields\Wind.cs" />
+    <Compile Include="wenku8\Effects\P2DFlow\IWireFrame.cs" />
+    <Compile Include="wenku8\Effects\P2DFlow\Particle.cs" />
+    <Compile Include="wenku8\Effects\P2DFlow\PFSimulator.cs" />
+    <Compile Include="wenku8\Effects\P2DFlow\PFTrait.cs" />
+    <Compile Include="wenku8\Effects\P2DFlow\Reapers\Age.cs" />
+    <Compile Include="wenku8\Effects\P2DFlow\Reapers\Boundary.cs" />
+    <Compile Include="wenku8\Effects\P2DFlow\Reapers\IReaper.cs" />
+    <Compile Include="wenku8\Effects\P2DFlow\Spawners\ExplosionParticle.cs" />
+    <Compile Include="wenku8\Effects\P2DFlow\Spawners\ISpawner.cs" />
+    <Compile Include="wenku8\Effects\P2DFlow\Spawners\LinearSpawner.cs" />
+    <Compile Include="wenku8\Effects\P2DFlow\Spawners\PointerSpawner.cs" />
+    <Compile Include="wenku8\Effects\P2DFlow\Spawners\Trail.cs" />
     <Compile Include="wenku8\Effects\Stage\PartyBase.cs" />
     <Compile Include="wenku8\Effects\Stage\RectangleParty\RectWaltzPrelude.cs" />
     <Compile Include="wenku8\Effects\Stage\RectangleParty\RectWaltzInterlude.cs" />
     <Compile Include="wenku8\Effects\Stage\CircleParty\Baumkuchen.cs" />
     <Compile Include="wenku8\Effects\Stage\ScreenColorTransform.cs" />
-    <Compile Include="wenku8\Effects\StarField.cs" />
     <Compile Include="wenku8\Effects\TextTransition.cs" />
+    <Compile Include="wenku8\Effects\TransitionDisplay.cs" />
     <Compile Include="wenku8\Ext\IAutoCache.cs" />
     <Compile Include="wenku8\Ext\IBookLoader.cs" />
     <Compile Include="wenku8\Ext\IFavSection.cs" />
@@ -173,18 +194,28 @@
     <Compile Include="wenku8\Model\ListItem\BookmarkListItem.cs" />
     <Compile Include="wenku8\Model\ListItem\Digest.cs" />
     <Compile Include="wenku8\Model\ListItem\FavItem.cs" />
+    <Compile Include="wenku8\Model\ListItem\Sharers\Activity.cs" />
+    <Compile Include="wenku8\Model\ListItem\Sharers\GrantProcess.cs" />
+    <Compile Include="wenku8\Model\ListItem\Sharers\HubScirptStatus.cs" />
+    <Compile Include="wenku8\Model\Comments\HSComment.cs" />
+    <Compile Include="wenku8\Model\ListItem\Sharers\HubScriptItem.cs" />
     <Compile Include="wenku8\Model\ListItem\ImageThumb.cs" />
+    <Compile Include="wenku8\Model\ListItem\Sharers\InboxMessage.cs" />
     <Compile Include="wenku8\Model\ListItem\LocalBook.cs" />
+    <Compile Include="wenku8\Model\ListItem\NameValue.cs" />
     <Compile Include="wenku8\Model\ListItem\NewsItem.cs" />
     <Compile Include="wenku8\Model\ListItem\PaneNavButton.cs" />
     <Compile Include="wenku8\Model\ListItem\Press.cs" />
-    <Compile Include="wenku8\Model\ListItem\RectileItem.cs" />
+    <Compile Include="wenku8\Model\ListItem\Sharers\SHGrant.cs" />
+    <Compile Include="wenku8\Model\ListItem\Sharers\SHRequest.cs" />
     <Compile Include="wenku8\Model\ListItem\SpiderBook.cs" />
     <Compile Include="wenku8\Model\ListItem\SubtleUpdateItem.cs" />
     <Compile Include="wenku8\Model\ListItem\TOCItem.cs" />
     <Compile Include="wenku8\Model\ListItem\Topic.cs" />
     <Compile Include="wenku8\Model\ListItem\TreeItem.cs" />
     <Compile Include="wenku8\Model\Loaders\ContentParser.cs" />
+    <Compile Include="wenku8\Model\REST\JsonStatus.cs" />
+    <Compile Include="wenku8\Model\REST\SharersRequest.cs" />
     <Compile Include="wenku8\Model\SearchableContext.cs" />
     <Compile Include="wenku8\Model\Text\LogLine.cs" />
     <Compile Include="wenku8\Model\Text\Manipulation.cs" />
@@ -213,7 +244,10 @@
     <Compile Include="wenku8\Storage\OneDriveSync.cs" />
     <Compile Include="wenku8\System\ActionCenter.cs" />
     <Compile Include="wenku8\Model\EBDictionary.cs" />
+    <Compile Include="wenku8\System\CryptAES.cs" />
+    <Compile Include="wenku8\System\CryptRSA.cs" />
     <Compile Include="wenku8\System\EBDictManager.cs" />
+    <Compile Include="wenku8\System\AuthManager.cs" />
     <Compile Include="wenku8\System\LogControl.cs" />
     <Compile Include="wenku8\System\Messages\ErrorMessage.cs" />
     <Compile Include="wenku8\System\Messages\GeneralMessage.cs" />
@@ -228,6 +262,10 @@
     <Content Include="wenku8\Resources\badwords.txt" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Themes\LSBookItem.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Themes\Generic.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -254,10 +292,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Themes\QClock.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Themes\Rectile.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

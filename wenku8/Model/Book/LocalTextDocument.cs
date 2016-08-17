@@ -38,7 +38,7 @@ namespace wenku8.Model.Book
 
         private void TryGetInformation()
         {
-            XParameter Param = BookReg.GetParameter( AppKeys.GLOBAL_META );
+            XParameter Param = BookReg.Parameter( AppKeys.GLOBAL_META );
             if( Param != null )
             {
                 Title = Param.GetValue( AppKeys.GLOBAL_NAME );
@@ -50,7 +50,7 @@ namespace wenku8.Model.Book
         {
             if( Properties.LANGUAGE_TRADITIONAL )
             {
-                MessageBus.SendUI( new Message( typeof( ListItem.LocalBook ), "Translating ...", aid ) );
+                MessageBus.SendUI( typeof( ListItem.LocalBook ), "Translating ...", aid );
                 await Task.Run( () => doc = doc.ToCTrad() );
             }
 
@@ -92,7 +92,7 @@ namespace wenku8.Model.Book
                     }
                 }
 
-                MessageBus.SendUI( new Message( typeof( ListItem.LocalBook ), "Analyzing ...", aid ) );
+                MessageBus.SendUI( typeof( ListItem.LocalBook ), "Analyzing ...", aid );
                 await TDoc.GuessVolTitle();
                 // Write Chapter Content
                 // Shared.Storage.WriteString( path, content );
@@ -121,7 +121,7 @@ namespace wenku8.Model.Book
 
             BookReg.SetParameter( AppKeys.GLOBAL_META, new XKey( AppKeys.GLOBAL_NAME, Title ) );
 
-            MessageBus.SendUI( new Message( typeof( ListItem.LocalBook ), "Saving Metadata... ", Id ) );
+            MessageBus.SendUI( typeof( ListItem.LocalBook ), "Saving Metadata... ", Id );
             BookReg.Save();
         }
 
@@ -190,20 +190,20 @@ namespace wenku8.Model.Book
             if( 0 < i ) VolTitle = VolTitle.Substring( 0, i );
 
             Logger.Log( ID, "Guess this is a Volume: " + VolTitle, LogType.DEBUG );
-            MessageBus.SendUI( new Message( typeof( ListItem.LocalBook ), VolTitle, aid ) );
+            MessageBus.SendUI( typeof( ListItem.LocalBook ), VolTitle, aid );
 
             return new TextVolume( aid, VolTitle, VolGroup );
         }
 
         public Volume[] GetVolumes()
         {
-            XParameter[] Params = BookReg.GetParametersWithKey( AppKeys.GLOBAL_VID );
+            XParameter[] Params = BookReg.Parameters( AppKeys.GLOBAL_VID );
 
             List<Volume> Vols = new List<Volume>();
             foreach( XParameter Param in Params )
             {
-                TextVolume TVol = new TextVolume( Id, Param.ID );
-                Vols.Add( new Volume( Param.ID, false, TVol.Title, TVol.GetChapters() ) );
+                TextVolume TVol = new TextVolume( Id, Param.Id );
+                Vols.Add( new Volume( Param.Id, false, TVol.Title, TVol.GetChapters() ) );
             }
 
             return Vols.ToArray();

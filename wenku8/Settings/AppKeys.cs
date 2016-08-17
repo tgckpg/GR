@@ -83,6 +83,17 @@
 			, APP_VERSION = "appver"
 			, APP_REQUEST = "request"
 			, APP_REQUEST_TOKEN = "timetoken"
+
+            // Messaging
+            , SH_SCRIPT_DATA = "SH_Script_Data"
+            , SH_SCRIPT_REMOVE = "SH_Script_Remove"
+            , SH_SHOW_GRANTS = "SH_Show_Grants"
+            , HS_DECRYPT_FAIL = "HS_Decrypt_Fail"
+            , HS_NO_VOLDATA = "HS_NoVolumeData"
+            , HS_DETAIL_VIEW = "HS_DetailView"
+            , HS_OPEN_COMMENT = "HS_Open_Comment"
+            , HSC_DECRYPT_FAIL = "HSC_Decrypt_Fail"
+            , SP_PROCESS_COMP = "Spider_Process_Comp"
 			;
 	}
 }

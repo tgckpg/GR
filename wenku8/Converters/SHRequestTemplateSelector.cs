@@ -8,14 +8,17 @@ using Windows.UI.Xaml.Controls;
 
 namespace wenku8.Converters
 {
-    public class ParaTemplateSelector : DataTemplateSelector
+    using Model.ListItem.Sharers;
+
+    sealed public class SHRequestTemplateSelector : DataTemplateSelector
     {
-        public bool IsHorizontal = true;
+        public DataTemplate Removed { get; set; }
+        public DataTemplate Normal { get; set; }
 
         protected override DataTemplate SelectTemplateCore( object item, DependencyObject container )
         {
-            FrameworkElement element = container as FrameworkElement;
-            return element.FindName( IsHorizontal ? "Horizontal" : "Vertical" ) as DataTemplate;
+            SHGrant HSC =  ( ( GrantProcess ) item ).GrantDef;
+            return HSC.SourceRemoved ? Removed : Normal;
         }
     }
 }

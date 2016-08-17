@@ -12,11 +12,11 @@ namespace wenku8.Resources
 {
     using CompositeElement;
     using Model.Book;
+    using Model.REST;
     using Storage;
 
     static class Shared
     {
-        // The general file storage
         public static GeneralStorage Storage;
 
         // Books Cache used by loaders
@@ -25,6 +25,9 @@ namespace wenku8.Resources
         // The default settings by locale
         public static LocaleDefaults LocaleDefaults = new LocaleDefaults();
 
+        public static SharersRequest ShRequest = new SharersRequest();
+
+        // TODO: Should make this optional for each book
         private static bool IsTrad = Config.Properties.LANGUAGE_TRADITIONAL;
 
         public static string ToCTrad( this string v )
@@ -51,7 +54,7 @@ namespace wenku8.Resources
                         mesg = string.Format( mesg, args );
                     }
 
-                    MessageBus.SendUI( new Message( typeof( LoadingMask ), mesg ) );
+                    MessageBus.SendUI( typeof( LoadingMask ), mesg );
                 } );
 
             } );

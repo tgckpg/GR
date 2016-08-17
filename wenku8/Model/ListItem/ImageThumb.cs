@@ -16,7 +16,7 @@ namespace wenku8.Model.ListItem
 {
     using Resources;
 
-    class ImageThumb : ActiveData
+    sealed class ImageThumb : ActiveData
     {
         public static readonly string ID = typeof( ImageThumb ).Name;
 

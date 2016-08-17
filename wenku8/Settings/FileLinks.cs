@@ -21,6 +21,8 @@ namespace wenku8.Settings
         , ADM_DOWNLOAD_REG = "AdvDM_DReg.xml"
 		, ADM_RUNTIME_REG = "AdvDM_RReg.xml"
 		, EBWIN_DICT_REG = "EBWinDicts.xml"
+		, SH_AUTH_REG = "SHAuths.xml"
+        , SH_SCRIPT_ID = "SHScriptId.xml"
 
 		, ROOT_CACHE = "Cache/"
 		, ROOT_INTRO = "intro/"
@@ -33,13 +35,14 @@ namespace wenku8.Settings
 		, ROOT_VOLUME = "shared/transfers/Volumes/"
         , ROOT_LOCAL_VOL = "shared/transfers/LVolumes/"
         , ROOT_SPIDER_VOL = "shared/transfers/SVolumes/"
-		, ROOT_SETTING = "Setting/"
+		, ROOT_SETTING = "Settings/"
+		, ROOT_AUTHMGR = "Settings/AuthManager/"
         , ROOT_EBWIN = "EBWin/"
 		, ROOT_WTEXT = "WText/"
 		, ROOT_ANCHORS = "Anchor/"
 		;
 
-		public static string GetVolumeRoot( string id )
+        public static string GetVolumeRoot( string id )
 		{
 			return ROOT_VOLUME + id + "/";
 		}

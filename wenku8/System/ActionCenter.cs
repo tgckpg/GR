@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace wenku8.System
 {
-    class ActionCenter
+    sealed class ActionCenter
     {
         public const string General = "noti";
         public const string Warning = "impo";

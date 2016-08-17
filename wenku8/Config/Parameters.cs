@@ -7,6 +7,7 @@ namespace wenku8.Config
 		//// Appearance
 		// Global
 		public const string FIRST_TIME_RUN = "First_Time_Run";
+		public const string VERSION = "Version";
 		public const string LOG_LEVEL = "Log_Level";
 		public const string ENABLE_SYSTEM_LOG = "Enable_System_Log";
 		public const string ENABLE_RSYSTEM_LOG = "Enable_RSystem_Log";
@@ -18,6 +19,7 @@ namespace wenku8.Config
 		public const string APPEARANCE_CONTENTREADER_LINEHEIGHT = "Appearance_ContentReader_LineHeight";
 		public const string APPEARANCE_CONTENTREADER_PARAGRAPHSPACING = "Appearance_ContentReader_ParagraphSpacing";
 		public const string APPEARANCE_CONTENTREADER_FONTCOLOR = "Appearance_ContentReader_FontColor";
+		public const string APPEARANCE_CONTENTREADER_CLOCK_ARCOLOR = "Appearance_ContentReader_Clock_Arc_Hand_Color";
 		public const string APPEARANCE_CONTENTREADER_CLOCK_HHCOLOR = "Appearance_ContentReader_Clock_Hour_Hand_Color";
 		public const string APPEARANCE_CONTENTREADER_CLOCK_MHCOLOR = "Appearance_ContentReader_Clock_Minute_Hand_Color";
 		public const string APPEARANCE_CONTENTREADER_CLOCK_SCOLOR = "Appearance_ContentReader_Clock_Scales_Color";
@@ -62,8 +64,6 @@ namespace wenku8.Config
 
 		// Account
 		public const string AUTH_TOKEN = "Account_AuthToken";
-		public const string ACCOUNT_NAME = "Account_Name";
-		public const string ACCOUNT_PASSWD = "Account_Password";
 		public const string ENABLE_ONEDRIVE = "Enable_OneDrive";
 
 		public const string REVIEWS_SIGN = "REVIEWS_SIGN";

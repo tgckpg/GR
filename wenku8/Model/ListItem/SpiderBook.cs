@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Windows.Storage;
 
+using Net.Astropenguin.Helpers;
 using Net.Astropenguin.IO;
 using Net.Astropenguin.Logging;
 using Net.Astropenguin.Messaging;
@@ -20,83 +21,109 @@ namespace wenku8.Model.ListItem
     using Resources;
     using Settings;
 
-    class SpiderBook : LocalBook
+    sealed class SpiderBook : LocalBook
     {
         private ProcManager ProcMan;
         private BookInstruction BInst;
         public XRegistry PSettings { get; private set; }
         public bool IsSpider { get { return true; } }
 
-        public string MetaLocation
-        {
-            get { return FileLinks.ROOT_SPIDER_VOL + aid + "/METADATA.xml"; }
-        }
+        public string MetaRoot { get { return FileLinks.ROOT_SPIDER_VOL + aid + "/"; } } 
+        public string MetaLocation { get { return MetaRoot + "METADATA.xml"; } }
 
-        public SpiderBook( string id )
+        private SpiderBook() { }
+
+        private void InitProcMan()
         {
-            aid = id;
-            PSettings = new XRegistry( "<ProcSpider />", MetaLocation );
-            TestProcessed();
+            if ( ProcMan != null ) return;
+            ProcMan = new ProcManager();
+            XParameter Param = PSettings.Parameter( "Procedures" );
+            ProcMan.ReadParam( Param );
+
+            aid = ProcMan.GUID;
         }
 
         public SpiderBook( BookInstruction BInst )
-            :this( BInst.Id )
         {
             this.BInst = BInst;
-        }
+            aid = BInst.Id;
 
-        public SpiderBook( string ProcSetting, bool Test )
-        {
-            PSettings = new XRegistry( ProcSetting, null );
-            XParameter Param = PSettings.GetParameters().First();
+            CanProcess = true;
 
-            if( Test )
+            PSettings = new XRegistry( "<ProcSpider />", MetaLocation );
+            InitProcMan();
+
+            XParameter SParam = PSettings.Parameter( "ProcessState" );
+            if ( SParam != null )
             {
-                TestProcessed();
-                if ( CanProcess || ProcessSuccess )
-                {
-                    PSettings.Location = MetaLocation;
-                    PSettings.Save();
-                }
+                ProcessSuccess = SParam.GetBool( "Success" );
             }
         }
 
-        protected override void TestProcessed()
+        public static async Task<SpiderBook> ImportFile( string ProcSetting, bool Save )
+        {
+            SpiderBook Book = new SpiderBook();
+            Book.PSettings = new XRegistry( ProcSetting, null );
+
+            await Book.TestProcessed();
+            if ( Book.CanProcess || Book.ProcessSuccess )
+            {
+                Book.PSettings.Location = Book.MetaLocation;
+                if( Save ) Book.PSettings.Save();
+            }
+
+            return Book;
+        }
+
+        public static async Task<SpiderBook> CreateAsyncSpider( string Id )
+        {
+            SpiderBook Book = new SpiderBook();
+            Book.aid = Id;
+            Book.PSettings = new XRegistry( "<ProcSpider />", Book.MetaLocation );
+
+            await Book.TestProcessed();
+            return Book;
+        }
+
+        protected override async Task TestProcessed()
         {
             Name = "Spider Script";
             Desc = "Click to crawl";
 
-            try
+            await Task.Run( () =>
             {
-                ProcMan = new ProcManager();
-                XParameter Param = PSettings.GetParameter( "Procedures" );
-                ProcMan.ReadParam( Param );
-
-                aid = ProcMan.GUID.ToString();
-                XParameter SParam = PSettings.GetParameter( "ProcessState" );
-
-                BInst = new BookInstruction( aid, PSettings );
-                if ( SParam != null
-                    && ( ProcessSuccess = SParam.GetBool( "Success" ) ) )
+                try
                 {
-                    Name = BInst.Title;
-                    Desc = BInst.RecentUpdate;
-                }
+                    InitProcMan();
+                    XParameter SParam = PSettings.Parameter( "ProcessState" );
 
-                CanProcess = true;
-            }
-            catch( Exception ex )
-            {
-                Name = ex.Message;
-                Desc = "ERROR";
-                CanProcess = false;
-                ProcessSuccess = false;
-            }
+                    BInst = new BookInstruction( aid, PSettings );
+                    if ( SParam != null
+                        && ( ProcessSuccess = SParam.GetBool( "Success" ) ) )
+                    {
+                        Worker.UIInvoke( () =>
+                        {
+                            Name = BInst.Title;
+                            Desc = BInst.RecentUpdate;
+                        } );
+                    }
+
+                    CanProcess = true;
+                }
+                catch ( Exception ex )
+                {
+                    Logger.Log( ID, ex.Message );
+                    Name = ex.Message;
+                    Desc = "ERROR";
+                    CanProcess = false;
+                    ProcessSuccess = false;
+                }
+            } );
         }
 
         protected override async Task Run()
         {
-
+            InitProcMan();
             ProceduralSpider Spider = ProcMan.CreateSpider();
 
             ProcConvoy Convoy = null;
@@ -130,6 +157,35 @@ namespace wenku8.Model.ListItem
             ProcessSuccess = true;
         }
 
+        public void AssignId( string Id )
+        {
+            if ( ProcMan.GUID == Id ) return;
+
+            ProcMan.GUID = Id;
+            if ( ProcMan.GUID == Id )
+            {
+                string OldRoot = MetaRoot;
+
+                aid = Id;
+                XParameter Param = PSettings.Parameter( "Procedures" );
+                Param.SetValue( new XKey( "Guid", Id ) );
+                PSettings.SetParameter( Param );
+
+                // Begin Move location
+                PSettings.Location = MetaLocation;
+                try
+                {
+                    Shared.Storage.MoveDir( OldRoot, MetaRoot );
+                }
+                catch ( Exception )
+                {
+                    Logger.Log( ID, string.Format( "Failed to move SVol: {0} => {1}", OldRoot, MetaRoot ), LogType.WARNING );
+                }
+
+                PSettings.Save();
+            }
+        }
+
         public BookInstruction GetBook()
         {
             return BInst;
@@ -154,7 +210,7 @@ namespace wenku8.Model.ListItem
             ProcessSuccess = false;
             CanProcess = false;
 
-            Desc = "Script is not available";
+            Desc = "Script is unavailable";
         }
     }
 }

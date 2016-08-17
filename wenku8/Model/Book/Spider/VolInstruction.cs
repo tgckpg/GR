@@ -15,7 +15,7 @@ namespace wenku8.Model.Book.Spider
 {
     using System;
 
-    class VolInstruction : ConvoyInstructionSet
+    sealed class VolInstruction : ConvoyInstructionSet
     {
         public int Index { get; private set; }
         public string Title { get; private set; }
@@ -41,7 +41,7 @@ namespace wenku8.Model.Book.Spider
                 ProcMan.ReadParam( ProcParam );
             }
 
-            foreach( XParameter ValParam in Param.GetParametersWithKey( "Value" ) )
+            foreach( XParameter ValParam in Param.Parameters( "Value" ) )
             {
                 PushConvoyParam( ValParam.GetValue( "Value" ) );
             }
@@ -54,7 +54,7 @@ namespace wenku8.Model.Book.Spider
 
         public Volume ToVolume( string aid )
         {
-            string id = Utils.MD5( this.Title );
+            string id = Utils.Md5( this.Title );
             return new SVolume(
                 this, id, aid
                 , SubInsts

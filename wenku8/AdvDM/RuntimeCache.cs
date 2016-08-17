@@ -23,7 +23,7 @@ namespace wenku8.AdvDM
 
         public RuntimeCache()
         {
-            MakeRequest = a => new WHTTPRequest( a ) { EN_UITHREAD = EN_UI_Thead };
+            MakeRequest = a => new WHttpRequest( a ) { EN_UITHREAD = EN_UI_Thead };
         }
 
         public RuntimeCache( Func<Uri, HttpRequest> RequestMaker )
@@ -31,63 +31,94 @@ namespace wenku8.AdvDM
             MakeRequest = RequestMaker;
         }
 
-		virtual public void GET( Uri Guri
-			, Action<DRequestCompletedEventArgs, string> Handler
-			, Action<string, string, Exception> DownloadFailedHandler, bool precache )
-		{
-			Logger.Log( ID, "GET: " + Guri.ToString(), LogType.DEBUG );
-			if ( WCacheMode.OfflineMode )
-			{
-				 DownloadFailedHandler( Guri.OriginalString, "", new Exception( "Currently offline" ) );
-			}
-			else
-			{
-				SendRequest( Guri, Handler, DownloadFailedHandler, precache );
-			}
-		}
+        virtual public void GET( Uri Guri
+            , Action<DRequestCompletedEventArgs, string> Handler
+            , Action<string, string, Exception> DownloadFailedHandler, bool precache )
+        {
+            Logger.Log( ID, "GET: " + Guri.ToString(), LogType.DEBUG );
+            if ( WCacheMode.OfflineMode )
+            {
+                DownloadFailedHandler( Guri.OriginalString, "", new Exception( "Currently offline" ) );
+            }
+            else
+            {
+                SendRequest( Guri, Handler, DownloadFailedHandler, precache );
+            }
+        }
+
+        virtual public void POST(
+            Uri Guri, PostData Data
+            , Action<DRequestCompletedEventArgs, string> Handler
+            , Action<string, string, Exception> DownloadFailedHandler, bool precache )
+        {
+            Logger.Log( ID, Data.LogStamp );
+            if ( WCacheMode.OfflineMode )
+            {
+                DownloadFailedHandler( Guri.OriginalString, "", new Exception( "Currently offline" ) );
+            }
+            else
+            {
+                SendRequest( Guri, Data, Handler, DownloadFailedHandler, precache );
+            }
+        }
+
+        virtual protected void SendRequest( Uri uri, PostData Data
+            , Action<DRequestCompletedEventArgs, string> Handler
+            , Action<string, string, Exception> DowloadFailedHandler, bool precache )
+        {
+            HttpRequest wc = MakeRequest( uri );
+            wc.ContentType = "application/x-www-form-urlencoded";
+            wc.Method = "POST";
+
+            wc.OnRequestComplete += ( e ) => PreHandler(
+                Data.CacheName
+                // When download success, these param will send to handler
+                , e, Data.Id, Handler
+                , DowloadFailedHandler
+                // this determine whether PreHandler should cache the downloaded stream
+                , precache
+            );
+
+            wc.OpenWriteAsync( Data.Data );
+        }
 
         virtual protected void SendRequest( Uri Guri
         , Action<DRequestCompletedEventArgs, string> Handler
         , Action<string, string, Exception> DowloadFailedHandler, bool precache )
         {
-            // Initialize HTTP Request
             HttpRequest wc = MakeRequest( Guri );
             wc.Method = "GET";
 
-			// Download handler
-			wc.OnRequestComplete += ( e ) => PreHandler(
-				// cache name is just the uri
-				Guri.OriginalString
-				// When download success, these param will send to handler
-				, e, Guri.OriginalString, Handler
-				// Download failed handler
-				, DowloadFailedHandler
-				// this determine whether PreHandler should cache the downloaded stream
-				, precache
+            wc.OnRequestComplete += ( e ) => PreHandler(
+                Guri.OriginalString
+                // When download success, these param will send to handler
+                , e, Guri.OriginalString, Handler
+                , DowloadFailedHandler
+                , precache
             );
-            // Start Request
+
             wc.OpenAsync();
-		}
+        }
 
-		virtual protected void PreHandler( string CacheName, DRequestCompletedEventArgs e, string id
-			, Action<DRequestCompletedEventArgs, string> Handler
-			, Action<string, string, Exception> DowloadFailedHandler, bool PreCache )
-		{
-			string cache = Uri.EscapeDataString( CacheName );
-			try
-			{
-				string dString = e.ResponseString;
+        virtual protected void PreHandler( string CacheName, DRequestCompletedEventArgs e, string id
+            , Action<DRequestCompletedEventArgs, string> Handler
+            , Action<string, string, Exception> DowloadFailedHandler, bool PreCache )
+        {
+            string cache = wenku8.System.Utils.Md5( CacheName );
+            try
+            {
+                string dString = e.ResponseString;
 
-				// Write Cache
-				if ( PreCache )
-				{
-                    // Precache is written in cache Using EscapedataString
-                    Shared.Storage.WriteBytes( FileLinks.ROOT_CACHE + cache, e.ResponseBytes );
-				}
-			}
-			catch ( Exception ex )
-			{
-                if( ex is WebException )
+                // Write Cache
+                if ( PreCache )
+                    Task.Run( () =>
+                    {
+                        Shared.Storage.WriteBytes( FileLinks.ROOT_CACHE + cache, e.ResponseBytes );
+                    } );
+            }
+            catch ( Exception ex )
+            {
+                if ( ex is WebException )
                 {
                     Logger.Log( ID, "Non Web Exception Occured: " + ex.Message, LogType.ERROR );
                 }
@@ -96,11 +127,11 @@ namespace wenku8.AdvDM
                 // Return with the generated cache name for futher operation
                 DowloadFailedHandler( cache, id, ex );
                 return;
-			}
+            }
 
-            // This should not be catched inside the try catch above
+            // Handler should not be catched inside the try catch above
             // Since it will be redirect to download failed handler
             Handler( e, id );
-		}
+        }
     }
 }

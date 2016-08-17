@@ -8,7 +8,7 @@ using Windows.UI.Xaml.Controls;
 
 namespace wenku8.Converters
 {
-    public class TOCTemplateSelector : DataTemplateSelector
+    sealed public class TOCTemplateSelector : DataTemplateSelector
     {
         public bool IsHorizontal = true;
 

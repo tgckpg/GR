@@ -14,7 +14,7 @@ namespace wenku8.Storage
     using Settings;
     using Model.ListItem;
 
-    class BookStorage
+    sealed class BookStorage
 	{
         public static readonly string ID = typeof( BookStorage ).Name;
 
@@ -49,7 +49,7 @@ namespace wenku8.Storage
                 throw new InvalidCastException( "Cannot cast " + t.Name + " into FavItem" ); 
             }
 
-            IEnumerable<XParameter> p = WBookStorage.GetParameters().Where( x => !x.GetBool( AppKeys.LBS_DEL ) ).ToArray();
+            IEnumerable<XParameter> p = WBookStorage.Parameters().Where( x => !x.GetBool( AppKeys.LBS_DEL ) ).ToArray();
 
             List<T> s = new List<T>();
             StringResources Res = new StringResources( "Book" );
@@ -74,7 +74,7 @@ namespace wenku8.Storage
 
 		public string[] GetIdList()
 		{
-			IEnumerable<XParameter> Params = WBookStorage.GetParameters().Where( x => !x.GetBool( AppKeys.LBS_DEL, false ) );
+			IEnumerable<XParameter> Params = WBookStorage.Parameters().Where( x => !x.GetBool( AppKeys.LBS_DEL, false ) );
 
 			int i = 0;
             string[] s = new string[ Params.Count() ];
@@ -89,7 +89,7 @@ namespace wenku8.Storage
 
 		public void RemoveBook( string id, bool Save = true )
 		{
-            XParameter P = WBookStorage.GetParameter( id );
+            XParameter P = WBookStorage.Parameter( id );
             if ( P == null ) return;
             P.SetValue( new XKey( AppKeys.LBS_DEL, true ) );
 
@@ -99,7 +99,7 @@ namespace wenku8.Storage
 
 		public XParameter GetBook( string id )
 		{
-			XParameter P =  WBookStorage.GetParameter( id );
+			XParameter P =  WBookStorage.Parameter( id );
             if ( P == null || P.GetBool( AppKeys.LBS_DEL ) ) return null;
 
             return P;
@@ -151,7 +151,7 @@ namespace wenku8.Storage
 
 		public bool BookExist( string id )
 		{
-            XParameter Param = WBookStorage.GetParameter( id );
+            XParameter Param = WBookStorage.Parameter( id );
             if ( Param == null ) return false;
 
             return !Param.GetBool( AppKeys.LBS_DEL, false );
@@ -165,7 +165,7 @@ namespace wenku8.Storage
 
 		public bool AutoUpdateSwitch( string id )
 		{
-			XParameter p = WBookStorage.GetParameter( id );
+			XParameter p = WBookStorage.Parameter( id );
 			if ( p.GetValue( AppKeys.LBS_AUM ) == null )
 			{
 				SetBool( id, AppKeys.LBS_AUM, true );
@@ -178,7 +178,7 @@ namespace wenku8.Storage
 
 		public bool SyncSwitch( string id, bool? status = null )
 		{
-			XParameter p = WBookStorage.GetParameter( id );
+			XParameter p = WBookStorage.Parameter( id );
 
             if( status != null )
             {
@@ -201,18 +201,18 @@ namespace wenku8.Storage
 		public string[] GetSyncedList()
 		{
 			int l;
-			XParameter[] p = WBookStorage.GetParametersWithKey( AppKeys.LBS_WSYNC );
+			XParameter[] p = WBookStorage.Parameters( AppKeys.LBS_WSYNC );
 			string[] list = new string[l = p.Count() ];
 			for ( int i = 0; i < l; i++ )
 			{
-				list[i] = p[i].ID;
+				list[i] = p[i].Id;
 			}
 			return list;
 		}
 
 		private void SetBool( string id, string key, bool value )
 		{
-			XParameter p = WBookStorage.GetParameter( id );
+			XParameter p = WBookStorage.Parameter( id );
 			if ( p != null )
 			{
 				p.SetValue( new XKey( key, value ) );
@@ -223,7 +223,7 @@ namespace wenku8.Storage
 
 		private void RemoveKey( string id, string key )
 		{
-			XParameter p = WBookStorage.GetParameter( id );
+			XParameter p = WBookStorage.Parameter( id );
 			if ( p != null )
 			{
 				p.RemoveKey( key );
@@ -235,11 +235,11 @@ namespace wenku8.Storage
 		public string[] GetAutomations()
 		{
 			int l;
-			XParameter[] p = WBookStorage.GetParametersWithKey( AppKeys.LBS_AUM );
+			XParameter[] p = WBookStorage.Parameters( AppKeys.LBS_AUM );
 			string[] id = new string[l = p.Count() ];
 			for ( int i = 0; i < l; i++ )
 			{
-				id[i] = p[i].ID;
+				id[i] = p[i].Id;
 			}
 			return id;
 		}

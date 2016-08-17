@@ -13,7 +13,7 @@ namespace wenku8.Storage
 {
     using Settings;
 
-    class GeneralStorage : AppStorage
+    sealed class GeneralStorage : AppStorage
 	{
         new public readonly string ID = typeof( GeneralStorage ).Name;
 

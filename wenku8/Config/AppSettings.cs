@@ -74,19 +74,12 @@ namespace wenku8.Config
 
 		public static void Initialize()
 		{
-
 			//// Global
 			if ( !TestKey( Parameters.ENABLE_SYSTEM_LOG ) )
 				Properties.ENABLE_SYSTEM_LOG = false;
 
 			if ( !TestKey( Parameters.ENABLE_RSYSTEM_LOG ) )
-            {
-#if DEBUG || TESTING
-                Properties.ENABLE_RSYSTEM_LOG = true;
-#else
                 Properties.ENABLE_RSYSTEM_LOG = false;
-#endif
-            }
 
 #if Release || Beta
             // Force disable logging
@@ -96,19 +89,10 @@ namespace wenku8.Config
 
 			if ( !TestKey( Parameters.LOG_LEVEL ) )
 				Properties.LOG_LEVEL = "INFO";
-
 			if ( !TestKey( Parameters.RSYSTEM_LOG_ADDRESS ) )
-            {
-#if DEBUG
-                Properties.RSYSTEM_LOG_ADDRESS = "10.10.0.122";
-#else
                 Properties.RSYSTEM_LOG_ADDRESS = "127.0.0.1";
-#endif
-
-            }
 
 			//// Local Book shelf
-
 
 			//// Appearance section
 
@@ -145,6 +129,8 @@ namespace wenku8.Config
 				Properties.APPEARANCE_CONTENTREADER_TAPBRUSHCOLOR = Color.FromArgb( 0xFF, 0x3F, 0xA9, 0xF5 );
 
             // Clock
+			if ( !TestKey( Parameters.APPEARANCE_CONTENTREADER_CLOCK_ARCOLOR ) )
+				Properties.APPEARANCE_CONTENTREADER_CLOCK_ARCOLOR = Color.FromArgb( 0x0A, 0xFF, 0xFF, 0xFF );
 			if ( !TestKey( Parameters.APPEARANCE_CONTENTREADER_CLOCK_HHCOLOR ) )
 				Properties.APPEARANCE_CONTENTREADER_CLOCK_HHCOLOR = Color.FromArgb( 0x3C, 0xFF, 0xFF, 0xFF );
 			if ( !TestKey( Parameters.APPEARANCE_CONTENTREADER_CLOCK_MHCOLOR ) )
@@ -234,11 +220,6 @@ namespace wenku8.Config
             }
 
             //// Account section
-            if ( !TestKey( Parameters.ACCOUNT_NAME ) )
-				Properties.ACCOUNT_NAME = "";
-			if ( !TestKey( Parameters.ACCOUNT_PASSWD ) )
-				Properties.ACCOUNT_PASSWD = "";
-
 			if ( !TestKey( Parameters.ENABLE_ONEDRIVE ) )
 				Properties.ENABLE_ONEDRIVE = false;
 
