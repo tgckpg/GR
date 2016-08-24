@@ -26,7 +26,6 @@ namespace wenku8.Model.ListItem
         private ProcManager ProcMan;
         private BookInstruction BInst;
         public XRegistry PSettings { get; private set; }
-        public bool IsSpider { get { return true; } }
 
         public string MetaRoot { get { return FileLinks.ROOT_SPIDER_VOL + aid + "/"; } } 
         public string MetaLocation { get { return MetaRoot + "METADATA.xml"; } }
@@ -73,6 +72,13 @@ namespace wenku8.Model.ListItem
             }
 
             return Book;
+        }
+
+        public override async Task Reload()
+        {
+            ProcMan = null;
+            PSettings = new XRegistry( "<ProcSpider />", MetaLocation );
+            await TestProcessed();
         }
 
         public static async Task<SpiderBook> CreateAsyncSpider( string Id )
@@ -134,6 +140,7 @@ namespace wenku8.Model.ListItem
             }
             else
             {
+                BInst.Clear();
                 ProcPassThru PThru = new ProcPassThru( null );
                 Convoy = await Spider.Crawl( new ProcConvoy( PThru, BInst ) );
             }
@@ -184,6 +191,20 @@ namespace wenku8.Model.ListItem
 
                 PSettings.Save();
             }
+        }
+
+        public async Task<SpiderBook> Clone()
+        {
+            XParameter Param = PSettings.Parameter( "Procedures" );
+            Param.SetValue( new XKey( "Guid", Guid.NewGuid() ) );
+            PSettings.SetParameter( Param );
+
+            SpiderBook Book = await ImportFile( PSettings.ToString(), true );
+            Book.Name += " - Copy";
+
+            Param.SetValue( new XKey( "Guid", aid ) );
+            PSettings.SetParameter( Param );
+            return Book;
         }
 
         public BookInstruction GetBook()
