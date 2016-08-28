@@ -19,6 +19,8 @@ namespace wenku8.Storage
 
 		public bool IsLibraryValid = false;
 
+        public static HashSet<string> CachedFiles = new HashSet<string>();
+
         public GeneralStorage()
         {
             Initialize();
@@ -150,6 +152,12 @@ namespace wenku8.Storage
 		}
 
 		#region DELETE CONTENTS
+        new public void PurgeContents( string Dir, bool RmRoot )
+        {
+            CachedFiles.Clear();
+            base.PurgeContents( Dir, RmRoot );
+        }
+
 		public void CLEAR_CACHE()
 		{
 			PurgeContents( FileLinks.ROOT_CACHE, false );
@@ -174,26 +182,26 @@ namespace wenku8.Storage
 		{
 			PurgeContents( FileLinks.ROOT_VOLUME, false );
 		}
-		#endregion
+        #endregion
 
-		override public bool WriteString( string filename, string content )
-		{
+        override public bool WriteString( string filename, string content )
+        {
             Logger.Log( ID, string.Format( "WritingString: {0}", filename ), LogType.DEBUG );
-			createDirs( filename.Substring( 0, filename.LastIndexOf( '/' ) ) );
-			return base.WriteString( filename, content );
-		}
+            createDirs( filename.Substring( 0, filename.LastIndexOf( '/' ) ) );
+            return base.WriteString( filename, content );
+        }
 
         override public bool WriteBytes( string filename, Byte[] b )
 		{
             Logger.Log( ID, string.Format( "WriteBytes: {0}", filename ), LogType.DEBUG );
 			createDirs( filename.Substring( 0, filename.LastIndexOf( '/' ) ) );
-			return base.WriteBytes( filename, b );
+            return base.WriteBytes( filename, b );
 		}
 
         override public bool WriteStream( string filename, Stream S )
         {
             Logger.Log( ID, string.Format( "WriteStream: {0}", filename ), LogType.DEBUG );
-			createDirs( filename.Substring( 0, filename.LastIndexOf( '/' ) ) );
+            createDirs( filename.Substring( 0, filename.LastIndexOf( '/' ) ) );
             return base.WriteStream( filename, S );
         }
 
@@ -244,11 +252,25 @@ namespace wenku8.Storage
 			return f == null;
 		}
 
-		new public bool FileExists( string filename )
+		new public bool FileExists( string FileName )
 		{
-            if ( filename == null ) return false;
-			return base.FileExists( filename );
+            if ( FileName == null ) return false;
+            if ( CFExists( FileName ) ) return true;
+
+			if( base.FileExists( FileName ) )
+            {
+                CachedFiles.Add( FileName );
+                return true;
+            }
+
+            return false;
 		}
+
+        new public bool DeleteFile( string FileName )
+        {
+            CachedFiles.Remove( FileName );
+            return base.DeleteFile( FileName );
+        }
 
         public bool FileChanged( string StringToCompare, string FileToCompare )
         {
@@ -309,5 +331,32 @@ namespace wenku8.Storage
 			return size;
 		}
 		#endregion
+
+        public void CacheFileStatus()
+        {
+            var j = Task.Run( () =>
+            {
+                CachedFiles.Clear();
+                Find( "./", CachedFiles );
+            } );
+        }
+
+        private bool CFExists( string FileName )
+        {
+            return CachedFiles.Contains( FileName );
+        }
+
+        private void Find( string Dir, HashSet<string> Files )
+        {
+            foreach ( string file in UserStorage.GetFileNames( Dir ) )
+            {
+                Files.Add( ( Dir + file ).Substring( 2 ) );
+            }
+
+            foreach ( string d in UserStorage.GetDirectoryNames( Dir ) )
+            {
+                Find( Dir + d + "/", Files );
+            }
+        }
 	}
 }
