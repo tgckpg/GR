@@ -195,7 +195,6 @@ namespace wenku8.Model.Book.Spider
         {
             if ( Packed == null )
             {
-                MessageBus.SendUI( GetType(), AppKeys.HS_NO_VOLDATA, this );
                 return new Volume[ 0 ];
             }
 

@@ -72,6 +72,19 @@ namespace wenku8.Effects
             }
         }
 
+        /// <summary>
+        /// Return true with 1/N probability
+        /// </summary>
+        /// <param name="N">Denumerator</param>
+        /// <returns></returns>
+        public static bool P( int N )
+        {
+            lock( SyncLock )
+            {
+                return R.Next( N ) == 0;
+            }
+        }
+
         public static double RandInt()
         {
             lock( SyncLock )

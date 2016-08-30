@@ -21,7 +21,7 @@ namespace wenku8.Effects.P2DFlow.ForceFields
         private List<Tuple<Vector2, Vector2, float>> DebugInfo = new List<Tuple<Vector2, Vector2, float>>();
 #endif
 
-        public void Apply( Particle P )
+        virtual public void Apply( Particle P )
         {
             Vector2 C;
             float dist = P.Pos.DistanceTo( A, B, out C );
