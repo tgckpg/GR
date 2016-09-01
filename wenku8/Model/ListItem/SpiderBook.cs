@@ -173,6 +173,7 @@ namespace wenku8.Model.ListItem
             {
                 string OldRoot = MetaRoot;
 
+                string OId = aid;
                 aid = Id;
                 XParameter Param = PSettings.Parameter( "Procedures" );
                 Param.SetValue( new XKey( "Guid", Id ) );
@@ -183,9 +184,14 @@ namespace wenku8.Model.ListItem
                 try
                 {
                     Shared.Storage.MoveDir( OldRoot, MetaRoot );
+                    BInst = new BookInstruction( Id, PSettings );
+
+                    MessageBus.Send( GetType(), AppKeys.HS_MOVED, new Tuple<string, SpiderBook>( OId, this ) );
                 }
                 catch ( Exception )
                 {
+                    BInst = null;
+                    Processed = false;
                     Logger.Log( ID, string.Format( "Failed to move SVol: {0} => {1}", OldRoot, MetaRoot ), LogType.WARNING );
                 }
 

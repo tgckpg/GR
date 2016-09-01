@@ -14,7 +14,7 @@ using Net.Astropenguin.Loaders;
 
 namespace wenku8.System
 {
-    class Utils
+    static class Utils
 	{
 		public static void DoNothing( string arg1, string arg2, Exception arg3 ) { }
 		public static void DoNothing( DRequestCompletedEventArgs arg1, string arg2 ) { }
