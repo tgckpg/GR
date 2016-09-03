@@ -85,7 +85,21 @@ namespace wenku8.Model.Book.Spider
             int i = Ep.Index;
             while ( Insts.ContainsKey( i ) ) i++;
             Insts.Add( i, Ep );
-        } 
+        }
+
+        public void Clear()
+        {
+            Insts.Clear();
+            Others.Clear();
+
+            Title = CoverSrcUrl
+                = Author = Press = Intro
+                = TotalHitCount = TodayHitCount = PushCount = FavCount
+                = RecentUpdate = LatestSection = Status
+                = Length = "";
+
+            Packed = null;
+        }
 
         public void PackVolumes()
         {
@@ -181,7 +195,6 @@ namespace wenku8.Model.Book.Spider
         {
             if ( Packed == null )
             {
-                MessageBus.SendUI( GetType(), AppKeys.HS_NO_VOLDATA, this );
                 return new Volume[ 0 ];
             }
 

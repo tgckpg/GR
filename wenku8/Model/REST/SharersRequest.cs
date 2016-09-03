@@ -11,12 +11,8 @@ namespace wenku8.Model.REST
 
     sealed class SharersRequest
     {
-
-#if DEBUG
-        public Uri Server = new Uri( "http://w10srv.botanical.astropenguin.net/" );
-#else
+        // public Uri Server = new Uri( "http://w10srv.botanical.astropenguin.net/" );
         public Uri Server = new Uri( "https://w10srv.astropenguin.net/" );
-#endif
 
         private readonly string LANG = Properties.LANGUAGE;
 
@@ -321,8 +317,8 @@ namespace wenku8.Model.REST
                 , "limit", Limit.ToString()
             } );
 
-            if( AccessTokens != null )
-            foreach( string AccessToken in AccessTokens )
+            if ( AccessTokens != null )
+            foreach ( string AccessToken in AccessTokens.Where( x => !string.IsNullOrEmpty( x ) ) )
             {
                 Queries.Add( "access_token" );
                 Queries.Add( AccessToken );

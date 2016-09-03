@@ -42,6 +42,12 @@ namespace wenku8.Model.Book.Spider
             ConvoyParams.Add( param );
         }
 
+        virtual public void Clear()
+        {
+            ConvoyParams.Clear();
+            SubInsts.Clear();
+        }
+
         virtual public async Task<IEnumerable<ProcConvoy>> Process( object PassThru = null )
         {
             if( ProcMan != null )

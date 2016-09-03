@@ -31,12 +31,21 @@ namespace wenku8.Model.Book
             }
         }
 
-        public string Title { get; set; }
+        private string TitleRaw = "";
+        public string Title
+        {
+            get { return TitleRaw; }
+            set
+            {
+                TitleRaw = value;
+                NotifyChanged( "Title" );
+            }
+        }
+
         public string Description { get; set; }
         public string LatestSection { get; set; }
         public string OriginalUrl { get; set; }
         public HashSet<string> Others { get; set; }
-
 
         private string TodayHitCountRaw = "";
         public string TodayHitCount
@@ -80,7 +89,7 @@ namespace wenku8.Model.Book
             get { return DisplayString( RecentUpdateRaw, BookInfo.Date, "( " + Status + " ) " ); }
         }
 
-        // Assesed by BookInfoView for Author Search
+        // Accesed by BookInfoView for Author Search
         internal string AuthorRaw { get; private set; }
         public string Author
         {
@@ -88,11 +97,15 @@ namespace wenku8.Model.Book
             set { AuthorRaw = value; }
         }
 
-        private string PressRaw = "";
+        // Accessed by BookInfoView for ScirptUpload
+        internal string PressRaw = "";
         public string Press
         {
             get { return DisplayString( PressRaw, BookInfo.Press ); }
-            set { PressRaw = value; }
+            set
+            {
+                PressRaw = value; NotifyChanged( "Press" );
+            }
         }
 
         private string IntroRaw = "";

@@ -190,5 +190,7 @@ namespace wenku8.Model.ListItem
                 Desc = "Source is unavailable";
             }
         }
+
+        virtual public Task Reload() { return Task.Delay( 0 ); }
     }
 }

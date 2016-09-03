@@ -10,6 +10,7 @@ namespace wenku8.Model.Interfaces
     interface IInstructionSet
     {
         void PushInstruction( IInstructionSet Inst );
+        void Clear();
         int LastIndex { get; }
     }
 }

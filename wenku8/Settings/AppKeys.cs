@@ -92,6 +92,7 @@
             , HS_NO_VOLDATA = "HS_NoVolumeData"
             , HS_DETAIL_VIEW = "HS_DetailView"
             , HS_OPEN_COMMENT = "HS_Open_Comment"
+            , HS_MOVED = "HS_Moved"
             , HSC_DECRYPT_FAIL = "HSC_Decrypt_Fail"
             , SP_PROCESS_COMP = "Spider_Process_Comp"
 			;
