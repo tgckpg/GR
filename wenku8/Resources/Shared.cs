@@ -44,19 +44,14 @@ namespace wenku8.Resources
                 if ( LoadMesgRes == null ) LoadMesgRes = new StringResources( "LoadingMessage" );
                 string mesg = LoadMesgRes.Str( MESG_ID );
 
-                // Got the message, go back to background
-                Task.Run( () =>
+                mesg = string.IsNullOrEmpty( mesg ) ? MESG_ID : mesg;
+
+                if ( 0 < args.Length )
                 {
-                    mesg = string.IsNullOrEmpty( mesg ) ? MESG_ID : mesg;
+                    mesg = string.Format( mesg, args );
+                }
 
-                    if ( 0 < args.Length )
-                    {
-                        mesg = string.Format( mesg, args );
-                    }
-
-                    MessageBus.SendUI( typeof( LoadingMask ), mesg );
-                } );
-
+                MessageBus.SendUI( typeof( LoadingMask ), mesg );
             } );
         }
     }

@@ -72,6 +72,7 @@ namespace wenku8.Model.Book.Spider
 
                 foreach ( IStorageFile ISF in ISFs )
                 {
+                    Shared.LoadMessage( "MergingContents", ISF.Name );
                     await TempFile.WriteString( ( await ISF.ReadString() ).ToCTrad() + "\n", true );
                 }
             }
