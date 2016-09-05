@@ -17,6 +17,30 @@ namespace wenku8.Model.Book.Spider
 
     sealed class BookInstruction : BookItem, IInstructionSet
     {
+        private string _SSId; // Save Sub Id
+        public override string Id
+        {
+            get { return base.Id + _SSId; }
+        }
+
+        private string _SId;
+        public string SId
+        {
+            get { return _SId; }
+            private set
+            {
+                _SId = value;
+                if ( string.IsNullOrEmpty( value ) )
+                {
+                    _SSId = value;
+                }
+                else
+                {
+                    _SSId = "." + System.Utils.Md5( value ).Substring( 0, 8 );
+                }
+            }
+        }
+
         public override string VolumeRoot
         {
             get { return FileLinks.ROOT_SPIDER_VOL + Id + "/"; }
@@ -59,6 +83,11 @@ namespace wenku8.Model.Book.Spider
         {
             Id = GUID;
             ReadInfo( Settings );
+        }
+
+        public void SetSubId( string SId )
+        {
+            this.SId = SId;
         }
 
         public void PushInstruction( IInstructionSet Inst )
@@ -203,6 +232,25 @@ namespace wenku8.Model.Book.Spider
                 .Remap( x => ( x as VolInstruction ).ToVolume( Id ) )
                 .Distinct( new VolDistinct() )
                 .ToArray();
+        }
+
+        public override void ReadInfo( XRegistry XReg )
+        {
+            base.ReadInfo( XReg );
+
+            XParameter Param = XReg.Parameter( "METADATA" );
+            SId = Param?.GetValue( "sid" );
+        }
+
+        public override void SaveInfo( XRegistry XReg )
+        {
+            XParameter Param = XReg.Parameter( "METADATA" );
+            if( Param == null ) Param = new XParameter( "METADATA" );
+
+            Param.SetValue( new XKey( "sid", SId ) );
+            XReg.SetParameter( Param );
+
+            base.SaveInfo( XReg );
         }
 
         private class VolDistinct : IEqualityComparer<Volume>

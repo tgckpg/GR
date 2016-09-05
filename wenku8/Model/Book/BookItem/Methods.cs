@@ -149,9 +149,11 @@ namespace wenku8.Model.Book
             return vList;
         }
 
-        public void SaveInfo( XRegistry XReg )
+        virtual public void SaveInfo( XRegistry XReg )
         {
-            XParameter Param = new XParameter( "METADATA" );
+            XParameter Param = XReg.Parameter( "METADATA" );
+            if( Param == null ) Param = new XParameter( "METADATA" );
+
             Param.SetValue( new XKey[]
             {
                 new XKey( "Title", Title )
@@ -181,7 +183,7 @@ namespace wenku8.Model.Book
             XReg.Save();
         }
 
-        public void ReadInfo( XRegistry XReg )
+        virtual public void ReadInfo( XRegistry XReg )
         {
             XParameter Param = XReg.Parameter( "METADATA" );
             if ( Param == null ) return;
