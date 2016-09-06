@@ -81,7 +81,8 @@ namespace wenku8.Model.ListItem
             Book.aid = BInst.Id;
             Book.PSettings = new XRegistry( "<ProcSpider />", Book.MetaLocation, false );
             Book.PSettings.SetParameter( BInst.BookSpiderDef );
-            Book.PSettings.Save();
+
+            BInst.SaveInfo( Book.PSettings );
             await Book.TestProcessed();
 
             return Book;
@@ -145,7 +146,7 @@ namespace wenku8.Model.ListItem
             InitProcMan();
             ProceduralSpider Spider = ProcMan.CreateSpider();
 
-            ProcConvoy Convoy = null;
+            ProcConvoy Convoy;
 
             if( BInst == null )
             {
@@ -154,7 +155,14 @@ namespace wenku8.Model.ListItem
             else
             {
                 BInst.Clear();
-                ProcPassThru PThru = new ProcPassThru( null );
+
+                ProcPassThru PThru =  new ProcPassThru( null );
+                if ( !string.IsNullOrEmpty( BInst.SId ) )
+                {
+                    // Wrap another level
+                    PThru = new ProcPassThru( new ProcConvoy( PThru, BInst.SId ) );
+                }
+
                 Convoy = await Spider.Crawl( new ProcConvoy( PThru, BInst ) );
             }
 
@@ -163,7 +171,6 @@ namespace wenku8.Model.ListItem
             if( Convoy == null ) throw new Exception( "Unable to find Book Info" );
 
             BInst = Convoy.Payload as BookInstruction;
-            BInst.SaveInfo( PSettings );
 
             Name = BInst.Title;
             Desc = BInst.RecentUpdate;
@@ -172,7 +179,7 @@ namespace wenku8.Model.ListItem
             XParam.SetValue( new XKey( "Success", true ) );
 
             PSettings.SetParameter( XParam );
-            PSettings.Save();
+            BInst.SaveInfo( PSettings );
 
             ProcessSuccess = true;
         }

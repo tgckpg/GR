@@ -260,7 +260,14 @@ namespace wenku8.Model.Book.Spider
             base.ReadInfo( XReg );
 
             XParameter Param = XReg.Parameter( "METADATA" );
+
             SId = Param?.GetValue( "sid" );
+
+            if ( !string.IsNullOrEmpty( _SSId ) )
+            {
+                // base.Id need to be chopped if sid present
+                base.Id = base.Id.Replace( _SSId, "" );
+            }
         }
 
         public override void SaveInfo( XRegistry XReg )
