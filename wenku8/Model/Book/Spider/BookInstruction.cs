@@ -6,8 +6,9 @@ using System.Text;
 using System.Threading.Tasks;
 using Windows.Storage;
 
+using libtaotu.Controls;
+
 using Net.Astropenguin.IO;
-using Net.Astropenguin.Messaging;
 
 namespace wenku8.Model.Book.Spider
 {
@@ -18,10 +19,21 @@ namespace wenku8.Model.Book.Spider
     sealed class BookInstruction : BookItem, IInstructionSet
     {
         private string _SSId; // Save Sub Id
+
+        // Id may either be:
+        // 1. base.Id( Book Id )
+        // 2. base.Id( Zone Id ) + _SSId( "/" + Id for Zone Item )
         public override string Id
         {
             get { return base.Id + _SSId; }
         }
+
+        private ProcManager BSReference;
+        public XParameter BookSpiderDef
+        {
+            get { return BSReference.ToXParam( Id ); }
+        }
+
 
         private string _SId;
         public string SId
@@ -36,7 +48,8 @@ namespace wenku8.Model.Book.Spider
                 }
                 else
                 {
-                    _SSId = "." + System.Utils.Md5( value ).Substring( 0, 8 );
+                    // This will create subdirectories for <Zone Id>/<ZoneItem Id>
+                    _SSId = "/" + System.Utils.Md5( value ).Substring( 0, 8 );
                 }
             }
         }
@@ -85,9 +98,17 @@ namespace wenku8.Model.Book.Spider
             ReadInfo( Settings );
         }
 
-        public void SetSubId( string SId )
+        // This will be set on Selecting Zone Item
+        public void SetId( string Id )
+        {
+            this.Id = Id;
+        }
+
+        // This will be set on Crawling
+        public void PlaceDefs( string SId, ProcManager BookSpider )
         {
             this.SId = SId;
+            this.BSReference = BookSpider;
         }
 
         public void PushInstruction( IInstructionSet Inst )

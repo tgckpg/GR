@@ -74,6 +74,19 @@ namespace wenku8.Model.ListItem
             return Book;
         }
 
+        public static async Task<SpiderBook> CreateFromZoneInst( BookInstruction BInst )
+        {
+            SpiderBook Book = new SpiderBook();
+
+            Book.aid = BInst.Id;
+            Book.PSettings = new XRegistry( "<ProcSpider />", Book.MetaLocation, false );
+            Book.PSettings.SetParameter( BInst.BookSpiderDef );
+            Book.PSettings.Save();
+            await Book.TestProcessed();
+
+            return Book;
+        }
+
         public override async Task Reload()
         {
             ProcMan = null;
