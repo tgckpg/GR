@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 using libtaotu.Controls;
+using libtaotu.Models.Procedure;
 
 using Net.Astropenguin.IO;
 
@@ -28,6 +29,8 @@ namespace wenku8.Model.Book.Spider
             this.Index = Param.GetSaveInt( "Index" );
             this.Title = Param.GetValue( "Title" );
             this.ProcId = Param.GetValue( "ProcId" );
+
+            Convoy = ProcParameter.RestoreParams( ProcDefs );
 
             XParameter ProcParam = ProcDefs.FindFirstMatch( "Guid", ProcId );
             if ( ProcParam != null )

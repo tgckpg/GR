@@ -146,17 +146,18 @@ namespace wenku8.Model.ListItem
             InitProcMan();
             ProceduralSpider Spider = ProcMan.CreateSpider();
 
-            ProcConvoy Convoy;
+            string Payload = PSettings.Parameter( "METADATA" )?.GetValue( "payload" );
+            ProcConvoy Convoy = string.IsNullOrEmpty( Payload ) ? null : new ProcConvoy( new ProcPassThru(), Payload );
 
             if( BInst == null )
             {
-                Convoy = await Spider.Crawl();
+                Convoy = await Spider.Crawl( Convoy );
             }
             else
             {
                 BInst.Clear();
 
-                ProcPassThru PThru =  new ProcPassThru( null );
+                ProcPassThru PThru =  new ProcPassThru( Convoy );
                 if ( !string.IsNullOrEmpty( BInst.SId ) )
                 {
                     // Wrap another level
@@ -166,11 +167,12 @@ namespace wenku8.Model.ListItem
                 Convoy = await Spider.Crawl( new ProcConvoy( PThru, BInst ) );
             }
 
+            ProcParameter.StoreParams( Convoy, PSettings );
             Convoy = ProcManager.TracePackage( Convoy, ( D, C ) => C.Payload is BookInstruction );
 
             if( Convoy == null ) throw new Exception( "Unable to find Book Info" );
 
-            BInst = Convoy.Payload as BookInstruction;
+            BInst = ( BookInstruction ) Convoy.Payload;
 
             Name = BInst.Title;
             Desc = BInst.RecentUpdate;
@@ -204,6 +206,20 @@ namespace wenku8.Model.ListItem
                 try
                 {
                     Shared.Storage.MoveDir( OldRoot, MetaRoot );
+                    XParameter METADATA = PSettings.Parameter( "METADATA" );
+
+                    if ( METADATA != null )
+                    {
+                        string Sid = METADATA.GetValue( "sid" );
+                        if ( Sid != null )
+                        {
+                            METADATA.SetValue( new XKey( "payload", Sid ) );
+                            METADATA.RemoveKey( "sid" );
+
+                            PSettings.SetParameter( METADATA );
+                        }
+                    }
+
                     BInst = new BookInstruction( Id, PSettings );
 
                     MessageBus.Send( GetType(), AppKeys.HS_MOVED, new Tuple<string, SpiderBook>( OId, this ) );
