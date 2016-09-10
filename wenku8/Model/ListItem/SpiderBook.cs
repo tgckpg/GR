@@ -37,6 +37,15 @@ namespace wenku8.Model.ListItem
             if ( ProcMan != null ) return;
             ProcMan = new ProcManager();
             XParameter Param = PSettings.Parameter( "Procedures" );
+
+            if ( Param == null )
+            {
+                Processed = true;
+                CanProcess = false;
+                ProcessSuccess = false;
+                return;
+            }
+
             ProcMan.ReadParam( Param );
 
             aid = ProcMan.GUID;
