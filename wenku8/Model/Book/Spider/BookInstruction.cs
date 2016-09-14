@@ -142,12 +142,6 @@ namespace wenku8.Model.Book.Spider
             Insts.Clear();
             Others.Clear();
 
-            Title = CoverSrcUrl
-                = Author = Press = Intro
-                = TotalHitCount = TodayHitCount = PushCount = FavCount
-                = RecentUpdate = LatestSection = Status
-                = Length = "";
-
             Packed = null;
         }
 
