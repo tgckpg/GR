@@ -107,7 +107,6 @@ namespace wenku8.CompositeElement
             PaneGrid.GotFocus += ( a, b ) => { Logger.Log( ID, "Pane Got Focus" ); PaneFocusState = FocusState.Pointer; };
             PaneGrid.LostFocus += ( a, b ) => { PaneFocusState = FocusState.Unfocused; };
 
-            ModeX = PaneGrid.Tag.ToString() == "X";
             EnSwipe( EnablePaneSwipe );
         }
 
@@ -118,8 +117,12 @@ namespace wenku8.CompositeElement
             SwipeDetect.ManipulationDelta -= PaneGrid_ManipulationDeltaX;
             SwipeDetect.ManipulationDelta -= PaneGrid_ManipulationDeltaY;
             SwipeDetect.ManipulationCompleted -= SwipeDetect_ManipulationCompleted;
+
+            SwipeDetect.Visibility = Enable ? Visibility.Visible : Visibility.Collapsed;
             if ( Enable )
             {
+                UpdateGestureArea();
+
                 SwipeDetect.ManipulationStarted += SwipeDetect_ManipulationStarted;
 
                 if ( ModeX ) SwipeDetect.ManipulationDelta += PaneGrid_ManipulationDeltaX;
@@ -131,7 +134,7 @@ namespace wenku8.CompositeElement
 
         private void SwipeDetect_ManipulationStarted( object sender, ManipulationStartedRoutedEventArgs e )
         {
-            VisualStateManager.GoToState( this, "Closed", false );
+            VisualStateManager.GoToState( this, ModeX ? "Closed" : "HClosed", false );
         }
 
         private void SwipeDetect_ManipulationCompleted( object sender, ManipulationCompletedRoutedEventArgs e )
@@ -147,14 +150,37 @@ namespace wenku8.CompositeElement
             }
             else
             {
-                VisualStateManager.GoToState( this, "Opened", true );
+                VisualStateManager.GoToState( this, ModeX ? "Opened" : "HOpened", true );
                 State = PaneStates.Closed;
+            }
+        }
+
+        private void UpdateGestureArea()
+        {
+            if ( SwipeDetect == null ) return;
+
+            SwipeDetect.ManipulationMode = ManiMode;
+
+            if ( ModeX )
+            {
+                SwipeDetect.Width = 35;
+                SwipeDetect.Height = double.NaN;
+                SwipeDetect.VerticalAlignment = VerticalAlignment.Stretch;
+                SwipeDetect.HorizontalAlignment = HorizontalAlignment.Left;
+            }
+            else
+            {
+                SwipeDetect.Width = double.NaN;
+                SwipeDetect.Height = 35;
+                SwipeDetect.VerticalAlignment = VerticalAlignment.Top;
+                SwipeDetect.HorizontalAlignment = HorizontalAlignment.Stretch;
             }
         }
 
         private void SetManiMode( ManipulationModes From, ManipulationModes To )
         {
             ModeX = ( To == ManipulationModes.TranslateX );
+            EnSwipe( EnablePaneSwipe );
 
             // XY
             if ( From == ManipulationModes.TranslateX && !ModeX )
@@ -209,7 +235,14 @@ namespace wenku8.CompositeElement
         private void UpdatePresenter( double v )
         {
             CompositeTransform ContentTrans = PaneContent.RenderTransform as CompositeTransform;
-            ContentTrans.TranslateX = 50 * v;
+            if ( ModeX )
+            {
+                ContentTrans.TranslateX = 50 * v;
+            }
+            else
+            {
+                ContentTrans.TranslateY = 50 * v;
+            }
 
             PaneContent.Opacity = 1 - v;
 
@@ -218,14 +251,14 @@ namespace wenku8.CompositeElement
 
         private void UpdateVisualState( bool UseTransition )
         {
-            switch( State )
+            switch ( State )
             {
                 case PaneStates.Opened:
-                    VisualStateManager.GoToState( this, "Opened", UseTransition );
+                    VisualStateManager.GoToState( this, ModeX ? "Opened" : "HOpened", UseTransition );
                     break;
                 default:
                 case PaneStates.Closed:
-                    VisualStateManager.GoToState( this, "Closed", UseTransition );
+                    VisualStateManager.GoToState( this, ModeX ? "Closed" : "HClosed", UseTransition );
                     break;
             }
             Logger.Log( ID, string.Format( "State is {0}", State ) );
@@ -234,7 +267,7 @@ namespace wenku8.CompositeElement
         public ManipulationModes ManiMode
         {
             get { return ( ManipulationModes ) GetValue( ManiModeProperty ); }
-            set { SetValue( StateProperty, value ); }
+            set { SetValue( ManiModeProperty, value ); }
         }
 
         public PaneStates State
