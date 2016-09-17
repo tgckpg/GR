@@ -183,6 +183,7 @@
     <Compile Include="wenku8\Model\Comments\Comment.cs" />
     <Compile Include="wenku8\Model\Comments\Review.cs" />
     <Compile Include="wenku8\Model\Interfaces\IInstructionSet.cs" />
+    <Compile Include="wenku8\Model\Interfaces\IMetaSpider.cs" />
     <Compile Include="wenku8\Model\Interfaces\IRoamable.cs" />
     <Compile Include="wenku8\Model\Interfaces\ISearchableSection.cs" />
     <Compile Include="wenku8\Model\Interfaces\ISpanable.cs" />

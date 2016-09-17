@@ -18,10 +18,11 @@ using libtaotu.Models.Procedure;
 namespace wenku8.Model.ListItem
 {
     using Book.Spider;
+    using Interfaces;
     using Resources;
     using Settings;
 
-    sealed class SpiderBook : LocalBook
+    sealed class SpiderBook : LocalBook, IMetaSpider
     {
         private ProcManager ProcMan;
         private BookInstruction BInst;
