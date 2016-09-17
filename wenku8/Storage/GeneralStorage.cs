@@ -56,6 +56,8 @@ namespace wenku8.Storage
 				, FileLinks.ROOT_ANCHORS
                 // EBWin, dictionaries
 				, FileLinks.ROOT_EBWIN
+                // ZoneSpider Definitions
+                , FileLinks.ROOT_ZSPIDER
             };
 
             foreach ( string i in RootList )
