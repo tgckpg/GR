@@ -1,11 +1,11 @@
 ﻿using System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Shapes;
 
 using Net.Astropenguin.Logging;
-using Net.Astropenguin.Helpers;
-using Windows.UI.Xaml.Shapes;
 
 namespace wenku8.CompositeElement
 {
@@ -18,14 +18,22 @@ namespace wenku8.CompositeElement
     [TemplateVisualState( Name = "Closed", GroupName = "PaneStates" )]
     [TemplatePart( Name = PaneGridName, Type = typeof( Grid ) )]
     [TemplatePart( Name = PaneContentName, Type = typeof( Grid ) )]
-    [TemplatePart( Name = SwipeDectectName, Type = typeof( Rectangle ) )]
+    [TemplatePart( Name = SwipeDetectName, Type = typeof( Rectangle ) )]
     public sealed class PassiveSplitView : Control
     {
         public static readonly string ID = typeof( PassiveSplitView ).Name;
 
         private const string PaneGridName = "InfoPane";
         private const string PaneContentName = "PaneContent";
-        private const string SwipeDectectName = "SwipeGesture";
+        private const string SwipeDetectName = "SwipeGesture";
+
+        public static readonly DependencyProperty ManiModeProperty
+            = DependencyProperty.Register(
+                "ManiMode"
+                , typeof( ManipulationModes )
+                , typeof( PassiveSplitView )
+                , new PropertyMetadata( ManipulationModes.TranslateX, OnManiModeChanged )
+            );
 
         public static readonly DependencyProperty PaneProperty
             = DependencyProperty.Register(
@@ -94,12 +102,11 @@ namespace wenku8.CompositeElement
 
             PaneGrid = ( Grid ) GetTemplateChild( PaneGridName );
             PaneContent = ( ContentPresenter ) GetTemplateChild( PaneContentName );
-            SwipeDetect = ( Rectangle ) GetTemplateChild( SwipeDectectName );
+            SwipeDetect = ( Rectangle ) GetTemplateChild( SwipeDetectName );
 
             PaneGrid.GotFocus += ( a, b ) => { Logger.Log( ID, "Pane Got Focus" ); PaneFocusState = FocusState.Pointer; };
             PaneGrid.LostFocus += ( a, b ) => { PaneFocusState = FocusState.Unfocused; };
 
-            ModeX = PaneGrid.Tag.ToString() == "X";
             EnSwipe( EnablePaneSwipe );
         }
 
@@ -110,8 +117,12 @@ namespace wenku8.CompositeElement
             SwipeDetect.ManipulationDelta -= PaneGrid_ManipulationDeltaX;
             SwipeDetect.ManipulationDelta -= PaneGrid_ManipulationDeltaY;
             SwipeDetect.ManipulationCompleted -= SwipeDetect_ManipulationCompleted;
+
+            SwipeDetect.Visibility = Enable ? Visibility.Visible : Visibility.Collapsed;
             if ( Enable )
             {
+                UpdateGestureArea();
+
                 SwipeDetect.ManipulationStarted += SwipeDetect_ManipulationStarted;
 
                 if ( ModeX ) SwipeDetect.ManipulationDelta += PaneGrid_ManipulationDeltaX;
@@ -121,12 +132,12 @@ namespace wenku8.CompositeElement
             }
         }
 
-        private void SwipeDetect_ManipulationStarted( object sender, Windows.UI.Xaml.Input.ManipulationStartedRoutedEventArgs e )
+        private void SwipeDetect_ManipulationStarted( object sender, ManipulationStartedRoutedEventArgs e )
         {
-            VisualStateManager.GoToState( this, "Closed", false );
+            VisualStateManager.GoToState( this, ModeX ? "Closed" : "HClosed", false );
         }
 
-        private void SwipeDetect_ManipulationCompleted( object sender, Windows.UI.Xaml.Input.ManipulationCompletedRoutedEventArgs e )
+        private void SwipeDetect_ManipulationCompleted( object sender, ManipulationCompletedRoutedEventArgs e )
         {
             CompositeTransform PaneTransform = ( CompositeTransform ) PaneGrid.RenderTransform;
             bool Open = ModeX
@@ -139,12 +150,56 @@ namespace wenku8.CompositeElement
             }
             else
             {
-                VisualStateManager.GoToState( this, "Opened", true );
+                VisualStateManager.GoToState( this, ModeX ? "Opened" : "HOpened", true );
                 State = PaneStates.Closed;
             }
         }
 
-        private void PaneGrid_ManipulationDeltaX( object sender, Windows.UI.Xaml.Input.ManipulationDeltaRoutedEventArgs e )
+        private void UpdateGestureArea()
+        {
+            if ( SwipeDetect == null ) return;
+
+            SwipeDetect.ManipulationMode = ManiMode;
+
+            if ( ModeX )
+            {
+                SwipeDetect.Width = 35;
+                SwipeDetect.Height = double.NaN;
+                SwipeDetect.VerticalAlignment = VerticalAlignment.Stretch;
+                SwipeDetect.HorizontalAlignment = HorizontalAlignment.Left;
+            }
+            else
+            {
+                SwipeDetect.Width = double.NaN;
+                SwipeDetect.Height = 35;
+                SwipeDetect.VerticalAlignment = VerticalAlignment.Top;
+                SwipeDetect.HorizontalAlignment = HorizontalAlignment.Stretch;
+            }
+        }
+
+        private void SetManiMode( ManipulationModes From, ManipulationModes To )
+        {
+            ModeX = ( To == ManipulationModes.TranslateX );
+            EnSwipe( EnablePaneSwipe );
+
+            // XY
+            if ( From == ManipulationModes.TranslateX && !ModeX )
+            {
+                VisualStateManager.GoToState( this, ( State == PaneStates.Opened ) ? "HOpened" : "HClosed", false );
+            }
+            // YX
+            else if ( From == ManipulationModes.TranslateY && ModeX )
+            {
+                VisualStateManager.GoToState( this, ( State == PaneStates.Opened ) ? "Opened" : "Closed", false );
+            }
+        }
+
+        private static void OnManiModeChanged( DependencyObject d, DependencyPropertyChangedEventArgs e )
+        {
+            ( ( PassiveSplitView ) d ).SetManiMode( ( ManipulationModes ) e.OldValue, ( ManipulationModes ) e.NewValue );
+        }
+
+        private void PaneGrid_ManipulationDeltaX( object sender, ManipulationDeltaRoutedEventArgs e )
         {
             CompositeTransform PaneTransform = ( CompositeTransform ) PaneGrid.RenderTransform;
             PaneTransform.TranslateX += e.Delta.Translation.X;
@@ -161,7 +216,7 @@ namespace wenku8.CompositeElement
             UpdatePresenter( PaneTransform.TranslateX / -PaneGrid.ActualWidth );
         }
 
-        private void PaneGrid_ManipulationDeltaY( object sender, Windows.UI.Xaml.Input.ManipulationDeltaRoutedEventArgs e )
+        private void PaneGrid_ManipulationDeltaY( object sender, ManipulationDeltaRoutedEventArgs e )
         {
             CompositeTransform PaneTransform = ( CompositeTransform ) PaneGrid.RenderTransform;
             PaneTransform.TranslateY += e.Delta.Translation.Y;
@@ -180,27 +235,39 @@ namespace wenku8.CompositeElement
         private void UpdatePresenter( double v )
         {
             CompositeTransform ContentTrans = PaneContent.RenderTransform as CompositeTransform;
-            ContentTrans.TranslateX = 50 * v;
+            if ( ModeX )
+            {
+                ContentTrans.TranslateX = 50 * v;
+            }
+            else
+            {
+                ContentTrans.TranslateY = 50 * v;
+            }
 
             PaneContent.Opacity = 1 - v;
 
             PaneContent.UpdateLayout();
         }
 
-
         private void UpdateVisualState( bool UseTransition )
         {
-            switch( State )
+            switch ( State )
             {
                 case PaneStates.Opened:
-                    VisualStateManager.GoToState( this, "Opened", UseTransition );
+                    VisualStateManager.GoToState( this, ModeX ? "Opened" : "HOpened", UseTransition );
                     break;
                 default:
                 case PaneStates.Closed:
-                    VisualStateManager.GoToState( this, "Closed", UseTransition );
+                    VisualStateManager.GoToState( this, ModeX ? "Closed" : "HClosed", UseTransition );
                     break;
             }
             Logger.Log( ID, string.Format( "State is {0}", State ) );
+        }
+
+        public ManipulationModes ManiMode
+        {
+            get { return ( ManipulationModes ) GetValue( ManiModeProperty ); }
+            set { SetValue( ManiModeProperty, value ); }
         }
 
         public PaneStates State

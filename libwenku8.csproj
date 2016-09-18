@@ -97,7 +97,6 @@
     <Compile Include="wenku8\AdvDM\SHttpRequest.cs" />
     <Compile Include="wenku8\AdvDM\WHttpRequest.cs" />
     <Compile Include="wenku8\AdvDM\WRuntimeTransfer.cs" />
-    <Compile Include="wenku8\CompositeElement\LSBookItem.cs" />
     <Compile Include="wenku8\CompositeElement\FloatyButton.cs" />
     <Compile Include="wenku8\CompositeElement\LoadingMask.cs" />
     <Compile Include="wenku8\CompositeElement\OneDriveButton.cs" />
@@ -184,6 +183,7 @@
     <Compile Include="wenku8\Model\Comments\Comment.cs" />
     <Compile Include="wenku8\Model\Comments\Review.cs" />
     <Compile Include="wenku8\Model\Interfaces\IInstructionSet.cs" />
+    <Compile Include="wenku8\Model\Interfaces\IMetaSpider.cs" />
     <Compile Include="wenku8\Model\Interfaces\IRoamable.cs" />
     <Compile Include="wenku8\Model\Interfaces\ISearchableSection.cs" />
     <Compile Include="wenku8\Model\Interfaces\ISpanable.cs" />
@@ -262,10 +262,6 @@
     <Content Include="wenku8\Resources\badwords.txt" />
   </ItemGroup>
   <ItemGroup>
-    <Page Include="Themes\LSBookItem.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="Themes\Generic.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

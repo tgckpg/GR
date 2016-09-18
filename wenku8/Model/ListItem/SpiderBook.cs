@@ -18,10 +18,11 @@ using libtaotu.Models.Procedure;
 namespace wenku8.Model.ListItem
 {
     using Book.Spider;
+    using Interfaces;
     using Resources;
     using Settings;
 
-    sealed class SpiderBook : LocalBook
+    sealed class SpiderBook : LocalBook, IMetaSpider
     {
         private ProcManager ProcMan;
         private BookInstruction BInst;
@@ -37,6 +38,15 @@ namespace wenku8.Model.ListItem
             if ( ProcMan != null ) return;
             ProcMan = new ProcManager();
             XParameter Param = PSettings.Parameter( "Procedures" );
+
+            if ( Param == null )
+            {
+                Processed = true;
+                CanProcess = false;
+                ProcessSuccess = false;
+                return;
+            }
+
             ProcMan.ReadParam( Param );
 
             aid = ProcMan.GUID;
@@ -70,6 +80,20 @@ namespace wenku8.Model.ListItem
                 Book.PSettings.Location = Book.MetaLocation;
                 if( Save ) Book.PSettings.Save();
             }
+
+            return Book;
+        }
+
+        public static async Task<SpiderBook> CreateFromZoneInst( BookInstruction BInst )
+        {
+            SpiderBook Book = new SpiderBook();
+
+            Book.aid = BInst.Id;
+            Book.PSettings = new XRegistry( "<ProcSpider />", Book.MetaLocation, false );
+            Book.PSettings.SetParameter( BInst.BookSpiderDef );
+
+            BInst.SaveInfo( Book.PSettings );
+            await Book.TestProcessed();
 
             return Book;
         }
@@ -132,25 +156,33 @@ namespace wenku8.Model.ListItem
             InitProcMan();
             ProceduralSpider Spider = ProcMan.CreateSpider();
 
-            ProcConvoy Convoy = null;
+            string Payload = PSettings.Parameter( "METADATA" )?.GetValue( "payload" );
+            ProcConvoy Convoy = string.IsNullOrEmpty( Payload ) ? null : new ProcConvoy( new ProcPassThru(), Payload );
 
             if( BInst == null )
             {
-                Convoy = await Spider.Crawl();
+                Convoy = await Spider.Crawl( Convoy );
             }
             else
             {
                 BInst.Clear();
-                ProcPassThru PThru = new ProcPassThru( null );
+
+                ProcPassThru PThru =  new ProcPassThru( Convoy );
+                if ( !string.IsNullOrEmpty( BInst.SId ) )
+                {
+                    // Wrap another level
+                    PThru = new ProcPassThru( new ProcConvoy( PThru, BInst.SId ) );
+                }
+
                 Convoy = await Spider.Crawl( new ProcConvoy( PThru, BInst ) );
             }
 
+            ProcParameter.StoreParams( Convoy, PSettings );
             Convoy = ProcManager.TracePackage( Convoy, ( D, C ) => C.Payload is BookInstruction );
 
             if( Convoy == null ) throw new Exception( "Unable to find Book Info" );
 
-            BInst = Convoy.Payload as BookInstruction;
-            BInst.SaveInfo( PSettings );
+            BInst = ( BookInstruction ) Convoy.Payload;
 
             Name = BInst.Title;
             Desc = BInst.RecentUpdate;
@@ -159,7 +191,7 @@ namespace wenku8.Model.ListItem
             XParam.SetValue( new XKey( "Success", true ) );
 
             PSettings.SetParameter( XParam );
-            PSettings.Save();
+            BInst.SaveInfo( PSettings );
 
             ProcessSuccess = true;
         }
@@ -175,18 +207,36 @@ namespace wenku8.Model.ListItem
 
                 string OId = aid;
                 aid = Id;
-                XParameter Param = PSettings.Parameter( "Procedures" );
-                Param.SetValue( new XKey( "Guid", Id ) );
-                PSettings.SetParameter( Param );
 
-                // Begin Move location
-                PSettings.Location = MetaLocation;
                 try
                 {
+                    XParameter Param = PSettings.Parameter( "Procedures" );
+                    Param.SetValue( new XKey( "Guid", Id ) );
+                    PSettings.SetParameter( Param );
+
+                    // Begin Move location
+                    PSettings.Location = MetaLocation;
+
                     Shared.Storage.MoveDir( OldRoot, MetaRoot );
+                    XParameter METADATA = PSettings.Parameter( "METADATA" );
+
+                    if ( METADATA != null )
+                    {
+                        string Sid = METADATA.GetValue( "sid" );
+                        if ( Sid != null )
+                        {
+                            METADATA.SetValue( new XKey( "payload", Sid ) );
+                            METADATA.RemoveKey( "sid" );
+
+                            PSettings.SetParameter( METADATA );
+                        }
+                    }
+
                     BInst = new BookInstruction( Id, PSettings );
 
                     MessageBus.Send( GetType(), AppKeys.HS_MOVED, new Tuple<string, SpiderBook>( OId, this ) );
+
+                    PSettings.Save();
                 }
                 catch ( Exception )
                 {
@@ -194,8 +244,6 @@ namespace wenku8.Model.ListItem
                     Processed = false;
                     Logger.Log( ID, string.Format( "Failed to move SVol: {0} => {1}", OldRoot, MetaRoot ), LogType.WARNING );
                 }
-
-                PSettings.Save();
             }
         }
 

@@ -35,6 +35,7 @@ namespace wenku8.Settings
 		, ROOT_VOLUME = "shared/transfers/Volumes/"
         , ROOT_LOCAL_VOL = "shared/transfers/LVolumes/"
         , ROOT_SPIDER_VOL = "shared/transfers/SVolumes/"
+        , ROOT_ZSPIDER = "ZoneSpiders/"
 		, ROOT_SETTING = "Settings/"
 		, ROOT_AUTHMGR = "Settings/AuthManager/"
         , ROOT_EBWIN = "EBWin/"

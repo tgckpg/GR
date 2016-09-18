@@ -12,7 +12,7 @@ namespace wenku8.Model.Loaders
     using Resources;
     using Text;
 
-    class ContentParser
+    sealed class ContentParser
     {
         public static readonly string ID = typeof( ContentParser ).Name;
 
@@ -67,7 +67,7 @@ namespace wenku8.Model.Loaders
             }
         }
 
-        protected bool HasExtractedIllustrations( ref string content, out string ills )
+        private bool HasExtractedIllustrations( ref string content, out string ills )
         {
             const string token = "<!--image-->";
             const int tokenl = 12;

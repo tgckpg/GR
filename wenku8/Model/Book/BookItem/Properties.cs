@@ -89,7 +89,7 @@ namespace wenku8.Model.Book
         private LocalTextDocument doc;
 
         public bool IsLocal { get { return doc != null; } }
-        public string Id { get; protected set; }
+        virtual public string Id { get; protected set; }
 
 		public double Width
 		{
