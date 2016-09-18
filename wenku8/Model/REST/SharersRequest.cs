@@ -8,13 +8,16 @@ namespace wenku8.Model.REST
 {
     using AdvDM;
     using Config;
+    using ListItem.Sharers;
 
     sealed class SharersRequest
     {
-        // public Uri Server = new Uri( "http://w10srv.botanical.astropenguin.net/" );
-        public Uri Server = new Uri( "https://w10srv.astropenguin.net/" );
+        public Uri Server = new Uri( "http://w10srv.botanical.astropenguin.net/" );
+        // public Uri Server = new Uri( "https://w10srv.astropenguin.net/" );
 
         private readonly string LANG = Properties.LANGUAGE;
+        public string Ver = "0.0.0x";
+        public string[] Compat = new string[] { "0.0.0x" };
 
         public enum StatusType
         {
@@ -79,7 +82,7 @@ namespace wenku8.Model.REST
         public PostData ScriptUpload(
             string AccessToken, string Id, string ScriptData
             , string Name, string Desc
-            , string Zone, string[] Types, string[] Tags
+            , string Zone, string[] Types, string[] Tags, SpiderScope Scope
             , bool Encrypted, bool ForceEncrypt, bool Anon )
         {
             List<string> Params = new List<string>( new string[] {
@@ -88,8 +91,15 @@ namespace wenku8.Model.REST
                 , "data", ScriptData
                 , "name", Name
                 , "desc", Desc
+                , "scope", ( Scope & SpiderScope.BOOK ) != 0 ? "book" : "zone"
                 , "access_token", AccessToken
             } );
+
+            foreach( string c in Compat )
+            {
+                Params.Add( "compat" );
+                Params.Add( c );
+            }
 
             if ( Encrypted )
             {
@@ -384,7 +394,9 @@ namespace wenku8.Model.REST
                 throw new ArgumentException( "Arguments does not seems to be in pairs" );
             }
 #endif
-            string Composted = "lang=" + LANG + "&t=" + DateTime.UtcNow.Ticks.ToString();
+            string Composted = "lang=" + LANG
+                + "&t=" + DateTime.UtcNow.Ticks.ToString()
+                + "&ver=" + Ver;
 
             for ( int i = 0; i < l; i++ )
             {

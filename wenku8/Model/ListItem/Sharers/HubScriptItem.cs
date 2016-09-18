@@ -18,11 +18,14 @@ namespace wenku8.Model.ListItem.Sharers
     using AESManager = System.AESManager;
     using CryptAES = System.CryptAES;
 
+    public enum SpiderScope { ZONE = 1, BOOK = 2 };
+
     sealed class HubScriptItem : ActiveItem
     {
         public string Id { get { return Payload; } }
         public string Author { get; private set; }
         public string AuthorId { get; private set; }
+        public SpiderScope Scope { get; private set; }
 
         public int Hits { get; private set; }
 
@@ -135,6 +138,7 @@ namespace wenku8.Model.ListItem.Sharers
             Name = Def.GetNamedString( "name" );
             Desc = Def.GetNamedString( "desc" );
             Payload = Def.GetNamedString( "uuid" );
+            Scope = Def.GetNamedString( "scope" ) == "zone" ? SpiderScope.ZONE : SpiderScope.BOOK;
 
             if ( Def.GetNamedValue( "author" ).ValueType == JsonValueType.Object )
             {

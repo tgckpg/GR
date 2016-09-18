@@ -207,14 +207,16 @@ namespace wenku8.Model.ListItem
 
                 string OId = aid;
                 aid = Id;
-                XParameter Param = PSettings.Parameter( "Procedures" );
-                Param.SetValue( new XKey( "Guid", Id ) );
-                PSettings.SetParameter( Param );
 
-                // Begin Move location
-                PSettings.Location = MetaLocation;
                 try
                 {
+                    XParameter Param = PSettings.Parameter( "Procedures" );
+                    Param.SetValue( new XKey( "Guid", Id ) );
+                    PSettings.SetParameter( Param );
+
+                    // Begin Move location
+                    PSettings.Location = MetaLocation;
+
                     Shared.Storage.MoveDir( OldRoot, MetaRoot );
                     XParameter METADATA = PSettings.Parameter( "METADATA" );
 
@@ -233,6 +235,8 @@ namespace wenku8.Model.ListItem
                     BInst = new BookInstruction( Id, PSettings );
 
                     MessageBus.Send( GetType(), AppKeys.HS_MOVED, new Tuple<string, SpiderBook>( OId, this ) );
+
+                    PSettings.Save();
                 }
                 catch ( Exception )
                 {
@@ -240,8 +244,6 @@ namespace wenku8.Model.ListItem
                     Processed = false;
                     Logger.Log( ID, string.Format( "Failed to move SVol: {0} => {1}", OldRoot, MetaRoot ), LogType.WARNING );
                 }
-
-                PSettings.Save();
             }
         }
 
