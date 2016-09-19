@@ -531,6 +531,17 @@ namespace wenku8.Config
 
         #endregion
 
+        public static bool CONTENTREADER_USEINERTIA
+		{
+			get
+			{
+				return GetValue<bool>( Parameters.CONTENTREADER_USEINERTIA );
+			}
+			set
+			{
+				SetParameter( Parameters.CONTENTREADER_USEINERTIA, value );
+			}
+		}
         public static bool CONTENTREADER_AUTOBOOKMARK
 		{
 			get
