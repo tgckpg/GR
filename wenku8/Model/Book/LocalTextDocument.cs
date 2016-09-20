@@ -14,7 +14,7 @@ namespace wenku8.Model.Book
     using Settings;
     using Resources;
 
-    class LocalTextDocument
+    sealed class LocalTextDocument
     {
         public static readonly string ID = typeof( LocalTextDocument ).Name;
 

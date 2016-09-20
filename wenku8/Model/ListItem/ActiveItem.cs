@@ -5,7 +5,7 @@ namespace wenku8.Model.ListItem
 	class ActiveItem : ActiveData
 	{
         private string _desc;
-		public string Desc
+		virtual public string Desc
 		{
 			get { return _desc; }
 			set
@@ -22,7 +22,7 @@ namespace wenku8.Model.ListItem
 		}
 
         private string _name;
-		public string Name
+		virtual public string Name
 		{
 			get { return _name; }
 			set
