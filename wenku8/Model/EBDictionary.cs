@@ -60,14 +60,13 @@ namespace wenku8.Model
             {
                 foreach ( EBSubbook subbook in subbooks )
                 {
-                    EBSearchCode[] Codes = subbook.SearchFlags;
-                    if ( Codes.Contains( EBSearchCode.EB_SEARCH_WORD ) )
+                    if ( subbook.SearchFlags.Contains( EBSearchCode.EB_SEARCH_WORD ) )
                     {
                         // Search with exact word first
                         IEnumerable<EBHit> Hits = await subbook.SearchAysnc( Term, EBSearchCode.EB_SEARCH_EXACTWORD );
 
                         // If no results, try the word search
-                        if( Hits.Count() == 0 )
+                        if ( Hits.Count() == 0 )
                         {
                             Hits = await subbook.SearchAysnc( Term, EBSearchCode.EB_SEARCH_WORD );
                         }

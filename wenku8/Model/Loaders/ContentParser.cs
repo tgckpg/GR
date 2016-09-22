@@ -75,7 +75,10 @@ namespace wenku8.Model.Loaders
             int i = content.LastIndexOf( token );
             int l = 0;
             ills = "";
+
+            // 128 images, big enough for one chapter
             int[][] anchors = new int[ 128 ][];
+
             if ( i != -1 )
             {
                 int j = content.LastIndexOf( token, i );
@@ -91,16 +94,24 @@ namespace wenku8.Model.Loaders
                 // Replace urls
                 string replaced = content.Substring( 0, anchors[ l - 1 ][ 0 ] );
                 // Anchors is got in reverse
-                for ( i = l - 1; 0 <= i; i-- )
+                for ( i = 0; i < 128; i ++ )
                 {
                     ills += content.Substring( anchors[ i ][ 0 ] + tokenl, anchors[ i ][ 1 ] - tokenl ) + "\n";
-                    /* Spare section
-                     * int a = i - 1;
-                    if ( a >= 0 )
+
+                    // Append rest of the text contents
+                    int a = anchors[ i ][ 0 ] + tokenl + anchors[ i ][ 1 ];
+                    if ( anchors[ i + 1 ] == null )
                     {
-                        content.Substring( anchors[a][0] + anchors[a][1] + tokenl, anchors[i][0] - tokenl );
+                        if ( a < content.Length )
+                        {
+                            replaced += content.Substring( a );
+                        }
+                        break;
                     }
-                    */
+                    else if ( a < anchors[ i + 1 ][ 0 ] )
+                    {
+                        replaced += content.Substring( a, anchors[ i + 1 ][ 0 ] - a );
+                    }
                 }
                 // Replaced content
                 content = replaced;
