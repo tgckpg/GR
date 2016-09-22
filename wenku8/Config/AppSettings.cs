@@ -239,6 +239,9 @@ namespace wenku8.Config
 			if ( !TestKey( Parameters.FIRST_TIME_RUN ) )
 				Properties.FIRST_TIME_RUN = true;
 
+            if ( !TestKey( Parameters.CONTENTREADER_USEINERTIA ) )
+                Properties.CONTENTREADER_USEINERTIA = Shared.LocaleDefaults.Get<bool>( "ContentReader.UseInertia" );
+
             System.LogControl.SetFilter( Properties.LOG_LEVEL );
             Logger.Log( ID, "Initilizated", LogType.INFO );
 		}

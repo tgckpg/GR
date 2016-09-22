@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Windows.Storage;
 
 using Net.Astropenguin.Helpers;
 using Net.Astropenguin.IO;
+using Net.Astropenguin.Loaders;
 using Net.Astropenguin.Logging;
 using Net.Astropenguin.Messaging;
 
@@ -24,6 +24,33 @@ namespace wenku8.Model.ListItem
 
     sealed class SpiderBook : LocalBook, IMetaSpider
     {
+        public override string Name
+        {
+            get
+            {
+                if ( !Processed && CanProcess && string.IsNullOrEmpty( base.Name ) )
+                    base.Name = new StringResources().Text( "BookSpider" );
+
+                return base.Name;
+            }
+
+            set { base.Name = value; }
+        }
+
+
+        public override string Desc
+        {
+            get
+            {
+                if ( !Processed && CanProcess && string.IsNullOrEmpty( base.Desc ) )
+                    base.Desc = new StringResources().Text( "PleaseClick" );
+
+                return base.Desc;
+            }
+
+            set { base.Desc = value; }
+        }
+
         private ProcManager ProcMan;
         private BookInstruction BInst;
         public XRegistry PSettings { get; private set; }
@@ -102,6 +129,10 @@ namespace wenku8.Model.ListItem
         {
             ProcMan = null;
             PSettings = new XRegistry( "<ProcSpider />", MetaLocation );
+            ProcParameter.DestroyParams( PSettings );
+
+            if ( BInst != null ) Shared.Storage.DeleteFile( BInst.CoverPath );
+
             await TestProcessed();
         }
 
@@ -117,14 +148,17 @@ namespace wenku8.Model.ListItem
 
         protected override async Task TestProcessed()
         {
-            Name = "Spider Script";
-            Desc = "Click to crawl";
-
             await Task.Run( () =>
             {
                 try
                 {
                     InitProcMan();
+
+                    if( ProcMan.ProcList.Count == 0 )
+                    {
+                        throw new ArgumentNullException( "ProcList is empty" );
+                    }
+
                     XParameter SParam = PSettings.Parameter( "ProcessState" );
 
                     BInst = new BookInstruction( aid, PSettings );
@@ -157,7 +191,12 @@ namespace wenku8.Model.ListItem
             ProceduralSpider Spider = ProcMan.CreateSpider();
 
             string Payload = PSettings.Parameter( "METADATA" )?.GetValue( "payload" );
-            ProcConvoy Convoy = string.IsNullOrEmpty( Payload ) ? null : new ProcConvoy( new ProcPassThru(), Payload );
+            ProcConvoy Convoy = ProcParameter.RestoreParams( PSettings, string.IsNullOrEmpty( Payload ) ? null : Payload );
+
+            if ( Convoy.Dispatcher is ProcParameter )
+            {
+                Convoy = new ProcConvoy( new ProcPassThru( Convoy, ProcType.FEED_RUN ), null );
+            }
 
             if( BInst == null )
             {
@@ -167,7 +206,7 @@ namespace wenku8.Model.ListItem
             {
                 BInst.Clear();
 
-                ProcPassThru PThru =  new ProcPassThru( Convoy );
+                ProcPassThru PThru = new ProcPassThru( Convoy );
                 if ( !string.IsNullOrEmpty( BInst.SId ) )
                 {
                     // Wrap another level

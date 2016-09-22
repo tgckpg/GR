@@ -32,7 +32,8 @@ namespace wenku8.Model.Book
     partial class BookItem : ActiveData
 	{
         public static readonly string ID = typeof( BookItem ).Name;
-        private static StringResources Res = new StringResources( "Book" );
+
+        private static StringResources Res { get { return new StringResources( "Book" ); } }
 
         // For bookPool Indexing
 		public int i { get; protected set; }

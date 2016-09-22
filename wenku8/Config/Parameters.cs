@@ -15,6 +15,7 @@ namespace wenku8.Config
 		public const string RSYSTEM_LOG_ADDRESS = "RSystem_Log_Address";
 		// ContentReader
 		public const string CONTENTREADER_AUTOBOOKMARK = "ContentReader_Autobookmark";
+        public const string CONTENTREADER_USEINERTIA = "ContentReader_UseInertia";
 		public const string APPEARANCE_CONTENTREADER_FONTSIZE = "Appearance_ContentReader_FontSize";
 		public const string APPEARANCE_CONTENTREADER_LINEHEIGHT = "Appearance_ContentReader_LineHeight";
 		public const string APPEARANCE_CONTENTREADER_PARAGRAPHSPACING = "Appearance_ContentReader_ParagraphSpacing";
