@@ -235,6 +235,11 @@ namespace wenku8.Model.ListItem
             ProcessSuccess = true;
         }
 
+        public ProcConvoy GetPPConvoy()
+        {
+            return ProcParameter.RestoreParams( PSettings, null );
+        }
+
         public void AssignId( string Id )
         {
             if ( ProcMan.GUID == Id ) return;

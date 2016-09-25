@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Windows.Storage;
 
 using libtaotu.Controls;
+using libtaotu.Models.Procedure;
 
 using Net.Astropenguin.IO;
 
@@ -145,7 +146,7 @@ namespace wenku8.Model.Book.Spider
             Packed = null;
         }
 
-        public void PackVolumes()
+        public void PackVolumes( ProcConvoy PPConvoy )
         {
             if ( Packed == true ) return;
             // If VolInstructions were not present
@@ -155,6 +156,8 @@ namespace wenku8.Model.Book.Spider
 
             foreach ( ConvoyInstructionSet Inst in Insts.Values )
             {
+                Inst.SetConvoy( PPConvoy );
+
                 if ( Inst is VolInstruction )
                 {
                     VInst = Inst as VolInstruction;
@@ -167,7 +170,7 @@ namespace wenku8.Model.Book.Spider
                 }
             }
 
-            if( 0 < Ownerless.LastIndex )
+            if ( 0 < Ownerless.LastIndex )
             {
                 PushInstruction( Ownerless );
             }
