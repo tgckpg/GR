@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using wenku8.Config;
-using wenku8.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
@@ -12,9 +10,11 @@ using Net.Astropenguin.UI.Icons;
 
 namespace wenku8.CompositeElement
 {
+    using Config;
+
     [TemplatePart( Name = ProgressRingName, Type = typeof( ProgressRing ) )]
     [TemplatePart( Name = IconName, Type = typeof( IconBase ) )]
-    public class OneDriveButton : Button
+    public sealed class OneDriveButton : Button
     {
         private const string ProgressRingName = "OneDriveRing";
         private const string IconName = "OneDriveIcon";
@@ -55,7 +55,7 @@ namespace wenku8.CompositeElement
             InSync = true;
             await SyncOp();
             InSync = false;
-            if ( SyncComp != null ) SyncComp();
+            SyncComp?.Invoke();
         }
 
         private static void SyncStateUpdate( DependencyObject d, DependencyPropertyChangedEventArgs e )

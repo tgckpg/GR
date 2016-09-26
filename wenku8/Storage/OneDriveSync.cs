@@ -37,14 +37,18 @@ namespace wenku8.Storage
 
         public OneDriveSync()
         {
-            MSAuth = new MsaAuthenticationProvider(
+            string ClientId =
 #if DEBUG || TESTING
                 "0000000048177289"
 #elif BETA
                 "0000000040140A57"
 #endif
+            ;
+            MSAuth = new MsaAuthenticationProvider(
+                ClientId
                 , "https://login.live.com/oauth20_desktop.srf"
                 , new string[] { "onedrive.appfolder", "wl.signin" }
+                , new CredentialVault( ClientId )
             );
         }
 
@@ -56,7 +60,7 @@ namespace wenku8.Storage
 
             try
             {
-                await MSAuth.AuthenticateUserAsync();
+                await MSAuth.RestoreMostRecentFromCacheOrAuthenticateUserAsync();
 
                 OneDriveClient Client = new OneDriveClient( "https://api.onedrive.com/v1.0", MSAuth );
                 this.Client = Client;
@@ -79,7 +83,7 @@ namespace wenku8.Storage
                 Client = null;
                 Logger.Log( ID, "Signed Out" );
             }
-            catch( ServiceException ex )
+            catch ( ServiceException ex )
             {
                 Logger.Log( ID, ex.Error.Message, LogType.WARNING );
             }
@@ -126,7 +130,7 @@ namespace wenku8.Storage
                     .Request()
                     .GetAsync();
 
-                if( File != null )
+                if ( File != null )
                 {
                     File.Content = await Client.Drive.Items[ File.Id ].Content.Request().GetAsync();
                 }
@@ -134,7 +138,7 @@ namespace wenku8.Storage
                 Logger.Log( ID, string.Format( "Pulled file {0}", Location ), LogType.DEBUG );
                 return File;
             }
-            catch( ServiceException ex )
+            catch ( ServiceException ex )
             {
                 Logger.Log( ID, ex.Error.Message, LogType.WARNING );
             }
@@ -150,13 +154,13 @@ namespace wenku8.Storage
         {
             // OneDrive Handler
             Item File = await PullFile( Reg.Location );
-            if( File != null )
+            if ( File != null )
             {
                 StreamReader SR = new StreamReader( File.Content );
                 string Content = await SR.ReadToEndAsync();
                 SR.Dispose();
 
-                switch( Mode )
+                switch ( Mode )
                 {
                     case SyncMode.WITH_DEL_FLAG:
                         Reg.Merge(
@@ -195,7 +199,7 @@ namespace wenku8.Storage
                     );
                 }
             }
-            catch( Exception ex )
+            catch ( Exception ex )
             {
                 Logger.Log( ID, "Failed to push Settings: " + ex.Message, LogType.ERROR );
             }
