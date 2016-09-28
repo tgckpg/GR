@@ -9,17 +9,23 @@
             <Setter.Value>
                 <ControlTemplate TargetType="c:TitleStepper">
                     <Grid>
-                        <TextBlock x:Name="PrevTitle" Text="Prev Title" Foreground="White" Opacity="0.5">
+                        <TextBlock x:Name="PrevTitle" Text="Prev Title"
+                                   TextTrimming="CharacterEllipsis"
+                                   Foreground="White" Opacity="0.5">
                             <TextBlock.RenderTransform>
                                 <CompositeTransform TranslateY="0" />
                             </TextBlock.RenderTransform>
                         </TextBlock>
-                        <TextBlock x:Name="CurrTitle" Text="Current Title" Foreground="White">
+                        <TextBlock x:Name="CurrTitle" Text="Current Title"
+                                   TextTrimming="CharacterEllipsis"
+                                   Foreground="White">
                             <TextBlock.RenderTransform>
                                 <CompositeTransform TranslateY="20" />
                             </TextBlock.RenderTransform>
                         </TextBlock>
-                        <TextBlock x:Name="NextTitle" Text="Next Title" Foreground="White" Opacity="0.5">
+                        <TextBlock x:Name="NextTitle" Text="Next Title"
+                                   TextTrimming="CharacterEllipsis"
+                                   Foreground="White" Opacity="0.5">
                             <TextBlock.RenderTransform>
                                 <CompositeTransform TranslateY="40" />
                             </TextBlock.RenderTransform>
