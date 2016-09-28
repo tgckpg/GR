@@ -102,6 +102,7 @@
     <Compile Include="wenku8\CompositeElement\OneDriveButton.cs" />
     <Compile Include="wenku8\CompositeElement\ParallaxHub.cs" />
     <Compile Include="wenku8\CompositeElement\PassiveSplitView.cs" />
+    <Compile Include="wenku8\CompositeElement\TitleStepper.cs" />
     <Compile Include="wenku8\CompositeElement\QClock.cs" />
     <Compile Include="wenku8\CompositeElement\StarCanvas.cs" />
     <Compile Include="wenku8\CompositeElement\StateBubble.cs" />
@@ -284,6 +285,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Themes\PassiveSplitView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\TitleStepper.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
