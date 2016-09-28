@@ -84,7 +84,8 @@ namespace wenku8.Model.Book
         public void InitLocal( LocalTextDocument doc )
         {
             this.doc = doc;
-            this.Id = doc.Id;
+            TitleRaw = doc.Title;
+            Id = doc.Id;
         }
 
         private LocalTextDocument doc;
