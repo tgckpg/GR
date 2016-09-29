@@ -1,11 +1,12 @@
 ﻿using System;
-
-using Net.Astropenguin.Logging;
 using System.Linq;
+
+using Net.Astropenguin.DataModel;
+using Net.Astropenguin.Logging;
 
 namespace wenku8.Model.Book
 {
-    public sealed class EpisodeStepper
+    public sealed class EpisodeStepper : ActiveData
     {
         public static readonly string ID = typeof( EpisodeStepper ).Name;
 
@@ -23,18 +24,13 @@ namespace wenku8.Model.Book
         {
             string Id = C.cid;
 
-            if ( VolHead )
-            {
-                int i = Array.IndexOf( VInfo.vids, C.vid );
+            int i = Array.IndexOf( VInfo.vids, C.vid );
+            if ( i == -1 ) return false;
 
-                if ( i != -1 )
-                {
-                    VStepper = i;
-                    EStepper = 0;
-                }
+            VStepper = i;
+            EStepper = 0;
 
-                return false;
-            }
+            if ( VolHead ) return false;
 
             while ( VStepper < VInfo.cids.Length )
             {
@@ -108,9 +104,63 @@ namespace wenku8.Model.Book
             }
         }
 
+        public bool StepPrevVol()
+        {
+            if ( PrevVolAvaible() )
+            {
+                EStepper = 0;
+                VStepper--;
+
+                NotifyChanged( "Chapter" );
+                return true;
+            }
+            return false;
+        }
+
+        public bool StepNextVol()
+        {
+            if ( NextVolAvaible() )
+            {
+                EStepper = 0;
+                VStepper++;
+
+                NotifyChanged( "Chapter" );
+                return true;
+            }
+            return false;
+        }
+
+        public bool NextVolAvaible()
+        {
+            int i = 0;
+            if ( VolAvailable( VStepper + ( ++i ) ) )
+            {
+                while ( !EpAvailable( 0, VStepper + i ) && VolAvailable( VStepper + ( ++i ) ) ) ;
+                return EpAvailable( 0, VStepper + i );
+            }
+
+            return false;
+        }
+
+        public bool PrevVolAvaible()
+        {
+            int i = 0;
+            if ( VolAvailable( VStepper - ( ++i ) ) )
+            {
+                while ( !EpAvailable( 0, VStepper - i ) && VolAvailable( VStepper - ( ++i ) ) ) ;
+                return EpAvailable( 0, VStepper - i );
+            }
+
+            return false;
+        }
+
         public bool StepNext()
         {
-            if ( EpAvailable( ++EStepper ) ) return true;
+            if ( EpAvailable( ++EStepper ) )
+            {
+                NotifyChanged( "Chapter" );
+                return true;
+            }
             if ( !VolAvailable( ++VStepper ) ) return false;
 
             EStepper = 0;
@@ -126,12 +176,19 @@ namespace wenku8.Model.Book
                 return StepNext();
             }
 
+            NotifyChanged( "Chapter" );
+
             return true;
         }
 
         private bool EpAvailable( int ex )
         {
-            return -1 < ex && VolAvailable( VStepper ) && ex < VInfo.cids[ VStepper ].Length;
+            return EpAvailable( ex, VStepper );
+        }
+
+        private bool EpAvailable( int ex, int v )
+        {
+            return -1 < ex && VolAvailable( VStepper ) && ex < VInfo.cids[ v ].Length;
         }
 
         private bool VolAvailable( int vx )
@@ -145,12 +202,19 @@ namespace wenku8.Model.Book
 
             if ( VolAvailable( VStepper ) )
             {
-                if ( EpAvailable( EStepper ) )
+                if ( EpAvailable( EStepper + 1 ) )
                 {
                     return true;
                 }
-
-                return StepNext();
+                else
+                {
+                    int i = 0;
+                    for ( int j = 1; VolAvailable( VStepper + j ); j++ )
+                    {
+                        while ( EpAvailable( i++, VStepper + j ) ) return true;
+                        i = 0;
+                    }
+                }
             }
 
             return false;
@@ -170,14 +234,19 @@ namespace wenku8.Model.Book
             if ( 0 < EStepper )
             {
                 EStepper--;
+
+                NotifyChanged( "Chapter" );
                 return true;
             }
             else if ( 0 < VStepper )
             {
                 VStepper--;
                 EStepper = VInfo.cids[ VStepper ].Length - 1;
+
+                NotifyChanged( "Chapter" );
                 return true;
             }
+
             return false;
         }
 

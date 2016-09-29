@@ -114,13 +114,14 @@
     <Compile Include="wenku8\Converters\NumerSimplifier.cs" />
     <Compile Include="wenku8\Converters\BookInfoConverter.cs" />
     <Compile Include="wenku8\Converters\ContentStyleConverter.cs" />
-    <Compile Include="wenku8\Converters\PaneConverters.cs" />
+    <Compile Include="wenku8\Converters\PanePosConverter.cs" />
     <Compile Include="wenku8\Converters\ParallaxConverter.cs" />
     <Compile Include="wenku8\Converters\HSCTemplateSelector.cs" />
     <Compile Include="wenku8\Converters\TOCTemplateSelector.cs" />
     <Compile Include="wenku8\Converters\TransStateConverter.cs" />
     <Compile Include="wenku8\Converters\TreeMarginConverter.cs" />
     <Compile Include="wenku8\Converters\VDisplayConverter.cs" />
+    <Compile Include="wenku8\Effects\Ext.cs" />
     <Compile Include="wenku8\Effects\SimpleStory.cs" />
     <Compile Include="wenku8\Effects\TextureLoader.cs" />
     <Compile Include="wenku8\Effects\NTimer.cs" />

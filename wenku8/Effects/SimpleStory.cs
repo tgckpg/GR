@@ -10,7 +10,7 @@ namespace wenku8.Effects
 {
     static class SimpleStory
     {
-        public static void DoubleAnimation( Storyboard Board, UIElement Element, string Property, double From, double To, double Duration = 350 )
+        public static void DoubleAnimation( Storyboard Board, DependencyObject Element, string Property, double From, double To, double Duration = 350 )
         {
             DoubleAnimationUsingKeyFrames d = new DoubleAnimationUsingKeyFrames();
 
@@ -34,7 +34,7 @@ namespace wenku8.Effects
             Board.Children.Add( d );
         }
 
-        public static void ObjectAnimation( Storyboard Board, UIElement Element, string Property, object From, object To, double Duration = 350 )
+        public static void ObjectAnimation( Storyboard Board, DependencyObject Element, string Property, object From, object To, double Duration = 350 )
         {
             ObjectAnimationUsingKeyFrames d = new ObjectAnimationUsingKeyFrames();
 

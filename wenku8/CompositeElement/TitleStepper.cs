@@ -17,10 +17,11 @@ namespace wenku8.CompositeElement
 {
     using Effects;
     using Model.Book;
+    using Net.Astropenguin.UI;
 
-    [TemplatePart( Name = PrevTitleName, Type = typeof( TextBlock ) )]
-    [TemplatePart( Name = CurrTitleName, Type = typeof( TextBlock ) )]
-    [TemplatePart( Name = NextTitleName, Type = typeof( TextBlock ) )]
+    [TemplatePart( Name = PrevTitleName, Type = typeof( FrameworkElement ) )]
+    [TemplatePart( Name = CurrTitleName, Type = typeof( FrameworkElement ) )]
+    [TemplatePart( Name = NextTitleName, Type = typeof( FrameworkElement ) )]
     public class TitleStepper : Control
     {
         public static readonly string ID = typeof( TitleStepper ).Name;
@@ -34,6 +35,11 @@ namespace wenku8.CompositeElement
 
         private const string TRANSLATE_X = "(FrameworkElement.RenderTransform).(CompositeTransform.TranslateX)";
         private const string TRANSLATE_Y = "(FrameworkElement.RenderTransform).(CompositeTransform.TranslateY)";
+
+        private string TRANSLATE
+        {
+            get { return ( PrevTitle is TextBlock ) ? TRANSLATE_Y : TRANSLATE_X; }
+        }
 
         private double BlockHeight = 20;
 
@@ -51,9 +57,51 @@ namespace wenku8.CompositeElement
 
         public enum StepMode { VOL, EP };
 
-        private TextBlock PrevTitle;
-        private TextBlock CurrTitle;
-        private TextBlock NextTitle;
+        private FrameworkElement PrevTitle;
+        private FrameworkElement CurrTitle;
+        private FrameworkElement NextTitle;
+
+        private string PrevTitleText
+        {
+            get
+            {
+                if ( PrevTitle is TextBlock ) return ( ( TextBlock ) PrevTitle ).Text;
+                return ( ( VerticalStack ) PrevTitle ).Text;
+            }
+            set
+            {
+                if ( PrevTitle is TextBlock ) ( ( TextBlock ) PrevTitle ).Text = value;
+                else ( ( VerticalStack ) PrevTitle ).Text = value;
+            }
+        }
+
+        private string CurrTitleText
+        {
+            get
+            {
+                if ( CurrTitle is TextBlock ) return ( ( TextBlock ) CurrTitle ).Text;
+                return ( ( VerticalStack ) CurrTitle ).Text;
+            }
+            set
+            {
+                if ( CurrTitle is TextBlock ) ( ( TextBlock ) CurrTitle ).Text = value;
+                else ( ( VerticalStack ) CurrTitle ).Text = value;
+            }
+        }
+
+        private string NextTitleText
+        {
+            get
+            {
+                if ( NextTitle is TextBlock ) return ( ( TextBlock ) NextTitle ).Text;
+                return ( ( VerticalStack ) NextTitle ).Text;
+            }
+            set
+            {
+                if ( NextTitle is TextBlock ) ( ( TextBlock ) NextTitle ).Text = value;
+                else ( ( VerticalStack ) NextTitle ).Text = value;
+            }
+        }
 
         public TitleStepper()
             : base()
@@ -70,9 +118,9 @@ namespace wenku8.CompositeElement
 
             NavStory = new Storyboard();
 
-            SimpleStory.DoubleAnimation( NavStory, PrevTitle, TRANSLATE_Y, 0, BlockHeight );
-            SimpleStory.DoubleAnimation( NavStory, CurrTitle, TRANSLATE_Y, BlockHeight, 2 * BlockHeight );
-            SimpleStory.DoubleAnimation( NavStory, NextTitle, TRANSLATE_Y, 2 * BlockHeight, 3 * BlockHeight );
+            SimpleStory.DoubleAnimation( NavStory, PrevTitle, TRANSLATE, 0, BlockHeight );
+            SimpleStory.DoubleAnimation( NavStory, CurrTitle, TRANSLATE, BlockHeight, 2 * BlockHeight );
+            SimpleStory.DoubleAnimation( NavStory, NextTitle, TRANSLATE, 2 * BlockHeight, 3 * BlockHeight );
 
             SimpleStory.DoubleAnimation( NavStory, PrevTitle, "Opacity", 0.5, 1 );
             SimpleStory.DoubleAnimation( NavStory, CurrTitle, "Opacity", 1, 0.5 );
@@ -89,9 +137,9 @@ namespace wenku8.CompositeElement
 
             NavStory = new Storyboard();
 
-            SimpleStory.DoubleAnimation( NavStory, PrevTitle, TRANSLATE_Y, 0, -BlockHeight );
-            SimpleStory.DoubleAnimation( NavStory, CurrTitle, TRANSLATE_Y, BlockHeight, 0 );
-            SimpleStory.DoubleAnimation( NavStory, NextTitle, TRANSLATE_Y, 2 * BlockHeight, BlockHeight );
+            SimpleStory.DoubleAnimation( NavStory, PrevTitle, TRANSLATE, 0, -BlockHeight );
+            SimpleStory.DoubleAnimation( NavStory, CurrTitle, TRANSLATE, BlockHeight, 0 );
+            SimpleStory.DoubleAnimation( NavStory, NextTitle, TRANSLATE, 2 * BlockHeight, BlockHeight );
 
             SimpleStory.DoubleAnimation( NavStory, PrevTitle, "Opacity", 0.5, 0 );
             SimpleStory.DoubleAnimation( NavStory, CurrTitle, "Opacity", 1, 0.5 );
@@ -103,8 +151,10 @@ namespace wenku8.CompositeElement
 
         private void PrevStory_Completed( object sender, object e )
         {
-            Source.StepPrev();
-            ResetTranslateY();
+            if ( Mode == StepMode.EP ) Source.StepPrev();
+            else Source.StepPrevVol();
+
+            ResetTranslate();
 
             PrevTitle.Opacity = 0;
             CurrTitle.Opacity = 1;
@@ -120,8 +170,10 @@ namespace wenku8.CompositeElement
 
         private void NextStory_Completed( object sender, object e )
         {
-            Source.StepNext();
-            ResetTranslateY();
+            if ( Mode == StepMode.EP ) Source.StepNext();
+            else Source.StepNextVol();
+
+            ResetTranslate();
 
             PrevTitle.Opacity = 0.5;
             CurrTitle.Opacity = 1;
@@ -139,22 +191,31 @@ namespace wenku8.CompositeElement
         {
             base.OnApplyTemplate();
 
-            PrevTitle = ( TextBlock ) GetTemplateChild( PrevTitleName );
-            CurrTitle = ( TextBlock ) GetTemplateChild( CurrTitleName );
-            NextTitle = ( TextBlock ) GetTemplateChild( NextTitleName );
+            PrevTitle = ( FrameworkElement ) GetTemplateChild( PrevTitleName );
+            CurrTitle = ( FrameworkElement ) GetTemplateChild( CurrTitleName );
+            NextTitle = ( FrameworkElement ) GetTemplateChild( NextTitleName );
 
             BlockHeight = FontSize * 1.2;
 
-            ResetTranslateY();
+            ResetTranslate();
 
             UpdateDisplay();
         }
 
-        private void ResetTranslateY()
+        private void ResetTranslate()
         {
-            ( ( CompositeTransform ) PrevTitle.RenderTransform ).TranslateY = 0;
-            ( ( CompositeTransform ) CurrTitle.RenderTransform ).TranslateY = BlockHeight;
-            ( ( CompositeTransform ) NextTitle.RenderTransform ).TranslateY = 2 * BlockHeight;
+            if ( PrevTitle is TextBlock )
+            {
+                ( ( CompositeTransform ) PrevTitle.RenderTransform ).TranslateY = 0;
+                ( ( CompositeTransform ) CurrTitle.RenderTransform ).TranslateY = BlockHeight;
+                ( ( CompositeTransform ) NextTitle.RenderTransform ).TranslateY = 2 * BlockHeight;
+            }
+            else
+            {
+                ( ( CompositeTransform ) PrevTitle.RenderTransform ).TranslateX = 0;
+                ( ( CompositeTransform ) CurrTitle.RenderTransform ).TranslateX = BlockHeight;
+                ( ( CompositeTransform ) NextTitle.RenderTransform ).TranslateX = 2 * BlockHeight;
+            }
         }
 
         private static void OnPropertyChanged( DependencyObject d, DependencyPropertyChangedEventArgs e )
@@ -162,32 +223,32 @@ namespace wenku8.CompositeElement
             ( ( TitleStepper ) d ).UpdateDisplay();
         }
 
-        private void UpdateDisplay()
+        public void UpdateDisplay()
         {
             if ( Source == null || NextTitle == null ) return;
 
-            PrevTitle.Text = CurrTitle.Text = NextTitle.Text = "";
+            PrevTitleText = CurrTitleText = NextTitleText = "";
 
             if ( Mode == StepMode.VOL )
             {
-                PrevTitle.Text = Source.PrevVolTitle;
-                CurrTitle.Text = Source.VolTitle;
-                NextTitle.Text = Source.NextVolTitle;
+                PrevTitleText = Source.PrevVolTitle;
+                CurrTitleText = Source.VolTitle;
+                NextTitleText = Source.NextVolTitle;
             }
             else
             {
                 EpisodeStepper ES = Source.Virtual();
 
-                CurrTitle.Text = Source.EpTitle;
+                CurrTitleText = Source.EpTitle;
 
                 if ( ES.StepPrev() )
                 {
-                    PrevTitle.Text = ES.EpTitle;
+                    PrevTitleText = ES.EpTitle;
                     ES.StepNext();
                 }
 
                 if ( ES.StepNext() )
-                    NextTitle.Text = ES.EpTitle;
+                    NextTitleText = ES.EpTitle;
             }
         }
 
