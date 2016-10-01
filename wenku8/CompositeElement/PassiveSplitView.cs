@@ -6,6 +6,7 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Shapes;
 
 using Net.Astropenguin.Logging;
+using Windows.UI.Xaml.Data;
 
 namespace wenku8.CompositeElement
 {
@@ -115,6 +116,7 @@ namespace wenku8.CompositeElement
             if ( SwipeDetect == null ) return;
             SwipeDetect.ManipulationStarted -= SwipeDetect_ManipulationStarted;
             SwipeDetect.ManipulationDelta -= PaneGrid_ManipulationDeltaX;
+            SwipeDetect.ManipulationDelta -= PaneGrid_ManipulationDeltaNX;
             SwipeDetect.ManipulationDelta -= PaneGrid_ManipulationDeltaY;
             SwipeDetect.ManipulationCompleted -= SwipeDetect_ManipulationCompleted;
 
@@ -125,8 +127,16 @@ namespace wenku8.CompositeElement
 
                 SwipeDetect.ManipulationStarted += SwipeDetect_ManipulationStarted;
 
-                if ( ModeX ) SwipeDetect.ManipulationDelta += PaneGrid_ManipulationDeltaX;
-                else SwipeDetect.ManipulationDelta += PaneGrid_ManipulationDeltaY;
+                if ( ModeX )
+                {
+                    if ( FlowDirection == FlowDirection.RightToLeft )
+                        SwipeDetect.ManipulationDelta += PaneGrid_ManipulationDeltaNX;
+                    else SwipeDetect.ManipulationDelta += PaneGrid_ManipulationDeltaX;
+                }
+                else
+                {
+                    SwipeDetect.ManipulationDelta += PaneGrid_ManipulationDeltaY;
+                }
 
                 SwipeDetect.ManipulationCompleted += SwipeDetect_ManipulationCompleted;
             }
@@ -134,7 +144,18 @@ namespace wenku8.CompositeElement
 
         private void SwipeDetect_ManipulationStarted( object sender, ManipulationStartedRoutedEventArgs e )
         {
-            VisualStateManager.GoToState( this, ModeX ? "Closed" : "HClosed", false );
+            CompositeTransform PGTransform = ( CompositeTransform ) PaneGrid.RenderTransform;
+
+            if( ModeX )
+            {
+                PGTransform.TranslateX = ( double ) PGTransform.GetValue( CompositeTransform.TranslateXProperty );
+            }
+            else
+            {
+                PGTransform.TranslateY = ( double ) PGTransform.GetValue( CompositeTransform.TranslateYProperty );
+            }
+
+            VisualStateManager.GoToState( this, "Manip", false );
         }
 
         private void SwipeDetect_ManipulationCompleted( object sender, ManipulationCompletedRoutedEventArgs e )
@@ -150,7 +171,6 @@ namespace wenku8.CompositeElement
             }
             else
             {
-                VisualStateManager.GoToState( this, ModeX ? "Opened" : "HOpened", true );
                 State = PaneStates.Closed;
             }
         }
@@ -194,6 +214,24 @@ namespace wenku8.CompositeElement
             }
         }
 
+        private void SetFlowDirection()
+        {
+            if ( ModeX && SwipeDetect != null )
+            {
+                SwipeDetect.ManipulationDelta -= PaneGrid_ManipulationDeltaX;
+                SwipeDetect.ManipulationDelta -= PaneGrid_ManipulationDeltaNX;
+
+                if ( FlowDirection == FlowDirection.RightToLeft )
+                    SwipeDetect.ManipulationDelta += PaneGrid_ManipulationDeltaNX;
+                else SwipeDetect.ManipulationDelta += PaneGrid_ManipulationDeltaX;
+            }
+        }
+
+        private static void OnFlowDirectionChanged( DependencyObject d, DependencyPropertyChangedEventArgs e )
+        {
+            ( ( PassiveSplitView ) d ).SetFlowDirection();
+        }
+
         private static void OnManiModeChanged( DependencyObject d, DependencyPropertyChangedEventArgs e )
         {
             ( ( PassiveSplitView ) d ).SetManiMode( ( ManipulationModes ) e.OldValue, ( ManipulationModes ) e.NewValue );
@@ -203,6 +241,23 @@ namespace wenku8.CompositeElement
         {
             CompositeTransform PaneTransform = ( CompositeTransform ) PaneGrid.RenderTransform;
             PaneTransform.TranslateX += e.Delta.Translation.X;
+
+            if ( 0 < PaneTransform.TranslateX )
+            {
+                PaneTransform.TranslateX = 0;
+            }
+            else if ( PaneTransform.TranslateX < -PaneGrid.ActualWidth )
+            {
+                PaneTransform.TranslateX = -PaneGrid.ActualWidth;
+            }
+
+            UpdatePresenter( PaneTransform.TranslateX / -PaneGrid.ActualWidth );
+        }
+
+        private void PaneGrid_ManipulationDeltaNX( object sender, ManipulationDeltaRoutedEventArgs e )
+        {
+            CompositeTransform PaneTransform = ( CompositeTransform ) PaneGrid.RenderTransform;
+            PaneTransform.TranslateX -= e.Delta.Translation.X;
 
             if ( 0 < PaneTransform.TranslateX )
             {
@@ -313,6 +368,16 @@ namespace wenku8.CompositeElement
         public PassiveSplitView()
         {
             DefaultStyleKey = typeof( PassiveSplitView );
+
+            // Bind for flow direction changes
+            DependencyProperty FlowDir
+                = DependencyProperty.Register(
+                    System.Utils.Md5( "FlowDirBinding" ).Substring( 0, 8 )
+                    , typeof( FlowDirection )
+                    , typeof( PassiveSplitView )
+                    , new PropertyMetadata( FlowDirection.LeftToRight, OnFlowDirectionChanged )
+                );
+            SetBinding( FlowDir, new Binding() { Path = new PropertyPath( "FlowDirection" ), Source = this } );
 
             Loaded += PassiveSplitView_Loaded;
         }

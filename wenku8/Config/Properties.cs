@@ -81,6 +81,17 @@ namespace wenku8.Config
 
         #region Appearance
         #region ContentReader
+		public static bool APPEARANCE_CONTENTREADER_LEFTCONTEXT
+		{
+			get
+			{
+				return GetValue<bool>( Parameters.APPEARANCE_CONTENTREADER_LEFTCONTEXT );
+			}
+			set
+			{
+				SetParameter( Parameters.APPEARANCE_CONTENTREADER_LEFTCONTEXT, value );
+			}
+		}
         public static Windows.UI.Text.FontWeight APPEARANCE_CONTENTREADER_FONTWEIGHT
         {
 			get

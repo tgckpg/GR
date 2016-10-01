@@ -103,6 +103,8 @@ namespace wenku8.Config
                 Properties.APPEARANCE_CONTENTREADER_FONTSIZE = 20;
             if ( !TestKey( Parameters.APPEARANCE_CONTENTREADER_FONTWEIGHT ) )
                 Properties.APPEARANCE_CONTENTREADER_FONTWEIGHT = Windows.UI.Text.FontWeights.Normal;
+            if ( !TestKey( Parameters.APPEARANCE_CONTENTREADER_LEFTCONTEXT ) )
+                Properties.APPEARANCE_CONTENTREADER_LEFTCONTEXT = true;
             if ( !TestKey( Parameters.APPEARANCE_CONTENTREADER_LINEHEIGHT ) )
                 Properties.APPEARANCE_CONTENTREADER_LINEHEIGHT = 5;
             if ( !TestKey( Parameters.APPEARANCE_CONTENTREADER_NAVBG ) )
