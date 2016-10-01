@@ -12,21 +12,20 @@
                     <Grid>
                         <TextBlock x:Name="PrevTitle" Text="Prev Title"
                                    TextTrimming="CharacterEllipsis"
-                                   Foreground="White" Opacity="0.5">
+                                   Opacity="0.5">
                             <TextBlock.RenderTransform>
                                 <CompositeTransform TranslateY="0" />
                             </TextBlock.RenderTransform>
                         </TextBlock>
                         <TextBlock x:Name="CurrTitle" Text="Current Title"
-                                   TextTrimming="CharacterEllipsis"
-                                   Foreground="White">
+                                   TextTrimming="CharacterEllipsis" >
                             <TextBlock.RenderTransform>
                                 <CompositeTransform TranslateY="20" />
                             </TextBlock.RenderTransform>
                         </TextBlock>
                         <TextBlock x:Name="NextTitle" Text="Next Title"
                                    TextTrimming="CharacterEllipsis"
-                                   Foreground="White" Opacity="0.5">
+                                   Opacity="0.5">
                             <TextBlock.RenderTransform>
                                 <CompositeTransform TranslateY="40" />
                             </TextBlock.RenderTransform>
@@ -43,22 +42,24 @@
                 <ControlTemplate TargetType="c:TitleStepper">
                     <Grid FlowDirection="RightToLeft">
                         <p:VerticalStack x:Name="PrevTitle" Text="Prev Title"
+                                         Trim="True" MaxLines="1"
                                          FontSize="{TemplateBinding FontSize}"
-                                         Foreground="White" Opacity="0.5">
+                                         Opacity="0.5">
                             <p:VerticalStack.RenderTransform>
                                 <CompositeTransform TranslateX="0" />
                             </p:VerticalStack.RenderTransform>
                         </p:VerticalStack>
                         <p:VerticalStack x:Name="CurrTitle" Text="Current Title"
-                                         FontSize="{TemplateBinding FontSize}"
-                                         Foreground="White">
+                                         Trim="True" MaxLines="1"
+                                         FontSize="{TemplateBinding FontSize}" >
                             <p:VerticalStack.RenderTransform>
                                 <CompositeTransform TranslateX="20" />
                             </p:VerticalStack.RenderTransform>
                         </p:VerticalStack>
                         <p:VerticalStack x:Name="NextTitle" Text="Next Title"
+                                         Trim="True" MaxLines="1"
                                          FontSize="{TemplateBinding FontSize}"
-                                         Foreground="White" Opacity="0.5">
+                                         Opacity="0.5">
                             <p:VerticalStack.RenderTransform>
                                 <CompositeTransform TranslateX="40" />
                             </p:VerticalStack.RenderTransform>

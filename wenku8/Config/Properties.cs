@@ -224,6 +224,39 @@ namespace wenku8.Config
 				SetColor( Parameters.APPEARANCE_CONTENTREADER_CLOCK_SCOLOR, value );
 			}
 		}
+		public static Color APPEARANCE_CONTENTREADER_ES_SCOLOR
+		{
+			get
+			{
+				return GetColorFromByte( GetValue<byte[]>( Parameters.APPEARANCE_CONTENTREADER_ES_SCOLOR ) );
+			}
+			set
+			{
+				SetColor( Parameters.APPEARANCE_CONTENTREADER_ES_SCOLOR, value );
+			}
+		}
+		public static Color APPEARANCE_CONTENTREADER_ES_DCOLOR
+		{
+			get
+			{
+				return GetColorFromByte( GetValue<byte[]>( Parameters.APPEARANCE_CONTENTREADER_ES_DCOLOR ) );
+			}
+			set
+			{
+				SetColor( Parameters.APPEARANCE_CONTENTREADER_ES_DCOLOR, value );
+			}
+		}
+		public static Color APPEARANCE_CONTENTREADER_ES_BG
+		{
+			get
+			{
+				return GetColorFromByte( GetValue<byte[]>( Parameters.APPEARANCE_CONTENTREADER_ES_BG ) );
+			}
+			set
+			{
+				SetColor( Parameters.APPEARANCE_CONTENTREADER_ES_BG, value );
+			}
+		}
 		#endregion
 
 		#region Theme

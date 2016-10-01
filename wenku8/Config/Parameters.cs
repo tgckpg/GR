@@ -24,6 +24,9 @@ namespace wenku8.Config
 		public const string APPEARANCE_CONTENTREADER_CLOCK_HHCOLOR = "Appearance_ContentReader_Clock_Hour_Hand_Color";
 		public const string APPEARANCE_CONTENTREADER_CLOCK_MHCOLOR = "Appearance_ContentReader_Clock_Minute_Hand_Color";
 		public const string APPEARANCE_CONTENTREADER_CLOCK_SCOLOR = "Appearance_ContentReader_Clock_Scales_Color";
+		public const string APPEARANCE_CONTENTREADER_ES_DCOLOR = "Appearance_ContentReader_EpStepper_DateColor";
+		public const string APPEARANCE_CONTENTREADER_ES_SCOLOR = "Appearance_ContentReader_EpStepper_StepperColor";
+		public const string APPEARANCE_CONTENTREADER_ES_BG = "Appearance_ContentReader_EpStepper_Background";
 		public const string APPEARANCE_CONTENTREADER_ASSISTBG = "Appearance_ContentReader_AssistBg";
 		public const string APPEARANCE_CONTENTREADER_NAVBG = "Appearance_ContentReader_NavBg";
 		public const string APPEARANCE_CONTENTREADER_FONTWEIGHT = "Appearance_ContentReader_FontWeight";
