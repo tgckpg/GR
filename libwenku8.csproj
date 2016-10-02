@@ -181,6 +181,7 @@
     <Compile Include="wenku8\Model\Book\Spider\VolInstruction.cs" />
     <Compile Include="wenku8\Model\Book\TextEpisode.cs" />
     <Compile Include="wenku8\Model\Book\TextVolume.cs" />
+    <Compile Include="wenku8\Model\Book\VirtualVolume.cs" />
     <Compile Include="wenku8\Model\Book\Volume.cs" />
     <Compile Include="wenku8\Model\Book\VolumesInfo.cs" />
     <Compile Include="wenku8\Model\Comments\Comment.cs" />

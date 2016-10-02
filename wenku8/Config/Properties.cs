@@ -790,6 +790,18 @@ namespace wenku8.Config
 			}
 		}
 
+		public static bool MISC_CHUNK_SINGLE_VOL
+		{
+			get
+			{
+				return GetValue<bool>( Parameters.MISC_CHUNK_SINGLE_VOL );
+			}
+			set
+			{
+				SetParameter( Parameters.MISC_CHUNK_SINGLE_VOL, value );
+			}
+		}
+
 		private static Color GetColorFromByte( byte[] b )
 		{
 			Color c = new Color();

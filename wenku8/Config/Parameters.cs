@@ -83,5 +83,6 @@ namespace wenku8.Config
 
         // Misc
 		public const string MISC_TEXT_PATCH_SYNTAX = "Misc_Text_Patch_Syntax";
+        public const string MISC_CHUNK_SINGLE_VOL = "Misc_Chunk_Single_Volume";
 	}
 }
