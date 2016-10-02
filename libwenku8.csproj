@@ -97,6 +97,7 @@
     <Compile Include="wenku8\AdvDM\SHttpRequest.cs" />
     <Compile Include="wenku8\AdvDM\WHttpRequest.cs" />
     <Compile Include="wenku8\AdvDM\WRuntimeTransfer.cs" />
+    <Compile Include="wenku8\CompositeElement\AttachedCopyAction.cs" />
     <Compile Include="wenku8\CompositeElement\FloatyButton.cs" />
     <Compile Include="wenku8\CompositeElement\LoadingMask.cs" />
     <Compile Include="wenku8\CompositeElement\OneDriveButton.cs" />

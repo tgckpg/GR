@@ -37,7 +37,7 @@ namespace wenku8.Effects
         A01_Y_N30_N30,
     }
 
-    public class TransitionDisplay
+    public sealed class TransitionDisplay
     {
         // Storyboard
         public static Storyboard GetStoryboard( DependencyObject d ) { return ( Storyboard ) d.GetValue( StoryboardProperty ); }
