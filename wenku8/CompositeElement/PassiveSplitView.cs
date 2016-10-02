@@ -149,9 +149,11 @@ namespace wenku8.CompositeElement
             if( ModeX )
             {
                 PGTransform.TranslateX = ( double ) PGTransform.GetValue( CompositeTransform.TranslateXProperty );
+                PGTransform.TranslateY = 0;
             }
             else
             {
+                PGTransform.TranslateX = 0;
                 PGTransform.TranslateY = ( double ) PGTransform.GetValue( CompositeTransform.TranslateYProperty );
             }
 

@@ -55,6 +55,14 @@ namespace wenku8.Effects
             DependencyProperty.RegisterAttached( "Mode", typeof( TransitionMode ),
             typeof( TransitionDisplay ), new PropertyMetadata( TransitionMode.A01_Y_N30_0 ) );
 
+        // UseVisibility
+        public static bool GetUseVisibility( DependencyObject d ) { return ( bool ) d.GetValue( UseVisibilityProperty ); }
+        public static void SetUseVisibility( DependencyObject d, bool UseVisibility ) { d.SetValue( UseVisibilityProperty, UseVisibility ); }
+
+        public static readonly DependencyProperty UseVisibilityProperty =
+            DependencyProperty.RegisterAttached( "UseVisibility", typeof( bool ),
+            typeof( TransitionDisplay ), new PropertyMetadata( true ) );
+
         // State
         public static TransitionState GetState( DependencyObject d ) { return ( TransitionState ) d.GetValue( StateProperty ); }
         public static void SetState( DependencyObject d, TransitionState State ) { d.SetValue( StateProperty, State ); }
@@ -91,6 +99,18 @@ namespace wenku8.Effects
 
             TransitionMode Mode = GetMode( Elem );
             TransStruct TStruct = new TransStruct() { Elem = Elem, Sb = Sb, State = State };
+
+            if ( GetUseVisibility( Elem ) )
+            {
+                if ( TStruct.State == TransitionState.Active )
+                {
+                    SimpleStory.ObjectAnimation( TStruct.Sb, TStruct.Elem, "Visibility", Visibility.Collapsed, Visibility.Visible, 0 );
+                }
+                else
+                {
+                    SimpleStory.ObjectAnimation( TStruct.Sb, TStruct.Elem, "Visibility", Visibility.Visible, Visibility.Collapsed );
+                }
+            }
 
             switch ( Mode )
             {
@@ -147,13 +167,11 @@ namespace wenku8.Effects
             {
                 SimpleStory.DoubleAnimation( TStruct.Sb, TStruct.Elem, TStruct.Prop, TStruct.ActiveFrom, 0, t );
                 SimpleStory.DoubleAnimation( TStruct.Sb, TStruct.Elem, "Opacity", 0, 1, t );
-                SimpleStory.ObjectAnimation( TStruct.Sb, TStruct.Elem, "Visibility", Visibility.Collapsed, Visibility.Visible, 0 );
             }
             else if ( TStruct.State == TransitionState.Inactive )
             {
                 SimpleStory.DoubleAnimation( TStruct.Sb, TStruct.Elem, TStruct.Prop, 0, TStruct.InactiveTo, t );
                 SimpleStory.DoubleAnimation( TStruct.Sb, TStruct.Elem, "Opacity", 1, 0, t );
-                SimpleStory.ObjectAnimation( TStruct.Sb, TStruct.Elem, "Visibility", Visibility.Visible, Visibility.Collapsed );
             }
         }
 
