@@ -19,8 +19,7 @@
                         <VisualStateManager.VisualStateGroups>
                             <VisualStateGroup x:Name="PaneStates">
                                 <VisualStateGroup.Transitions>
-                                    <VisualTransition x:Name="ClosedToOpened" 
-                                                      From="Closed" To="Opened"
+                                    <VisualTransition From="Manip" To="Opened"
                                                       GeneratedDuration="0:0:1">
                                         <Storyboard>
                                             <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateX)" Storyboard.TargetName="InfoPane">
@@ -37,9 +36,39 @@
                                             </DoubleAnimationUsingKeyFrames>
                                         </Storyboard>
                                     </VisualTransition>
-                                    <VisualTransition x:Name="OpenedToClosed" 
-                                                          From="Opened" To="Closed"
-                                                          GeneratedDuration="0:0:1">
+                                    <VisualTransition From="Manip" To="Closed" GeneratedDuration="0:0:1">
+                                        <Storyboard>
+                                            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateX)" Storyboard.TargetName="InfoPane">
+                                                <EasingDoubleKeyFrame KeyTime="0:0:0" Value="{Binding ElementName=InfoPane, Path=RenderTransform, Converter={StaticResource PanePosConverter}, ConverterParameter=X}" EasingFunction="{StaticResource EaseOutExponential}" />
+                                                <EasingDoubleKeyFrame KeyTime="0:0:0.85" Value="{Binding ElementName=InfoPane, Path=ActualWidth, Converter={StaticResource PanePosConverter}, ConverterParameter=-1}" EasingFunction="{StaticResource EaseOutExponential}" />
+                                            </DoubleAnimationUsingKeyFrames>
+                                            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="Opacity" Storyboard.TargetName="PaneContent">
+                                                <EasingDoubleKeyFrame KeyTime="0:0:0" Value="{Binding ElementName=PaneContent, Path=Opacity, Converter={StaticResource PanePosConverter}, ConverterParameter=1}" EasingFunction="{StaticResource EaseOutCubic}" />
+                                                <EasingDoubleKeyFrame KeyTime="0:0:0.55" Value="0" EasingFunction="{StaticResource EaseOutCubic}" />
+                                            </DoubleAnimationUsingKeyFrames>
+                                            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateX)" Storyboard.TargetName="PaneContent">
+                                                <EasingDoubleKeyFrame KeyTime="0:0:0" Value="{Binding ElementName=PaneContent, Path=RenderTransform, Converter={StaticResource PanePosConverter}, ConverterParameter=X}" EasingFunction="{StaticResource EaseOutExponential}" />
+                                                <EasingDoubleKeyFrame KeyTime="0:0:1" Value="0" EasingFunction="{StaticResource EaseOutExponential}" />
+                                            </DoubleAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualTransition>
+                                    <VisualTransition From="Closed" To="Opened" GeneratedDuration="0:0:1">
+                                        <Storyboard>
+                                            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateX)" Storyboard.TargetName="InfoPane">
+                                                <EasingDoubleKeyFrame KeyTime="0:0:0" Value="{Binding ElementName=InfoPane, Path=RenderTransform, Converter={StaticResource PanePosConverter}, ConverterParameter=X}" EasingFunction="{StaticResource EaseOutExponential}" />
+                                                <EasingDoubleKeyFrame KeyTime="0:0:0.85" Value="{Binding ElementName=InfoPane, Path=ActualWidth, Converter={StaticResource PanePosConverter}, ConverterParameter=0}" EasingFunction="{StaticResource EaseOutExponential}" />
+                                            </DoubleAnimationUsingKeyFrames>
+                                            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="Opacity" Storyboard.TargetName="PaneContent">
+                                                <EasingDoubleKeyFrame KeyTime="0:0:0" Value="{Binding ElementName=PaneContent, Path=Opacity, Converter={StaticResource PanePosConverter}, ConverterParameter=1}" EasingFunction="{StaticResource EaseOutCubic}" />
+                                                <EasingDoubleKeyFrame KeyTime="0:0:0.55" Value="1" EasingFunction="{StaticResource EaseOutCubic}" />
+                                            </DoubleAnimationUsingKeyFrames>
+                                            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateX)" Storyboard.TargetName="PaneContent">
+                                                <EasingDoubleKeyFrame KeyTime="0:0:0" Value="{Binding ElementName=PaneContent, Path=RenderTransform, Converter={StaticResource PanePosConverter}, ConverterParameter=X}" EasingFunction="{StaticResource EaseOutExponential}" />
+                                                <EasingDoubleKeyFrame KeyTime="0:0:1" Value="0" EasingFunction="{StaticResource EaseOutExponential}" />
+                                            </DoubleAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualTransition>
+                                    <VisualTransition From="Opened" To="Closed" GeneratedDuration="0:0:1">
                                         <Storyboard>
                                             <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateX)" Storyboard.TargetName="InfoPane">
                                                 <EasingDoubleKeyFrame KeyTime="0:0:0" Value="{Binding ElementName=InfoPane, Path=RenderTransform, Converter={StaticResource PanePosConverter}, ConverterParameter=X}" EasingFunction="{StaticResource EaseOutExponential}" />
@@ -57,9 +86,7 @@
                                     </VisualTransition>
 
                                     <!-- Height Mode -->
-                                    <VisualTransition x:Name="HClosedToOpened" 
-                                                      From="HClosed" To="HOpened"
-                                                      GeneratedDuration="0:0:1">
+                                    <VisualTransition From="Manip" To="HOpened" GeneratedDuration="0:0:1">
                                         <Storyboard>
                                             <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateY)" Storyboard.TargetName="InfoPane">
                                                 <EasingDoubleKeyFrame KeyTime="0:0:0" Value="{Binding ElementName=InfoPane, Path=RenderTransform, Converter={StaticResource PanePosConverter}, ConverterParameter=Y}" EasingFunction="{StaticResource EaseOutExponential}" />
@@ -75,13 +102,43 @@
                                             </DoubleAnimationUsingKeyFrames>
                                         </Storyboard>
                                     </VisualTransition>
-                                    <VisualTransition x:Name="HOpenedToClosed" 
-                                                          From="HOpened" To="HClosed"
-                                                          GeneratedDuration="0:0:1">
+                                    <VisualTransition From="Manip" To="HClosed" GeneratedDuration="0:0:1">
                                         <Storyboard>
                                             <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateY)" Storyboard.TargetName="InfoPane">
                                                 <EasingDoubleKeyFrame KeyTime="0:0:0" Value="{Binding ElementName=InfoPane, Path=RenderTransform, Converter={StaticResource PanePosConverter}, ConverterParameter=Y}" EasingFunction="{StaticResource EaseOutExponential}" />
-                                                <EasingDoubleKeyFrame KeyTime="0:0:0.85" Value="{Binding ElementName=InfoPane, Path=ActualHeight, Converter={StaticResource PanePosConverter}, ConverterParameter=-1}" EasingFunction="{StaticResource EaseOutExponential}" />
+                                                <EasingDoubleKeyFrame KeyTime="0:0:0.85" Value="{Binding ElementName=InfoPane, Path=ActualHeight, Converter={StaticResource PanePosConverter}, ConverterParameter=-1.01}" EasingFunction="{StaticResource EaseOutExponential}" />
+                                            </DoubleAnimationUsingKeyFrames>
+                                            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="Opacity" Storyboard.TargetName="PaneContent">
+                                                <EasingDoubleKeyFrame KeyTime="0:0:0" Value="{Binding ElementName=PaneContent, Path=Opacity, Converter={StaticResource PanePosConverter}, ConverterParameter=1}" EasingFunction="{StaticResource EaseOutCubic}" />
+                                                <EasingDoubleKeyFrame KeyTime="0:0:0.55" Value="0" EasingFunction="{StaticResource EaseOutCubic}" />
+                                            </DoubleAnimationUsingKeyFrames>
+                                            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateX)" Storyboard.TargetName="PaneContent">
+                                                <EasingDoubleKeyFrame KeyTime="0:0:0" Value="{Binding ElementName=PaneContent, Path=RenderTransform, Converter={StaticResource PanePosConverter}, ConverterParameter=Y}" EasingFunction="{StaticResource EaseOutExponential}" />
+                                                <EasingDoubleKeyFrame KeyTime="0:0:1" Value="0" EasingFunction="{StaticResource EaseOutExponential}" />
+                                            </DoubleAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualTransition>
+                                    <VisualTransition From="HClosed" To="HOpened" GeneratedDuration="0:0:1">
+                                        <Storyboard>
+                                            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateY)" Storyboard.TargetName="InfoPane">
+                                                <EasingDoubleKeyFrame KeyTime="0:0:0" Value="{Binding ElementName=InfoPane, Path=RenderTransform, Converter={StaticResource PanePosConverter}, ConverterParameter=Y}" EasingFunction="{StaticResource EaseOutExponential}" />
+                                                <EasingDoubleKeyFrame KeyTime="0:0:0.85" Value="{Binding ElementName=InfoPane, Path=ActualHeight, Converter={StaticResource PanePosConverter}, ConverterParameter=0}" EasingFunction="{StaticResource EaseOutExponential}" />
+                                            </DoubleAnimationUsingKeyFrames>
+                                            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="Opacity" Storyboard.TargetName="PaneContent">
+                                                <EasingDoubleKeyFrame KeyTime="0:0:0" Value="{Binding ElementName=PaneContent, Path=Opacity, Converter={StaticResource PanePosConverter}, ConverterParameter=1}" EasingFunction="{StaticResource EaseOutCubic}" />
+                                                <EasingDoubleKeyFrame KeyTime="0:0:0.55" Value="1" EasingFunction="{StaticResource EaseOutCubic}" />
+                                            </DoubleAnimationUsingKeyFrames>
+                                            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateY)" Storyboard.TargetName="PaneContent">
+                                                <EasingDoubleKeyFrame KeyTime="0:0:0" Value="{Binding ElementName=PaneContent, Path=RenderTransform, Converter={StaticResource PanePosConverter}, ConverterParameter=Y}" EasingFunction="{StaticResource EaseOutExponential}" />
+                                                <EasingDoubleKeyFrame KeyTime="0:0:1" Value="0" EasingFunction="{StaticResource EaseOutExponential}" />
+                                            </DoubleAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualTransition>
+                                    <VisualTransition From="HOpened" To="HClosed" GeneratedDuration="0:0:1">
+                                        <Storyboard>
+                                            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateY)" Storyboard.TargetName="InfoPane">
+                                                <EasingDoubleKeyFrame KeyTime="0:0:0" Value="{Binding ElementName=InfoPane, Path=RenderTransform, Converter={StaticResource PanePosConverter}, ConverterParameter=Y}" EasingFunction="{StaticResource EaseOutExponential}" />
+                                                <EasingDoubleKeyFrame KeyTime="0:0:0.85" Value="{Binding ElementName=InfoPane, Path=ActualHeight, Converter={StaticResource PanePosConverter}, ConverterParameter=-1.01}" EasingFunction="{StaticResource EaseOutExponential}" />
                                             </DoubleAnimationUsingKeyFrames>
                                             <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="Opacity" Storyboard.TargetName="PaneContent">
                                                 <EasingDoubleKeyFrame KeyTime="0:0:0" Value="{Binding ElementName=PaneContent, Path=Opacity, Converter={StaticResource PanePosConverter}, ConverterParameter=1}" EasingFunction="{StaticResource EaseOutCubic}" />
@@ -133,9 +190,10 @@
                                             <DoubleAnimation Duration="0" Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateY)" Storyboard.TargetName="PaneContent" To="0" />
                                             <DoubleAnimation Duration="0" Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateX)" Storyboard.TargetName="InfoPane" To="0" />
                                             <DoubleAnimation Duration="0" Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateY)" Storyboard.TargetName="InfoPane"
-                                                             To="{Binding ElementName=InfoPane, Path=ActualHeight, Converter={StaticResource PanePosConverter}, ConverterParameter=-1}" />
+                                                             To="{Binding ElementName=InfoPane, Path=ActualHeight, Converter={StaticResource PanePosConverter}, ConverterParameter=-1.01}" />
                                         </Storyboard>
                                     </VisualState>
+                                    <VisualState x:Name="Manip" />
                                 </VisualStateGroup.States>
                             </VisualStateGroup>
                         </VisualStateManager.VisualStateGroups>

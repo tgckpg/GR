@@ -5,6 +5,7 @@ using Windows.Graphics.Imaging;
 using Windows.Storage.Streams;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
+using Windows.Storage;
 
 using Net.Astropenguin.Helpers;
 using Net.Astropenguin.Messaging;
@@ -13,7 +14,6 @@ namespace wenku8.Resources
 {
     using Model.Book;
     using Settings;
-    using Storage;
     using System;
 
     static class Image
@@ -44,6 +44,27 @@ namespace wenku8.Resources
             try
             {
                 await Image.SetSourceAsync( Shared.Storage.GetStream( Url ).AsRandomAccessStream() );
+            }
+            catch ( Exception ex )
+            {
+                MessageBus.Send( typeof( ActionCenter ), ex.Message );
+            }
+        }
+
+        public static async void SetSourceFromISF( this BitmapImage Image, IStorageFile File )
+        {
+            if ( File == null )
+            {
+                await Image.SetSourceAsync( new MemoryStream( EMPTY_IMAGE ).AsRandomAccessStream() );
+                return;
+            }
+
+            try
+            {
+                using ( Stream s = await File.OpenStreamForReadAsync() )
+                {
+                    await Image.SetSourceAsync( s.AsRandomAccessStream() );
+                }
             }
             catch ( Exception ex )
             {

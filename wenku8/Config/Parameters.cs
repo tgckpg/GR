@@ -17,6 +17,7 @@ namespace wenku8.Config
 		public const string CONTENTREADER_AUTOBOOKMARK = "ContentReader_Autobookmark";
         public const string CONTENTREADER_USEINERTIA = "ContentReader_UseInertia";
 		public const string APPEARANCE_CONTENTREADER_FONTSIZE = "Appearance_ContentReader_FontSize";
+        public const string APPEARANCE_CONTENTREADER_LEFTCONTEXT = "Appearance_ContentReader_LeftContext";
 		public const string APPEARANCE_CONTENTREADER_LINEHEIGHT = "Appearance_ContentReader_LineHeight";
 		public const string APPEARANCE_CONTENTREADER_PARAGRAPHSPACING = "Appearance_ContentReader_ParagraphSpacing";
 		public const string APPEARANCE_CONTENTREADER_FONTCOLOR = "Appearance_ContentReader_FontColor";
@@ -24,6 +25,9 @@ namespace wenku8.Config
 		public const string APPEARANCE_CONTENTREADER_CLOCK_HHCOLOR = "Appearance_ContentReader_Clock_Hour_Hand_Color";
 		public const string APPEARANCE_CONTENTREADER_CLOCK_MHCOLOR = "Appearance_ContentReader_Clock_Minute_Hand_Color";
 		public const string APPEARANCE_CONTENTREADER_CLOCK_SCOLOR = "Appearance_ContentReader_Clock_Scales_Color";
+		public const string APPEARANCE_CONTENTREADER_ES_DCOLOR = "Appearance_ContentReader_EpStepper_DateColor";
+		public const string APPEARANCE_CONTENTREADER_ES_SCOLOR = "Appearance_ContentReader_EpStepper_StepperColor";
+		public const string APPEARANCE_CONTENTREADER_ES_BG = "Appearance_ContentReader_EpStepper_Background";
 		public const string APPEARANCE_CONTENTREADER_ASSISTBG = "Appearance_ContentReader_AssistBg";
 		public const string APPEARANCE_CONTENTREADER_NAVBG = "Appearance_ContentReader_NavBg";
 		public const string APPEARANCE_CONTENTREADER_FONTWEIGHT = "Appearance_ContentReader_FontWeight";
@@ -79,5 +83,6 @@ namespace wenku8.Config
 
         // Misc
 		public const string MISC_TEXT_PATCH_SYNTAX = "Misc_Text_Patch_Syntax";
+        public const string MISC_CHUNK_SINGLE_VOL = "Misc_Chunk_Single_Volume";
 	}
 }

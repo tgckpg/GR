@@ -81,6 +81,17 @@ namespace wenku8.Config
 
         #region Appearance
         #region ContentReader
+		public static bool APPEARANCE_CONTENTREADER_LEFTCONTEXT
+		{
+			get
+			{
+				return GetValue<bool>( Parameters.APPEARANCE_CONTENTREADER_LEFTCONTEXT );
+			}
+			set
+			{
+				SetParameter( Parameters.APPEARANCE_CONTENTREADER_LEFTCONTEXT, value );
+			}
+		}
         public static Windows.UI.Text.FontWeight APPEARANCE_CONTENTREADER_FONTWEIGHT
         {
 			get
@@ -222,6 +233,39 @@ namespace wenku8.Config
 			set
 			{
 				SetColor( Parameters.APPEARANCE_CONTENTREADER_CLOCK_SCOLOR, value );
+			}
+		}
+		public static Color APPEARANCE_CONTENTREADER_ES_SCOLOR
+		{
+			get
+			{
+				return GetColorFromByte( GetValue<byte[]>( Parameters.APPEARANCE_CONTENTREADER_ES_SCOLOR ) );
+			}
+			set
+			{
+				SetColor( Parameters.APPEARANCE_CONTENTREADER_ES_SCOLOR, value );
+			}
+		}
+		public static Color APPEARANCE_CONTENTREADER_ES_DCOLOR
+		{
+			get
+			{
+				return GetColorFromByte( GetValue<byte[]>( Parameters.APPEARANCE_CONTENTREADER_ES_DCOLOR ) );
+			}
+			set
+			{
+				SetColor( Parameters.APPEARANCE_CONTENTREADER_ES_DCOLOR, value );
+			}
+		}
+		public static Color APPEARANCE_CONTENTREADER_ES_BG
+		{
+			get
+			{
+				return GetColorFromByte( GetValue<byte[]>( Parameters.APPEARANCE_CONTENTREADER_ES_BG ) );
+			}
+			set
+			{
+				SetColor( Parameters.APPEARANCE_CONTENTREADER_ES_BG, value );
 			}
 		}
 		#endregion
@@ -743,6 +787,18 @@ namespace wenku8.Config
 			set
 			{
 				SetParameter( Parameters.MISC_TEXT_PATCH_SYNTAX, value );
+			}
+		}
+
+		public static bool MISC_CHUNK_SINGLE_VOL
+		{
+			get
+			{
+				return GetValue<bool>( Parameters.MISC_CHUNK_SINGLE_VOL );
+			}
+			set
+			{
+				SetParameter( Parameters.MISC_CHUNK_SINGLE_VOL, value );
 			}
 		}
 

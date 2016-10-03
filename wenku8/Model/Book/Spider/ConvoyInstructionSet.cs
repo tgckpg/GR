@@ -11,6 +11,11 @@ using libtaotu.Models.Procedure;
 namespace wenku8.Model.Book.Spider
 {
     using Interfaces;
+
+    /// <summary>
+    /// ConvoyInstructionSet itself is a Procedure.
+    /// It will be passed into the Spider as a Dispatcher with ProcType: INSTRUCTION
+    /// </summary>
     class ConvoyInstructionSet : Procedure, IInstructionSet
     {
         protected List<string> ConvoyParams;
@@ -72,6 +77,11 @@ namespace wenku8.Model.Book.Spider
             }
 
             return null;
+        }
+
+        public void SetConvoy( ProcConvoy Convoy )
+        {
+            this.Convoy = Convoy;
         }
 
         public void SetProcId( string Id )

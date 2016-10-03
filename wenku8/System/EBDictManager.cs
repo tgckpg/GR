@@ -20,7 +20,7 @@ namespace wenku8.System
     using Resources;
     using Settings;
 
-    class EBDictManager : ActiveData
+    sealed class EBDictManager : ActiveData
     {
         public static readonly string ID = typeof( EBDictManager ).Name;
 

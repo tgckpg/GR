@@ -97,11 +97,13 @@
     <Compile Include="wenku8\AdvDM\SHttpRequest.cs" />
     <Compile Include="wenku8\AdvDM\WHttpRequest.cs" />
     <Compile Include="wenku8\AdvDM\WRuntimeTransfer.cs" />
+    <Compile Include="wenku8\CompositeElement\AttachedCopyAction.cs" />
     <Compile Include="wenku8\CompositeElement\FloatyButton.cs" />
     <Compile Include="wenku8\CompositeElement\LoadingMask.cs" />
     <Compile Include="wenku8\CompositeElement\OneDriveButton.cs" />
     <Compile Include="wenku8\CompositeElement\ParallaxHub.cs" />
     <Compile Include="wenku8\CompositeElement\PassiveSplitView.cs" />
+    <Compile Include="wenku8\CompositeElement\TitleStepper.cs" />
     <Compile Include="wenku8\CompositeElement\QClock.cs" />
     <Compile Include="wenku8\CompositeElement\StarCanvas.cs" />
     <Compile Include="wenku8\CompositeElement\StateBubble.cs" />
@@ -113,13 +115,14 @@
     <Compile Include="wenku8\Converters\NumerSimplifier.cs" />
     <Compile Include="wenku8\Converters\BookInfoConverter.cs" />
     <Compile Include="wenku8\Converters\ContentStyleConverter.cs" />
-    <Compile Include="wenku8\Converters\PaneConverters.cs" />
+    <Compile Include="wenku8\Converters\PanePosConverter.cs" />
     <Compile Include="wenku8\Converters\ParallaxConverter.cs" />
     <Compile Include="wenku8\Converters\HSCTemplateSelector.cs" />
     <Compile Include="wenku8\Converters\TOCTemplateSelector.cs" />
     <Compile Include="wenku8\Converters\TransStateConverter.cs" />
     <Compile Include="wenku8\Converters\TreeMarginConverter.cs" />
     <Compile Include="wenku8\Converters\VDisplayConverter.cs" />
+    <Compile Include="wenku8\Effects\Ext.cs" />
     <Compile Include="wenku8\Effects\SimpleStory.cs" />
     <Compile Include="wenku8\Effects\TextureLoader.cs" />
     <Compile Include="wenku8\Effects\NTimer.cs" />
@@ -178,6 +181,7 @@
     <Compile Include="wenku8\Model\Book\Spider\VolInstruction.cs" />
     <Compile Include="wenku8\Model\Book\TextEpisode.cs" />
     <Compile Include="wenku8\Model\Book\TextVolume.cs" />
+    <Compile Include="wenku8\Model\Book\VirtualVolume.cs" />
     <Compile Include="wenku8\Model\Book\Volume.cs" />
     <Compile Include="wenku8\Model\Book\VolumesInfo.cs" />
     <Compile Include="wenku8\Model\Comments\Comment.cs" />
@@ -284,6 +288,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Themes\PassiveSplitView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\TitleStepper.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

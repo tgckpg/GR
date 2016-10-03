@@ -1,0 +1,72 @@
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:c="using:wenku8.CompositeElement"
+    xmlns:p="using:Net.Astropenguin.UI"
+    xmlns:Converters="using:wenku8.Converters">
+
+    <Style TargetType="c:TitleStepper">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="c:TitleStepper">
+                    <Grid>
+                        <TextBlock x:Name="PrevTitle" Text="Prev Title"
+                                   TextTrimming="CharacterEllipsis"
+                                   Opacity="0.5">
+                            <TextBlock.RenderTransform>
+                                <CompositeTransform TranslateY="0" />
+                            </TextBlock.RenderTransform>
+                        </TextBlock>
+                        <TextBlock x:Name="CurrTitle" Text="Current Title"
+                                   TextTrimming="CharacterEllipsis" >
+                            <TextBlock.RenderTransform>
+                                <CompositeTransform TranslateY="20" />
+                            </TextBlock.RenderTransform>
+                        </TextBlock>
+                        <TextBlock x:Name="NextTitle" Text="Next Title"
+                                   TextTrimming="CharacterEllipsis"
+                                   Opacity="0.5">
+                            <TextBlock.RenderTransform>
+                                <CompositeTransform TranslateY="40" />
+                            </TextBlock.RenderTransform>
+                        </TextBlock>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="c:TitleStepper" x:Key="VerticalTitleStepper">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="c:TitleStepper">
+                    <Grid FlowDirection="RightToLeft">
+                        <p:VerticalStack x:Name="PrevTitle" Text="Prev Title"
+                                         Trim="True" MaxLines="1"
+                                         FontSize="{TemplateBinding FontSize}"
+                                         Opacity="0.5">
+                            <p:VerticalStack.RenderTransform>
+                                <CompositeTransform TranslateX="0" />
+                            </p:VerticalStack.RenderTransform>
+                        </p:VerticalStack>
+                        <p:VerticalStack x:Name="CurrTitle" Text="Current Title"
+                                         Trim="True" MaxLines="1"
+                                         FontSize="{TemplateBinding FontSize}" >
+                            <p:VerticalStack.RenderTransform>
+                                <CompositeTransform TranslateX="20" />
+                            </p:VerticalStack.RenderTransform>
+                        </p:VerticalStack>
+                        <p:VerticalStack x:Name="NextTitle" Text="Next Title"
+                                         Trim="True" MaxLines="1"
+                                         FontSize="{TemplateBinding FontSize}"
+                                         Opacity="0.5">
+                            <p:VerticalStack.RenderTransform>
+                                <CompositeTransform TranslateX="40" />
+                            </p:VerticalStack.RenderTransform>
+                        </p:VerticalStack>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

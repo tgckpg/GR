@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Windows.Storage;
 
 using libtaotu.Controls;
+using libtaotu.Models.Procedure;
 
 using Net.Astropenguin.IO;
 
@@ -18,14 +19,14 @@ namespace wenku8.Model.Book.Spider
 
     sealed class BookInstruction : BookItem, IInstructionSet
     {
-        private string _SSId; // Save Sub Id
+        private string _ssid; // Save Sub Id
 
         // Id may either be:
         // 1. base.Id( Book Id )
         // 2. base.Id( Zone Id ) + _SSId( "/" + Id for Zone Item )
         public override string Id
         {
-            get { return base.Id + _SSId; }
+            get { return base.Id + _ssid; }
         }
 
         private ProcManager BSReference;
@@ -44,12 +45,11 @@ namespace wenku8.Model.Book.Spider
                 _SId = value;
                 if ( string.IsNullOrEmpty( value ) )
                 {
-                    _SSId = value;
+                    _ssid = value;
                 }
                 else
                 {
-                    // This will create subdirectories for <Zone Id>/<ZoneItem Id>
-                    _SSId = "/" + System.Utils.Md5( value ).Substring( 0, 8 );
+                    SetSSID( System.Utils.Md5( value ).Substring( 0, 8 ) );
                 }
             }
         }
@@ -98,11 +98,17 @@ namespace wenku8.Model.Book.Spider
             ReadInfo( Settings );
         }
 
-        // This will be set on Selecting Zone Item
-        public void SetId( string Id )
+        public BookInstruction( string ZoneId, string ssid )
         {
-            this.Id = Id;
+            Id = ZoneId;
+            SetSSID( ssid );
         }
+
+        // This will be set on Selecting Zone Item
+        public void SetId( string Id ) { this.Id = Id; }
+
+        // This will create subdirectories for <Zone Id>/<ZoneItem Id>
+        private void SetSSID( string Id ) { _ssid = "/" + Id; }
 
         // This will be set on Crawling
         public void PlaceDefs( string SId, ProcManager BookSpider )
@@ -145,7 +151,7 @@ namespace wenku8.Model.Book.Spider
             Packed = null;
         }
 
-        public void PackVolumes()
+        public void PackVolumes( ProcConvoy PPConvoy )
         {
             if ( Packed == true ) return;
             // If VolInstructions were not present
@@ -155,6 +161,8 @@ namespace wenku8.Model.Book.Spider
 
             foreach ( ConvoyInstructionSet Inst in Insts.Values )
             {
+                Inst.SetConvoy( PPConvoy );
+
                 if ( Inst is VolInstruction )
                 {
                     VInst = Inst as VolInstruction;
@@ -167,7 +175,7 @@ namespace wenku8.Model.Book.Spider
                 }
             }
 
-            if( 0 < Ownerless.LastIndex )
+            if ( 0 < Ownerless.LastIndex )
             {
                 PushInstruction( Ownerless );
             }
@@ -257,10 +265,10 @@ namespace wenku8.Model.Book.Spider
 
             SId = Param?.GetValue( "sid" );
 
-            if ( !string.IsNullOrEmpty( _SSId ) )
+            if ( !string.IsNullOrEmpty( _ssid ) )
             {
                 // base.Id need to be chopped if sid present
-                base.Id = base.Id.Replace( _SSId, "" );
+                base.Id = base.Id.Replace( _ssid, "" );
             }
         }
 

@@ -1,7 +1,6 @@
 ﻿using System;
 using Windows.UI.Xaml.Data;
 
-using Net.Astropenguin.Logging;
 using Windows.UI.Xaml.Media;
 
 namespace wenku8.Converters
@@ -18,7 +17,7 @@ namespace wenku8.Converters
                 bool ModeX = parameter.ToString() == "X";
                 return ModeX ? Transform.TranslateX : Transform.TranslateY;
             }
-            // Logger.Log( ID, string.Format( "Width is {0}", value ) );
+
             return Math.Round( ( ( double ) value ) * double.Parse( ( string ) parameter ), 1 );
         }
 

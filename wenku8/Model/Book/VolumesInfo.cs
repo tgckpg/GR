@@ -9,7 +9,7 @@ namespace wenku8.Model.Book
     using Settings;
     using Spider;
 
-    class VolumesInfo
+    sealed class VolumesInfo
     {
         public static readonly string ID = typeof( VolumesInfo ).Name;
         public string[] VolTitles;
@@ -24,7 +24,7 @@ namespace wenku8.Model.Book
         public VolumesInfo( BookItem b )
         {
             BookId = b.Id;
-            if( b.IsLocal || b is BookInstruction )
+            if ( b.IsLocal || b is BookInstruction )
             {
                 ParseByVolumes( VolRef = b.GetVolumes() );
                 return;
@@ -46,38 +46,38 @@ namespace wenku8.Model.Book
             // TOC Content XML
             IEnumerable<XElement> vols = xml.Descendants( "volume" );
             int v = vols.Count();
-            VolTitles = new string[v];
-            vids = new string[v];
+            VolTitles = new string[ v ];
+            vids = new string[ v ];
 
             // V-cid and V-Ep List
-            cids = new string[v][];
-            EpTitles = new string[v][];
+            cids = new string[ v ][];
+            EpTitles = new string[ v ][];
 
             // Step over the volumes
             for ( int i = 0; i < v; i++ )
             {
                 // Volume id
-                vids[i] = vols.ElementAt( i ) .Attribute( AppKeys.GLOBAL_VID ) .Value;
+                vids[ i ] = vols.ElementAt( i ).Attribute( AppKeys.GLOBAL_VID ).Value;
 
                 // Store the volume Title
-                VolTitles[i] = vols.ElementAt( i ) .Nodes() .OfType<XText>() .First() .Value;
+                VolTitles[ i ] = vols.ElementAt( i ).Nodes().OfType<XText>().First().Value;
 
-                IEnumerable<XElement> chs = vols.ElementAt( i ) .Descendants( "chapter" );
+                IEnumerable<XElement> chs = vols.ElementAt( i ).Descendants( "chapter" );
                 int c = chs.Count();
 
                 // V-cid and V-Ep List
-                string[] uCid = new string[c];
-                string[] uETitles = new string[c];
+                string[] uCid = new string[ c ];
+                string[] uETitles = new string[ c ];
 
                 for ( int j = 0; j < c; j++ )
                 {
                     // Stores Episode Name
-                    uCid[j] = chs.ElementAt( j ) .Attribute( AppKeys.GLOBAL_CID ) .Value;
-                    uETitles[j] = chs.ElementAt( j ) .Value;
+                    uCid[ j ] = chs.ElementAt( j ).Attribute( AppKeys.GLOBAL_CID ).Value;
+                    uETitles[ j ] = chs.ElementAt( j ).Value;
                 }
                 // Set up index
-                cids[i] = uCid;
-                EpTitles[i] = uETitles;
+                cids[ i ] = uCid;
+                EpTitles[ i ] = uETitles;
             }
         }
 
