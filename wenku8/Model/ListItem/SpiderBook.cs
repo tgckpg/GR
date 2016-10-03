@@ -125,6 +125,16 @@ namespace wenku8.Model.ListItem
             return Book;
         }
 
+        public static async Task<SpiderBook> CreateAsyncSpider( string Id )
+        {
+            SpiderBook Book = new SpiderBook();
+            Book.aid = Id;
+            Book.PSettings = new XRegistry( "<ProcSpider />", Book.MetaLocation );
+
+            await Book.TestProcessed();
+            return Book;
+        }
+
         public override async Task Reload()
         {
             ProcMan = null;
@@ -134,16 +144,6 @@ namespace wenku8.Model.ListItem
             if ( BInst != null ) Shared.Storage.DeleteFile( BInst.CoverPath );
 
             await TestProcessed();
-        }
-
-        public static async Task<SpiderBook> CreateAsyncSpider( string Id )
-        {
-            SpiderBook Book = new SpiderBook();
-            Book.aid = Id;
-            Book.PSettings = new XRegistry( "<ProcSpider />", Book.MetaLocation );
-
-            await Book.TestProcessed();
-            return Book;
         }
 
         protected override async Task TestProcessed()
