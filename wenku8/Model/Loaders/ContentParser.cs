@@ -72,53 +72,36 @@ namespace wenku8.Model.Loaders
             const string token = "<!--image-->";
             const int tokenl = 12;
 
-            int i = content.LastIndexOf( token );
-            int l = 0;
             ills = "";
 
-            // 128 images, big enough for one chapter
-            int[][] anchors = new int[ 128 ][];
+            int i = content.IndexOf( token );
 
-            if ( i != -1 )
+            if ( i == -1 ) return false;
+
+            string Replaced = 0 < i ? content.Substring( 0, i ) : "";
+            int j = content.IndexOf( token, i + tokenl );
+
+            while ( !( i == -1 || j == -1 ) )
             {
-                int j = content.LastIndexOf( token, i );
-                while ( j != -1 )
-                {
-                    // Get Image anchors
-                    int[] k = { j, i - j };
-                    anchors[ l++ ] = k;
-                    i = content.LastIndexOf( token, j );
-                    if ( i == -1 ) break;
-                    j = content.LastIndexOf( token, i );
-                }
-                // Replace urls
-                string replaced = content.Substring( 0, anchors[ l - 1 ][ 0 ] );
-                // Anchors is got in reverse
-                for ( i = 0; i < 128; i ++ )
-                {
-                    ills += content.Substring( anchors[ i ][ 0 ] + tokenl, anchors[ i ][ 1 ] - tokenl ) + "\n";
+                ills += content.Substring( i + tokenl, j - i - tokenl ) + "\n";
+                i = content.IndexOf( token, j + tokenl );
 
-                    // Append rest of the text contents
-                    int a = anchors[ i ][ 0 ] + tokenl + anchors[ i ][ 1 ];
-                    if ( anchors[ i + 1 ] == null )
-                    {
-                        if ( a < content.Length )
-                        {
-                            replaced += content.Substring( a );
-                        }
-                        break;
-                    }
-                    else if ( a < anchors[ i + 1 ][ 0 ] )
-                    {
-                        replaced += content.Substring( a, anchors[ i + 1 ][ 0 ] - a );
-                    }
+                if ( i == -1 )
+                {
+                    Replaced += content.Substring( j + tokenl );
+                    break;
                 }
-                // Replaced content
-                content = replaced;
+                else
+                {
+                    Replaced += content.Substring( j + tokenl, i - j - tokenl );
+                }
 
-                return true;
+                j = content.IndexOf( token, i + tokenl );
             }
-            return false;
+
+            content = Replaced;
+
+            return !string.IsNullOrEmpty( ills );
         }
     }
 }
