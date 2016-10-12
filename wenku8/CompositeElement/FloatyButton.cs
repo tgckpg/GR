@@ -144,6 +144,26 @@ namespace wenku8.CompositeElement
         public FloatyButton()
         {
             DefaultStyleKey = typeof( FloatyButton );
+
+            DependencyProperty TWidthProperty =
+                DependencyProperty.RegisterAttached( "TWidth", typeof( double ),
+                typeof( FloatyButton ), new PropertyMetadata( 0.0, OnSizeChanged ) );
+
+            Binding B = new Binding();
+            B.Path = new PropertyPath( "Width" );
+            B.Source = this;
+
+            SetBinding( TWidthProperty, B );
+
+            DependencyProperty THeightProperty =
+                DependencyProperty.RegisterAttached( "THeight", typeof( double ),
+                typeof( FloatyButton ), new PropertyMetadata( 0.0, OnSizeChanged ) );
+
+            Binding C = new Binding();
+            C.Path = new PropertyPath( "Height" );
+            C.Source = this;
+
+            SetBinding( THeightProperty, C );
         }
 
         private Storyboard RingRotateStory = new Storyboard();
@@ -432,6 +452,8 @@ namespace wenku8.CompositeElement
 
         private void DiaUpdate()
         {
+            if ( RingText == null ) return;
+
             double BaseDia = 0.5 * Width;
             CanvasDia = Width;
             OuterRingDia = BaseDia * ( 1 + 2 * IrisFactor );
@@ -521,6 +543,12 @@ namespace wenku8.CompositeElement
         private static void OnIrisFactorChanged( DependencyObject d, DependencyPropertyChangedEventArgs e )
         {
             ( ( FloatyButton ) d ).OuterRingUpdate();
+        }
+
+        private static void OnSizeChanged( DependencyObject d, DependencyPropertyChangedEventArgs e )
+        {
+            ( ( FloatyButton ) d ).DiaUpdate();
+            ( ( FloatyButton ) d ).VisualUpdate();
         }
 
         protected override void OnPointerEntered( PointerRoutedEventArgs e )
