@@ -6,8 +6,9 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
-using Microsoft.OneDrive;
+using Microsoft.Graph;
 using Microsoft.OneDrive.Sdk;
+using Microsoft.OneDrive.Sdk.Authentication;
 
 using Net.Astropenguin.IO;
 using Net.Astropenguin.Logging;
@@ -24,8 +25,6 @@ namespace wenku8.Storage
 
         public static OneDriveSync Instance;
 
-        private IOneDriveClient Client;
-
         public bool Authenticated { get { return Client != null; } }
 
         public enum SyncMode
@@ -33,11 +32,12 @@ namespace wenku8.Storage
             WITH_DEL_FLAG, AUTO
         }
 
-        private readonly string[] scopes = new string[] { "onedrive.appfolder", "wl.signin" };
+        private MsaAuthenticationProvider MSAuth;
+        private IOneDriveClient Client;
 
         public OneDriveSync()
         {
-
+            MSAuth = new OnlineIdAuthenticationProvider( new string[] { "onedrive.appfolder", "wl.signin" } );
         }
 
         public async Task Authenticate()
@@ -45,17 +45,18 @@ namespace wenku8.Storage
             if ( !Properties.ENABLE_ONEDRIVE ) return;
 
             if ( Authenticated ) return;
-            OneDriveClient Client = OneDriveClientExtensions.GetUniversalClient( scopes ) as OneDriveClient;
+
             try
             {
-                await Client.AuthenticateAsync();
+                await MSAuth.AuthenticateUserAsync();
+
+                OneDriveClient Client = new OneDriveClient( "https://api.onedrive.com/v1.0", MSAuth );
                 this.Client = Client;
                 Logger.Log( ID, "Signed In", LogType.INFO );
             }
-            catch ( OneDriveException ex )
+            catch ( ServiceException ex )
             {
                 Logger.Log( ID, ex.Error.Message, LogType.WARNING );
-                Client.Dispose();
             }
         }
 
@@ -65,14 +66,12 @@ namespace wenku8.Storage
 
             try
             {
-                await Client.SignOutAsync();
+                await MSAuth.SignOutAsync();
 
-                ( Client as OneDriveClient ).Dispose();
                 Client = null;
-
                 Logger.Log( ID, "Signed Out" );
             }
-            catch( OneDriveException ex )
+            catch ( ServiceException ex )
             {
                 Logger.Log( ID, ex.Error.Message, LogType.WARNING );
             }
@@ -96,7 +95,7 @@ namespace wenku8.Storage
                 Logger.Log( ID, string.Format( "Pushed file {0}", Location ), LogType.DEBUG );
                 return true;
             }
-            catch ( OneDriveException ex )
+            catch ( ServiceException ex )
             {
                 Logger.Log( ID, ex.Error.Message, LogType.WARNING );
             }
@@ -119,7 +118,7 @@ namespace wenku8.Storage
                     .Request()
                     .GetAsync();
 
-                if( File != null )
+                if ( File != null )
                 {
                     File.Content = await Client.Drive.Items[ File.Id ].Content.Request().GetAsync();
                 }
@@ -127,7 +126,7 @@ namespace wenku8.Storage
                 Logger.Log( ID, string.Format( "Pulled file {0}", Location ), LogType.DEBUG );
                 return File;
             }
-            catch( OneDriveException ex )
+            catch ( ServiceException ex )
             {
                 Logger.Log( ID, ex.Error.Message, LogType.WARNING );
             }
@@ -143,13 +142,13 @@ namespace wenku8.Storage
         {
             // OneDrive Handler
             Item File = await PullFile( Reg.Location );
-            if( File != null )
+            if ( File != null )
             {
                 StreamReader SR = new StreamReader( File.Content );
                 string Content = await SR.ReadToEndAsync();
                 SR.Dispose();
 
-                switch( Mode )
+                switch ( Mode )
                 {
                     case SyncMode.WITH_DEL_FLAG:
                         Reg.Merge(
@@ -188,7 +187,7 @@ namespace wenku8.Storage
                     );
                 }
             }
-            catch( Exception ex )
+            catch ( Exception ex )
             {
                 Logger.Log( ID, "Failed to push Settings: " + ex.Message, LogType.ERROR );
             }
