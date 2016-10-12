@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
-using Windows.Foundation;
 
 namespace wenku8.Effects.P2DFlow
 {
@@ -115,9 +114,10 @@ namespace wenku8.Effects.P2DFlow
 
         public IEnumerator<Particle> Snapshot()
         {
+            UpdateParticles();
+
             lock ( ParticleQueue )
             {
-                UpdateParticles();
                 ReapParticles();
                 SpawnParticles();
             }
