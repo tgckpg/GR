@@ -123,6 +123,7 @@
     <Compile Include="wenku8\Converters\TreeMarginConverter.cs" />
     <Compile Include="wenku8\Converters\VDisplayConverter.cs" />
     <Compile Include="wenku8\Effects\Ext.cs" />
+    <Compile Include="wenku8\Effects\P2DFlow\ForceFields\Vortex.cs" />
     <Compile Include="wenku8\Effects\SimpleStory.cs" />
     <Compile Include="wenku8\Effects\TextureLoader.cs" />
     <Compile Include="wenku8\Effects\NTimer.cs" />
