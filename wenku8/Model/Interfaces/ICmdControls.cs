@@ -7,8 +7,12 @@ using Windows.UI.Xaml.Controls;
 
 namespace wenku8.Model.Interfaces
 {
+    public delegate void ControlChangedEvent( object sender );
+
     interface ICmdControls
     {
+        event ControlChangedEvent ControlChanged;
+
         IList<ICommandBarElement> MajorControls { get; }
         IList<ICommandBarElement> MinorControls { get; }
     }
