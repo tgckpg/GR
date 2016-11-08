@@ -87,6 +87,9 @@
     <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
     <None Include="libwenku8.pfx" />
     <None Include="project.json" />
+    <None Include="Shaders\CompileShardes.cmd" />
+    <Content Include="Shaders\Dissolve.bin" />
+    <Content Include="Shaders\Ripples.bin" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -98,6 +101,7 @@
     <Compile Include="wenku8\AdvDM\WHttpRequest.cs" />
     <Compile Include="wenku8\AdvDM\WRuntimeTransfer.cs" />
     <Compile Include="wenku8\CompositeElement\AttachedCopyAction.cs" />
+    <Compile Include="wenku8\CompositeElement\SplashRipple.cs" />
     <Compile Include="wenku8\CompositeElement\FloatyButton.cs" />
     <Compile Include="wenku8\CompositeElement\LoadingMask.cs" />
     <Compile Include="wenku8\CompositeElement\OneDriveButton.cs" />
@@ -122,6 +126,7 @@
     <Compile Include="wenku8\Converters\TransStateConverter.cs" />
     <Compile Include="wenku8\Converters\TreeMarginConverter.cs" />
     <Compile Include="wenku8\Converters\VDisplayConverter.cs" />
+    <Compile Include="wenku8\Effects\Easings.cs" />
     <Compile Include="wenku8\Effects\Ext.cs" />
     <Compile Include="wenku8\Effects\P2DFlow\ForceFields\Vortex.cs" />
     <Compile Include="wenku8\Effects\SimpleStory.cs" />
@@ -187,6 +192,8 @@
     <Compile Include="wenku8\Model\Book\VolumesInfo.cs" />
     <Compile Include="wenku8\Model\Comments\Comment.cs" />
     <Compile Include="wenku8\Model\Comments\Review.cs" />
+    <Compile Include="wenku8\Model\Interfaces\IAnimaPage.cs" />
+    <Compile Include="wenku8\Model\Interfaces\ICmdControls.cs" />
     <Compile Include="wenku8\Model\Interfaces\IInstructionSet.cs" />
     <Compile Include="wenku8\Model\Interfaces\IMetaSpider.cs" />
     <Compile Include="wenku8\Model\Interfaces\IRoamable.cs" />
@@ -263,10 +270,16 @@
     <EmbeddedResource Include="Properties\libwenku8.rd.xml" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Shaders\Dissolve.hlsl" />
+    <Content Include="Shaders\Ripples.hlsl" />
     <Content Include="wenku8\Resources\aboutText.txt" />
     <Content Include="wenku8\Resources\badwords.txt" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Themes\SplashRipple.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Themes\Generic.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

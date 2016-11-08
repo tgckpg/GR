@@ -27,8 +27,11 @@ namespace wenku8.Effects.P2DFlow.Spawners
             pp = part.Where( p => ( p.Trait & Bind ) != 0 ).ToArray();
         }
 
+        private float w = 0;
+
         public int Acquire( int Quota )
         {
+            if ( w++ % 2 != 0 ) return 0;
             return 2 * pp.Length;
         }
 

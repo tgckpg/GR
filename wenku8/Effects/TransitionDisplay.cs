@@ -81,7 +81,7 @@ namespace wenku8.Effects
         private static Storyboard ApplyStoryboard( TransitionState OState, TransitionState State, FrameworkElement Elem )
         {
             double t = 350;
-            if ( OState == TransitionState.Hidden )
+            if ( OState == TransitionState.Hidden && State == TransitionState.Inactive )
             {
                 t = 0;
             }

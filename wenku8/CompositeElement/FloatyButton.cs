@@ -22,7 +22,7 @@ namespace wenku8.CompositeElement
     using Effects;
     using Model.Interfaces;
 
-    enum FloatyState
+    public enum FloatyState
     {
         NONE = 0,
         NORMAL = 1,
@@ -63,6 +63,10 @@ namespace wenku8.CompositeElement
         public static readonly DependencyProperty TextRotationProperty = DependencyProperty.Register( "TextRotation", typeof( double ), typeof( FloatyButton ), new PropertyMetadata( 0.0, OnSimpleTextChanged ) );
         public static readonly DependencyProperty TextSpeedProperty = DependencyProperty.Register( "TextSpeed", typeof( double ), typeof( FloatyButton ), new PropertyMetadata( 0.15, OnSimpleTextChanged ) );
         public static readonly DependencyProperty IrisFactorProperty = DependencyProperty.Register( "IrisFactor", typeof( double ), typeof( FloatyButton ), new PropertyMetadata( 0.15, OnIrisFactorChanged ) );
+
+        public delegate void StateChangedEvent( object sender, FloatyState State );
+
+        public event StateChangedEvent StateComplete;
 
         public string Title
         {
@@ -113,6 +117,7 @@ namespace wenku8.CompositeElement
         private Canvas RingText;
 
         private Ellipse OuterRing;
+        private Ellipse ProbingRing;
         private Ellipse ImageRing;
 
         private FloatyState _state = FloatyState.NORMAL;
@@ -129,7 +134,17 @@ namespace wenku8.CompositeElement
             }
         }
 
-        private bool Stop = true;
+        private bool _stopped = true;
+        private bool Stop
+        {
+            get { return _stopped; }
+            set
+            {
+                _stopped = value;
+                if( _stopped ) StateComplete?.Invoke( this, _state );
+            }
+        }
+
         private bool Binded = false;
         public bool CanRoam { get; private set; }
 
@@ -164,9 +179,20 @@ namespace wenku8.CompositeElement
             C.Source = this;
 
             SetBinding( THeightProperty, C );
+
+            DependencyProperty TVisProperty =
+                DependencyProperty.RegisterAttached( "TVis", typeof( Visibility ),
+                typeof( FloatyButton ), new PropertyMetadata( 0.0, OnVisChanged ) );
+
+            Binding D = new Binding();
+            D.Path = new PropertyPath( "Visibility" );
+            D.Source = this;
+
+            SetBinding( TVisProperty, D );
         }
 
         private Storyboard RingRotateStory = new Storyboard();
+        private Storyboard RingProbingStory = new Storyboard();
 
         public void BindTimer( DispatcherTimer DTimer )
         {
@@ -334,20 +360,23 @@ namespace wenku8.CompositeElement
 #endif
             switch ( State )
             {
+                case FloatyState.NONE:
+                    TowardsRingDia = 0;
+                    TowardsImageDia = 0;
+                    BlossomDia = 0;
+                    return;
                 case FloatyState.EXPLODE:
                     TowardsRingDia = 0;
                     TowardsImageDia = BlossomFactor * ImageRingDia;
                     BlossomDia = TowardsImageDia;
+                    RingProbingStory?.Stop();
                     return;
                 case FloatyState.VANQUISH:
                     TowardsRingDia = ( 1 + IrisFactor ) * OuterRingDia;
                     TowardsImageDia = 0;
                     BlossomDia = TowardsRingDia;
+                    RingProbingStory?.Stop();
                     return;
-            }
-
-            switch( State )
-            {
                 case FloatyState.MOUSE_OVER:
                     TowardsRingDia = OuterRingDia * ( 1 - 0.2 * IrisFactor );
                     TowardsImageDia = ImageRingDia * ( 1 + IrisFactor );
@@ -376,10 +405,21 @@ namespace wenku8.CompositeElement
             OuterRing = CreateCircle( 0, out RingOrigin );
             OuterRing.Fill = OuterRingBrush;
 
+            ProbingRing = CreateCircle( 0.5 * CanvasDia, out RingOrigin );
+            ProbingRing.Visibility = Visibility.Collapsed;
+            ProbingRing.StrokeThickness = 1;
+            ProbingRing.Stroke = OuterRingBrush;
+
+            ScaleTransform STransform = new ScaleTransform();
+            STransform.ScaleX = STransform.ScaleY = 1;
+            STransform.CenterX = STransform.CenterY = RingOrigin;
+            ProbingRing.RenderTransform = STransform;
+
             ImageRing = CreateCircle( 0, out ImageOrigin );
             ImageRing.StrokeThickness = 0;
             ImageRing.Stroke = GetFloatyImage();
 
+            Rings.Children.Add( ProbingRing );
             Rings.Children.Add( OuterRing );
             Rings.Children.Add( ImageRing );
 
@@ -388,6 +428,7 @@ namespace wenku8.CompositeElement
             RingText.RenderTransform = RTransform;
 
             CreateRotateStory();
+            CreateProbingStory();
 
             VisualUpdate();
         }
@@ -416,16 +457,41 @@ namespace wenku8.CompositeElement
             EndAngle.KeyTime = KeyTime.FromTimeSpan( TimeSpan.FromSeconds( AniLength ) );
 
             d.Duration = new Duration( TimeSpan.FromSeconds( AniLength ) );
-            d.RepeatBehavior = new RepeatBehavior( 100 );
 
             d.KeyFrames.Add( StartAngle );
             d.KeyFrames.Add( EndAngle );
 
             Storyboard.SetTarget( d, RingText );
             Storyboard.SetTargetProperty( d, "(UIElement.RenderTransform).(RotateTransform.Angle)" );
+
             RingRotateStory.Children.Add( d );
 
+            RingRotateStory.RepeatBehavior = RepeatBehavior.Forever;
             RingRotateStory.Begin();
+        }
+
+        private void CreateProbingStory()
+        {
+            if ( RingProbingStory != null )
+            {
+                RingProbingStory.Stop();
+                RingProbingStory.Children.Clear();
+            }
+
+            RingProbingStory = new Storyboard();
+
+            double Delay = 5000 + NTimer.RandInt( 10000 );
+            double Duration = 1000;
+
+            SimpleStory.DoubleAnimation( RingProbingStory, ProbingRing, "(UIElement.RenderTransform).(ScaleTransform.ScaleY)", 1, 2, Duration, Delay );
+            SimpleStory.DoubleAnimation( RingProbingStory, ProbingRing, "(UIElement.RenderTransform).(ScaleTransform.ScaleX)", 1, 2, Duration, Delay );
+
+            Delay += 200;
+            SimpleStory.DoubleAnimation( RingProbingStory, ProbingRing, "Opacity", 1, 0, Duration, Delay );
+            SimpleStory.ObjectAnimation( RingProbingStory, ProbingRing, "Visibility", Visibility.Collapsed, Visibility.Visible, Duration, Delay );
+
+            RingProbingStory.RepeatBehavior = RepeatBehavior.Forever;
+            RingProbingStory.Begin();
         }
 
         private Ellipse CreateCircle( double Diameter, out double Origin )
@@ -462,6 +528,21 @@ namespace wenku8.CompositeElement
             // BaseDia is also the origin
             Canvas.SetTop( RingText, BaseDia );
             Canvas.SetLeft( RingText, BaseDia );
+
+            ProbingRingUpdate( BaseDia );
+        }
+
+        private void ProbingRingUpdate( double Diameter )
+        {
+            if ( ProbingRing == null ) return;
+            ProbingRing.Width = ProbingRing.Height = Diameter;
+
+            ScaleTransform STransform = ( ProbingRing.RenderTransform as ScaleTransform );
+            STransform.CenterX = STransform.CenterY = 0.5 * Diameter;
+
+            double Origin = 0.5 * ( CanvasDia - Diameter );
+            Canvas.SetTop( ProbingRing, Origin );
+            Canvas.SetLeft( ProbingRing, Origin );
         }
 
         protected override void OnApplyTemplate()
@@ -519,6 +600,18 @@ namespace wenku8.CompositeElement
             InVisualUpdate = false;
         }
 
+        private void VisChanged()
+        {
+            if ( Rings == null ) return;
+            if( Visibility == Visibility.Collapsed )
+            {
+                State = FloatyState.NONE;
+            }
+            else
+            {
+                State = FloatyState.NORMAL;
+            }
+        }
 
         private static void OnSimpleTextChanged( DependencyObject d, DependencyPropertyChangedEventArgs e )
         {
@@ -549,6 +642,11 @@ namespace wenku8.CompositeElement
         {
             ( ( FloatyButton ) d ).DiaUpdate();
             ( ( FloatyButton ) d ).VisualUpdate();
+        }
+
+        private static void OnVisChanged( DependencyObject d, DependencyPropertyChangedEventArgs e )
+        {
+            ( ( FloatyButton ) d ).VisChanged();
         }
 
         protected override void OnPointerEntered( PointerRoutedEventArgs e )

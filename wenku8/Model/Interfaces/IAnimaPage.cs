@@ -4,9 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace wenku8.Ext
+namespace wenku8.Model.Interfaces
 {
-    interface IAutoCache
+    interface IAnimaPage
     {
+        Task ExitAnima();
     }
 }

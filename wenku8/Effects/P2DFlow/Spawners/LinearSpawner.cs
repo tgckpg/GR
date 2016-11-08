@@ -37,6 +37,11 @@ namespace wenku8.Effects.P2DFlow.Spawners
         public float otMax = 165.0f;
 
         /// <summary>
+        /// Spawning frequency, the higher the value the slower it spawn
+        /// </summary>
+        public float spf = 10.0f;
+
+        /// <summary>
         /// Spawning callback
         /// </summary>
         public Action<Particle> SpawnEx = ( P ) => { };
@@ -77,7 +82,7 @@ namespace wenku8.Effects.P2DFlow.Spawners
 
         public int Acquire( int Quota )
         {
-            return ( i ++ ) % 10 == 0 ? 1 : 0;
+            return ( i ++ ) % spf == 0 ? 1 : 0;
         }
     }
 }
