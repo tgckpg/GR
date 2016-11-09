@@ -12,8 +12,8 @@ namespace wenku8.Model.REST
 
     sealed class SharersRequest
     {
-        // public Uri Server = new Uri( "http://w10srv.botanical.astropenguin.net/" );
-        public Uri Server = new Uri( "https://w10srv.astropenguin.net/" );
+        public Uri Server = new Uri( "http://w10srv.botanical.astropenguin.net/" );
+        // public Uri Server = new Uri( "https://w10srv.astropenguin.net/" );
 
         private readonly string LANG = Properties.LANGUAGE;
         public string Ver = "0.0.0x";

@@ -101,6 +101,7 @@
     <Compile Include="wenku8\AdvDM\WHttpRequest.cs" />
     <Compile Include="wenku8\AdvDM\WRuntimeTransfer.cs" />
     <Compile Include="wenku8\CompositeElement\AttachedCopyAction.cs" />
+    <Compile Include="wenku8\CompositeElement\SecondaryIconButton.cs" />
     <Compile Include="wenku8\CompositeElement\SplashRipple.cs" />
     <Compile Include="wenku8\CompositeElement\FloatyButton.cs" />
     <Compile Include="wenku8\CompositeElement\LoadingMask.cs" />
@@ -240,6 +241,7 @@
     <Compile Include="wenku8\Resources\LayoutResources.cs" />
     <Compile Include="wenku8\Resources\LayoutSettings.cs" />
     <Compile Include="wenku8\Resources\LocaleDefaults.cs" />
+    <Compile Include="wenku8\Resources\SegoeMDL2.cs" />
     <Compile Include="wenku8\Resources\Shared.cs" />
     <Compile Include="wenku8\SelfCencorship.cs" />
     <Compile Include="wenku8\Settings\AppFlags.cs" />

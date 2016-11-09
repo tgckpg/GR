@@ -80,7 +80,7 @@ namespace wenku8.System
 
         internal static void ShowError( Func<string> ErrorMessage )
         {
-            Net.Astropenguin.Helpers.Worker.UIInvoke( async () =>
+            Worker.UIInvoke( async () =>
             {
                 await Popups.ShowDialog( new MessageDialog( ErrorMessage() ) );
             } );
