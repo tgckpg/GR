@@ -101,6 +101,7 @@
     <Compile Include="wenku8\AdvDM\WHttpRequest.cs" />
     <Compile Include="wenku8\AdvDM\WRuntimeTransfer.cs" />
     <Compile Include="wenku8\CompositeElement\AttachedCopyAction.cs" />
+    <Compile Include="wenku8\CompositeElement\BadgeCountButton.cs" />
     <Compile Include="wenku8\CompositeElement\SecondaryIconButton.cs" />
     <Compile Include="wenku8\CompositeElement\SplashRipple.cs" />
     <Compile Include="wenku8\CompositeElement\FloatyButton.cs" />
@@ -278,6 +279,10 @@
     <Content Include="wenku8\Resources\badwords.txt" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Themes\BadgeCountButton.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Themes\SplashRipple.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
