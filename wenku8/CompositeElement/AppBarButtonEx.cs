@@ -11,10 +11,10 @@ namespace wenku8.CompositeElement
 {
     using Effects;
 
-    sealed class BadgeCountButton : AppBarButton
+    sealed class AppBarButtonEx : AppBarButton
     {
         public static readonly DependencyProperty CountProperty = DependencyProperty.Register(
-            "Count", typeof( int ), typeof( BadgeCountButton )
+            "Count", typeof( int ), typeof( AppBarButtonEx )
             , new PropertyMetadata( 0, OnCountChanged ) );
 
         public int Count
@@ -23,13 +23,23 @@ namespace wenku8.CompositeElement
             set { SetValue( CountProperty, value ); }
         }
 
+        public static readonly DependencyProperty IsLoadingProperty = DependencyProperty.Register(
+            "IsLoading", typeof( bool ), typeof( AppBarButtonEx )
+            , new PropertyMetadata( false, OnIsLoadingChanged ) );
+
+        public bool IsLoading
+        {
+            get { return ( bool ) GetValue( IsLoadingProperty ); }
+            set { SetValue( IsLoadingProperty, value ); }
+        }
+
         private TextBlock CountText;
         private Border CountBadge;
 
-        public BadgeCountButton()
+        public AppBarButtonEx()
             : base()
         {
-            DefaultStyleKey = typeof( BadgeCountButton );
+            DefaultStyleKey = typeof( AppBarButtonEx );
         }
 
         protected override void OnApplyTemplate()
@@ -50,9 +60,19 @@ namespace wenku8.CompositeElement
             CountText.Text = Count.ToString();
         }
 
+        private void UpdateLoadingState()
+        {
+            IsEnabled = !IsLoading;
+        }
+
         private static void OnCountChanged( DependencyObject d, DependencyPropertyChangedEventArgs e )
         {
-            ( ( BadgeCountButton ) d ).UpdateCount();
+            ( ( AppBarButtonEx ) d ).UpdateCount();
+        }
+
+        private static void OnIsLoadingChanged( DependencyObject d, DependencyPropertyChangedEventArgs e )
+        {
+            ( ( AppBarButtonEx ) d ).UpdateLoadingState();
         }
     }
 }

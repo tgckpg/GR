@@ -12,7 +12,7 @@ using Net.Astropenguin.Loaders;
 
 namespace wenku8
 {
-    using System.Messages;
+    using CompositeElement;
 
     class SelfCencorship
     {
@@ -40,8 +40,7 @@ namespace wenku8
             if ( Alert == null ) return true;
 
             StringResources stx = new StringResources( "Message" );
-            MessageDialog Msg = new MessageDialog( stx.Str( "Cencorship" ) );
-            await Popups.ShowDialog( Msg );
+            await Popups.ShowDialog( UIAliases.CreateDialog( stx.Str( "Cencorship" ) ) );
 
             return false;
         }
