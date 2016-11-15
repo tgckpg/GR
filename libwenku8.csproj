@@ -195,6 +195,7 @@
     <Compile Include="wenku8\Model\Book\VolumesInfo.cs" />
     <Compile Include="wenku8\Model\Comments\Comment.cs" />
     <Compile Include="wenku8\Model\Comments\Review.cs" />
+    <Compile Include="wenku8\Model\Interfaces\ISHActivity.cs" />
     <Compile Include="wenku8\Model\Interfaces\IAnimaPage.cs" />
     <Compile Include="wenku8\Model\Interfaces\ICmdControls.cs" />
     <Compile Include="wenku8\Model\Interfaces\IInstructionSet.cs" />
