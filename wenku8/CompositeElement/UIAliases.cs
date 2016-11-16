@@ -33,6 +33,17 @@ namespace wenku8.CompositeElement
             return Btn;
         }
 
+        public static AppBarButton CreateAppBarBtn( PathIcon Icon, string Label )
+        {
+            AppBarButton Btn = new AppBarButton()
+            {
+                Icon = Icon
+                , Label = Label
+            };
+
+            return Btn;
+        }
+
         public static AppBarButtonEx CreateAppBarBtnEx( Symbol Symbol, string Label )
         {
             AppBarButtonEx Btn = new AppBarButtonEx()
@@ -55,6 +66,17 @@ namespace wenku8.CompositeElement
             return Btn;
         }
 
+        public static AppBarButtonEx CreateAppBarBtnEx( PathIcon Icon, string Label )
+        {
+            AppBarButtonEx Btn = new AppBarButtonEx()
+            {
+                Icon = Icon,
+                Label = Label
+            };
+
+            return Btn;
+        }
+
         public static SecondaryIconButton CreateSecondaryIconBtn( string Glyph, string Label )
         {
             return new SecondaryIconButton( Glyph ) { Label = Label };
@@ -63,6 +85,15 @@ namespace wenku8.CompositeElement
         public static MessageDialog CreateDialog( string Mesg, Action PrimaryAction, string PrimaryText, string SecondaryText )
         {
             MessageDialog MsgBox = new MessageDialog( Mesg );
+            MsgBox.Commands.Add( new UICommand( PrimaryText, ( e ) => PrimaryAction() ) );
+            MsgBox.Commands.Add( new UICommand( SecondaryText ) );
+
+            return MsgBox;
+        }
+
+        public static MessageDialog CreateDialog( string Mesg, string Title, Action PrimaryAction, string PrimaryText, string SecondaryText )
+        {
+            MessageDialog MsgBox = new MessageDialog( Mesg, Title );
             MsgBox.Commands.Add( new UICommand( PrimaryText, ( e ) => PrimaryAction() ) );
             MsgBox.Commands.Add( new UICommand( SecondaryText ) );
 

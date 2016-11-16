@@ -48,7 +48,6 @@
         <ResourceDictionary Source="/libwenku8/Themes/SplashRipple.xaml" />
         <ResourceDictionary Source="/libwenku8/Themes/QClock.xaml" />
         <ResourceDictionary Source="/libwenku8/Themes/AppBarButtonEx.xaml" />
-        <ResourceDictionary Source="/libwenku8/Themes/OneDriveButton.xaml" />
         <ResourceDictionary Source="/libwenku8/Themes/LoadingMask.xaml" />
         <ResourceDictionary Source="/libwenku8/Themes/TitleStepper.xaml" />
     </ResourceDictionary.MergedDictionaries>

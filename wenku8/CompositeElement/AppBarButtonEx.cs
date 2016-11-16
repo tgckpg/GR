@@ -11,7 +11,7 @@ namespace wenku8.CompositeElement
 {
     using Effects;
 
-    sealed class AppBarButtonEx : AppBarButton
+    class AppBarButtonEx : AppBarButton
     {
         public static readonly DependencyProperty CountProperty = DependencyProperty.Register(
             "Count", typeof( int ), typeof( AppBarButtonEx )

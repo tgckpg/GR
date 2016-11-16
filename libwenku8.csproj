@@ -106,7 +106,7 @@
     <Compile Include="wenku8\CompositeElement\SplashRipple.cs" />
     <Compile Include="wenku8\CompositeElement\FloatyButton.cs" />
     <Compile Include="wenku8\CompositeElement\LoadingMask.cs" />
-    <Compile Include="wenku8\CompositeElement\OneDriveButton.cs" />
+    <Compile Include="wenku8\CompositeElement\ButtonOperation.cs" />
     <Compile Include="wenku8\CompositeElement\ParallaxHub.cs" />
     <Compile Include="wenku8\CompositeElement\PassiveSplitView.cs" />
     <Compile Include="wenku8\CompositeElement\TitleStepper.cs" />
@@ -300,11 +300,6 @@
     <Page Include="Themes\LoadingMask.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Themes\OneDriveButton.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Page>
     <Page Include="Themes\ParallaxHub.xaml">
       <Generator>MSBuild:Compile</Generator>
