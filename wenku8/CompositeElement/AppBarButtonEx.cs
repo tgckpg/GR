@@ -74,5 +74,6 @@ namespace wenku8.CompositeElement
         {
             ( ( AppBarButtonEx ) d ).UpdateLoadingState();
         }
+
     }
 }
