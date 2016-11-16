@@ -13,73 +13,42 @@ namespace wenku8.CompositeElement
     {
         public static AppBarButton CreateAppBarBtn( Symbol Symbol, string Label )
         {
-            AppBarButton Btn = new AppBarButton()
-            {
-                Icon = new SymbolIcon( Symbol ),
-                Label = Label
-            };
-
-            return Btn;
+            return new AppBarButton() { Icon = new SymbolIcon( Symbol ), Label = Label };
         }
 
         public static AppBarButton CreateAppBarBtn( string Glyph, string Label )
         {
-            AppBarButton Btn = new AppBarButton()
-            {
-                Icon = new FontIcon() { Glyph = Glyph },
-                Label = Label
-            };
-
-            return Btn;
+            return new AppBarButton() { Icon = new FontIcon() { Glyph = Glyph }, Label = Label };
         }
 
         public static AppBarButton CreateAppBarBtn( PathIcon Icon, string Label )
         {
-            AppBarButton Btn = new AppBarButton()
-            {
-                Icon = Icon
-                , Label = Label
-            };
-
-            return Btn;
+            return new AppBarButton() { Icon = Icon, Label = Label };
         }
 
         public static AppBarButtonEx CreateAppBarBtnEx( Symbol Symbol, string Label )
         {
-            AppBarButtonEx Btn = new AppBarButtonEx()
-            {
-                Icon = new SymbolIcon( Symbol ),
-                Label = Label
-            };
-
-            return Btn;
+            return new AppBarButtonEx() { Icon = new SymbolIcon( Symbol ), Label = Label };
         }
 
         public static AppBarButtonEx CreateAppBarBtnEx( string Glyph, string Label )
         {
-            AppBarButtonEx Btn = new AppBarButtonEx()
-            {
-                Icon = new FontIcon() { Glyph = Glyph },
-                Label = Label
-            };
-
-            return Btn;
+            return new AppBarButtonEx() { Icon = new FontIcon() { Glyph = Glyph }, Label = Label };
         }
 
         public static AppBarButtonEx CreateAppBarBtnEx( PathIcon Icon, string Label )
         {
-            AppBarButtonEx Btn = new AppBarButtonEx()
-            {
-                Icon = Icon,
-                Label = Label
-            };
-
-            return Btn;
+            return new AppBarButtonEx() { Icon = Icon, Label = Label };
         }
 
         public static SecondaryIconButton CreateSecondaryIconBtn( string Glyph, string Label )
         {
             return new SecondaryIconButton( Glyph ) { Label = Label };
+        }
+
+        public static AppBarToggleButton CreateToggleBtn( string Glyph, string Label )
+        {
+            return new AppBarToggleButton() { Icon = new FontIcon() { Glyph = Glyph }, Label = Label };
         }
 
         public static MessageDialog CreateDialog( string Mesg, Action PrimaryAction, string PrimaryText, string SecondaryText )

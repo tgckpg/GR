@@ -13,6 +13,8 @@ namespace wenku8.Model.Interfaces
     {
         event ControlChangedEvent ControlChanged;
 
+        bool NoCommands { get; }
+
         IList<ICommandBarElement> MajorControls { get; }
         IList<ICommandBarElement> MinorControls { get; }
     }
