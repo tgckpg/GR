@@ -74,5 +74,10 @@ namespace wenku8.CompositeElement
             return new MessageDialog( Mesg );
         }
 
+        public static MessageDialog CreateDialog( string Mesg, string Title )
+        {
+            return new MessageDialog( Mesg, Title );
+        }
+
     }
 }
