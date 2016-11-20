@@ -166,6 +166,7 @@
     <Compile Include="wenku8\Ext\IListLoader.cs" />
     <Compile Include="wenku8\Ext\IMainPageSettings.cs" />
     <Compile Include="wenku8\Ext\INavList.cs" />
+    <Compile Include="wenku8\Model\Interfaces\INavPage.cs" />
     <Compile Include="wenku8\Ext\INavSelections.cs" />
     <Compile Include="wenku8\Ext\IPaneInfoSection.cs" />
     <Compile Include="wenku8\Ext\ISectionItem.cs" />

@@ -32,7 +32,6 @@ namespace wenku8.CompositeElement
 
         private void SetTemplate()
         {
-            Btn.Loaded += ( s, e ) => StartOp();
             Btn.Click += ( s, e ) => StartOp();
         }
 

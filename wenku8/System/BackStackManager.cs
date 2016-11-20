@@ -40,5 +40,11 @@ namespace wenku8.System
         {
             return this.FirstOrDefault( x => x.Name == Name )?.Value;
         }
+
+        public void Remove( string Name )
+        {
+            RemoveAll( ( x ) => x.Name == Name );
+        }
+
     }
 }
