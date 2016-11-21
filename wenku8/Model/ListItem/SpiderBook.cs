@@ -278,8 +278,6 @@ namespace wenku8.Model.ListItem
 
                     BInst = new BookInstruction( Id, PSettings );
 
-                    MessageBus.Send( GetType(), AppKeys.HS_MOVED, new Tuple<string, SpiderBook>( OId, this ) );
-
                     PSettings.Save();
                 }
                 catch ( Exception )

@@ -183,6 +183,34 @@ namespace wenku8.Model.ListItem.Sharers
             NotifyChanged( "Histories", "Error", "HistoryError", "Tags", "Zone", "Type", "Author", "Encrypted" );
         }
 
+        public void Update( HubScriptItem HSI )
+        {
+            Payload = HSI.Payload;
+
+            Name = HSI.Name;
+            Desc = HSI.Desc;
+            Payload = HSI.Payload;
+            Scope = HSI.Scope;
+
+            Author = HSI.Author;
+            AuthorId = HSI.AuthorId;
+
+            Histories = HSI.Histories;
+            HistoryError = HSI.HistoryError;
+
+            Hits = HSI.Hits;
+
+            Tags = HSI.Tags;
+            Zone = HSI.Zone;
+            Type = HSI.Type;
+
+            Public = HSI.Public;
+            Encrypted = HSI.Encrypted;
+            ForceEncryption = HSI.ForceEncryption;
+
+            NotifyChanged( "Histories", "Error", "HistoryError", "Tags", "Zone", "Type", "Author", "Encrypted" );
+        }
+
         public async void SetScriptData( string JsonData )
         {
             JsonObject JResponse;

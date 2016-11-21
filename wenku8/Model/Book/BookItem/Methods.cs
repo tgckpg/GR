@@ -208,6 +208,24 @@ namespace wenku8.Model.Book
             }
         }
 
+        public void Update( BookItem B )
+        {
+            Id = B.Id;
+            Title = B.Title;
+            Author = B.Author;
+            RecentUpdate = B.RecentUpdate;
+            TotalHitCount = B.TotalHitCount;
+            TodayHitCount = B.TodayHitCount;
+            PushCount = B.PushCount;
+            FavCount = B.FavCount;
+            Length = B.Length;
+            LatestSection = B.LatestSection;
+            Press = B.Press;
+            Intro = B.Intro;
+            OriginalUrl = B.OriginalUrl;
+            Others = B.Others;
+        }
+
         static public BookItem DummyBook()
         {
             BookItem Book = new BookItem();
