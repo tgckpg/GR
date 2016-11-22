@@ -91,6 +91,8 @@
             , HS_DECRYPT_FAIL = "HS_Decrypt_Fail"
             , HS_NO_VOLDATA = "HS_NoVolumeData"
             , HS_OPEN_COMMENT = "HS_Open_Comment"
+            , HS_REPORT_SUCCESS = "HS_Report_Success"
+            , HS_REPORT_FAILED = "HS_Report_Failed"
             , HSC_DECRYPT_FAIL = "HSC_Decrypt_Fail"
             , SP_PROCESS_COMP = "Spider_Process_Comp"
 			;

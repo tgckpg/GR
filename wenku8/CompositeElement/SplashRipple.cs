@@ -87,7 +87,8 @@ namespace wenku8.CompositeElement
 
             Width = imageSize.X;
             Height = imageSize.Y;
-            // Stage.Margin = new Thickness( -0.5 * imageSize.X, -0.5 * imageSize.Y, 0, 0 );
+
+            Stage.Margin = new Thickness( 0, -0.5 * imageSize.Y + 150, 0, 0 );
 
             dissolveEffect.Properties[ "dissolveAmount" ] = 0.5f;
         }

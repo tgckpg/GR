@@ -20,26 +20,15 @@ namespace wenku8.Model.Book
         private ImageSource CoverSource;
         public ImageSource Cover
         {
-            get
-            {
-                return CoverSource;
-            }
-            set
-            {
-                CoverSource = value;
-                NotifyChanged( "Cover" );
-            }
+            get { return CoverSource; }
+            set { CoverSource = value; NotifyChanged( "Cover" ); }
         }
 
         private string TitleRaw = "";
         public string Title
         {
             get { return TitleRaw; }
-            set
-            {
-                TitleRaw = value;
-                NotifyChanged( "Title" );
-            }
+            set { TitleRaw = value; NotifyChanged( "Title" ); }
         }
 
         public string Description { get; set; }
@@ -51,14 +40,14 @@ namespace wenku8.Model.Book
         public string TodayHitCount
         {
             get { return DisplayString( TodayHitCountRaw, BookInfo.DailyHitsCount ); }
-            set { TodayHitCountRaw = value; }
+            set { TodayHitCountRaw = value; NotifyChanged( "TodayHitCount" ); }
         }
 
         private string TotalHitCountRaw = "";
         public string TotalHitCount
         {
             get { return DisplayString( TotalHitCountRaw, BookInfo.TotalHitsCount ); }
-            set { TotalHitCountRaw = value; }
+            set { TotalHitCountRaw = value; NotifyChanged( "TotalHitCount" ); }
         }
 
 
@@ -66,7 +55,7 @@ namespace wenku8.Model.Book
         public string FavCount
         {
             get { return DisplayString( FavCountRaw, BookInfo.FavCount ); }
-            set { FavCountRaw = value; }
+            set { FavCountRaw = value; NotifyChanged( "FavCount" ); }
         }
 
         private string PushCountRaw = "";
@@ -81,7 +70,7 @@ namespace wenku8.Model.Book
         public string RecentUpdate
         {
             get { return DisplayString( RecentUpdateRaw, BookInfo.Date ); }
-            set { RecentUpdateRaw = value; }
+            set { RecentUpdateRaw = value; NotifyChanged( "RecentUpdate", "UpdateStatus" ); }
         }
 
         public string UpdateStatus
@@ -94,7 +83,7 @@ namespace wenku8.Model.Book
         public string Author
         {
             get { return DisplayString( AuthorRaw, BookInfo.Author ); }
-            set { AuthorRaw = value; }
+            set { AuthorRaw = value; NotifyChanged( "Author" ); }
         }
 
         // Accessed by BookInfoView for ScirptUpload
@@ -102,10 +91,7 @@ namespace wenku8.Model.Book
         public string Press
         {
             get { return DisplayString( PressRaw, BookInfo.Press ); }
-            set
-            {
-                PressRaw = value; NotifyChanged( "Press" );
-            }
+            set { PressRaw = value; NotifyChanged( "Press" ); }
         }
 
         private string IntroRaw = "";
@@ -135,7 +121,7 @@ namespace wenku8.Model.Book
                     return st;
                 return ( temp == 0 ) ? Res.Text( "Status_Active" ) : Res.Text( "Status_Ended;" );
             }
-            set { st = value; }
+            set { st = value; NotifyChanged( "UpdateStatus", "Status", "StatusLong" ); }
         }
         public string StatusLong
         {
@@ -146,7 +132,7 @@ namespace wenku8.Model.Book
         public string Length
         {
             get { return DisplayString( LengthRaw, BookInfo.Length ); }
-            set { LengthRaw = value; }
+            set { LengthRaw = value; NotifyChanged( "Length" ); }
         }
 
         public string PlainTextInfo
