@@ -9,5 +9,6 @@ namespace wenku8.Model.Interfaces
     interface IAnimaPage
     {
         Task ExitAnima();
+        Task EnterAnima();
     }
 }

@@ -4,6 +4,8 @@ using Microsoft.Graphics.Canvas.UI;
 using Microsoft.Graphics.Canvas.UI.Xaml;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Numerics;
 using System.Runtime.InteropServices.WindowsRuntime;
@@ -21,32 +23,56 @@ using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Shapes;
 
 using Net.Astropenguin.IO;
+using Net.Astropenguin.Helpers;
 using Net.Astropenguin.Logging;
 
 namespace wenku8.CompositeElement
 {
     using Effects;
-    using Model.Interfaces;
-    using Resources;
 
     [TemplatePart( Name = StageName, Type = typeof( CanvasAnimatedControl ) )]
-    public sealed class SplashRipple : Control
+    public sealed class SplashRipple : Control, INotifyPropertyChanged 
     {
         public static readonly string ID = typeof( SplashRipple ).Name;
 
-        public static readonly DependencyProperty UriProperty
-            = DependencyProperty.Register(
-                "Source", typeof( Uri ), typeof( SplashRipple )
-                , new PropertyMetadata( new Uri( "ms-appx:///Assets/Samples/bookcoversample.png" ), OnSourceChanged ) );
+        #region Property Changed impl
+        public event PropertyChangedEventHandler PropertyChanged;
 
-        public Uri Source 
+        private void NotifyChanged( params string[] Names )
         {
-            get { return ( Uri ) GetValue( UriProperty ); }
-            set { SetValue( UriProperty, value ); }
+            var j = Dispatcher.RunIdleAsync( ( x ) =>
+            {
+                foreach ( string Name in Names )
+                    PropertyChanged?.Invoke( this, new PropertyChangedEventArgs( Name ) );
+            } );
+        }
+        #endregion
+
+        public static readonly DependencyProperty SourceProperty
+            = DependencyProperty.Register(
+                "Source"
+                , typeof( Stream ), typeof( SplashRipple )
+                , new PropertyMetadata( null, OnSourceChanged ) );
+
+        private Stream _Source;
+        public Stream Source 
+        {
+            get { return ( Stream ) GetValue( SourceProperty ); }
+            set { SetValue( SourceProperty, value ); }
+        }
+
+        private bool _IsLoading = false;
+        public bool IsLoading
+        {
+            get { return _IsLoading; }
+            private set
+            {
+                _IsLoading = value;
+                NotifyChanged( "IsLoading" );
+            }
         }
 
         private const string StageName = "AnimaControl";
-
         private CanvasAnimatedControl Stage;
 
         public SplashRipple()
@@ -60,6 +86,7 @@ namespace wenku8.CompositeElement
             Stage = ( CanvasAnimatedControl ) GetTemplateChild( StageName );
             Stage.CreateResources += Stage_CreateResources;
             Stage.Draw += Stage_Draw;
+            Stage.Update += Stage_Update;
         }
 
         CanvasBitmap bmpImage;
@@ -73,39 +100,50 @@ namespace wenku8.CompositeElement
             args.TrackAsyncAction( CreateResourcesAsync( sender ).AsAsyncAction() );
         }
 
-        async Task CreateResourcesAsync( CanvasAnimatedControl sender )
+        async Task CreateResourcesAsync( ICanvasAnimatedControl sender )
         {
-            bmpImage = await CanvasBitmap.LoadAsync( sender, Source );
-            imageSize = bmpImage.Size.ToVector2();
+            if ( dissolveEffect == null )
+            {
+                // See Win2D custom effect example
+                dissolveEffect = new PixelShaderEffect( await AppStorage.AppXGetBytes( "libwenku8/Shaders/Dissolve.bin" ) );
+                rippleEffect = new PixelShaderEffect( await AppStorage.AppXGetBytes( "libwenku8/Shaders/Ripples.bin" ) );
+            }
 
-            // See Win2D custom effect example
-            dissolveEffect = new PixelShaderEffect( await AppStorage.AppXGetBytes( "libwenku8/Shaders/Dissolve.bin" ) );
-            rippleEffect = new PixelShaderEffect( await AppStorage.AppXGetBytes( "libwenku8/Shaders/Ripples.bin" ) );
+            if ( _Source != null )
+            {
+                Restarted = false;
+                bmpImage = await CanvasBitmap.LoadAsync( sender, _Source.AsRandomAccessStream() );
+            }
+            else
+            {
+                bmpImage = await CanvasBitmap.LoadAsync( sender, new Uri( "ms-appx:///Assets/Samples/bookcoversample.png" ) );
+            }
+
+            imageSize = bmpImage.Size.ToVector2();
 
             rippleEffect.Properties[ "dpi" ] = sender.Dpi;
             rippleEffect.Properties[ "center" ] = 0.5f * imageSize;
 
-            Width = imageSize.X;
-            Height = imageSize.Y;
-
-            Stage.Margin = new Thickness( 0, -0.5 * imageSize.Y + 150, 0, 0 );
-
             dissolveEffect.Properties[ "dissolveAmount" ] = 0.5f;
+
+            var j = Dispatcher.RunIdleAsync( ( x ) =>
+            {
+                Width = imageSize.X;
+                Height = imageSize.Y;
+
+                Stage.Margin = new Thickness( 0, -0.5 * imageSize.Y + 150, 0, 0 );
+            } );
         }
 
         private volatile bool Restarted = false;
+        private volatile bool ShouldEx = false;
         private volatile float pt = 0;
 
         private void Stage_Draw( ICanvasAnimatedControl sender, CanvasAnimatedDrawEventArgs args )
         {
             float t = ( float ) args.Timing.TotalTime.TotalMilliseconds;
 
-            if ( Restarted )
-            {
-                Restarted = false;
-                pt = t;
-            }
-
+            if ( pt == 0 ) pt = t;
             t -= pt;
 
             rippleEffect.Properties[ "t1" ] = Easings.OutQuintic( t, 1500 );
@@ -117,19 +155,83 @@ namespace wenku8.CompositeElement
 
             args.DrawingSession.DrawImage( dissolveEffect );
 
-            if ( 2000 < t ) sender.Paused = true;
+            if ( 2000 < t )
+            {
+                if( ShouldEx )
+                {
+                    ShouldEx = false;
+                    pt = 0;
+                    Stage.Draw -= Stage_Draw;
+                    Stage.Draw += Stage_DrawEx;
+                }
+                else
+                {
+                    sender.Paused = true;
+                }
+            }
         }
 
-        private async void Splash()
+        private async void Stage_DrawEx( ICanvasAnimatedControl sender, CanvasAnimatedDrawEventArgs args )
         {
-            await CreateResourcesAsync( Stage );
+            float t = ( float ) args.Timing.TotalTime.TotalMilliseconds;
+
+            if ( pt == 0 ) pt = t;
+            t -= pt;
+
+            rippleEffect.Properties[ "t1" ] = 1 + Easings.InOutQuintic( t, 1500 );
+            rippleEffect.Properties[ "t2" ] = 1 + Easings.InOutQuintic( t, 1900 );
+
+            // Draw the custom effect.
+            dissolveEffect.Source1 = bmpImage;
+            dissolveEffect.Source2 = rippleEffect;
+
+            args.DrawingSession.DrawImage( dissolveEffect );
+
+            if ( 2000 < t )
+            {
+                Stage.Draw -= Stage_DrawEx;
+
+                await CreateResourcesAsync( sender );
+
+                pt = 0;
+                IsLoading = false;
+                Stage.Draw += Stage_Draw;
+            }
+        }
+
+
+        private void Stage_Update( ICanvasAnimatedControl sender, CanvasAnimatedUpdateEventArgs args )
+        {
+            if ( Restarted )
+            {
+                Restarted = false;
+                IsLoading = true;
+                ShouldEx = true;
+            }
+        }
+
+        private void Splash()
+        {
             Restarted = true;
-            Stage.Paused = false;
+            _Source = Source;
+
+            if ( Stage != null ) Stage.Paused = false;
         }
 
         private static void OnSourceChanged( DependencyObject d, DependencyPropertyChangedEventArgs e )
         {
             ( ( SplashRipple ) d ).Splash();
+        }
+
+        public void SplashIn()
+        {
+            if ( Stage != null ) Stage.Paused = false;
+        }
+
+        public void SplashOut()
+        {
+            Restarted = true;
+            if ( Stage != null ) Stage.Paused = false;
         }
 
     }

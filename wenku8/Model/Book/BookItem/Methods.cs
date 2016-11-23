@@ -62,7 +62,7 @@ namespace wenku8.Model.Book
                         CoverSrcUrl = Value;
                         return true;
                     }
-                    catch( Exception )
+                    catch ( Exception )
                     {
 
                     }
@@ -224,6 +224,11 @@ namespace wenku8.Model.Book
             Intro = B.Intro;
             OriginalUrl = B.OriginalUrl;
             Others = B.Others;
+        }
+
+        public void CoverUpdate()
+        {
+            NotifyChanged( "CoverStream" );
         }
 
         static public BookItem DummyBook()

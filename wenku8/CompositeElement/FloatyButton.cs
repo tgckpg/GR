@@ -198,9 +198,21 @@ namespace wenku8.CompositeElement
         {
             if ( Binded ) return;
 
-            EventHandler<object> evt = ( s, e ) =>
+            EventHandler<object> evt = null;
+
+            evt = ( s, e ) =>
             {
                 if ( Stop ) return;
+
+                if( ImageRing == null )
+                {
+                    Stop = true;
+
+                    DTimer.Tick -= evt;
+                    Binded = false;
+                    return;
+                }
+
                 StateChange();
             };
 
@@ -251,6 +263,7 @@ namespace wenku8.CompositeElement
 
                 if ( Dia < 0.10 )
                 {
+                    ImageRing.Width = ImageRing.Height = Dia;
                     Deactivate();
                     return;
                 }
@@ -334,6 +347,18 @@ namespace wenku8.CompositeElement
                 return Task.Run( () => { } );
 
             State = FloatyState.VANQUISH;
+
+            Stopped = new TaskCompletionSource<bool>();
+            return Stopped.Task;
+        }
+
+        public Task Descend()
+        {
+            if ( Rings == null || ( _state & ( FloatyState.EXPLODE | FloatyState.VANQUISH ) ) == 0 )
+                return Task.Run( () => { } );
+
+            Activate();
+            State = FloatyState.NORMAL;
 
             Stopped = new TaskCompletionSource<bool>();
             return Stopped.Task;
@@ -720,6 +745,33 @@ namespace wenku8.CompositeElement
             Stop = true;
         }
 
+        private void Activate()
+        {
+            ImageRing.Visibility
+                = OuterRing.Visibility
+                = Visibility.Visible;
+
+            OuterRing.Opacity = 1;
+            VisTitle.ForEach( x => x.Opacity = 1 );
+
+            ImageRing.StrokeThickness
+                = OuterRing.Width = OuterRing.Height
+                = ImageRing.Width = ImageRing.Height
+                = 0;
+
+            DiaUpdate();
+            VisualUpdate();
+            Stop = false;
+
+            RingProbingStory?.Begin();
+            RingRotateStory.Begin();
+
+            CanRoam = true;
+
+            _state = FloatyState.NORMAL;
+            Stopped?.TrySetResult( false );
+        }
+
         private void Deactivate()
         {
             ImageRing.Visibility
@@ -735,7 +787,6 @@ namespace wenku8.CompositeElement
 
             RingRotateStory.Stop();
             CanRoam = false;
-            _state = FloatyState.NORMAL;
             Stopped?.TrySetResult( true );
         }
     }

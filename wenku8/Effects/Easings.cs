@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace wenku8.Effects
 {
@@ -12,6 +8,14 @@ namespace wenku8.Effects
         {
             if ( d <= t ) return 1;
             return ( ( t = t / d - 1 ) * t * t * t * t + 1 );
+        }
+
+        public static float InOutQuintic( float t, float d )
+        {
+            if ( ( t /= d / 2 ) < 1 )
+                return .5f * t * t * t * t * t;
+            else
+                return .5f * ( ( t -= 2 ) * t * t * t * t + 2 );
         }
     }
 }

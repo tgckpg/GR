@@ -256,7 +256,7 @@ namespace wenku8.Storage
 
 		new public bool FileExists( string FileName )
 		{
-            if ( FileName == null ) return false;
+            if ( string.IsNullOrEmpty( FileName ) ) return false;
             if ( CFExists( FileName ) ) return true;
 
 			if( base.FileExists( FileName ) )

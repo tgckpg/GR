@@ -17,13 +17,6 @@ namespace wenku8.Model.Book
             set { iv = value; NotifyChanged( "IsFav" ); }
         }
 
-        private ImageSource CoverSource;
-        public ImageSource Cover
-        {
-            get { return CoverSource; }
-            set { CoverSource = value; NotifyChanged( "Cover" ); }
-        }
-
         private string TitleRaw = "";
         public string Title
         {

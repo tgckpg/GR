@@ -15,11 +15,16 @@ namespace wenku8.Model.ListItem
             }
 		}
 
-		public string Desc2
-		{
-			get;
-			protected set;
-		}
+        private string _desc2;
+		virtual public string Desc2
+        {
+            get { return _desc2; }
+            set
+            {
+                _desc2 = value;
+                NotifyChanged( "Desc2" );
+            }
+        }
 
         private string _name;
 		virtual public string Name
