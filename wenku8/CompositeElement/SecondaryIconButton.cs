@@ -11,7 +11,7 @@ namespace wenku8.CompositeElement
 {
     using Resources;
 
-    sealed class SecondaryIconButton : AppBarToggleButton
+    class SecondaryIconButton : AppBarToggleButton
     {
         public static readonly DependencyProperty GlyphProperty = DependencyProperty.Register(
             "Glyph", typeof( string ), typeof( SecondaryIconButton )
@@ -48,13 +48,13 @@ namespace wenku8.CompositeElement
             IsChecked = true;
         }
 
-        private void UpdateGlyph()
+        virtual protected void UpdateGlyph()
         {
             if ( GlyphText == null ) return;
             GlyphText.Text = Glyph;
         }
 
-        private static void OnGlyphChanged( DependencyObject d, DependencyPropertyChangedEventArgs e )
+        protected static void OnGlyphChanged( DependencyObject d, DependencyPropertyChangedEventArgs e )
         {
             ( ( SecondaryIconButton ) d ).UpdateGlyph();
         }

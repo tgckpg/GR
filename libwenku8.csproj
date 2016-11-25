@@ -103,6 +103,7 @@
     <Compile Include="wenku8\CompositeElement\AttachedCopyAction.cs" />
     <Compile Include="wenku8\CompositeElement\AppBarButtonEx.cs" />
     <Compile Include="wenku8\CompositeElement\SecondaryIconButton.cs" />
+    <Compile Include="wenku8\CompositeElement\SecretSwipeButton.cs" />
     <Compile Include="wenku8\CompositeElement\SplashRipple.cs" />
     <Compile Include="wenku8\CompositeElement\FloatyButton.cs" />
     <Compile Include="wenku8\CompositeElement\LoadingMask.cs" />
