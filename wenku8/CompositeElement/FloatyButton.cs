@@ -163,32 +163,34 @@ namespace wenku8.CompositeElement
             DependencyProperty TWidthProperty =
                 DependencyProperty.RegisterAttached( "TWidth", typeof( double ),
                 typeof( FloatyButton ), new PropertyMetadata( 0.0, OnSizeChanged ) );
-
             Binding B = new Binding();
             B.Path = new PropertyPath( "Width" );
             B.Source = this;
-
             SetBinding( TWidthProperty, B );
 
             DependencyProperty THeightProperty =
                 DependencyProperty.RegisterAttached( "THeight", typeof( double ),
                 typeof( FloatyButton ), new PropertyMetadata( 0.0, OnSizeChanged ) );
-
             Binding C = new Binding();
             C.Path = new PropertyPath( "Height" );
             C.Source = this;
-
             SetBinding( THeightProperty, C );
 
             DependencyProperty TVisProperty =
                 DependencyProperty.RegisterAttached( "TVis", typeof( Visibility ),
                 typeof( FloatyButton ), new PropertyMetadata( 0.0, OnVisChanged ) );
-
             Binding D = new Binding();
             D.Path = new PropertyPath( "Visibility" );
             D.Source = this;
-
             SetBinding( TVisProperty, D );
+
+            DependencyProperty TFontSizeProperty =
+                DependencyProperty.RegisterAttached( "TFontSize", typeof( double ),
+                typeof( FloatyButton ), new PropertyMetadata( 0.0, OnTitleChanged ) );
+            Binding E = new Binding();
+            E.Path = new PropertyPath( "FontSize" );
+            E.Source = this;
+            SetBinding( TFontSizeProperty, E );
         }
 
         private Storyboard RingRotateStory = new Storyboard();
@@ -712,7 +714,7 @@ namespace wenku8.CompositeElement
             };
 
             CharBlock.Foreground = TextBrush;
-            CharBlock.FontSize = 20;
+            CharBlock.FontSize = FontSize;
 
             CharBlock.Text = str;
             if ( str == " " )
