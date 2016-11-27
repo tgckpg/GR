@@ -16,6 +16,7 @@ namespace wenku8.Ext
         FavItem CurrentItem { get; set; }
 
         void Reload();
+        void Reload( bool Reset );
         void Load();
         void C_Pin();
         void C_RSync();

@@ -23,7 +23,15 @@ namespace wenku8.Storage
     {
         public static readonly string ID = typeof( OneDriveSync ).Name;
 
-        public static OneDriveSync Instance;
+        private static OneDriveSync _Instance;
+        public static OneDriveSync Instance
+        {
+            get
+            {
+                if ( _Instance == null ) _Instance = new OneDriveSync();
+                return _Instance;
+            }
+        }
 
         public bool Authenticated { get { return Client != null; } }
 
@@ -140,6 +148,8 @@ namespace wenku8.Storage
 
         public async Task SyncRegistry( XRegistry Reg, SyncMode Mode = SyncMode.WITH_DEL_FLAG )
         {
+            await Authenticate();
+
             // OneDrive Handler
             Item File = await PullFile( Reg.Location );
             if ( File != null )

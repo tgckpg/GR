@@ -45,7 +45,7 @@ namespace wenku8.System
                 , false
                 , Color.FromArgb( 0xFF, 0x3F, 0xA9, 0xF5 )
                 , Color.FromArgb( 0xFF, 0x00, 0x71, 0xBC )
-                , Colors.White
+                , Color.FromArgb( 0xFF, 0xF0, 0xF0, 0xF0 )
                 , Color.FromArgb( 0xD0, 0xE6, 0xE6, 0xE6 )
                 , Colors.Black
                 , Colors.White

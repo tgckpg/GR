@@ -14,7 +14,7 @@ namespace wenku8.CompositeElement
 
     static class UIAliases
     {
-        private static SolidColorBrush ContextColor = new SolidColorBrush( LayoutSettings.RelativeMajorBackgroundColor );
+        public static SolidColorBrush ContextColor = new SolidColorBrush( LayoutSettings.RelativeMajorBackgroundColor );
 
         public static AppBarButton CreateAppBarBtn( Symbol Symbol, string Label )
         {
