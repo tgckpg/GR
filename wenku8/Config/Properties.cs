@@ -29,6 +29,18 @@ namespace wenku8.Config
 			}
         }
 
+		public static int SMODE
+		{
+			get
+			{
+				return GetValue<int>( Parameters.SMODE );
+			}
+			set
+			{
+				SetParameter( Parameters.SMODE, value );
+			}
+		}
+
         #region Logging
         public static bool ENABLE_SYSTEM_LOG
 		{

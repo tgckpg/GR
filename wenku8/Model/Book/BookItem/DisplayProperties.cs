@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,7 +12,7 @@ namespace wenku8.Model.Book
 
     partial class BookItem
     {
-        private BitmapImage _Cover;
+        private BitmapImage _Cover = null;
         public ImageSource Cover
         {
             get

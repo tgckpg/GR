@@ -19,6 +19,7 @@ namespace wenku8.CompositeElement
     {
         public delegate void IndexUpdate( object sender, int Index );
         public event IndexUpdate OnIndexUpdate;
+        public event RoutedEventHandler PendingClick;
 
         public static readonly DependencyProperty Glyph2Property = DependencyProperty.Register(
             "Glyph2", typeof( string ), typeof( SecondaryIconButton )
@@ -56,6 +57,8 @@ namespace wenku8.CompositeElement
         Storyboard ContentRestore;
         Storyboard ContentAway;
 
+        private volatile bool Mani = false;
+
         public SecretSwipeButton( string Glyph )
             : base( Glyph )
         {
@@ -86,10 +89,18 @@ namespace wenku8.CompositeElement
 
             RootGrid.ManipulationMode = ManipulationModes.TranslateX | ManipulationModes.TranslateRailsX;
             RootGrid.ManipulationStarted += VEManiStart;
+
+            Click += SecretSwipeButton_Click;
+        }
+
+        private void SecretSwipeButton_Click( object sender, RoutedEventArgs e )
+        {
+            if ( !Mani ) PendingClick?.Invoke( sender, e );
         }
 
         private void ContentRestore_Completed( object sender, object e )
         {
+            Mani = false;
             if ( InvokeUpdate )
             {
                 InvokeUpdate = false;
@@ -127,6 +138,7 @@ namespace wenku8.CompositeElement
 
         private void VEManiStart( object sender, ManipulationStartedRoutedEventArgs e )
         {
+            Mani = true;
             CGTransform.SetValue( TranslateTransform.XProperty, CGTransform.GetValue( TranslateTransform.XProperty ) );
             ContentRestore.Stop();
         }

@@ -266,7 +266,7 @@ namespace wenku8.Model.Book
 
         private async void TrySetSource()
         {
-            if ( _Cover == null ) return;
+            if ( _Cover != null ) return;
             using ( CoverStream )
             {
                 if ( CoverStream == null ) return;

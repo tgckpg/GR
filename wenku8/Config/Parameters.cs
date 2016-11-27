@@ -8,6 +8,7 @@ namespace wenku8.Config
 		// Global
 		public const string FIRST_TIME_RUN = "First_Time_Run";
 		public const string VERSION = "Version";
+        public const string SMODE = "SMode";
 		public const string LOG_LEVEL = "Log_Level";
 		public const string ENABLE_SYSTEM_LOG = "Enable_System_Log";
 		public const string ENABLE_RSYSTEM_LOG = "Enable_RSystem_Log";
