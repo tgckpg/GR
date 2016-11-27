@@ -39,7 +39,7 @@ namespace wenku8.Ext
         public const string MainStage = "wenku10.MainStage, wenku10";
 
         public const string HistoryPage = "wenku10.Pages.History, wenku10";
-        public const string CatListPage = "wenku10.Pages.CategorizedList, wenku10";
-        public const string NavListPage = "wenku10.Pages.NavList, wenku10";
+        public const string CatListPage = "wenku10.Pages.WCateList, wenku10";
+        public const string NavListPage = "wenku10.Pages.WNavList, wenku10";
     }
 }

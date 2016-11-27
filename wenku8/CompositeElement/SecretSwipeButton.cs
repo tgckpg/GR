@@ -44,7 +44,8 @@ namespace wenku8.CompositeElement
 
         private double ZoomTrigger = 0;
 
-        private double VT = 50;
+        private double VT = 150;
+        private volatile bool InvokeUpdate = false;
 
         private string Label1;
         private string Glyph1;
@@ -78,12 +79,22 @@ namespace wenku8.CompositeElement
             RootGrid.RenderTransform = CGTransform;
 
             ContentRestore = new Storyboard();
+            ContentRestore.Completed += ContentRestore_Completed;
 
             RootGrid.ManipulationCompleted += VEManipulationEndX;
             RootGrid.ManipulationDelta += VEZoomBack;
 
             RootGrid.ManipulationMode = ManipulationModes.TranslateX | ManipulationModes.TranslateRailsX;
             RootGrid.ManipulationStarted += VEManiStart;
+        }
+
+        private void ContentRestore_Completed( object sender, object e )
+        {
+            if ( InvokeUpdate )
+            {
+                InvokeUpdate = false;
+                OnIndexUpdate?.Invoke( this, Index );
+            }
         }
 
         private void RestorePosition()
@@ -183,7 +194,7 @@ namespace wenku8.CompositeElement
                 Glyph = Glyph1;
             }
 
-            OnIndexUpdate?.Invoke( this, Index );
+            InvokeUpdate = true;
         }
     }
 }

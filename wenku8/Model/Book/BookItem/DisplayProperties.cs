@@ -1,15 +1,28 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using wenku8.Resources;
 using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Media.Imaging;
 
 namespace wenku8.Model.Book
 {
+    using Resources;
+
     partial class BookItem
     {
+        private BitmapImage _Cover;
+        public ImageSource Cover
+        {
+            get
+            {
+                TrySetSource();
+                return _Cover;
+            }
+        }
+
         private bool iv = false;
         public bool IsFav
         {

@@ -10,6 +10,8 @@ namespace wenku8.Ext
 
     interface INavSelections
     {
+        List<SubtleUpdateItem> Data { get; }
+
         SubtleUpdateItem CustomSection();
         IMainPageSettings MainPage_Settings { get; }
 

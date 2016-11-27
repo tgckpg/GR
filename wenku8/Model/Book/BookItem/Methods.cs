@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Xml.Linq;
+using Windows.UI.Xaml.Media.Imaging;
 
 using Net.Astropenguin.IO;
 using Net.Astropenguin.Logging;
@@ -261,5 +263,20 @@ namespace wenku8.Model.Book
         {
             return string.IsNullOrEmpty( Raw ) ? "" : ( TypeName( InfType ) + ": " + Raw + Suffix );
         }
+
+        private async void TrySetSource()
+        {
+            if ( _Cover == null ) return;
+            using ( CoverStream )
+            {
+                if ( CoverStream == null ) return;
+
+                _Cover = new BitmapImage();
+                await _Cover.SetSourceAsync( CoverStream.AsRandomAccessStream() );
+
+                NotifyChanged( "Cover" );
+            }
+        }
+
     }
 }

@@ -51,6 +51,11 @@ namespace wenku8.CompositeElement
             return new SecondaryIconButton( Glyph ) { Label = Label };
         }
 
+        public static AppBarToggleButton CreateToggleBtn( Symbol Symbol, string Label )
+        {
+            return new AppBarToggleButton() { Icon = new SymbolIcon() { Symbol = Symbol }, Label = Label, Foreground = ContextColor };
+        }
+
         public static AppBarToggleButton CreateToggleBtn( string Glyph, string Label )
         {
             return new AppBarToggleButton() { Icon = new FontIcon() { Glyph = Glyph }, Label = Label, Foreground = ContextColor };
