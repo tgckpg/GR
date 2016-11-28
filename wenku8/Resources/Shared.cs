@@ -21,6 +21,7 @@ namespace wenku8.Resources
 
         // Books Cache used by loaders
         public static BookPool BooksCache = new BookPool( 5 );
+        public static BookItem CurrentBook;
 
         // The default settings by locale
         public static LocaleDefaults LocaleDefaults = new LocaleDefaults();
