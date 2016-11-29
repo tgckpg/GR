@@ -129,6 +129,7 @@
     <Compile Include="wenku8\Converters\TOCTemplateSelector.cs" />
     <Compile Include="wenku8\Converters\TransStateConverter.cs" />
     <Compile Include="wenku8\Converters\TreeMarginConverter.cs" />
+    <Compile Include="wenku8\Converters\ColorAgeConverter.cs" />
     <Compile Include="wenku8\Converters\VDisplayConverter.cs" />
     <Compile Include="wenku8\Effects\Easings.cs" />
     <Compile Include="wenku8\Effects\Ext.cs" />

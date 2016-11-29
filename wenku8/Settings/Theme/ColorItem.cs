@@ -140,8 +140,8 @@ namespace wenku8.Settings.Theme
                 , "Hex", "TColor"
             );
 
-            if( BindAction != null ) BindAction( c );
-		}
+            BindAction?.Invoke( c );
+        }
 
         private void SetCMYK()
         {

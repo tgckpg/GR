@@ -36,6 +36,13 @@ namespace wenku8.Model.Book
             set { TitleRaw = value; NotifyChanged( "Title" ); }
         }
 
+        private DateTime LastCacheRaw;
+        public DateTime LastCache
+        {
+            get { return LastCacheRaw; }
+            set { LastCacheRaw = value; NotifyChanged( "LastCache" ); }
+        }
+
         public string Description { get; set; }
         public string LatestSection { get; set; }
         public string OriginalUrl { get; set; }
