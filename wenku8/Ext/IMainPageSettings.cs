@@ -11,7 +11,6 @@ namespace wenku8.Ext
     {
         IEnumerable<SubtleUpdateItem> NavSections();
         ActiveItem SelectedSection { get; }
-        bool IsCustomSectionEnabled { get; set; }
 
         Tuple<Type, string> PayloadCommand( string payload );
     }
