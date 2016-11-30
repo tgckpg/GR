@@ -8,10 +8,12 @@ using Windows.UI.Xaml.Media.Imaging;
 using Windows.Storage;
 
 using Net.Astropenguin.Helpers;
+using Net.Astropenguin.IO;
 using Net.Astropenguin.Messaging;
 
 namespace wenku8.Resources
 {
+    using global::System.Runtime.InteropServices.WindowsRuntime;
     using Model.Book;
     using Settings;
     using System;
@@ -74,12 +76,17 @@ namespace wenku8.Resources
 
         internal async static Task<string> CreateTileImage( BookItem b )
         {
-            string TilePath = FileLinks.ROOT_TILE + b.Id + "_tile.jpg";
-            if ( Shared.Storage.FileExists( TilePath ) ) return TilePath;
+            string TilePath = FileLinks.ROOT_TILE + b.Id + ".tile";
+            if ( Shared.Storage.FileExists( TilePath ) )
+                goto ReturnAppStoragePath;
+
+            if ( !Shared.Storage.FileExists( b.CoverPath ) )
+            {
+                return "ms-appx:///Assets/Samples/Empty150.png";
+            }
 
             BitmapImage bi = new BitmapImage();
             await bi.SetSourceAsync( Shared.Storage.GetStream( b.CoverPath ).AsRandomAccessStream() );
-
             int Width = bi.PixelWidth;
             int Height = bi.PixelHeight;
             bi = null;
@@ -109,7 +116,8 @@ namespace wenku8.Resources
                 }
             }
 
-            return TilePath;
+            ReturnAppStoragePath:
+            return "ms-appdata:///local/" + TilePath;
         }
 
         public static async void Destroy( ImageSource Source )

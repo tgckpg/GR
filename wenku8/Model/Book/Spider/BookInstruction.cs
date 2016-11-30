@@ -229,7 +229,7 @@ namespace wenku8.Model.Book.Spider
                         SChapter SC = C as SChapter;
                         if ( SC == null ) continue;
 
-                        XParameter CParam =  SC.Inst.ToXParam();
+                        XParameter CParam = SC.Inst.ToXParam();
                         CParam.Id += j++;
                         CParam.SetValue( new XKey( "EpInst", true ) );
 

@@ -92,6 +92,7 @@
     <Content Include="Shaders\Ripples.bin" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="wenku8\Model\ItemProcessor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="wenku8\AdvDM\PostData.cs" />
     <Compile Include="wenku8\AdvDM\RuntimeCache.cs" />
@@ -276,6 +277,9 @@
     <Compile Include="wenku8\System\Utils.cs" />
     <Compile Include="wenku8\System\ViewControl.cs" />
     <Compile Include="wenku8\Ext\IMemberInfo.cs" />
+    <Compile Include="wenku8\Taotu\GrimoireExtractor.cs" />
+    <Compile Include="wenku8\Taotu\GrimoireListLoader.cs" />
+    <Compile Include="wenku8\Taotu\GrimoireMarker.cs" />
     <EmbeddedResource Include="Properties\libwenku8.rd.xml" />
   </ItemGroup>
   <ItemGroup>
@@ -348,6 +352,9 @@
   </PropertyGroup>
   <PropertyGroup>
     <AssemblyOriginatorKeyFile>libwenku8.pfx</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
   </PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\WindowsXaml\v$(VisualStudioVersion)\Microsoft.Windows.UI.Xaml.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

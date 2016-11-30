@@ -37,7 +37,6 @@ namespace wenku8.Model.ListItem
             set { base.Name = value; }
         }
 
-
         public override string Desc
         {
             get
@@ -50,6 +49,10 @@ namespace wenku8.Model.ListItem
 
             set { base.Desc = value; }
         }
+
+        // Determine if instructions has Chakra process inside
+        // Which needs WebView, which needs UI Thread
+        public bool HasChakra { get; private set; }
 
         private ProcManager ProcMan;
         private BookInstruction BInst;
@@ -93,6 +96,7 @@ namespace wenku8.Model.ListItem
             if ( SParam != null )
             {
                 ProcessSuccess = SParam.GetBool( "Success" );
+                HasChakra = SParam.GetBool( "HasChakra" );
             }
         }
 
@@ -216,6 +220,8 @@ namespace wenku8.Model.ListItem
                 Convoy = await Spider.Crawl( new ProcConvoy( PThru, BInst ) );
             }
 
+            HasChakra = ProcManager.TracePackage( Convoy, ( D, C ) => D is ProcChakra ) != null;
+
             ProcParameter.StoreParams( Convoy, PSettings );
             Convoy = ProcManager.TracePackage( Convoy, ( D, C ) => C.Payload is BookInstruction );
 
@@ -227,7 +233,10 @@ namespace wenku8.Model.ListItem
             Desc = BInst.RecentUpdate;
 
             XParameter XParam = new XParameter( "ProcessState" );
-            XParam.SetValue( new XKey( "Success", true ) );
+            XParam.SetValue( new XKey[] {
+                new XKey( "Success", true )
+                , new XKey( "HasChakra", HasChakra )
+            } );
 
             PSettings.SetParameter( XParam );
             BInst.SaveInfo( PSettings );
