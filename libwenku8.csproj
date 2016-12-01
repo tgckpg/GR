@@ -92,6 +92,7 @@
     <Content Include="Shaders\Ripples.bin" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="wenku8\Model\Interfaces\IIllusUpdate.cs" />
     <Compile Include="wenku8\Model\ItemProcessor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="wenku8\AdvDM\PostData.cs" />
@@ -127,7 +128,6 @@
     <Compile Include="wenku8\Converters\PanePosConverter.cs" />
     <Compile Include="wenku8\Converters\ParallaxConverter.cs" />
     <Compile Include="wenku8\Converters\HSCTemplateSelector.cs" />
-    <Compile Include="wenku8\Converters\TOCTemplateSelector.cs" />
     <Compile Include="wenku8\Converters\TransStateConverter.cs" />
     <Compile Include="wenku8\Converters\TreeMarginConverter.cs" />
     <Compile Include="wenku8\Converters\ColorAgeConverter.cs" />
@@ -237,6 +237,7 @@
     <Compile Include="wenku8\Model\REST\JsonStatus.cs" />
     <Compile Include="wenku8\Model\REST\SharersRequest.cs" />
     <Compile Include="wenku8\Model\SearchableContext.cs" />
+    <Compile Include="wenku8\Model\Text\IllusPara.cs" />
     <Compile Include="wenku8\Model\Text\LogLine.cs" />
     <Compile Include="wenku8\Model\Text\Manipulation.cs" />
     <Compile Include="wenku8\Model\Text\Paragraph.cs" />

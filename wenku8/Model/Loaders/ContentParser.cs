@@ -10,6 +10,7 @@ namespace wenku8.Model.Loaders
 {
     using Book;
     using Resources;
+    using Settings;
     using Text;
 
     sealed class ContentParser
@@ -78,6 +79,7 @@ namespace wenku8.Model.Loaders
 
             if ( i == -1 ) return false;
 
+            int nIllus = 0;
             string Replaced = 0 < i ? content.Substring( 0, i ) : "";
             int j = content.IndexOf( token, i + tokenl );
 
@@ -86,17 +88,21 @@ namespace wenku8.Model.Loaders
                 ills += content.Substring( i + tokenl, j - i - tokenl ) + "\n";
                 i = content.IndexOf( token, j + tokenl );
 
+                string ImgFlag = "\n" + AppKeys.ANO_IMG + nIllus.ToString() + "\n";
+
                 if ( i == -1 )
                 {
-                    Replaced += content.Substring( j + tokenl );
+                    Replaced += ImgFlag + content.Substring( j + tokenl );
                     break;
                 }
                 else
                 {
-                    Replaced += content.Substring( j + tokenl, i - j - tokenl );
+                    Replaced += ImgFlag + content.Substring( j + tokenl, i - j - tokenl );
                 }
 
                 j = content.IndexOf( token, i + tokenl );
+
+                nIllus++;
             }
 
             content = Replaced;

@@ -7,7 +7,7 @@ using Windows.Data.Json;
 
 namespace wenku8.Model.REST
 {
-    class JsonStatus
+    sealed class JsonStatus
     {
         public static JsonObject Parse( string JsonData )
         {

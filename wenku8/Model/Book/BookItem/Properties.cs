@@ -34,7 +34,7 @@ namespace wenku8.Model.Book
 	{
         public static readonly string ID = typeof( BookItem ).Name;
 
-        private static StringResources Res { get { return new StringResources( "Book" ); } }
+        private static StringResBg Res { get { return new StringResBg( "Book" ); } }
 
         // For bookPool Indexing
 		public int i { get; protected set; }

@@ -101,6 +101,9 @@
             , UA = "Grimoire Reaper/{0} ( wenku8 engine; taotu engine; UAP ) wenku10 by Astropenguin"
             ;
 
-        public const char SP_ZONE_PFX = 'Z';
+        public const char
+            SP_ZONE_PFX = 'Z'
+            , ANO_IMG = '\ufff9'
+            ;
     }
 }

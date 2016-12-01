@@ -93,6 +93,17 @@ namespace wenku8.Config
 
         #region Appearance
         #region ContentReader
+		public static bool APPEARANCE_CONTENTREADER_EMBED_ILLUS
+		{
+			get
+			{
+				return GetValue<bool>( Parameters.APPEARANCE_CONTENTREADER_EMBED_ILLUS );
+			}
+			set
+			{
+				SetParameter( Parameters.APPEARANCE_CONTENTREADER_EMBED_ILLUS, value );
+			}
+		}
 		public static bool APPEARANCE_CONTENTREADER_LEFTCONTEXT
 		{
 			get
