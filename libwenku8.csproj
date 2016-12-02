@@ -92,6 +92,7 @@
     <Content Include="Shaders\Ripples.bin" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="wenku8\AdvDM\BingService.cs" />
     <Compile Include="wenku8\Model\Interfaces\IIllusUpdate.cs" />
     <Compile Include="wenku8\Model\ItemProcessor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -234,6 +235,7 @@
     <Compile Include="wenku8\Model\ListItem\Topic.cs" />
     <Compile Include="wenku8\Model\ListItem\TreeItem.cs" />
     <Compile Include="wenku8\Model\Loaders\ContentParser.cs" />
+    <Compile Include="wenku8\Model\REST\BingImageSearch.cs" />
     <Compile Include="wenku8\Model\REST\JsonStatus.cs" />
     <Compile Include="wenku8\Model\REST\SharersRequest.cs" />
     <Compile Include="wenku8\Model\SearchableContext.cs" />

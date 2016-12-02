@@ -29,6 +29,13 @@ namespace wenku8.Model.Book
             set { iv = value; NotifyChanged( "IsFav" ); }
         }
 
+        private bool IsBingRaw = false;
+        public bool IsBing
+        {
+            get { return IsBingRaw; }
+            set { IsBingRaw = value; NotifyChanged( "IsBing" ); }
+        }
+
         private string TitleRaw = "";
         public string Title
         {
