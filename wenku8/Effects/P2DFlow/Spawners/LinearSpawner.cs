@@ -11,12 +11,39 @@ namespace wenku8.Effects.P2DFlow.Spawners
         public PFTrait SpawnTrait = PFTrait.NONE;
         public int Texture;
 
+        /// <summary>
+        /// Gravity factor, how affected by gravity
+        /// </summary>
         public float gf = 0.5f;
+
+        /// <summary>
+        /// Mass factor, how affected by forces such as Wind
+        /// </summary>
         public float mf = 0.5f;
+
+        /// <summary>
+        /// Time to live
+        /// </summary>
         public float ttl = 70;
+
+        /// <summary>
+        /// Minimum terminal velocity
+        /// </summary>
         public float otMin = 100.0f;
+
+        /// <summary>
+        /// Maximum terminal velocity
+        /// </summary>
         public float otMax = 165.0f;
 
+        /// <summary>
+        /// Spawning frequency, the higher the value the slower it spawn
+        /// </summary>
+        public float spf = 10.0f;
+
+        /// <summary>
+        /// Spawning callback
+        /// </summary>
         public Action<Particle> SpawnEx = ( P ) => { };
 
         private Vector2 Pos;
@@ -55,7 +82,7 @@ namespace wenku8.Effects.P2DFlow.Spawners
 
         public int Acquire( int Quota )
         {
-            return ( i ++ ) % 10 == 0 ? 1 : 0;
+            return ( i ++ ) % spf == 0 ? 1 : 0;
         }
     }
 }

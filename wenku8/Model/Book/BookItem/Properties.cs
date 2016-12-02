@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 
 using Net.Astropenguin.DataModel;
 using Net.Astropenguin.Loaders;
@@ -33,7 +34,7 @@ namespace wenku8.Model.Book
 	{
         public static readonly string ID = typeof( BookItem ).Name;
 
-        private static StringResources Res { get { return new StringResources( "Book" ); } }
+        private static StringResBg Res { get { return new StringResBg( "Book" ); } }
 
         // For bookPool Indexing
 		public int i { get; protected set; }
@@ -93,18 +94,15 @@ namespace wenku8.Model.Book
         public bool IsLocal { get { return doc != null; } }
         virtual public string Id { get; protected set; }
 
-		public double Width
-		{
-			get
-			{
-				return ( CoverSource == null ? 0 : 100 );
-			}
-		}
-
 		public string CoverPath
 		{
 			get { return FileLinks.ROOT_COVER + Id + ".jpg"; }
 		}
+
+        public Stream CoverStream
+        {
+            get { return Shared.Storage.FileExists( CoverPath ) ? Shared.Storage.GetStream( CoverPath ) : null; }
+        }
 
         public string CoverSrcUrl = null;
 

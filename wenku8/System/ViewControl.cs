@@ -9,8 +9,7 @@ using Net.Astropenguin.DataModel;
 
 namespace wenku8.System
 {
-
-    class ViewControl : ActiveData
+    sealed class ViewControl : ActiveData
     {
         private ApplicationView Instance;
         public bool IsFullScreen

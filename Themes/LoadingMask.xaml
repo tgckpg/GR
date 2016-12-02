@@ -89,27 +89,28 @@
                                 </VisualStateGroup.States>
                             </VisualStateGroup>
                         </VisualStateManager.VisualStateGroups>
-                        <Grid x:Name="ControlContext" Background="{StaticResource Shades90}" FlowDirection="LeftToRight" Visibility="Collapsed">
-                            <Rectangle Fill="{StaticResource Shades90}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
-                            <Rectangle Fill="{StaticResource Shades90}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
-                            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <Grid x:Name="ControlContext" Background="{TemplateBinding Background}"
+                              FlowDirection="LeftToRight" Visibility="Collapsed">
+                            <Rectangle Fill="{TemplateBinding Background}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
+                            <Rectangle Fill="{TemplateBinding Background}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
+                            <StackPanel Margin="20" HorizontalAlignment="Center" VerticalAlignment="Center">
                                 <TextBlock Margin="5"
                                            x:Uid="/Tips/DidYouKnow"
                                            FontSize="25"
-                                           Foreground="{StaticResource RelativeShadesBrush}"
+                                           Foreground="{TemplateBinding Foreground}"
                                            TextWrapping="Wrap" />
                                 <TextBlock x:Name="Tips" Margin="5"
                                            Text=""
-                                           Foreground="{StaticResource RelativeShadesBrush}"
+                                           Foreground="{TemplateBinding Foreground}"
                                            TextWrapping="Wrap" />
                                 <ProgressRing x:Name="LoadingRing"
                                               IsActive="True"
-                                              Foreground="{StaticResource RelativeShadesBrush}"
+                                              Foreground="{TemplateBinding Foreground}"
                                               Width="40" Height="40" Margin="5" />
                                 <TextBlock x:Name="Message" Margin="5"
                                            TextAlignment="Center"
                                            Text="{TemplateBinding Text}"
-                                           Foreground="{StaticResource RelativeShadesBrush}"
+                                           Foreground="{TemplateBinding Foreground}"
                                            TextWrapping="Wrap" />
                             </StackPanel>
                         </Grid>

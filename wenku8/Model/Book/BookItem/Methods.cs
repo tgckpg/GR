@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Xml.Linq;
+using Windows.UI.Xaml.Media.Imaging;
 
 using Net.Astropenguin.IO;
 using Net.Astropenguin.Logging;
@@ -62,7 +64,7 @@ namespace wenku8.Model.Book
                         CoverSrcUrl = Value;
                         return true;
                     }
-                    catch( Exception )
+                    catch ( Exception )
                     {
 
                     }
@@ -208,9 +210,73 @@ namespace wenku8.Model.Book
             }
         }
 
+        public void Update( BookItem B )
+        {
+            Id = B.Id;
+            Title = B.Title;
+            Author = B.Author;
+            RecentUpdate = B.RecentUpdate;
+            TotalHitCount = B.TotalHitCount;
+            TodayHitCount = B.TodayHitCount;
+            PushCount = B.PushCount;
+            FavCount = B.FavCount;
+            Length = B.Length;
+            LatestSection = B.LatestSection;
+            Press = B.Press;
+            Intro = B.Intro;
+            OriginalUrl = B.OriginalUrl;
+            Others = B.Others;
+        }
+
+        public void CoverUpdate()
+        {
+            NotifyChanged( "CoverStream" );
+        }
+
+        static public BookItem DummyBook()
+        {
+            BookItem Book = new BookItem();
+            Book.Title = "Dummy title";
+            Book.Author = "Elizabeth";
+            Book.RecentUpdate = "1999-12-01";
+            Book.TotalHitCount = "94217589";
+            Book.TodayHitCount = "123985";
+            Book.PushCount = "20300";
+            Book.FavCount = "12039";
+            Book.Length = "13902919";
+            Book.LatestSection = "The last savior";
+            Book.Press = "Good Press";
+            Book.Intro = "Ducimus architecto qui sit sint odit ut.Nemo dolor minima sapiente. In reprehenderit qui voluptas voluptatibus.In in at voluptatem qui et dolor.Vitae natus consequatur autem sit autem. Enim asperiores quis soluta enim quos eveniet nobis qui."
+                + "\nEum eos sapiente voluptatem. Expedita hic at pariatur repellat.Praesentium dolorem eos quasi voluptatibus optio distinctio ea. Ea modi qui quam sapiente.Debitis enim facere odit dolor impedit. Tempore et quia fugiat hic atque nostrum neque earum."
+                + "\nVitae consequuntur ducimus aut dolore repellat sint.Ab quos dolores facere. Et sit ea rerum aut minima. Fuga sequi iure sunt tempore quia error dolorem. Nulla modi distinctio sit corrupti et et omnis laboriosam.Qui est ratione nesciunt et officia.";
+
+            Book.OriginalUrl = "https://google.com/";
+
+            Book.Others.Add( "Other 1" );
+            Book.Others.Add( "Other 2" );
+            Book.Others.Add( "Other 3" );
+
+            return Book;
+        }
+
         private string DisplayString( string Raw, BookInfo InfType, string Suffix = "" )
         {
             return string.IsNullOrEmpty( Raw ) ? "" : ( TypeName( InfType ) + ": " + Raw + Suffix );
         }
+
+        private async void TrySetSource()
+        {
+            if ( _Cover != null ) return;
+            using ( CoverStream )
+            {
+                if ( CoverStream == null ) return;
+
+                _Cover = new BitmapImage();
+                await _Cover.SetSourceAsync( CoverStream.AsRandomAccessStream() );
+
+                NotifyChanged( "Cover" );
+            }
+        }
+
     }
 }

@@ -6,9 +6,13 @@ using System.Threading.Tasks;
 
 namespace wenku8.Ext
 {
+    using Model.ListItem;
+
     interface INavSelections
     {
-        IPaneInfoSection CustomSection();
+        List<SubtleUpdateItem> Data { get; }
+
+        SubtleUpdateItem CustomSection();
         IMainPageSettings MainPage_Settings { get; }
 
         void Load();

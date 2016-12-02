@@ -2,7 +2,7 @@
 
 namespace wenku8.Resources
 {
-	public class LayouResources
+	public class LayoutResources
 	{
 		private static LayoutSettings _wResources = new LayoutSettings();
 

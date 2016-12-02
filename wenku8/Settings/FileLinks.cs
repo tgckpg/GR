@@ -23,6 +23,7 @@ namespace wenku8.Settings
 		, EBWIN_DICT_REG = "EBWinDicts.xml"
 		, SH_AUTH_REG = "SHAuths.xml"
         , SH_SCRIPT_ID = "SHScriptId.xml"
+        , TASKS = "Tasks.xml"
 
 		, ROOT_CACHE = "Cache/"
 		, ROOT_INTRO = "intro/"

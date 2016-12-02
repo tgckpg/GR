@@ -110,7 +110,7 @@ namespace wenku8.Model.Text
 			AppSettings.PropertyChanged += AppPropertyChanged;
 		}
 
-        public void Dispose()
+        virtual public void Dispose()
         {
             try
             {

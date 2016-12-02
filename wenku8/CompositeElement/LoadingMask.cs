@@ -7,8 +7,8 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
 using Net.Astropenguin.Controls;
+using Net.Astropenguin.Helpers;
 using Net.Astropenguin.Loaders;
-using Net.Astropenguin.Logging;
 using Net.Astropenguin.Messaging;
 using Net.Astropenguin.UI;
 
@@ -64,7 +64,10 @@ namespace wenku8.CompositeElement
             if ( Message == null || Closed ) return;
             if ( Mesg.TargetType == typeof( System.ActionCenter ) ) return;
 
-            Message.Text = Mesg.Content;
+            Worker.UIInvoke( () =>
+            {
+                Message.Text = Mesg.Content;
+            } );
         }
 
         protected override void OnApplyTemplate()

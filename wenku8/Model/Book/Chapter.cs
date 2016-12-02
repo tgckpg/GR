@@ -55,10 +55,34 @@ namespace wenku8.Model.Book
             int l = Lines.Length;
             Paragraph[] Paragraphs = new Paragraph[ Lines.Length ];
 
-            for ( int i = 0; i < l; i++ )
+            if ( HasIllustrations )
             {
-                Paragraph p = new Paragraph( Lines[ i ] );
-                Paragraphs[ i ] = p;
+                string[] IllusDefs = Shared.Storage.GetString( IllustrationPath )
+                    .Split( new char[] { '\n' }, StringSplitOptions.RemoveEmptyEntries );
+
+                int iIndex;
+                for ( int i = 0; i < l; i++ )
+                {
+                    string Line = Lines[ i ];
+                    Paragraph p;
+
+                    if ( Line[ 0 ] == AppKeys.ANO_IMG
+                        && int.TryParse( Line.Substring( 1 ), out iIndex ) )
+                    {
+                        p = new IllusPara( IllusDefs[ iIndex ] );
+                    }
+                    else
+                    {
+                        p = new Paragraph( Lines[ i ] );
+                    }
+
+                    Paragraphs[ i ] = p;
+                }
+            }
+            else
+            {
+                for ( int i = 0; i < l; i++ )
+                    Paragraphs[ i ] = new Paragraph( Lines[ i ] );
             }
 
             return Paragraphs;

@@ -8,6 +8,7 @@ namespace wenku8.Config
 		// Global
 		public const string FIRST_TIME_RUN = "First_Time_Run";
 		public const string VERSION = "Version";
+        public const string SMODE = "SMode";
 		public const string LOG_LEVEL = "Log_Level";
 		public const string ENABLE_SYSTEM_LOG = "Enable_System_Log";
 		public const string ENABLE_RSYSTEM_LOG = "Enable_RSystem_Log";
@@ -18,6 +19,7 @@ namespace wenku8.Config
         public const string CONTENTREADER_USEINERTIA = "ContentReader_UseInertia";
 		public const string APPEARANCE_CONTENTREADER_FONTSIZE = "Appearance_ContentReader_FontSize";
         public const string APPEARANCE_CONTENTREADER_LEFTCONTEXT = "Appearance_ContentReader_LeftContext";
+        public const string APPEARANCE_CONTENTREADER_EMBED_ILLUS = "Appearance_ContentReader_EmbedIllus";
 		public const string APPEARANCE_CONTENTREADER_LINEHEIGHT = "Appearance_ContentReader_LineHeight";
 		public const string APPEARANCE_CONTENTREADER_PARAGRAPHSPACING = "Appearance_ContentReader_ParagraphSpacing";
 		public const string APPEARANCE_CONTENTREADER_FONTCOLOR = "Appearance_ContentReader_FontColor";

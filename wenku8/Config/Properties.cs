@@ -29,6 +29,18 @@ namespace wenku8.Config
 			}
         }
 
+		public static int SMODE
+		{
+			get
+			{
+				return GetValue<int>( Parameters.SMODE );
+			}
+			set
+			{
+				SetParameter( Parameters.SMODE, value );
+			}
+		}
+
         #region Logging
         public static bool ENABLE_SYSTEM_LOG
 		{
@@ -81,6 +93,17 @@ namespace wenku8.Config
 
         #region Appearance
         #region ContentReader
+		public static bool APPEARANCE_CONTENTREADER_EMBED_ILLUS
+		{
+			get
+			{
+				return GetValue<bool>( Parameters.APPEARANCE_CONTENTREADER_EMBED_ILLUS );
+			}
+			set
+			{
+				SetParameter( Parameters.APPEARANCE_CONTENTREADER_EMBED_ILLUS, value );
+			}
+		}
 		public static bool APPEARANCE_CONTENTREADER_LEFTCONTEXT
 		{
 			get

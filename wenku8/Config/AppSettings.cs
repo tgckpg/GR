@@ -81,6 +81,9 @@ namespace wenku8.Config
             if ( !TestKey( Parameters.ENABLE_RSYSTEM_LOG ) )
                 Properties.ENABLE_RSYSTEM_LOG = false;
 
+            if ( !TestKey( Parameters.SMODE ) )
+                Properties.SMODE = 0;
+
 #if Release || Beta
             // Force disable logging
             Properties.ENABLE_SYSTEM_LOG = false;
@@ -103,6 +106,8 @@ namespace wenku8.Config
                 Properties.APPEARANCE_CONTENTREADER_FONTSIZE = 20;
             if ( !TestKey( Parameters.APPEARANCE_CONTENTREADER_FONTWEIGHT ) )
                 Properties.APPEARANCE_CONTENTREADER_FONTWEIGHT = Windows.UI.Text.FontWeights.Normal;
+            if ( !TestKey( Parameters.APPEARANCE_CONTENTREADER_EMBED_ILLUS ) )
+                Properties.APPEARANCE_CONTENTREADER_EMBED_ILLUS = false;
             if ( !TestKey( Parameters.APPEARANCE_CONTENTREADER_LEFTCONTEXT ) )
                 Properties.APPEARANCE_CONTENTREADER_LEFTCONTEXT = true;
             if ( !TestKey( Parameters.APPEARANCE_CONTENTREADER_LINEHEIGHT ) )

@@ -1,0 +1,16 @@
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:cv="using:Microsoft.Graphics.Canvas.UI.Xaml"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:c="using:wenku8.CompositeElement">
+
+    <Style TargetType="c:SplashRipple">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="c:SplashRipple">
+                    <cv:CanvasAnimatedControl x:Name="AnimaControl" />
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

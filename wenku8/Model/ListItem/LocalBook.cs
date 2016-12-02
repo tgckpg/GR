@@ -39,6 +39,15 @@ namespace wenku8.Model.ListItem
         public bool CanReprocess { get { return CanProcess && !Processing; } }
         public bool ProcessFailed { get { return !( CanProcess || ProcessSuccess ); } }
 
+        public bool CanFav
+        {
+            get
+            {
+                if ( ProcessSuccess ) return true;
+                return IsFav;
+            }
+        }
+
         public string FavContextMenu
         {
             get
@@ -123,7 +132,7 @@ namespace wenku8.Model.ListItem
             NotifyChanged(
                 "CanProcess", "ProcessSuccess"
                 , "CanReprocess", "ProcessFailed"
-                , "Processed", "Processing"
+                , "Processed", "Processing", "CanFav"
             );
 
             MessageBus.SendUI( GetType(), AppKeys.SP_PROCESS_COMP, this );
@@ -175,7 +184,7 @@ namespace wenku8.Model.ListItem
             }
 
             BS.SaveBookStorage();
-            NotifyChanged( "IsFav", "FavContextMenu" );
+            NotifyChanged( "IsFav", "FavContextMenu", "CanFav" );
         }
 
         virtual public void RemoveSource()
@@ -189,6 +198,8 @@ namespace wenku8.Model.ListItem
             {
                 Desc = "Source is unavailable";
             }
+
+            NotifyChanged( "ProcessSuccess", "Processed", "CanProcess", "CanFav" );
         }
 
         virtual public Task Reload() { return Task.Delay( 0 ); }

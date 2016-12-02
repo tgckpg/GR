@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -147,7 +148,16 @@ namespace wenku8.System
                     }
                 }
 
-                IStorageFile CATALOG = await SrcFolder.GetFileAsync( "CATALOGS" );
+                IStorageFile CATALOG;
+                try
+                {
+                    CATALOG = await SrcFolder.GetFileAsync( "CATALOGS" );
+                }
+                catch( FileNotFoundException )
+                {
+                    CATALOG = await SrcFolder.GetFileAsync( "CATALOG" );
+                }
+
                 string hash = await Utils.Sha1( CATALOG );
                 SrcDict.Id = hash;
 

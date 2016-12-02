@@ -11,6 +11,5 @@ namespace wenku8.Ext
     interface ISectionItem
     {
         void Load( string ListName, bool useBookMeta = false );
-        void Load( XKey[] Keys );
     }
 }

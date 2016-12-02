@@ -80,7 +80,7 @@ namespace wenku8.System
 
         internal static void ShowError( Func<string> ErrorMessage )
         {
-            Net.Astropenguin.Helpers.Worker.UIInvoke( async () =>
+            Worker.UIInvoke( async () =>
             {
                 await Popups.ShowDialog( new MessageDialog( ErrorMessage() ) );
             } );
@@ -100,9 +100,13 @@ namespace wenku8.System
 
         internal static string Md5( string str )
         {
+            return Md5( CryptographicBuffer.ConvertStringToBinary( str, BinaryStringEncoding.Utf8 ) );
+        }
+
+        internal static string Md5( IBuffer Buff )
+        {
             HashAlgorithmProvider alg = HashAlgorithmProvider.OpenAlgorithm( HashAlgorithmNames.Md5 );
-            IBuffer buff = CryptographicBuffer.ConvertStringToBinary( str, BinaryStringEncoding.Utf8 );
-            return CryptographicBuffer.EncodeToHexString( alg.HashData( buff ) );
+            return CryptographicBuffer.EncodeToHexString( alg.HashData( Buff ) );
         }
 
         internal async static Task<string> Sha1( IStorageFile File )

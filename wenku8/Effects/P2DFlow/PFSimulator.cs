@@ -2,11 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
-using wenku8.Effects.P2DFlow.ForceFields;
-using Windows.Foundation;
 
 namespace wenku8.Effects.P2DFlow
 {
+    using ForceFields;
     using Reapers;
     using Spawners;
 
@@ -24,14 +23,25 @@ namespace wenku8.Effects.P2DFlow
 
         private const float TimeFactor = 0.05f;
 
+        public void Create( Stack<Particle> ParticleQueue )
+        {
+            lock ( this.ParticleQueue )
+            {
+                this.ParticleQueue = ParticleQueue;
+            }
+        }
+
         public void Create( int Num )
         {
-            for ( int i = 0; i < Num; i++ )
+            lock ( ParticleQueue )
             {
-                ParticleQueue.Push( new Particle() );
-            }
+                for ( int i = 0; i < Num; i++ )
+                {
+                    ParticleQueue.Push( new Particle() );
+                }
 
-            NumParticles += Num;
+                NumParticles += Num;
+            }
         }
 
         public void AddField( IForceField Field )
@@ -105,8 +115,12 @@ namespace wenku8.Effects.P2DFlow
         public IEnumerator<Particle> Snapshot()
         {
             UpdateParticles();
-            ReapParticles();
-            SpawnParticles();
+
+            lock ( ParticleQueue )
+            {
+                ReapParticles();
+                SpawnParticles();
+            }
 
             return LifeParticles.GetEnumerator();
         }

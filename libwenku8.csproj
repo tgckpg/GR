@@ -87,8 +87,13 @@
     <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
     <None Include="libwenku8.pfx" />
     <None Include="project.json" />
+    <None Include="Shaders\CompileShardes.cmd" />
+    <Content Include="Shaders\Dissolve.bin" />
+    <Content Include="Shaders\Ripples.bin" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="wenku8\Model\Interfaces\IIllusUpdate.cs" />
+    <Compile Include="wenku8\Model\ItemProcessor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="wenku8\AdvDM\PostData.cs" />
     <Compile Include="wenku8\AdvDM\RuntimeCache.cs" />
@@ -98,15 +103,20 @@
     <Compile Include="wenku8\AdvDM\WHttpRequest.cs" />
     <Compile Include="wenku8\AdvDM\WRuntimeTransfer.cs" />
     <Compile Include="wenku8\CompositeElement\AttachedCopyAction.cs" />
+    <Compile Include="wenku8\CompositeElement\AppBarButtonEx.cs" />
+    <Compile Include="wenku8\CompositeElement\SecondaryIconButton.cs" />
+    <Compile Include="wenku8\CompositeElement\SecretSwipeButton.cs" />
+    <Compile Include="wenku8\CompositeElement\SplashRipple.cs" />
     <Compile Include="wenku8\CompositeElement\FloatyButton.cs" />
     <Compile Include="wenku8\CompositeElement\LoadingMask.cs" />
-    <Compile Include="wenku8\CompositeElement\OneDriveButton.cs" />
+    <Compile Include="wenku8\CompositeElement\ButtonOperation.cs" />
     <Compile Include="wenku8\CompositeElement\ParallaxHub.cs" />
     <Compile Include="wenku8\CompositeElement\PassiveSplitView.cs" />
     <Compile Include="wenku8\CompositeElement\TitleStepper.cs" />
     <Compile Include="wenku8\CompositeElement\QClock.cs" />
     <Compile Include="wenku8\CompositeElement\StarCanvas.cs" />
     <Compile Include="wenku8\CompositeElement\StateBubble.cs" />
+    <Compile Include="wenku8\CompositeElement\UIAliases.cs" />
     <Compile Include="wenku8\CompositeElement\VariableGridView.cs" />
     <Compile Include="wenku8\Config\AppSettings.cs" />
     <Compile Include="wenku8\Config\Parameters.cs" />
@@ -118,11 +128,13 @@
     <Compile Include="wenku8\Converters\PanePosConverter.cs" />
     <Compile Include="wenku8\Converters\ParallaxConverter.cs" />
     <Compile Include="wenku8\Converters\HSCTemplateSelector.cs" />
-    <Compile Include="wenku8\Converters\TOCTemplateSelector.cs" />
     <Compile Include="wenku8\Converters\TransStateConverter.cs" />
     <Compile Include="wenku8\Converters\TreeMarginConverter.cs" />
+    <Compile Include="wenku8\Converters\ColorAgeConverter.cs" />
     <Compile Include="wenku8\Converters\VDisplayConverter.cs" />
+    <Compile Include="wenku8\Effects\Easings.cs" />
     <Compile Include="wenku8\Effects\Ext.cs" />
+    <Compile Include="wenku8\Effects\P2DFlow\ForceFields\Vortex.cs" />
     <Compile Include="wenku8\Effects\SimpleStory.cs" />
     <Compile Include="wenku8\Effects\TextureLoader.cs" />
     <Compile Include="wenku8\Effects\NTimer.cs" />
@@ -157,6 +169,7 @@
     <Compile Include="wenku8\Ext\IListLoader.cs" />
     <Compile Include="wenku8\Ext\IMainPageSettings.cs" />
     <Compile Include="wenku8\Ext\INavList.cs" />
+    <Compile Include="wenku8\Model\Interfaces\INavPage.cs" />
     <Compile Include="wenku8\Ext\INavSelections.cs" />
     <Compile Include="wenku8\Ext\IPaneInfoSection.cs" />
     <Compile Include="wenku8\Ext\ISectionItem.cs" />
@@ -186,6 +199,9 @@
     <Compile Include="wenku8\Model\Book\VolumesInfo.cs" />
     <Compile Include="wenku8\Model\Comments\Comment.cs" />
     <Compile Include="wenku8\Model\Comments\Review.cs" />
+    <Compile Include="wenku8\Model\Interfaces\ISHActivity.cs" />
+    <Compile Include="wenku8\Model\Interfaces\IAnimaPage.cs" />
+    <Compile Include="wenku8\Model\Interfaces\ICmdControls.cs" />
     <Compile Include="wenku8\Model\Interfaces\IInstructionSet.cs" />
     <Compile Include="wenku8\Model\Interfaces\IMetaSpider.cs" />
     <Compile Include="wenku8\Model\Interfaces\IRoamable.cs" />
@@ -221,6 +237,7 @@
     <Compile Include="wenku8\Model\REST\JsonStatus.cs" />
     <Compile Include="wenku8\Model\REST\SharersRequest.cs" />
     <Compile Include="wenku8\Model\SearchableContext.cs" />
+    <Compile Include="wenku8\Model\Text\IllusPara.cs" />
     <Compile Include="wenku8\Model\Text\LogLine.cs" />
     <Compile Include="wenku8\Model\Text\Manipulation.cs" />
     <Compile Include="wenku8\Model\Text\Paragraph.cs" />
@@ -232,6 +249,7 @@
     <Compile Include="wenku8\Resources\LayoutResources.cs" />
     <Compile Include="wenku8\Resources\LayoutSettings.cs" />
     <Compile Include="wenku8\Resources\LocaleDefaults.cs" />
+    <Compile Include="wenku8\Resources\SegoeMDL2.cs" />
     <Compile Include="wenku8\Resources\Shared.cs" />
     <Compile Include="wenku8\SelfCencorship.cs" />
     <Compile Include="wenku8\Settings\AppFlags.cs" />
@@ -248,6 +266,7 @@
     <Compile Include="wenku8\Storage\OneDriveSync.cs" />
     <Compile Include="wenku8\System\ActionCenter.cs" />
     <Compile Include="wenku8\Model\EBDictionary.cs" />
+    <Compile Include="wenku8\System\BackStackManager.cs" />
     <Compile Include="wenku8\System\CryptAES.cs" />
     <Compile Include="wenku8\System\CryptRSA.cs" />
     <Compile Include="wenku8\System\EBDictManager.cs" />
@@ -259,13 +278,26 @@
     <Compile Include="wenku8\System\Utils.cs" />
     <Compile Include="wenku8\System\ViewControl.cs" />
     <Compile Include="wenku8\Ext\IMemberInfo.cs" />
+    <Compile Include="wenku8\Taotu\GrimoireExtractor.cs" />
+    <Compile Include="wenku8\Taotu\GrimoireListLoader.cs" />
+    <Compile Include="wenku8\Taotu\GrimoireMarker.cs" />
     <EmbeddedResource Include="Properties\libwenku8.rd.xml" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Shaders\Dissolve.hlsl" />
+    <Content Include="Shaders\Ripples.hlsl" />
     <Content Include="wenku8\Resources\aboutText.txt" />
     <Content Include="wenku8\Resources\badwords.txt" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Themes\AppBarButtonEx.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\SplashRipple.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Themes\Generic.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -277,11 +309,6 @@
     <Page Include="Themes\LoadingMask.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Themes\OneDriveButton.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Page>
     <Page Include="Themes\ParallaxHub.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -326,6 +353,9 @@
   </PropertyGroup>
   <PropertyGroup>
     <AssemblyOriginatorKeyFile>libwenku8.pfx</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
   </PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\WindowsXaml\v$(VisualStudioVersion)\Microsoft.Windows.UI.Xaml.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
