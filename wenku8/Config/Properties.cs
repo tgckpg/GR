@@ -825,6 +825,18 @@ namespace wenku8.Config
 			}
 		}
 
+        public static string MISC_COGNITIVE_API_KEY
+        {
+			get
+			{
+				return GetValue<string>( Parameters.MISC_COGNITIVE_API_KEY );
+			}
+			set
+			{
+				SetParameter( Parameters.MISC_COGNITIVE_API_KEY, value );
+			}
+        }
+
 		private static Color GetColorFromByte( byte[] b )
 		{
 			Color c = new Color();

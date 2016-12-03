@@ -12,7 +12,7 @@ namespace wenku8.Model.REST
 
     sealed class BingImageSearch
     {
-        private const string ImgQuery = "https://api.cognitive.microsoft.com/bing/v5.0/images/search?q={0}&count=1&offset={1}&mkt=en-us&safeSearch=Moderate";
+        private const string ImgQuery = "https://api.cognitive.microsoft.com/bing/v5.0/images/search?q={0}&count=1&offset={1}&mkt=en-us&safeSearch=Off";
 
         private string q;
 

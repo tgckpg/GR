@@ -256,6 +256,7 @@
     <Compile Include="wenku8\SelfCencorship.cs" />
     <Compile Include="wenku8\Settings\AppFlags.cs" />
     <Compile Include="wenku8\Settings\AppKeys.cs" />
+    <Compile Include="wenku8\Settings\AppLinks.cs" />
     <Compile Include="wenku8\Settings\FileLinks.cs" />
     <Compile Include="wenku8\Settings\Theme\ColorItem.cs" />
     <Compile Include="wenku8\Settings\Theme\ColorPickerSection.cs" />

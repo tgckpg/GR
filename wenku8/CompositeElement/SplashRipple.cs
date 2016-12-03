@@ -113,6 +113,7 @@ namespace wenku8.CompositeElement
             {
                 Restarted = false;
                 bmpImage = await CanvasBitmap.LoadAsync( sender, _Source.AsRandomAccessStream() );
+                _Source.Dispose();
             }
             else
             {
