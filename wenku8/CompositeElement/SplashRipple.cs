@@ -29,6 +29,8 @@ using Net.Astropenguin.Logging;
 namespace wenku8.CompositeElement
 {
     using Effects;
+    using Model.ListItem;
+    using Resources;
 
     [TemplatePart( Name = StageName, Type = typeof( CanvasAnimatedControl ) )]
     public sealed class SplashRipple : Control, INotifyPropertyChanged 
@@ -51,13 +53,13 @@ namespace wenku8.CompositeElement
         public static readonly DependencyProperty SourceProperty
             = DependencyProperty.Register(
                 "Source"
-                , typeof( Stream ), typeof( SplashRipple )
+                , typeof( NameValue<string> ), typeof( SplashRipple )
                 , new PropertyMetadata( null, OnSourceChanged ) );
 
-        private Stream _Source;
-        public Stream Source 
+        private string _Source;
+        public NameValue<string> Source 
         {
-            get { return ( Stream ) GetValue( SourceProperty ); }
+            get { return ( NameValue<string> ) GetValue( SourceProperty ); }
             set { SetValue( SourceProperty, value ); }
         }
 
@@ -109,15 +111,15 @@ namespace wenku8.CompositeElement
                 rippleEffect = new PixelShaderEffect( await AppStorage.AppXGetBytes( "libwenku8/Shaders/Ripples.bin" ) );
             }
 
-            if ( _Source != null )
+            if ( string.IsNullOrEmpty( _Source ) )
             {
-                Restarted = false;
-                bmpImage = await CanvasBitmap.LoadAsync( sender, _Source.AsRandomAccessStream() );
-                _Source.Dispose();
+                bmpImage = await CanvasBitmap.LoadAsync( sender, new Uri( "ms-appx:///Assets/Samples/bookcoversample.png" ) );
             }
             else
             {
-                bmpImage = await CanvasBitmap.LoadAsync( sender, new Uri( "ms-appx:///Assets/Samples/bookcoversample.png" ) );
+                Restarted = false;
+                using ( Stream s = Shared.Storage.GetStream( _Source ) )
+                    bmpImage = await CanvasBitmap.LoadAsync( sender, s.AsRandomAccessStream() );
             }
 
             imageSize = bmpImage.Size.ToVector2();
@@ -214,7 +216,7 @@ namespace wenku8.CompositeElement
         private void Splash()
         {
             Restarted = true;
-            _Source = Source;
+            _Source = Source.Value;
 
             if ( Stage != null ) Stage.Paused = false;
         }
