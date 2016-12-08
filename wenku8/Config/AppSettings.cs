@@ -85,7 +85,7 @@ namespace wenku8.Config
             if ( !TestKey( Parameters.SMODE ) )
                 Properties.SMODE = 0;
 
-#if Release || Beta
+#if RELEASE || Beta
             // Force disable logging
             Properties.ENABLE_SYSTEM_LOG = false;
             Properties.ENABLE_RSYSTEM_LOG = false;

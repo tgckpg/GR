@@ -7,15 +7,15 @@ using Net.Astropenguin.Loaders;
 
 namespace wenku8.AdvDM
 {
-	sealed class SHttpRequest : HttpRequest
-	{
-		public SHttpRequest( Uri RequestUri )
-            :base( RequestUri ) { }
+    sealed class SHttpRequest : HttpRequest
+    {
+        public SHttpRequest( Uri RequestUri )
+            : base( RequestUri ) { }
 
-		override protected void CreateRequest()
-		{
+        override protected void CreateRequest()
+        {
             base.CreateRequest();
-            WCRequest.Headers[ HttpRequestHeader.UserAgent ] = WHttpRequest.UA;
-		}
-	}
+            WCMessage.Headers.Add( "User-Agent", WHttpRequest.UA );
+        }
+    }
 }
