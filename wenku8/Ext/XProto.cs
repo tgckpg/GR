@@ -9,6 +9,7 @@ namespace wenku8.Ext
     static class XProto 
     {
         public const string Init = "wenku8_protocol.Init, wenku8-protocol"; 
+        public const string LibStart = "wenku8_protocol.LibStart, wenku8-protocol"; 
         public const string Verification = "wenku8.System.Verification, wenku8-protocol";
 
         public const string BookItemEx = "wenku8.Model.Book.BookItemEx, wenku8-protocol";
@@ -41,5 +42,7 @@ namespace wenku8.Ext
         public const string HistoryPage = "wenku10.Pages.History, wenku10";
         public const string CatListPage = "wenku10.Pages.WCateList, wenku10";
         public const string NavListPage = "wenku10.Pages.WNavList, wenku10";
+
+        public const string BingService = "wenku8.AdvDM.BingService, libwenku8";
     }
 }

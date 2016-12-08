@@ -14,6 +14,7 @@ namespace wenku8.Ext
         private static Dictionary<string, object> InstanceStore = new Dictionary<string, object>();
 
         public static bool Exists { get; private set; }
+
         public static void Init()
         {
             object o = Instance<object>( XProto.Init ) != null;

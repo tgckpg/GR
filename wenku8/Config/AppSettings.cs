@@ -8,6 +8,7 @@ using Net.Astropenguin.Logging;
 
 namespace wenku8.Config
 {
+    using AdvDM;
     using Resources;
 
     class AppSettings
@@ -260,6 +261,12 @@ namespace wenku8.Config
 
             if ( !TestKey( Parameters.CONTENTREADER_USEINERTIA ) )
                 Properties.CONTENTREADER_USEINERTIA = Shared.LocaleDefaults.Get<bool>( "ContentReader.UseInertia" );
+
+            // Cognitive API
+            if ( !TestKey( Parameters.MISC_COGNITIVE_API_KEY ) )
+                Properties.MISC_COGNITIVE_API_KEY = "";
+
+            BingService.SetApiKey( Properties.MISC_COGNITIVE_API_KEY );
 
             System.LogControl.SetFilter( Properties.LOG_LEVEL );
             Logger.Log( ID, "Initilizated", LogType.INFO );

@@ -9,7 +9,8 @@ namespace wenku8.Model.ListItem
         string Name { get; }
         object Value { get; }
     }
-    class NameValue<T> : ActiveData, INamable, INameValue
+
+    public class NameValue<T> : ActiveData, INamable, INameValue
     {
         protected string _Name;
         virtual public string Name
@@ -33,4 +34,5 @@ namespace wenku8.Model.ListItem
             _Value = Value;
         }
     }
+
 }

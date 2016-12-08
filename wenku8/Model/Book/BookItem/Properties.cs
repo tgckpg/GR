@@ -8,6 +8,7 @@ using Net.Astropenguin.Loaders;
 namespace wenku8.Model.Book
 {
     using Ext;
+    using ListItem;
     using Resources;
     using Settings;
     using Storage;
@@ -99,9 +100,18 @@ namespace wenku8.Model.Book
 			get { return FileLinks.ROOT_COVER + Id + ".jpg"; }
 		}
 
-        public Stream CoverStream
+        public NameValue<string> CoverExistsPath
         {
-            get { return Shared.Storage.FileExists( CoverPath ) ? Shared.Storage.GetStream( CoverPath ) : null; }
+            get
+            {
+                // Since the path are always the same but the underlying
+                // file may change
+                // We need a different object reference is each time for
+                // notifying changes
+                return Shared.Storage.FileExists( CoverPath )
+                    ? new NameValue<string>( "Cover", CoverPath )
+                    : null;
+            }
         }
 
         public string CoverSrcUrl = null;

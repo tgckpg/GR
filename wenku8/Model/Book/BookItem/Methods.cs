@@ -230,7 +230,7 @@ namespace wenku8.Model.Book
 
         public void CoverUpdate()
         {
-            NotifyChanged( "CoverStream" );
+            NotifyChanged( "CoverExistsPath" );
         }
 
         static public BookItem DummyBook()
@@ -266,13 +266,12 @@ namespace wenku8.Model.Book
 
         private async void TrySetSource()
         {
-            if ( _Cover != null ) return;
-            using ( CoverStream )
-            {
-                if ( CoverStream == null ) return;
+            if ( _Cover != null || CoverExistsPath == null ) return;
 
+            using ( Stream s = Shared.Storage.GetStream( CoverPath ) )
+            {
                 _Cover = new BitmapImage();
-                await _Cover.SetSourceAsync( CoverStream.AsRandomAccessStream() );
+                await _Cover.SetSourceAsync( s.AsRandomAccessStream() );
 
                 NotifyChanged( "Cover" );
             }
