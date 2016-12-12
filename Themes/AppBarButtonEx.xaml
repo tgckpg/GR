@@ -130,7 +130,7 @@
                                     <TextBlock
                                         x:Name="CountText"
                                         Text="{TemplateBinding Count}"
-                                        Foreground="White"
+                                        Foreground="{StaticResource MajorBackgroundBrush}"
                                         FontSize="12" Margin="5,0"
                                         FontFamily="{TemplateBinding FontFamily}"
                                         TextAlignment="Center"
