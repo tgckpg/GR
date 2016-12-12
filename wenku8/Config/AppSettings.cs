@@ -57,8 +57,7 @@ namespace wenku8.Config
             else
                 ISettings.Values.Add( Key, value );
 
-            if ( PropertyChanged != null )
-                PropertyChanged( null, new PropertyChangedEventArgs( Key ) );
+            PropertyChanged?.Invoke( null, new PropertyChangedEventArgs( Key ) );
         }
 
         protected static T GetValue<T>( string Key )
@@ -121,6 +120,8 @@ namespace wenku8.Config
                 Properties.APPEARANCE_CONTENTREADER_PARAGRAPHSPACING = 32;
             if ( !TestKey( Parameters.APPEARANCE_CONTENTREADER_BACKGROUND ) )
                 Properties.APPEARANCE_CONTENTREADER_BACKGROUND = Colors.White;
+            if ( !TestKey( Parameters.APPEARANCE_CONTENTREADER_SCROLLBAR ) )
+                Properties.APPEARANCE_CONTENTREADER_SCROLLBAR = Color.FromArgb( 0x3C, 0xFF, 0xFF, 0xFF );
             if ( !TestKey( Parameters.APPEARANCE_CONTENTREADER_FONTCOLOR ) )
                 Properties.APPEARANCE_CONTENTREADER_FONTCOLOR = Color.FromArgb( 0xE5, 0, 0, 0 );
             if ( !TestKey( Parameters.APPEARANCE_CONTENTREADER_HIDEAPPBAR ) )

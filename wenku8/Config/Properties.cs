@@ -170,6 +170,17 @@ namespace wenku8.Config
 				SetColor( Parameters.APPEARANCE_CONTENTREADER_BACKGROUND, value );
 			}
 		}
+		public static Color APPEARANCE_CONTENTREADER_SCROLLBAR
+		{
+			get
+			{
+				return GetColorFromByte( GetValue<byte[]>( Parameters.APPEARANCE_CONTENTREADER_SCROLLBAR ) );
+			}
+			set
+			{
+				SetColor( Parameters.APPEARANCE_CONTENTREADER_SCROLLBAR, value );
+			}
+		}
 		public static Color APPEARANCE_CONTENTREADER_ASSISTBG
 		{
 			get
