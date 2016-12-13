@@ -78,6 +78,17 @@ namespace wenku8.Model.ListItem.Sharers
             }
         }
 
+        public DateTime ErrorDateTime
+        {
+            get
+            {
+                DateTime? DT = Histories?.FirstOrDefault()?.Date;
+                if ( DT == null ) return new DateTime( 0 );
+
+                return ( DateTime ) DT;
+            }
+        }
+
         // Not to be confused with Error, which indicate the Script status
         // Failtered items are caused by invalid return result from server
         public bool Faultered { get; private set; }
