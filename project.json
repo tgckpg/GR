@@ -1,9 +1,9 @@
 ﻿{
   "dependencies": {
     "Microsoft.NETCore.UniversalWindowsPlatform": "5.2.2",
-    "Microsoft.OneDriveSDK": "2.0.2",
-    "Microsoft.OneDriveSDK.Authentication": "1.0.6",
-    "Win2D.uwp": "1.19.0"
+    "Microsoft.OneDriveSDK": "2.0.6",
+    "Microsoft.OneDriveSDK.Authentication": "1.0.8",
+    "Win2D.uwp": "1.20.0"
   },
   "frameworks": {
     "uap10.0": {}
