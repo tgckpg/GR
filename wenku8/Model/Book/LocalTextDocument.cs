@@ -14,12 +14,10 @@ namespace wenku8.Model.Book
     using Settings;
     using Resources;
 
-    sealed class LocalTextDocument
+    sealed class LocalTextDocument : BookItem
     {
-        public static readonly string ID = typeof( LocalTextDocument ).Name;
+        new public static readonly string ID = typeof( LocalTextDocument ).Name;
 
-        public string Title { get; private set; }
-        public string Id { get; private set; }
         public string MetaLocation { get { return FileLinks.ROOT_LOCAL_VOL + Id + "/METADATA.xml"; } }
 
         public bool IsValid { get; private set; }
@@ -35,6 +33,8 @@ namespace wenku8.Model.Book
 
             TryGetInformation();
         }
+
+        public LocalTextDocument( LocalChapter C ) : this( C.aid ) { }
 
         private void TryGetInformation()
         {
@@ -195,7 +195,7 @@ namespace wenku8.Model.Book
             return new TextVolume( aid, VolTitle, VolGroup );
         }
 
-        public Volume[] GetVolumes()
+        override public Volume[] GetVolumes()
         {
             XParameter[] Params = BookReg.Parameters( AppKeys.GLOBAL_VID );
 

@@ -7,7 +7,6 @@ namespace wenku8.Model.Book
 {
     using Resources;
     using Settings;
-    using Spider;
 
     sealed class VolumesInfo
     {
@@ -24,7 +23,7 @@ namespace wenku8.Model.Book
         public VolumesInfo( BookItem b )
         {
             BookId = b.Id;
-            if ( b.IsLocal || b is BookInstruction )
+            if ( b.IsLocal() || b.IsSpider() )
             {
                 ParseByVolumes( VolRef = b.GetVolumes() );
                 return;

@@ -53,7 +53,7 @@ namespace wenku8.Model.Pages
             {
                 // Try LocalDocument first
                 LocalTextDocument Doc = new LocalTextDocument( Id );
-                if ( Doc.IsValid ) return new BookItem( Doc );
+                if ( Doc.IsValid ) return Doc;
 
                 // Try for Ex function
                 else if ( X.Exists ) return GetBookEx( Id );

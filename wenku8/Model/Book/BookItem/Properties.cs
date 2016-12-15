@@ -31,7 +31,7 @@ namespace wenku8.Model.Book
         Intro = 8192,
     }
 
-    partial class BookItem : ActiveData
+    abstract partial class BookItem : ActiveData
 	{
         public static readonly string ID = typeof( BookItem ).Name;
 
@@ -71,28 +71,6 @@ namespace wenku8.Model.Book
             Others = new HashSet<string>();
         }
 
-        public BookItem( Chapter c )
-            :this( c.aid )
-        {
-            if ( c is LocalChapter ) InitLocal( new LocalTextDocument( c.aid ) );
-        }
-
-        public BookItem( LocalTextDocument doc )
-            : this()
-        {
-            InitLocal( doc );
-        }
-
-        public void InitLocal( LocalTextDocument doc )
-        {
-            this.doc = doc;
-            TitleRaw = doc.Title;
-            Id = doc.Id;
-        }
-
-        private LocalTextDocument doc;
-
-        public bool IsLocal { get { return doc != null; } }
         virtual public string Id { get; protected set; }
 
 		public string CoverPath
