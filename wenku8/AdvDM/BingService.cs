@@ -11,7 +11,6 @@ using Net.Astropenguin.Loaders;
 
 namespace wenku8.AdvDM
 {
-    using Config;
     using Model.Book;
     using Model.REST;
     using Settings;
@@ -119,15 +118,15 @@ namespace wenku8.AdvDM
     }
 
     sealed class BingHttpRequest : HttpRequest
-	{
-		public BingHttpRequest( Uri RequestUri ) :base( RequestUri ) { EN_UITHREAD = false; } 
+    {
+        public BingHttpRequest( Uri RequestUri ) : base( RequestUri ) { EN_UITHREAD = false; }
 
-		override protected void CreateRequest()
-		{
+        override protected void CreateRequest()
+        {
             base.CreateRequest();
-            WCRequest.Headers[ HttpRequestHeader.UserAgent ] = WHttpRequest.UA;
-            WCRequest.Headers[ "Ocp-Apim-Subscription-Key" ] = BingService.API_KEY;
-		}
-	}
+            UserAgent = WHttpRequest.UA;
+            WCMessage.Headers.Add( "Ocp-Apim-Subscription-Key", BingService.API_KEY );
+        }
+    }
 
 }

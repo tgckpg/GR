@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -68,7 +69,7 @@ namespace wenku8.AdvDM
         {
             HttpRequest wc = MakeRequest( uri );
             wc.ContentType = "application/x-www-form-urlencoded";
-            wc.Method = "POST";
+            wc.Method = HttpMethod.Post;
 
             wc.OnRequestComplete += ( e ) => PreHandler(
                 Data.CacheName
@@ -87,7 +88,7 @@ namespace wenku8.AdvDM
         , Action<string, string, Exception> DowloadFailedHandler, bool precache )
         {
             HttpRequest wc = MakeRequest( Guri );
-            wc.Method = "GET";
+            wc.Method = HttpMethod.Get;
 
             wc.OnRequestComplete += ( e ) => PreHandler(
                 Guri.OriginalString

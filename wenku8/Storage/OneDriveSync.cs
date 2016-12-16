@@ -37,7 +37,7 @@ namespace wenku8.Storage
 
         public enum SyncMode
         {
-            WITH_DEL_FLAG, AUTO
+            WITH_DEL_FLAG, AUTO, FAVOR_REMOTE
         }
 
         private MsaAuthenticationProvider MSAuth;
@@ -181,6 +181,12 @@ namespace wenku8.Storage
                             }
                         );
                         break;
+
+                    case SyncMode.FAVOR_REMOTE:
+                        Logger.Log( ID, "Favor Remote: Pull Only", LogType.INFO );
+                        Shared.Storage.WriteString( Reg.Location, Content );
+                        Reg.Reload();
+                        return;
 
                 }
                 Reg.Save();

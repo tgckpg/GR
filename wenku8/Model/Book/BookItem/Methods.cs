@@ -90,66 +90,7 @@ namespace wenku8.Model.Book
             return false;
         }
 
-        virtual public Volume[] GetVolumes()
-        {
-            // Get Cached XML
-            XDocument xml;
-            try
-            {
-                if ( doc != null )
-                {
-                    return doc.GetVolumes();
-                }
-
-                xml = XDocument.Parse( Shared.Storage.GetString( TOCPath ) );
-            }
-            catch ( Exception ex )
-            {
-                Logger.Log( ID, ex.Message, LogType.ERROR );
-
-                if ( Shared.Storage.FileExists( TOCPath ) )
-                {
-                    Logger.Log( ID, Shared.Storage.GetString( TOCPath ), LogType.INFO );
-                }
-                else
-                {
-                    Logger.Log( ID, "File Not Found: " + TOCPath, LogType.INFO );
-                }
-
-                // Remove the corrupted file
-                Shared.Storage.DeleteFile( TOCPath );
-                return new Volume[0];
-            }
-
-            // Initialize Volume List
-            IEnumerable<XElement> Collection = xml.Document.Descendants( "volume" );
-            int l = Collection.Count();
-
-            Volume[] vList = new Volume[ l ];
-            Volume p = null;
-
-            for ( int i = 0; i < l; i++ )
-            {
-                XElement v = Collection.ElementAt( i );
-                IEnumerable<XElement> chapterList = v.Descendants( "chapter" );
-
-                int k;
-                string vid = v.Attribute( AppKeys.GLOBAL_VID ).Value;
-                Chapter[] cList = new Chapter[ k = chapterList.Count() ];
-
-                for ( int j = 0; j < k; j++ )
-                {
-                    XElement c = chapterList.ElementAt( j );
-                    cList[ j ] = new Chapter( c.Value, Id, vid, c.Attribute( AppKeys.GLOBAL_CID ).Value );
-                }
-
-                p = vList[ i ] = new Volume( vid, false, v.Nodes().OfType<XText>().First().Value, cList );
-            }
-
-            if ( p != null ) p.VolumeTag = true;
-
-            return vList;
-        }
+        abstract public Volume[] GetVolumes();
 
         virtual public void SaveInfo( XRegistry XReg )
         {
@@ -235,8 +176,7 @@ namespace wenku8.Model.Book
 
         static public BookItem DummyBook()
         {
-            BookItem Book = new BookItem();
-            Book.Title = "Dummy title";
+            BookItem Book = new NonCollectedBook( "Dummy title" );
             Book.Author = "Elizabeth";
             Book.RecentUpdate = "1999-12-01";
             Book.TotalHitCount = "94217589";

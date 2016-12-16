@@ -34,6 +34,7 @@ namespace wenku8.Config
 		public const string APPEARANCE_CONTENTREADER_NAVBG = "Appearance_ContentReader_NavBg";
 		public const string APPEARANCE_CONTENTREADER_FONTWEIGHT = "Appearance_ContentReader_FontWeight";
 		public const string APPEARANCE_CONTENTREADER_BACKGROUND = "Appearance_ContentReader_Background";
+		public const string APPEARANCE_CONTENTREADER_SCROLLBAR = "Appearance_ContentReader_ScrollBar";
 		public const string APPEARANCE_CONTENTREADER_HIDEHEADER = "Appearance_ContentReader_HideHeader";
 		public const string APPEARANCE_CONTENTREADER_HIDEAPPBAR = "Appearance_ContentReader_HideAppBar";
 		public const string APPEARANCE_CONTENTREADER_ENABLEREADINGANCHOR = "Appearance_ContentReader_EnableReadingAnchor";
