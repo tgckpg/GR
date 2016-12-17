@@ -13,6 +13,7 @@ using Net.Astropenguin.Logging;
 namespace wenku8.Model.ListItem.Sharers
 {
     using AdvDM;
+    using Config;
     using REST;
     using Resources;
     using System;
@@ -27,6 +28,7 @@ namespace wenku8.Model.ListItem.Sharers
         public int NGrants { get { return GrantDef.Grants.Length; } }
         public SHTarget Target { get { return GrantDef.Target; } }
 
+        public bool DeviceMatched { get { return GrantDef.DevId == AppSettings.DeviceId; } }
         public SHGrant GrantDef { get; private set; }
 
         #region Display Properties
@@ -193,7 +195,8 @@ namespace wenku8.Model.ListItem.Sharers
             IsLoading = false;
             Processed = true;
 
-            if ( !ProcessSuccess ) ClearGrants();
+            if ( DeviceMatched && !ProcessSuccess )
+                ClearGrants();
         }
 
         public async Task<bool> Withdraw()

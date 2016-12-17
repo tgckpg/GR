@@ -18,6 +18,9 @@ namespace wenku8.Model.ListItem.Sharers
         public string Id { get; set; }
         public string[] Grants { get; private set; }
 
+        public string DevName { get; private set; }
+        public string DevId { get; private set; }
+
         public string ScriptId { get; private set; }
         public string ScriptName { get; private set; }
         public SHTarget Target { get; private set; }
@@ -29,6 +32,13 @@ namespace wenku8.Model.ListItem.Sharers
             Id = Def.GetNamedString( "_id" );
 
             IJsonValue JValue;
+
+            if( Def.TryGetValue( "dev_id", out JValue ) )
+                DevId = JValue.GetString();
+
+            if( Def.TryGetValue( "dev_name", out JValue ) )
+                DevName = JValue.GetString();
+
             if ( Def.TryGetValue( "script", out JValue ) )
             {
                 JsonObject JScript = JValue.GetObject();

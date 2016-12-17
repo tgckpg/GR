@@ -17,6 +17,18 @@ namespace wenku8.Config
 			}
 		}
 
+        public static string INSTALLATION_INST
+        {
+            get
+            {
+                return GetValue<string>( Parameters.INSTALLATION_INST );
+            }
+            set
+            {
+                SetParameter( Parameters.INSTALLATION_INST, value );
+            }
+        }
+
         public static string VERSION
         {
 			get

@@ -197,6 +197,8 @@ namespace wenku8.Model.REST
                     , "target", ParamTarget
                     , "remarks", Remarks
                     , "pubkey", PubKey
+                    , "dev_id", AppSettings.DeviceId
+                    , "dev_name", AppSettings.DeviceName
                 )
             );
         }

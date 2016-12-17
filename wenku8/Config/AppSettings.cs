@@ -1,8 +1,11 @@
-﻿using System.ComponentModel;
-
-using Windows.UI;
-using Windows.Storage;
+﻿using System;
+using System.Linq;
+using System.ComponentModel;
 using Windows.ApplicationModel;
+using Windows.Networking.Connectivity;
+using Windows.Security.ExchangeActiveSyncProvisioning;
+using Windows.Storage;
+using Windows.UI;
 
 using Net.Astropenguin.Logging;
 
@@ -31,6 +34,9 @@ namespace wenku8.Config
                 );
             }
         }
+
+        public static string DeviceName { get; private set; }
+        public static string DeviceId { get { return Properties.INSTALLATION_INST; } }
 
         public static string FamilyName
         {
@@ -74,6 +80,8 @@ namespace wenku8.Config
 
         public static void Initialize()
         {
+            SetDeviceInfo();
+
             //// Global
             if ( !TestKey( Parameters.ENABLE_SYSTEM_LOG ) )
                 Properties.ENABLE_SYSTEM_LOG = false;
@@ -260,6 +268,9 @@ namespace wenku8.Config
             if ( !TestKey( Parameters.FIRST_TIME_RUN ) )
                 Properties.FIRST_TIME_RUN = true;
 
+            if ( !TestKey( Parameters.INSTALLATION_INST ) )
+                Properties.INSTALLATION_INST = Guid.NewGuid().ToString();
+
             if ( !TestKey( Parameters.CONTENTREADER_USEINERTIA ) )
                 Properties.CONTENTREADER_USEINERTIA = Shared.LocaleDefaults.Get<bool>( "ContentReader.UseInertia" );
 
@@ -273,5 +284,14 @@ namespace wenku8.Config
             Logger.Log( ID, "Initilizated", LogType.INFO );
         }
 
+        private static void SetDeviceInfo()
+        {
+            DeviceName = NetworkInformation.GetHostNames().FirstOrDefault()?.DisplayName;
+            if ( string.IsNullOrEmpty( DeviceName ) )
+            {
+                EasClientDeviceInformation Info = new EasClientDeviceInformation();
+                DeviceName = Info.FriendlyName;
+            }
+        }
     }
 }
