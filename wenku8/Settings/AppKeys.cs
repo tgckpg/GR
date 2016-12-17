@@ -97,6 +97,8 @@
             , SP_PROCESS_COMP = "Spider_Process_Comp"
 
             , SYS_2ND_TILE_LAUNCH = "LaunchSecondaryTile"
+            , SYS_EXCEPTION = "exception"
+            , SYS_MESSAGE = "mesg"
 
             , UA = "Grimoire Reaper/{0} ( wenku8 engine; taotu engine; UAP ) wenku10 by Astropenguin"
             ;
