@@ -51,12 +51,18 @@ namespace wenku8.Model.Pages
             }
             else if( int.TryParse( Id, out _Id ) )
             {
-                // Try LocalDocument first
+                // Order-aware
+                IDeathblow Deathblow = X.Instance<IDeathblow>( XProto.Deathblow, Id );
+                if ( Deathblow.Registered && X.Exists )
+                {
+                    await ProcessLocal( Deathblow.GetParser() );
+                    return Deathblow.GetBook();
+                }
+
                 LocalTextDocument Doc = new LocalTextDocument( Id );
                 if ( Doc.IsValid ) return Doc;
 
-                // Try for Ex function
-                else if ( X.Exists ) return GetBookEx( Id );
+                if ( X.Exists ) return GetBookEx( Id );
             }
 
             return null;

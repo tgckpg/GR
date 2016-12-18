@@ -162,7 +162,7 @@ namespace wenku8.Model.ListItem
 
         virtual protected void MessageBus_OnDelivery( Message MesgArgs )
         {
-            if( MesgArgs.TargetType == this.GetType()
+            if( MesgArgs.TargetType == typeof( LocalBook )
                 && MesgArgs.Payload.ToString() == aid )
             {
                 Desc = MesgArgs.Content;

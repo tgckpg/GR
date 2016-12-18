@@ -93,6 +93,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="wenku8\AdvDM\BingService.cs" />
+    <Compile Include="wenku8\Ext\IDeathblow.cs" />
     <Compile Include="wenku8\Model\Book\BookItemExt.cs" />
     <Compile Include="wenku8\Model\Interfaces\IIllusUpdate.cs" />
     <Compile Include="wenku8\Model\ItemProcessor.cs" />

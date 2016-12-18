@@ -115,7 +115,8 @@ namespace wenku8.Ext
         public static bool XTest( this object Obj, string Name )
         {
             SType t = X.Type( Name );
-            return t.Equals( Obj.GetType() );
+            SType o = Obj.GetType();
+            return t.Equals( o ) || o.GetTypeInfo().IsSubclassOf( t );
         }
 
         public static T XProp<T>( this object Obj, string Prop )
