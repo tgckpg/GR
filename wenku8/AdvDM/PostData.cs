@@ -54,6 +54,10 @@ namespace wenku8.AdvDM
 
             CacheName = wenku8.System.Utils.Md5( Id );
             StringData = Data;
+
+#if DEBUG
+            LogStamp += ", " + Data;
+#endif
         }
 
         public PostData( string Id, Stream Data )

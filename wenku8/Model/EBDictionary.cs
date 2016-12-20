@@ -34,9 +34,12 @@ namespace wenku8.Model
             set { _numresults = value; NotifyChanged( "NumResults" ); }
         }
 
+        public bool HasDict { get; private set; }
+
         public EBDictionary( IEnumerable<EBSubbook> subbooks )
         {
             this.subbooks = subbooks;
+            HasDict = subbooks.Any();
         }
 
         public IEnumerable<ActiveItem> SearchSet { get; set; }

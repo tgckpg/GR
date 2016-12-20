@@ -10,14 +10,16 @@ namespace wenku8.Effects
 {
     static class SimpleStory
     {
-        public static void DoubleAnimation( Storyboard Board, DependencyObject Element, string Property, double From, double To, double Duration = 350, double Delay = 0 )
+        public static void DoubleAnimation( Storyboard Board, DependencyObject Element, string Property, double From, double To, double Duration = 350, double Delay = 0, EasingFunctionBase Easing = null )
         {
             DoubleAnimationUsingKeyFrames d = new DoubleAnimationUsingKeyFrames();
+
+            if ( Easing == null ) Easing = new CubicEase() { EasingMode = EasingMode.EaseOut };
 
             EasingDoubleKeyFrame still = new EasingDoubleKeyFrame();
             still.Value = From;
             still.KeyTime = KeyTime.FromTimeSpan( TimeSpan.FromSeconds( 0 ) );
-            still.EasingFunction = new CubicEase() { EasingMode = EasingMode.EaseOut };
+            still.EasingFunction = Easing;
 
             if ( 0 < Delay )
             {
@@ -32,7 +34,7 @@ namespace wenku8.Effects
 
             EasingDoubleKeyFrame move = new EasingDoubleKeyFrame();
             move.Value = To;
-            move.EasingFunction = new CubicEase() { EasingMode = EasingMode.EaseOut };
+            move.EasingFunction = Easing;
             move.KeyTime = KeyTime.FromTimeSpan( TimeSpan.FromMilliseconds( Delay + Duration ) );
 
             d.Duration = new Duration( TimeSpan.FromMilliseconds( Delay + Duration ) );

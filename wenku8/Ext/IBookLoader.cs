@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace wenku8.Ext
 {
-    using wenku8.Model.Book;
+    using Model.Book;
 
     interface IBookLoader
     {

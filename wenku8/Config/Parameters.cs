@@ -7,6 +7,7 @@ namespace wenku8.Config
 		//// Appearance
 		// Global
 		public const string FIRST_TIME_RUN = "First_Time_Run";
+        public const string INSTALLATION_INST = "Installation_Instance";
 		public const string VERSION = "Version";
         public const string SMODE = "SMode";
 		public const string LOG_LEVEL = "Log_Level";

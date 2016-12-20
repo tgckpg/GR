@@ -64,6 +64,7 @@ namespace wenku8.System
                     DictReg.Save();
                 }
             );
+            __CachedDicts = null;
             UpdateDictList();
         }
 
@@ -228,6 +229,8 @@ namespace wenku8.System
                 SrcDict.SetValue( new XKey( "Corrupted", false ) );
                 DictReg.SetParameter( SrcDict );
                 DictReg.Save();
+
+                __CachedDicts = null;
                 InstMessage = "";
             }
             catch ( Exception ex )

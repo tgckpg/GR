@@ -111,6 +111,7 @@ namespace wenku8.Model.Book
                 , new XKey( "Press", PressRaw )
                 , new XKey( "Intro", IntroRaw )
                 , new XKey( "OriginalUrl", OriginalUrl )
+                , new XKey( "CoverSrcUrl", CoverSrcUrl )
             } );
 
             int i = 0;
@@ -142,6 +143,7 @@ namespace wenku8.Model.Book
             LatestSection = Param.GetValue( "LatestSection" );
             Press = Param.GetValue( "Press" );
             Intro = Param.GetValue( "Intro" );
+            CoverSrcUrl = Param.GetValue( "CoverSrcUrl" );
             OriginalUrl = Param.GetValue( "OriginalUrl" );
 
             XParameter[] OtherParams = Param.Parameters( "others" );

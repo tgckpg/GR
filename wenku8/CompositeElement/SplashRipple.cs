@@ -74,6 +74,8 @@ namespace wenku8.CompositeElement
             }
         }
 
+        public bool Filling { get { return !Stage.Paused; } }
+
         private const string StageName = "AnimaControl";
         private CanvasAnimatedControl Stage;
 

@@ -92,8 +92,13 @@ namespace wenku8.Model.REST
                 , "name", Name
                 , "desc", Desc
                 , "scope", ( Scope & SpiderScope.BOOK ) != 0 ? "book" : "zone"
-                , "access_token", AccessToken
-            } );
+            } ); 
+
+            if ( !string.IsNullOrEmpty( AccessToken ) )
+            {
+                Params.Add( "access_token" );
+                Params.Add( AccessToken );
+            }
 
             foreach( string c in Compat )
             {
@@ -197,6 +202,8 @@ namespace wenku8.Model.REST
                     , "target", ParamTarget
                     , "remarks", Remarks
                     , "pubkey", PubKey
+                    , "dev_id", AppSettings.DeviceId
+                    , "dev_name", AppSettings.DeviceName
                 )
             );
         }

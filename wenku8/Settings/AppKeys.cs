@@ -96,7 +96,11 @@
             , HSC_DECRYPT_FAIL = "HSC_Decrypt_Fail"
             , SP_PROCESS_COMP = "Spider_Process_Comp"
 
+            , EX_DEATHBLOW = "ExDeathblow"
+
             , SYS_2ND_TILE_LAUNCH = "LaunchSecondaryTile"
+            , SYS_EXCEPTION = "exception"
+            , SYS_MESSAGE = "mesg"
 
             , UA = "Grimoire Reaper/{0} ( wenku8 engine; taotu engine; UAP ) wenku10 by Astropenguin"
             ;
