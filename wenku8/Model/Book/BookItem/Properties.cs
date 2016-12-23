@@ -119,7 +119,7 @@ namespace wenku8.Model.Book
 			get { return VolumeRoot + "toc.dsp"; }
 		}
 
-		public bool NeedUpdate
+		virtual public bool NeedUpdate
 		{
 			get
 			{
