@@ -112,6 +112,9 @@ namespace wenku8.Model.Topics
 
         public void Save()
         {
+            // Sever might error and causing Xml be null
+            // So there is nothing to be saved
+            if ( TopicXml == null ) return;
             Shared.Storage.WriteString( LFile, TopicXml.ToString() );
         }
 
