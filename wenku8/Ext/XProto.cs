@@ -31,6 +31,7 @@ namespace wenku8.Ext
 
         public const string AutoCache = "wenku8.Model.Loaders.AutoCache, wenku10";
         public const string BookLoader = "wenku8.Model.Loaders.BookLoader, wenku10";
+        public const string TwitterLoader = "wenku8.Model.Loaders.TwitterLoader, wenku10";
         public const string ListLoader = "wenku8.Model.Loaders.ListLoader, wenku8-protocol";
         public const string StaffPicks = "wenku8.Model.Loaders.StaffPicks, wenku8-protocol";
 
