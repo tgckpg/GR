@@ -241,6 +241,7 @@
     <Compile Include="wenku8\Model\REST\JsonStatus.cs" />
     <Compile Include="wenku8\Model\REST\SharersRequest.cs" />
     <Compile Include="wenku8\Model\SearchableContext.cs" />
+    <Compile Include="wenku8\Model\Text\Ext.cs" />
     <Compile Include="wenku8\Model\Text\IllusPara.cs" />
     <Compile Include="wenku8\Model\Text\LogLine.cs" />
     <Compile Include="wenku8\Model\Text\Manipulation.cs" />

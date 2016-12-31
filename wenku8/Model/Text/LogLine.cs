@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace wenku8.Model.Text
 {
-    class LogLine
+    sealed class LogLine
     {
         public string Level { get; private set; }
         public string Time { get; private set; }
@@ -36,5 +36,6 @@ namespace wenku8.Model.Text
                 Message = Line;
             }
         }
+
     }
 }
