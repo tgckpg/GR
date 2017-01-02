@@ -23,8 +23,7 @@ namespace wenku8.Effects.P2DFlow.ForceFields
             }
         }
 
-        public void WireFrame( CanvasDrawingSession ds )
-        {
-        }
+        public void WireFrame( CanvasDrawingSession ds ) { }
+        public void FreeWireFrame() { }
     }
 }

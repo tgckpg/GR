@@ -138,6 +138,11 @@ namespace wenku8.Ext
         {
             return ( T ) X.Method( Obj.GetType(), Method ).Invoke( Obj, args );
         }
+
+        public static Task<T> XCallAsync<T>( this object Obj, string Method, params object[] args )
+        {
+            return ( Task<T> ) X.Method( Obj.GetType(), Method ).Invoke( Obj, args );
+        }
     }
 
 }

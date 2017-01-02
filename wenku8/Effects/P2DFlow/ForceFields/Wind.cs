@@ -49,7 +49,12 @@ namespace wenku8.Effects.P2DFlow.ForceFields
             {
                 ds.DrawLine( d.Item1, d.Item2, Color.FromArgb( ( byte ) Math.Floor( 255 * d.Item3 ), 0, 255, 0 ) );
             }
+#endif
+        }
 
+        public void FreeWireFrame()
+        {
+#if DEBUG
             DebugInfo = new List<Tuple<Vector2, Vector2, float>>();
 #endif
         }

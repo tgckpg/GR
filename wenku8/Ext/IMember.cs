@@ -18,6 +18,7 @@ namespace wenku8.Ext
         bool WillLogin { get; }
         bool CanRegister { get; }
 
+        string CurrentAccount { get; }
         string ServerMessage { get; }
 
         event TypedEventHandler<object, MemberStatus> OnStatusChanged;
