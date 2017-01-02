@@ -19,8 +19,7 @@ namespace wenku8.Effects.P2DFlow.ForceFields
             P.a += a * P.gf;
         }
 
-        public void WireFrame( CanvasDrawingSession ds )
-        {
-        }
+        public void WireFrame( CanvasDrawingSession ds ) { }
+        public void FreeWireFrame() { }
     }
 }

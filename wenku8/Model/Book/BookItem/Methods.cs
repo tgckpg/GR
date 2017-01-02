@@ -10,6 +10,7 @@ using Net.Astropenguin.Logging;
 
 namespace wenku8.Model.Book
 {
+    using Effects;
     using Resources;
     using Settings;
 
@@ -178,25 +179,25 @@ namespace wenku8.Model.Book
 
         static public BookItem DummyBook()
         {
-            BookItem Book = new NonCollectedBook( "Dummy title" );
-            Book.Author = "Elizabeth";
-            Book.RecentUpdate = "1999-12-01";
-            Book.TotalHitCount = "94217589";
-            Book.TodayHitCount = "123985";
-            Book.PushCount = "20300";
-            Book.FavCount = "12039";
-            Book.Length = "13902919";
+            BookItem Book = new NonCollectedBook( "Dummy Title" );
+            Book.Author = "\u659F\u914C \u9D6C\u5144";
+            Book.RecentUpdate = DateTime.Now.ToString( "yyyy-MM-dd" );
+            Book.TotalHitCount = NTimer.RandInt( 0, 10000000 ).ToString();
+            Book.TodayHitCount = NTimer.RandInt( 0, 10000000 ).ToString();
+            Book.PushCount = NTimer.RandInt( 0, 10000000 ).ToString();
+            Book.FavCount = NTimer.RandInt( 0, 10000000 ).ToString();
+            Book.Length = NTimer.RandInt( 0, 10000000 ).ToString();
             Book.LatestSection = "The last savior";
-            Book.Press = "Good Press";
+            Book.Press = "Blog";
             Book.Intro = "Ducimus architecto qui sit sint odit ut.Nemo dolor minima sapiente. In reprehenderit qui voluptas voluptatibus.In in at voluptatem qui et dolor.Vitae natus consequatur autem sit autem. Enim asperiores quis soluta enim quos eveniet nobis qui."
                 + "\nEum eos sapiente voluptatem. Expedita hic at pariatur repellat.Praesentium dolorem eos quasi voluptatibus optio distinctio ea. Ea modi qui quam sapiente.Debitis enim facere odit dolor impedit. Tempore et quia fugiat hic atque nostrum neque earum."
                 + "\nVitae consequuntur ducimus aut dolore repellat sint.Ab quos dolores facere. Et sit ea rerum aut minima. Fuga sequi iure sunt tempore quia error dolorem. Nulla modi distinctio sit corrupti et et omnis laboriosam.Qui est ratione nesciunt et officia.";
 
-            Book.OriginalUrl = "https://google.com/";
+            Book.OriginalUrl = "https://blog.astropenguin.net/";
 
-            Book.Others.Add( "Other 1" );
-            Book.Others.Add( "Other 2" );
-            Book.Others.Add( "Other 3" );
+            Book.Others.Add( "Others 1" );
+            Book.Others.Add( "Others 2" );
+            Book.Others.Add( "Others 3" );
 
             return Book;
         }
