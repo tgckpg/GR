@@ -41,6 +41,7 @@ namespace wenku8.CompositeElement
             set { SetValue( Label2Property, value ); }
         }
 
+        public bool CanSwipe { get; set; }
         public int Index { get; private set; }
 
         private double ZoomTrigger = 0;
@@ -153,30 +154,33 @@ namespace wenku8.CompositeElement
         {
             double dv = e.Cumulative.Translation.X;
             ContentAway?.Stop();
-            if ( VT < dv )
+            if ( CanSwipe )
             {
-                ContentAway = new Storyboard();
-                SimpleStory.DoubleAnimation(
-                    ContentAway, CGTransform, "X"
-                    , CGTransform.X
-                    , RootGrid.ActualWidth );
+                if ( VT < dv )
+                {
+                    ContentAway = new Storyboard();
+                    SimpleStory.DoubleAnimation(
+                        ContentAway, CGTransform, "X"
+                        , CGTransform.X
+                        , RootGrid.ActualWidth );
 
-                BeginContentAway();
-            }
-            else if ( dv < -VT )
-            {
-                ContentAway = new Storyboard();
-                SimpleStory.DoubleAnimation(
-                    ContentAway, CGTransform, "X"
-                    , CGTransform.X
-                    , -RootGrid.ActualWidth );
+                    BeginContentAway();
+                    return;
+                }
+                else if ( dv < -VT )
+                {
+                    ContentAway = new Storyboard();
+                    SimpleStory.DoubleAnimation(
+                        ContentAway, CGTransform, "X"
+                        , CGTransform.X
+                        , -RootGrid.ActualWidth );
 
-                BeginContentAway();
+                    BeginContentAway();
+                    return;
+                }
             }
-            else
-            {
-                RestorePosition();
-            }
+
+            RestorePosition();
         }
 
         private void BeginContentAway()
