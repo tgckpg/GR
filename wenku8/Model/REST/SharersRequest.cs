@@ -12,18 +12,26 @@ namespace wenku8.Model.REST
 
     sealed class SharersRequest
     {
-        public Uri Server = new Uri( "http://w10srv.botanical.astropenguin.net/" );
-        // public Uri Server = new Uri( "https://w10srv.astropenguin.net/" );
+        public Uri Server { get; private set; }
+        public string Ver { get; private set; }
+        public string[] Compat { get; private set; }
 
         private readonly string LANG = Properties.LANGUAGE;
-        public string Ver = "0.0.0x";
-        public string[] Compat = new string[] { "0.0.0x" };
 
         public enum StatusType
         {
             HS_INVALID = -1
             , HS_NO_VOLDATA = -2
         }
+
+        public SharersRequest( string Version, string[] VersionCompat )
+        {
+            Ver = Version;
+            Compat = VersionCompat;
+            UpdateServer();
+        }
+
+        public void UpdateServer() { Server = new Uri( Properties.SERVER_OSD_URI ); }
 
         public enum SHTarget : byte { SCRIPT = 1, COMMENT = 2, KEY = 4, TOKEN = 8 }
 

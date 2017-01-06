@@ -762,6 +762,17 @@ namespace wenku8.Config
 			}
 		}
 
+        public static string SERVER_OSD_URI
+        {
+			get
+			{
+				return GetValue<string>( Parameters.SERVER_OSD_URI );
+			}
+			set
+			{
+				SetParameter( Parameters.SERVER_OSD_URI, value );
+			}
+        }
 
 		// Account
         public static string AUTH_TOKEN

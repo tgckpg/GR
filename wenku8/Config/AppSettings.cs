@@ -258,6 +258,15 @@ namespace wenku8.Config
             if ( !TestKey( Parameters.SERVER_MAX_PING ) )
                 Properties.SERVER_MAX_PING = 800;
 
+            if ( !TestKey( Parameters.SERVER_OSD_URI ) )
+            {
+#if DEBUG && !ARM
+                Properties.SERVER_OSD_URI = "http://w10srv.botanical.astropenguin.net/";
+#else
+                Properties.SERVER_OSD_URI = "https://w10srv.astropenguin.net/";
+#endif
+            }
+
             // Misc
             if ( !TestKey( Parameters.MISC_TEXT_PATCH_SYNTAX ) )
                 Properties.MISC_TEXT_PATCH_SYNTAX = true;

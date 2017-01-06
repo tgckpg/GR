@@ -84,6 +84,7 @@ namespace wenku8.Config
         // Protocol
         public const string SERVER_MIN_RANK = "ServerMinimumRank";
         public const string SERVER_MAX_PING = "ServerMaximumPing";
+        public const string SERVER_OSD_URI = "ServerOnlineScriptDirUri";
 
         // Misc
 		public const string MISC_TEXT_PATCH_SYNTAX = "Misc_Text_Patch_Syntax";
