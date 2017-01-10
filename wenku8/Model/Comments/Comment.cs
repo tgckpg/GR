@@ -8,9 +8,10 @@ namespace wenku8.Model.Comments
     class Comment : ActiveData
     {
         public DateTime TimeStamp { get; protected set; }
-		public string UserId { get; set; }
+        public string UserId { get; set; }
         public string Title { get; set; }
         public string Username { get; set; }
+        public int Index { get; set; }
 
         public string PostTime
         {
