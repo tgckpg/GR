@@ -112,6 +112,8 @@ namespace wenku8.Config
                 Properties.CONTENTREADER_AUTOBOOKMARK = true;
             if ( !TestKey( Parameters.APPEARANCE_CONTENTREADER_FONTSIZE ) )
                 Properties.APPEARANCE_CONTENTREADER_FONTSIZE = 20;
+            if ( !TestKey( Parameters.APPEARANCE_CONTENTREADER_BLOCKHEIGHT ) )
+                Properties.APPEARANCE_CONTENTREADER_BLOCKHEIGHT = 0;
             if ( !TestKey( Parameters.APPEARANCE_CONTENTREADER_FONTWEIGHT ) )
                 Properties.APPEARANCE_CONTENTREADER_FONTWEIGHT = Windows.UI.Text.FontWeights.Normal;
             if ( !TestKey( Parameters.APPEARANCE_CONTENTREADER_EMBED_ILLUS ) )

@@ -44,15 +44,20 @@ namespace wenku8.Storage
         internal T[] GetList<T>()
         {
             Type t = typeof( T );
-            if(!( t == typeof( FavItem ) || t.GetTypeInfo().IsSubclassOf( typeof( FavItem ) )  ) )
+            if ( !( t == typeof( FavItem ) || t.GetTypeInfo().IsSubclassOf( typeof( FavItem ) ) ) )
             {
-                throw new InvalidCastException( "Cannot cast " + t.Name + " into FavItem" ); 
+                throw new InvalidCastException( "Cannot cast " + t.Name + " into FavItem" );
             }
 
-            IEnumerable<XParameter> p = WBookStorage.Parameters().Where( x => !x.GetBool( AppKeys.LBS_DEL ) ).ToArray();
+            IEnumerable<XParameter> p = WBookStorage
+                .Parameters()
+                .Where( x => !x.GetBool( AppKeys.LBS_DEL ) )
+                .OrderBy( x => x.GetBool( AppKeys.LBS_NEW ) )
+                .ToArray();
+
+            StringResources Res = new StringResources( "Book" );
 
             List<T> s = new List<T>();
-            StringResources Res = new StringResources( "Book" );
             foreach ( XParameter wp in p )
             {
                 T Item = ( T ) Activator.CreateInstance(
@@ -63,11 +68,14 @@ namespace wenku8.Storage
                     , wp.GetValue( AppKeys.GLOBAL_ID )
                     , wp.GetValue( AppKeys.LBS_WSYNC ) != null
                     , wp.GetValue( AppKeys.LBS_AUM ) != null
-                    , ( wp.GetValue( AppKeys.LBS_NEW ) == "1" )
+                    , wp.GetBool( AppKeys.LBS_NEW )
                 );
 
                 s.Add( Item );
             }
+
+            s.Reverse();
+
             return s.ToArray();
         }
 
@@ -76,12 +84,14 @@ namespace wenku8.Storage
 		{
 			IEnumerable<XParameter> Params = WBookStorage.Parameters().Where( x => !x.GetBool( AppKeys.LBS_DEL, false ) );
 
-			int i = 0;
-            string[] s = new string[ Params.Count() ];
+			int i = 1;
+            int l = Params.Count();
+
+            string[] s = new string[ l ];
 
             foreach ( XParameter p in Params )
             {
-                s[ i++ ] = p.GetValue( AppKeys.GLOBAL_ID );
+                s[ ( l - i++ ) ] = p.GetValue( AppKeys.GLOBAL_ID );
             }
 
 			return s;

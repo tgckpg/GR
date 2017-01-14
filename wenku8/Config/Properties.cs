@@ -160,6 +160,17 @@ namespace wenku8.Config
 				SetParameter( Parameters.APPEARANCE_CONTENTREADER_LINEHEIGHT, value );
 			}
 		}
+		public static double APPEARANCE_CONTENTREADER_BLOCKHEIGHT
+		{
+			get
+			{
+				return GetValue<double>( Parameters.APPEARANCE_CONTENTREADER_BLOCKHEIGHT );
+			}
+			set
+			{
+				SetParameter( Parameters.APPEARANCE_CONTENTREADER_BLOCKHEIGHT, value );
+			}
+		}
 		public static double APPEARANCE_CONTENTREADER_PARAGRAPHSPACING
 		{
 			get
