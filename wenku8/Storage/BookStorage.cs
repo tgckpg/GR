@@ -22,14 +22,10 @@ namespace wenku8.Storage
 
         public static XKey TimeKey
         {
-            get
-            {
-                return new XKey( AppKeys.LBS_TIME, DateTime.Now.ToFileTimeUtc() );
-            }
+            get { return new XKey( AppKeys.LBS_TIME, DateTime.Now.ToFileTimeUtc() ); }
         }
 
 		private XRegistry WBookStorage;
-
 
 		public BookStorage()
 		{
@@ -41,7 +37,7 @@ namespace wenku8.Storage
             await OneDriveSync.Instance.SyncRegistry( WBookStorage );
         }
 
-        internal T[] GetList<T>()
+        internal T[] GetList<T>( Func<XParameter, bool> Filter = null )
         {
             Type t = typeof( T );
             if ( !( t == typeof( FavItem ) || t.GetTypeInfo().IsSubclassOf( typeof( FavItem ) ) ) )
@@ -49,9 +45,16 @@ namespace wenku8.Storage
                 throw new InvalidCastException( "Cannot cast " + t.Name + " into FavItem" );
             }
 
+            Func<XParameter, bool> NDel = x => !x.GetBool( AppKeys.LBS_DEL );
+            Func<XParameter, bool> XFilter = NDel;
+            if( Filter != null )
+            {
+                XFilter = x => NDel( x ) && Filter( x );
+            }
+
             IEnumerable<XParameter> p = WBookStorage
                 .Parameters()
-                .Where( x => !x.GetBool( AppKeys.LBS_DEL ) )
+                .Where( XFilter )
                 .OrderBy( x => x.GetBool( AppKeys.LBS_NEW ) )
                 .ToArray();
 
@@ -66,8 +69,8 @@ namespace wenku8.Storage
                     , wp.GetValue( AppKeys.LBS_DATE )
                     , wp.GetValue( AppKeys.LBS_CH )
                     , wp.GetValue( AppKeys.GLOBAL_ID )
-                    , wp.GetValue( AppKeys.LBS_WSYNC ) != null
-                    , wp.GetValue( AppKeys.LBS_AUM ) != null
+                    , wp.GetBool( AppKeys.LBS_WSYNC )
+                    , wp.GetBool( AppKeys.LBS_AUM )
                     , wp.GetBool( AppKeys.LBS_NEW )
                 );
 
@@ -78,7 +81,6 @@ namespace wenku8.Storage
 
             return s.ToArray();
         }
-
 
 		public string[] GetIdList()
 		{

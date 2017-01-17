@@ -24,6 +24,7 @@ namespace wenku8.Settings
 		, SH_AUTH_REG = "SHAuths.xml"
         , SH_SCRIPT_ID = "SHScriptId.xml"
         , BING_SERVICE = "BingSrv.xml"
+        , PIN_REGISTRY = "PinnedItems.xml"
         , TASKS = "Tasks.xml"
 
 		, ROOT_CACHE = "Cache/"

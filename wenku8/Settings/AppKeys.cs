@@ -22,6 +22,7 @@
             , LBS_NEW = "new"
             , LBS_INDEX = "index"
             , LBS_AUM = "autoUpdate"
+            , LBS_PINNED = "pinned"
             , LBS_WSYNC = "wSync"
             , LBS_TIME = "t"
 
@@ -30,6 +31,9 @@
             , LBS_AXML = "<Anchors />"
             , AdvDM_FXML = "<AdvDM />"
             , TS_CXML = "<Themes />"
+
+            // Pin Manager
+            , PM_DEV_NAME = "device_name"
 
             // Globals
             , GLOBAL_NAME = "name"

@@ -217,6 +217,7 @@
     <Compile Include="wenku8\Model\ListItem\BookmarkListItem.cs" />
     <Compile Include="wenku8\Model\ListItem\Digest.cs" />
     <Compile Include="wenku8\Model\ListItem\FavItem.cs" />
+    <Compile Include="wenku8\Model\ListItem\PinRecord.cs" />
     <Compile Include="wenku8\Model\ListItem\Sharers\Activity.cs" />
     <Compile Include="wenku8\Model\ListItem\Sharers\GrantProcess.cs" />
     <Compile Include="wenku8\Model\ListItem\Sharers\HubScirptStatus.cs" />
@@ -270,6 +271,7 @@
     <Compile Include="wenku8\Storage\BookStorage.cs" />
     <Compile Include="wenku8\Storage\GeneralStorage.cs" />
     <Compile Include="wenku8\Storage\OneDriveSync.cs" />
+    <Compile Include="wenku8\Storage\PinManager.cs" />
     <Compile Include="wenku8\System\ActionCenter.cs" />
     <Compile Include="wenku8\Model\EBDictionary.cs" />
     <Compile Include="wenku8\System\BackStackManager.cs" />

@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Windows.UI.StartScreen;
-using Windows.UI.Xaml.Controls;
 
 namespace wenku8.Model.Pages
 {
