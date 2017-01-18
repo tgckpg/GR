@@ -13,10 +13,10 @@ namespace wenku8.CompositeElement
 
         private AppBarButtonEx Btn;
 
-        public void SetOp( Func<Task> Op )
+        public void SetOp( Func<Task> Op, bool Run = true )
         {
             Operate = Op;
-            StartOp();
+            if ( Run ) StartOp();
         }
 
         public void SetComplete( Action Complete )

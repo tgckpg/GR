@@ -33,7 +33,7 @@
             , TS_CXML = "<Themes />"
 
             // Pin Manager
-            , PM_DEV_NAME = "device_name"
+            , PM_POLICY = "policy"
 
             // Globals
             , GLOBAL_NAME = "name"
