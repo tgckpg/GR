@@ -62,6 +62,26 @@ namespace wenku8.Storage
             await OneDriveSync.Instance.SyncRegistry( PRegistry );
         }
 
+        public void TakeOver( string DeviceId )
+        {
+            XParameter Param = PRegistry.Parameter( DeviceId );
+            if ( Param == null ) return;
+
+            LocalPins.SetParameter( Param.GetParameters() );
+
+            PRegistry.RemoveParameter( DeviceId );
+            PRegistry.SetParameter( DeviceId, new XKey[]
+            {
+                new XKey( AppKeys.LBS_DEL, true )
+                , BookStorage.TimeKey
+            } );
+
+            ActivateLocalPins();
+
+            PRegistry.SetParameter( LocalPins );
+            Save();
+        }
+
         public void RegPin( BookItem Book, string TileId, bool Save = true )
         {
             LocalPins.SetParameter( Book.Id, new XKey[]

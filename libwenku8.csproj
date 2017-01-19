@@ -280,8 +280,6 @@
     <Compile Include="wenku8\System\EBDictManager.cs" />
     <Compile Include="wenku8\System\AuthManager.cs" />
     <Compile Include="wenku8\System\LogControl.cs" />
-    <Compile Include="wenku8\System\Messages\ErrorMessage.cs" />
-    <Compile Include="wenku8\System\Messages\GeneralMessage.cs" />
     <Compile Include="wenku8\System\ThemeManager.cs" />
     <Compile Include="wenku8\System\Utils.cs" />
     <Compile Include="wenku8\System\ViewControl.cs" />

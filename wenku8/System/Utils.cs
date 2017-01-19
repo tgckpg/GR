@@ -78,14 +78,6 @@ namespace wenku8.System
 			return p;
 		}
 
-        internal static void ShowError( Func<string> ErrorMessage )
-        {
-            Worker.UIInvoke( async () =>
-            {
-                await Popups.ShowDialog( new MessageDialog( ErrorMessage() ) );
-            } );
-        }
-
         internal static bool CompareVersion( string thisVer, string CurrentVer )
 		{
 			string[] k = thisVer.Split( '.' );
