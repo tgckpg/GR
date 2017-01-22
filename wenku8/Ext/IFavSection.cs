@@ -19,6 +19,7 @@ namespace wenku8.Ext
         void Reload( bool Reset );
         void Load();
         void C_Pin();
+        void C_PinAll();
         void C_RSync();
         void C_AutoCache();
         void C_Delete();

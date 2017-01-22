@@ -1,33 +1,51 @@
-﻿using Net.Astropenguin.Messaging;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using Net.Astropenguin.Helpers;
+using Net.Astropenguin.Loaders;
+using Net.Astropenguin.Messaging;
+
 namespace wenku8.System
 {
+    using CompositeElement;
+
     sealed class ActionCenter
     {
         public const string General = "noti";
         public const string Warning = "impo";
         public const string Error = "Err";
 
-        private readonly Type MySelf = typeof( ActionCenter );
+        public static ActionCenter Instance { get; private set; }
+
+        private readonly Type SelfType = typeof( ActionCenter );
 
         public ActionCenter()
         {
             MessageBus.OnDelivery += MessageBus_OnDelivery;
         }
 
+        public static void Init() { Instance = new ActionCenter(); }
+
         ~ActionCenter()
         {
             MessageBus.OnDelivery -= MessageBus_OnDelivery;
         }
 
+        public void ShowError( string Key )
+        {
+            Worker.UIInvoke( () =>
+            {
+                StringResources stx = new StringResources( "Error" );
+                var j = Popups.ShowDialog( UIAliases.CreateDialog( stx.Str( Key ) ) );
+            } );
+        }
+
         private void MessageBus_OnDelivery( Message Mesg )
         {
-            if ( Mesg.TargetType != MySelf ) return;
+            if ( Mesg.TargetType != SelfType ) return;
 
             if( Mesg.Dispatcher != null )
             {

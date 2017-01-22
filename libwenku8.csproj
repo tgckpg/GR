@@ -43,7 +43,7 @@
     <PlatformTarget>ARM</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <OutputPath>bin\ARM\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;NETFX_CORE;WINDOWS_UWP;ARM</DefineConstants>
     <NoWarn>;2008</NoWarn>
     <DebugType>full</DebugType>
     <PlatformTarget>ARM</PlatformTarget>
@@ -53,7 +53,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|ARM'">
     <PlatformTarget>ARM</PlatformTarget>
     <OutputPath>bin\ARM\Release\</OutputPath>
-    <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP;ARM</DefineConstants>
     <Optimize>true</Optimize>
     <NoWarn>;2008</NoWarn>
     <DebugType>pdbonly</DebugType>
@@ -65,7 +65,7 @@
     <PlatformTarget>x64</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <OutputPath>bin\x64\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;NETFX_CORE;WINDOWS_UWP</DefineConstants>
     <NoWarn>;2008</NoWarn>
     <DebugType>full</DebugType>
     <PlatformTarget>x64</PlatformTarget>
@@ -93,6 +93,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="wenku8\AdvDM\BingService.cs" />
+    <Compile Include="wenku8\Converters\FuzzyTimeInterval.cs" />
     <Compile Include="wenku8\Ext\IDeathblow.cs" />
     <Compile Include="wenku8\Model\Book\BookItemExt.cs" />
     <Compile Include="wenku8\Model\Interfaces\IIllusUpdate.cs" />
@@ -217,6 +218,7 @@
     <Compile Include="wenku8\Model\ListItem\BookmarkListItem.cs" />
     <Compile Include="wenku8\Model\ListItem\Digest.cs" />
     <Compile Include="wenku8\Model\ListItem\FavItem.cs" />
+    <Compile Include="wenku8\Model\ListItem\PinRecord.cs" />
     <Compile Include="wenku8\Model\ListItem\Sharers\Activity.cs" />
     <Compile Include="wenku8\Model\ListItem\Sharers\GrantProcess.cs" />
     <Compile Include="wenku8\Model\ListItem\Sharers\HubScirptStatus.cs" />
@@ -270,6 +272,7 @@
     <Compile Include="wenku8\Storage\BookStorage.cs" />
     <Compile Include="wenku8\Storage\GeneralStorage.cs" />
     <Compile Include="wenku8\Storage\OneDriveSync.cs" />
+    <Compile Include="wenku8\Storage\PinManager.cs" />
     <Compile Include="wenku8\System\ActionCenter.cs" />
     <Compile Include="wenku8\Model\EBDictionary.cs" />
     <Compile Include="wenku8\System\BackStackManager.cs" />
@@ -278,8 +281,6 @@
     <Compile Include="wenku8\System\EBDictManager.cs" />
     <Compile Include="wenku8\System\AuthManager.cs" />
     <Compile Include="wenku8\System\LogControl.cs" />
-    <Compile Include="wenku8\System\Messages\ErrorMessage.cs" />
-    <Compile Include="wenku8\System\Messages\GeneralMessage.cs" />
     <Compile Include="wenku8\System\ThemeManager.cs" />
     <Compile Include="wenku8\System\Utils.cs" />
     <Compile Include="wenku8\System\ViewControl.cs" />

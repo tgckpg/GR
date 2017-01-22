@@ -22,6 +22,7 @@
             , LBS_NEW = "new"
             , LBS_INDEX = "index"
             , LBS_AUM = "autoUpdate"
+            , LBS_PINNED = "pinned"
             , LBS_WSYNC = "wSync"
             , LBS_TIME = "t"
 
@@ -30,6 +31,9 @@
             , LBS_AXML = "<Anchors />"
             , AdvDM_FXML = "<AdvDM />"
             , TS_CXML = "<Themes />"
+
+            // Pin Manager
+            , PM_POLICY = "policy"
 
             // Globals
             , GLOBAL_NAME = "name"
@@ -95,6 +99,7 @@
             , HS_REPORT_FAILED = "HS_Report_Failed"
             , HSC_DECRYPT_FAIL = "HSC_Decrypt_Fail"
             , SP_PROCESS_COMP = "Spider_Process_Comp"
+            , PM_CHECK_TILES = "PinManager_Check_Tiles"
 
             , EX_DEATHBLOW = "ExDeathblow"
 

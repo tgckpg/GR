@@ -9,8 +9,6 @@ using Net.Astropenguin.UI;
 namespace wenku8.Model.ListItem
 {
     using Config;
-    using System.Messages;
-    using CompositeElement;
 
     class FavItem : BookInfoItem 
 	{

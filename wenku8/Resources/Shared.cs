@@ -26,7 +26,7 @@ namespace wenku8.Resources
         // The default settings by locale
         public static LocaleDefaults LocaleDefaults = new LocaleDefaults();
 
-        public static SharersRequest ShRequest = new SharersRequest();
+        public static SharersRequest ShRequest;
 
         // TODO: Should make this optional for each book
         private static bool IsTrad = Config.Properties.LANGUAGE_TRADITIONAL;

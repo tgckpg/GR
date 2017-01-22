@@ -22,14 +22,10 @@ namespace wenku8.Storage
 
         public static XKey TimeKey
         {
-            get
-            {
-                return new XKey( AppKeys.LBS_TIME, DateTime.Now.ToFileTimeUtc() );
-            }
+            get { return new XKey( AppKeys.LBS_TIME, DateTime.Now.ToFileTimeUtc() ); }
         }
 
 		private XRegistry WBookStorage;
-
 
 		public BookStorage()
 		{
@@ -41,18 +37,30 @@ namespace wenku8.Storage
             await OneDriveSync.Instance.SyncRegistry( WBookStorage );
         }
 
-        internal T[] GetList<T>()
+        internal T[] GetList<T>( Func<XParameter, bool> Filter = null )
         {
             Type t = typeof( T );
-            if(!( t == typeof( FavItem ) || t.GetTypeInfo().IsSubclassOf( typeof( FavItem ) )  ) )
+            if ( !( t == typeof( FavItem ) || t.GetTypeInfo().IsSubclassOf( typeof( FavItem ) ) ) )
             {
-                throw new InvalidCastException( "Cannot cast " + t.Name + " into FavItem" ); 
+                throw new InvalidCastException( "Cannot cast " + t.Name + " into FavItem" );
             }
 
-            IEnumerable<XParameter> p = WBookStorage.Parameters().Where( x => !x.GetBool( AppKeys.LBS_DEL ) ).ToArray();
+            Func<XParameter, bool> NDel = x => !x.GetBool( AppKeys.LBS_DEL );
+            Func<XParameter, bool> XFilter = NDel;
+            if( Filter != null )
+            {
+                XFilter = x => NDel( x ) && Filter( x );
+            }
+
+            IEnumerable<XParameter> p = WBookStorage
+                .Parameters()
+                .Where( XFilter )
+                .OrderBy( x => x.GetBool( AppKeys.LBS_NEW ) )
+                .ToArray();
+
+            StringResources Res = new StringResources( "Book" );
 
             List<T> s = new List<T>();
-            StringResources Res = new StringResources( "Book" );
             foreach ( XParameter wp in p )
             {
                 T Item = ( T ) Activator.CreateInstance(
@@ -61,27 +69,31 @@ namespace wenku8.Storage
                     , wp.GetValue( AppKeys.LBS_DATE )
                     , wp.GetValue( AppKeys.LBS_CH )
                     , wp.GetValue( AppKeys.GLOBAL_ID )
-                    , wp.GetValue( AppKeys.LBS_WSYNC ) != null
-                    , wp.GetValue( AppKeys.LBS_AUM ) != null
-                    , ( wp.GetValue( AppKeys.LBS_NEW ) == "1" )
+                    , wp.GetBool( AppKeys.LBS_WSYNC )
+                    , wp.GetBool( AppKeys.LBS_AUM )
+                    , wp.GetBool( AppKeys.LBS_NEW )
                 );
 
                 s.Add( Item );
             }
+
+            s.Reverse();
+
             return s.ToArray();
         }
-
 
 		public string[] GetIdList()
 		{
 			IEnumerable<XParameter> Params = WBookStorage.Parameters().Where( x => !x.GetBool( AppKeys.LBS_DEL, false ) );
 
-			int i = 0;
-            string[] s = new string[ Params.Count() ];
+			int i = 1;
+            int l = Params.Count();
+
+            string[] s = new string[ l ];
 
             foreach ( XParameter p in Params )
             {
-                s[ i++ ] = p.GetValue( AppKeys.GLOBAL_ID );
+                s[ ( l - i++ ) ] = p.GetValue( AppKeys.GLOBAL_ID );
             }
 
 			return s;

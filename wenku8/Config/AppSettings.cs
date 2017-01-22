@@ -112,6 +112,8 @@ namespace wenku8.Config
                 Properties.CONTENTREADER_AUTOBOOKMARK = true;
             if ( !TestKey( Parameters.APPEARANCE_CONTENTREADER_FONTSIZE ) )
                 Properties.APPEARANCE_CONTENTREADER_FONTSIZE = 20;
+            if ( !TestKey( Parameters.APPEARANCE_CONTENTREADER_BLOCKHEIGHT ) )
+                Properties.APPEARANCE_CONTENTREADER_BLOCKHEIGHT = 0;
             if ( !TestKey( Parameters.APPEARANCE_CONTENTREADER_FONTWEIGHT ) )
                 Properties.APPEARANCE_CONTENTREADER_FONTWEIGHT = Windows.UI.Text.FontWeights.Normal;
             if ( !TestKey( Parameters.APPEARANCE_CONTENTREADER_EMBED_ILLUS ) )
@@ -257,6 +259,15 @@ namespace wenku8.Config
 
             if ( !TestKey( Parameters.SERVER_MAX_PING ) )
                 Properties.SERVER_MAX_PING = 800;
+
+            if ( !TestKey( Parameters.SERVER_OSD_URI ) )
+            {
+#if DEBUG && !ARM
+                Properties.SERVER_OSD_URI = "http://w10srv.botanical.astropenguin.net/";
+#else
+                Properties.SERVER_OSD_URI = "https://w10srv.astropenguin.net/";
+#endif
+            }
 
             // Misc
             if ( !TestKey( Parameters.MISC_TEXT_PATCH_SYNTAX ) )
