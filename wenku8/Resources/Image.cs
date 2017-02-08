@@ -187,7 +187,7 @@ namespace wenku8.Resources
             }
 
             CanvasGeometry ImageRect = CanvasGeometry.CreateRectangle( dev, 0, 0, Width, Height );
-            CanvasGeometry Badge = CanvasGeometry.CreateCircle( dev, new Vector2( 15, 15 ), 10 );
+            CanvasGeometry Badge = CanvasGeometry.CreateCircle( dev, new Vector2( Width - 15, Height - 15 ), 10 );
 
             CanvasGeometry Combined = ImageRect.CombineWith( Badge, Matrix3x2.CreateTranslation( 0, 0 ), CanvasGeometryCombine.Exclude );
 
@@ -198,7 +198,7 @@ namespace wenku8.Resources
 
             ds.FillGeometry( Combined, Brush );
 
-            ds.DrawTextLayout( TextLayout, 9f, 9f, Colors.White );
+            ds.DrawTextLayout( TextLayout, Width - 21f, Height - 21f, Colors.White );
         }
 
         public static async void Destroy( ImageSource Source )

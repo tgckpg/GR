@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using Net.Astropenguin.Helpers;
 using Net.Astropenguin.IO;
 using Net.Astropenguin.Loaders;
 using Net.Astropenguin.Logging;
@@ -169,11 +168,8 @@ namespace wenku8.Model.ListItem
                     if ( SParam != null
                         && ( ProcessSuccess = SParam.GetBool( "Success" ) ) )
                     {
-                        Worker.UIInvoke( () =>
-                        {
-                            Name = BInst.Title;
-                            Desc = BInst.RecentUpdate;
-                        } );
+                        Name = BInst.Title;
+                        Desc = BInst.RecentUpdate;
                     }
 
                     CanProcess = true;
