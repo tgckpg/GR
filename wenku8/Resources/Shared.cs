@@ -36,6 +36,11 @@ namespace wenku8.Resources
             return IsTrad ? libtranslate.Chinese.Traditional( v ) : v;
         }
 
+        public static byte[] ToCTrad( this byte[] v )
+        {
+            return IsTrad ? libtranslate.Chinese.Traditional( v ) : v;
+        }
+
         private static StringResources LoadMesgRes;
 
         public static void LoadMessage( string MESG_ID, params string[] args )
