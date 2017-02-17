@@ -198,6 +198,8 @@ namespace wenku8.Taotu
             if ( !RegParam.Validate() ) return;
 
             MatchCollection matches = RegParam.RegExObj.Matches( Content );
+            StringResBg ste = new StringResBg( "Error" );
+
             foreach ( Match match in matches )
             {
                 if ( HasSubProcs && RegParam.Valid )
@@ -215,11 +217,7 @@ namespace wenku8.Taotu
                     string Id = await GetId( ItemConvoy );
                     if ( string.IsNullOrEmpty( Id ) )
                     {
-                        ProcManager.PanelMessage( this, () =>
-                        {
-                            StringResources stx = new StringResources( "Error" );
-                            return stx.Str( "NoIdForBook" );
-                        }, LogType.WARNING );
+                        ProcManager.PanelMessage( this, ste.Str( "NoIdForBook" ), LogType.WARNING );
                         continue;
                     }
 
@@ -234,11 +232,7 @@ namespace wenku8.Taotu
                     }
                     else
                     {
-                        ProcManager.PanelMessage( this, () =>
-                        {
-                            StringResources stx = new StringResources( "Error" );
-                            return stx.Str( "NotABook" );
-                        }, LogType.WARNING );
+                        ProcManager.PanelMessage( this, ste.Str( "NotABook" ), LogType.WARNING );
                     }
                 }
             }

@@ -212,7 +212,7 @@ namespace wenku8.Taotu
                     }
                     else
                     {
-                        ProcManager.PanelMessage( this, () => Res.RSTR( "InvalidPattern" ), LogType.WARNING );
+                        ProcManager.PanelMessage( this, Res.RSTR( "InvalidPattern" ), LogType.WARNING );
                         continue;
                     }
 
@@ -266,7 +266,7 @@ namespace wenku8.Taotu
                     }
                     else
                     {
-                        ProcManager.PanelMessage( this, () => Res.RSTR( "InvalidPattern" ), LogType.WARNING );
+                        ProcManager.PanelMessage( this, Res.RSTR( "InvalidPattern" ), LogType.WARNING );
                         continue;
                     }
 
