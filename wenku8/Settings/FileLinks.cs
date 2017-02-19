@@ -26,6 +26,7 @@ namespace wenku8.Settings
         , BING_SERVICE = "BingSrv.xml"
         , PIN_REGISTRY = "PinnedItems.xml"
         , TASKS = "Tasks.xml"
+        , HELP = "Help.xml"
 
 		, ROOT_CACHE = "Cache/"
 		, ROOT_INTRO = "intro/"
