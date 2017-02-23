@@ -134,6 +134,7 @@ namespace wenku8.Taotu
 
             if ( ISF != null ) Content = await ISF.ReadString();
 
+            // Event Content is null, Props might be still extractable as there might be some predefined props exists
             await ExtractProps( BookInst, Content );
 
             return new ProcConvoy( this, BookInst );

@@ -103,6 +103,10 @@
 
             , EX_DEATHBLOW = "ExDeathblow"
 
+            // Background Task
+            , BTASK_RETRY = "retry"
+            , BTASK_SPIDER = "spider"
+
             , SYS_2ND_TILE_LAUNCH = "LaunchSecondaryTile"
             , SYS_EXCEPTION = "exception"
             , SYS_MESSAGE = "mesg"

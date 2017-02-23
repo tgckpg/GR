@@ -236,8 +236,6 @@ namespace wenku8.Model.ListItem
 
             PSettings.SetParameter( XParam );
             BInst.SaveInfo( PSettings );
-
-            ProcessSuccess = true;
         }
 
         public ProcConvoy GetPPConvoy()
