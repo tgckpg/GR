@@ -56,12 +56,11 @@ namespace wenku8.Model.Book.Spider
 
                 if ( Convoy == null ) continue;
 
-                if( Convoy.Payload is IStorageFile )
+                if ( Convoy.Payload is IStorageFile )
                 {
-                    await TempFile.WriteString(
-                        ( await ( Convoy.Payload as IStorageFile )
-                            .ReadString() ).ToCTrad() + "\n"
-                        , true
+                    await TempFile.WriteBytes(
+                        ( await ( Convoy.Payload as IStorageFile ).ReadAllBytes() ).ToCTrad()
+                        , true, new byte[] { ( byte ) '\n' }
                     );
                     return;
                 }
@@ -73,9 +72,10 @@ namespace wenku8.Model.Book.Spider
                 foreach ( IStorageFile ISF in ISFs )
                 {
                     Shared.LoadMessage( "MergingContents", ISF.Name );
-                    await TempFile.WriteString( ( await ISF.ReadString() ).ToCTrad() + "\n", true );
+                    await TempFile.WriteBytes( ( await ISF.ReadAllBytes() ).ToCTrad(), true, new byte[] { ( byte ) '\n' } );
                 }
             }
         }
+
     }
 }

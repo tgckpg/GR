@@ -115,7 +115,9 @@ namespace wenku8.Model.ListItem
             MessageBus.OnDelivery += MessageBus_OnDelivery;
             try
             {
+                ProcessSuccess = false;
                 await Run();
+                ProcessSuccess = true;
             }
             catch ( Exception ex )
             {
@@ -123,7 +125,6 @@ namespace wenku8.Model.ListItem
                 Name = ex.Message;
                 Desc = "ERROR";
                 CanProcess = false;
-                ProcessSuccess = false;
             }
 
             MessageBus.OnDelivery -= MessageBus_OnDelivery;
@@ -156,7 +157,6 @@ namespace wenku8.Model.ListItem
 
             await L.Save();
 
-            ProcessSuccess = true;
             Desc = L.Id;
         }
 
