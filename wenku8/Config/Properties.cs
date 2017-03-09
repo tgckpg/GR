@@ -17,20 +17,20 @@ namespace wenku8.Config
 			}
 		}
 
-        public static string INSTALLATION_INST
-        {
-            get
-            {
-                return GetValue<string>( Parameters.INSTALLATION_INST );
-            }
-            set
-            {
-                SetParameter( Parameters.INSTALLATION_INST, value );
-            }
-        }
+		public static string INSTALLATION_INST
+		{
+			get
+			{
+				return GetValue<string>( Parameters.INSTALLATION_INST );
+			}
+			set
+			{
+				SetParameter( Parameters.INSTALLATION_INST, value );
+			}
+		}
 
-        public static string VERSION
-        {
+		public static string VERSION
+		{
 			get
 			{
 				return GetValue<string>( Parameters.VERSION );
@@ -39,7 +39,7 @@ namespace wenku8.Config
 			{
 				SetParameter( Parameters.VERSION, value );
 			}
-        }
+		}
 
 		public static int SMODE
 		{
@@ -53,8 +53,8 @@ namespace wenku8.Config
 			}
 		}
 
-        #region Logging
-        public static bool ENABLE_SYSTEM_LOG
+		#region Logging
+		public static bool ENABLE_SYSTEM_LOG
 		{
 			get
 			{
@@ -101,10 +101,10 @@ namespace wenku8.Config
 				SetParameter( Parameters.RSYSTEM_LOG_ADDRESS, value );
 			}
 		}
-        #endregion
+		#endregion
 
-        #region Appearance
-        #region ContentReader
+		#region Appearance
+		#region ContentReader
 		public static bool APPEARANCE_CONTENTREADER_EMBED_ILLUS
 		{
 			get
@@ -127,17 +127,17 @@ namespace wenku8.Config
 				SetParameter( Parameters.APPEARANCE_CONTENTREADER_LEFTCONTEXT, value );
 			}
 		}
-        public static Windows.UI.Text.FontWeight APPEARANCE_CONTENTREADER_FONTWEIGHT
-        {
+		public static Windows.UI.Text.FontWeight APPEARANCE_CONTENTREADER_FONTWEIGHT
+		{
 			get
 			{
-                return new Windows.UI.Text.FontWeight() { Weight = GetValue<ushort>( Parameters.APPEARANCE_CONTENTREADER_FONTWEIGHT ) };
+				return new Windows.UI.Text.FontWeight() { Weight = GetValue<ushort>( Parameters.APPEARANCE_CONTENTREADER_FONTWEIGHT ) };
 			}
 			set
 			{
 				SetParameter( Parameters.APPEARANCE_CONTENTREADER_FONTWEIGHT, value.Weight );
 			}
-        }
+		}
 		public static double APPEARANCE_CONTENTREADER_FONTSIZE
 		{
 			get
@@ -237,7 +237,7 @@ namespace wenku8.Config
 				SetColor( Parameters.APPEARANCE_CONTENTREADER_FONTCOLOR, value );
 			}
 		}
-        public static Color APPEARANCE_CONTENTREADER_TAPBRUSHCOLOR
+		public static Color APPEARANCE_CONTENTREADER_TAPBRUSHCOLOR
 		{
 			get
 			{
@@ -475,10 +475,10 @@ namespace wenku8.Config
 			}
 		}
 
-        #endregion
+		#endregion
 
-        #region Shades
-        public static Color APPEARENCE_THEME_SHADES_10
+		#region Shades
+		public static Color APPEARENCE_THEME_SHADES_10
 		{
 			get
 			{
@@ -493,7 +493,7 @@ namespace wenku8.Config
 				SetColor( Parameters.APPEARENCE_THEME_SHADES_10, value );
 			}
 		}
-        public static Color APPEARENCE_THEME_SHADES_20
+		public static Color APPEARENCE_THEME_SHADES_20
 		{
 			get
 			{
@@ -508,7 +508,7 @@ namespace wenku8.Config
 				SetColor( Parameters.APPEARENCE_THEME_SHADES_20, value );
 			}
 		}
-        public static Color APPEARENCE_THEME_SHADES_30
+		public static Color APPEARENCE_THEME_SHADES_30
 		{
 			get
 			{
@@ -523,7 +523,7 @@ namespace wenku8.Config
 				SetColor( Parameters.APPEARENCE_THEME_SHADES_30, value );
 			}
 		}
-        public static Color APPEARENCE_THEME_SHADES_40
+		public static Color APPEARENCE_THEME_SHADES_40
 		{
 			get
 			{
@@ -538,7 +538,7 @@ namespace wenku8.Config
 				SetColor( Parameters.APPEARENCE_THEME_SHADES_40, value );
 			}
 		}
-        public static Color APPEARENCE_THEME_SHADES_50
+		public static Color APPEARENCE_THEME_SHADES_50
 		{
 			get
 			{
@@ -553,7 +553,7 @@ namespace wenku8.Config
 				SetColor( Parameters.APPEARENCE_THEME_SHADES_50, value );
 			}
 		}
-        public static Color APPEARENCE_THEME_SHADES_60
+		public static Color APPEARENCE_THEME_SHADES_60
 		{
 			get
 			{
@@ -568,7 +568,7 @@ namespace wenku8.Config
 				SetColor( Parameters.APPEARENCE_THEME_SHADES_60, value );
 			}
 		}
-        public static Color APPEARENCE_THEME_SHADES_70
+		public static Color APPEARENCE_THEME_SHADES_70
 		{
 			get
 			{
@@ -583,7 +583,7 @@ namespace wenku8.Config
 				SetColor( Parameters.APPEARENCE_THEME_SHADES_70, value );
 			}
 		}
-        public static Color APPEARENCE_THEME_SHADES_80
+		public static Color APPEARENCE_THEME_SHADES_80
 		{
 			get
 			{
@@ -598,7 +598,7 @@ namespace wenku8.Config
 				SetColor( Parameters.APPEARENCE_THEME_SHADES_80, value );
 			}
 		}
-        public static Color APPEARENCE_THEME_SHADES_90
+		public static Color APPEARENCE_THEME_SHADES_90
 		{
 			get
 			{
@@ -614,7 +614,7 @@ namespace wenku8.Config
 			}
 		}
 
-        public static Color APPEARENCE_THEME_RELATIVE_SHADES_COLOR
+		public static Color APPEARENCE_THEME_RELATIVE_SHADES_COLOR
 		{
 			get
 			{
@@ -630,9 +630,9 @@ namespace wenku8.Config
 			}
 		}
 
-        #endregion
+		#endregion
 
-        public static bool CONTENTREADER_USEINERTIA
+		public static bool CONTENTREADER_USEINERTIA
 		{
 			get
 			{
@@ -643,7 +643,7 @@ namespace wenku8.Config
 				SetParameter( Parameters.CONTENTREADER_USEINERTIA, value );
 			}
 		}
-        public static bool CONTENTREADER_AUTOBOOKMARK
+		public static bool CONTENTREADER_AUTOBOOKMARK
 		{
 			get
 			{
@@ -736,7 +736,7 @@ namespace wenku8.Config
 			}
 		}
 
-        // Protocol
+		// Protocol
 		public static bool ENABLE_SERVER_SEL
 		{
 			get
@@ -773,8 +773,8 @@ namespace wenku8.Config
 			}
 		}
 
-        public static string SERVER_OSD_URI
-        {
+		public static string SERVER_OSD_URI
+		{
 			get
 			{
 				return GetValue<string>( Parameters.SERVER_OSD_URI );
@@ -783,11 +783,11 @@ namespace wenku8.Config
 			{
 				SetParameter( Parameters.SERVER_OSD_URI, value );
 			}
-        }
+		}
 
 		// Account
-        public static string AUTH_TOKEN
-        {
+		public static string AUTH_TOKEN
+		{
 			get
 			{
 				return GetValue<string>( Parameters.AUTH_TOKEN );
@@ -796,7 +796,7 @@ namespace wenku8.Config
 			{
 				SetParameter( Parameters.AUTH_TOKEN, value );
 			}
-        }
+		}
 
 		public static bool ENABLE_ONEDRIVE
 		{
@@ -870,8 +870,8 @@ namespace wenku8.Config
 			}
 		}
 
-        public static string MISC_COGNITIVE_API_KEY
-        {
+		public static string MISC_COGNITIVE_API_KEY
+		{
 			get
 			{
 				return GetValue<string>( Parameters.MISC_COGNITIVE_API_KEY );
@@ -880,7 +880,7 @@ namespace wenku8.Config
 			{
 				SetParameter( Parameters.MISC_COGNITIVE_API_KEY, value );
 			}
-        }
+		}
 
 		private static Color GetColorFromByte( byte[] b )
 		{

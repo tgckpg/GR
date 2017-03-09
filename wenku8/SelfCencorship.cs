@@ -12,38 +12,38 @@ using Net.Astropenguin.Loaders;
 
 namespace wenku8
 {
-    using CompositeElement;
+	using CompositeElement;
 
-    class SelfCencorship
-    {
-        private string[] CencoredPhases;
-        public SelfCencorship()
-        {
-            TextReader Text = File.OpenText( "Strings/badwords.txt" );
+	class SelfCencorship
+	{
+		private string[] CencoredPhases;
+		public SelfCencorship()
+		{
+			TextReader Text = File.OpenText( "Strings/badwords.txt" );
 
-            XDocument xml = XDocument.Parse( Text.ReadToEnd() );
+			XDocument xml = XDocument.Parse( Text.ReadToEnd() );
 
-            IEnumerable<XElement> k = xml.Descendants( "item" );
-            int l;
-            CencoredPhases = new string[ l = k.Count() ];
-            for ( int i = 0; i < l; i++ )
-            {
-                CencoredPhases[ i ] = k.ElementAt( i ).Value;
-            }
-        }
+			IEnumerable<XElement> k = xml.Descendants( "item" );
+			int l;
+			CencoredPhases = new string[ l = k.Count() ];
+			for ( int i = 0; i < l; i++ )
+			{
+				CencoredPhases[ i ] = k.ElementAt( i ).Value;
+			}
+		}
 
-        public async Task<bool> Passed( string Text )
-        {
-            if ( string.IsNullOrEmpty( Text ) ) return true;
-            string Alert = CencoredPhases.FirstOrDefault( ( x ) => Text.Contains( x ) );
+		public async Task<bool> Passed( string Text )
+		{
+			if ( string.IsNullOrEmpty( Text ) ) return true;
+			string Alert = CencoredPhases.FirstOrDefault( ( x ) => Text.Contains( x ) );
 
-            if ( Alert == null ) return true;
+			if ( Alert == null ) return true;
 
-            StringResources stx = new StringResources( "Message" );
-            await Popups.ShowDialog( UIAliases.CreateDialog( stx.Str( "Cencorship" ) ) );
+			StringResources stx = new StringResources( "Message" );
+			await Popups.ShowDialog( UIAliases.CreateDialog( stx.Str( "Cencorship" ) ) );
 
-            return false;
-        }
+			return false;
+		}
 
-    }
+	}
 }

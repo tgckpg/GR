@@ -9,7 +9,7 @@ namespace wenku8.Model.ListItem
 
 		public string Index { get; private set; }
 
-        public int TreeLevel { get { return 0; } }
+		public int TreeLevel { get { return 0; } }
 
 		public string LatestSection { get; set; }
 
@@ -36,5 +36,5 @@ namespace wenku8.Model.ListItem
 			// -1 means only message available, used by announcement
 			Index = "-1";
 		}
-    }
+	}
 }

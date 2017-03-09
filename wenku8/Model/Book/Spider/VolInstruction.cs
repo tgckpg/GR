@@ -14,67 +14,67 @@ using wenku8.Model.Interfaces;
 
 namespace wenku8.Model.Book.Spider
 {
-    using System;
+	using System;
 
-    sealed class VolInstruction : ConvoyInstructionSet
-    {
-        public int Index { get; private set; }
-        public string Title { get; private set; }
+	sealed class VolInstruction : ConvoyInstructionSet
+	{
+		public int Index { get; private set; }
+		public string Title { get; private set; }
 
-        public VolInstruction( int index, string title )
-            :base()
-        {
-            this.Index = index;
-            this.Title = title;
-        }
+		public VolInstruction( int index, string title )
+			:base()
+		{
+			this.Index = index;
+			this.Title = title;
+		}
 
-        public VolInstruction( XParameter Param, XRegistry ProcDefs )
-            : base()
-        {
-            this.Index = Param.GetSaveInt( "Index" );
-            this.Title = Param.GetValue( "Title" );
-            this.ProcId = Param.GetValue( "ProcId" );
+		public VolInstruction( XParameter Param, XRegistry ProcDefs )
+			: base()
+		{
+			this.Index = Param.GetSaveInt( "Index" );
+			this.Title = Param.GetValue( "Title" );
+			this.ProcId = Param.GetValue( "ProcId" );
 
-            Convoy = ProcParameter.RestoreParams( ProcDefs );
+			Convoy = ProcParameter.RestoreParams( ProcDefs );
 
-            XParameter ProcParam = ProcDefs.FindFirstMatch( "Guid", ProcId );
-            if ( ProcParam != null )
-            {
-                ProcMan = new ProcManager();
-                ProcMan.ReadParam( ProcParam );
-            }
+			XParameter ProcParam = ProcDefs.FindFirstMatch( "Guid", ProcId );
+			if ( ProcParam != null )
+			{
+				ProcMan = new ProcManager();
+				ProcMan.ReadParam( ProcParam );
+			}
 
-            foreach( XParameter ValParam in Param.Parameters( "Value" ) )
-            {
-                PushConvoyParam( ValParam.GetValue( "Value" ) );
-            }
-        }
+			foreach( XParameter ValParam in Param.Parameters( "Value" ) )
+			{
+				PushConvoyParam( ValParam.GetValue( "Value" ) );
+			}
+		}
 
-        public override void PushInstruction( IInstructionSet Inst )
-        {
-            base.PushInstruction( Inst );
-        }
+		public override void PushInstruction( IInstructionSet Inst )
+		{
+			base.PushInstruction( Inst );
+		}
 
-        public Volume ToVolume( string aid )
-        {
-            string id = Utils.Md5( this.Title );
-            return new SVolume(
-                this, id, aid
-                , SubInsts
-                    .Cast<EpInstruction>()
-                    .Remap( x => x.ToChapter( aid, id ) )
-                    .ToArray()
-            );
-        }
+		public Volume ToVolume( string aid )
+		{
+			string id = Utils.Md5( this.Title );
+			return new SVolume(
+				this, id, aid
+				, SubInsts
+					.Cast<EpInstruction>()
+					.Remap( x => x.ToChapter( aid, id ) )
+					.ToArray()
+			);
+		}
 
-        public override XParameter ToXParam()
-        {
-            XParameter Params = new XParameter( "VolInst" );
-            Params.SetValue( new XKey( "ProcId", ProcId ) );
-            Params.SetValue( new XKey( "Index", Index ) );
-            Params.SetValue( new XKey( "Title", Title ) );
-            Params.SetParameter( GetConvoyXParams() );
-            return Params;
-        }
-    }
+		public override XParameter ToXParam()
+		{
+			XParameter Params = new XParameter( "VolInst" );
+			Params.SetValue( new XKey( "ProcId", ProcId ) );
+			Params.SetValue( new XKey( "Index", Index ) );
+			Params.SetValue( new XKey( "Title", Title ) );
+			Params.SetParameter( GetConvoyXParams() );
+			return Params;
+		}
+	}
 }

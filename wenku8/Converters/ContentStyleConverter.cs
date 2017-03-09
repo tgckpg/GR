@@ -10,38 +10,38 @@ using Windows.UI.Xaml.Data;
 
 namespace wenku8.Converters
 {
-    sealed public class ContentStyleConverter : IValueConverter
-    {
-        public static readonly string ID = typeof( ContentStyleConverter ).Name;
+	sealed public class ContentStyleConverter : IValueConverter
+	{
+		public static readonly string ID = typeof( ContentStyleConverter ).Name;
 
-        public object Convert( object value, Type targetType, object parameter, string language )
-        {
-            // ToggleFav
-            string AlignMode = value.ToString();
+		public object Convert( object value, Type targetType, object parameter, string language )
+		{
+			// ToggleFav
+			string AlignMode = value.ToString();
 
-            if( Application.Current.Resources.ContainsKey( AlignMode ) )
-            {
-                Style S = ( Style ) Application.Current.Resources[ AlignMode ];
-                return S;
-            }
-            else
-            {
-                // Try Get the assembly name
-                Type P = Type.GetType( AlignMode );
-                if( P != null )
-                {
-                    Style S = ( Style ) Application.Current.Resources[ P ];
-                    return S;
-                }
-            }
+			if( Application.Current.Resources.ContainsKey( AlignMode ) )
+			{
+				Style S = ( Style ) Application.Current.Resources[ AlignMode ];
+				return S;
+			}
+			else
+			{
+				// Try Get the assembly name
+				Type P = Type.GetType( AlignMode );
+				if( P != null )
+				{
+					Style S = ( Style ) Application.Current.Resources[ P ];
+					return S;
+				}
+			}
 
-            Logger.Log( ID, string.Format( "No such style \"{0}\"", AlignMode ), LogType.WARNING );
-            return null;
-        }
+			Logger.Log( ID, string.Format( "No such style \"{0}\"", AlignMode ), LogType.WARNING );
+			return null;
+		}
 
-        public object ConvertBack( object value, Type targetType, object parameter, string language )
-        {
-            throw new NotImplementedException();
-        }
-    }
+		public object ConvertBack( object value, Type targetType, object parameter, string language )
+		{
+			throw new NotImplementedException();
+		}
+	}
 }

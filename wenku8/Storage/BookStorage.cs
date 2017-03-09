@@ -11,19 +11,19 @@ using Net.Astropenguin.Logging;
 
 namespace wenku8.Storage
 {
-    using Settings;
-    using Model.ListItem;
+	using Settings;
+	using Model.ListItem;
 
-    sealed class BookStorage
+	sealed class BookStorage
 	{
-        public static readonly string ID = typeof( BookStorage ).Name;
+		public static readonly string ID = typeof( BookStorage ).Name;
 
 		private const string LFileName = FileLinks.ROOT_SETTING + FileLinks.LOCAL_BOOK_STORAGE;
 
-        public static XKey TimeKey
-        {
-            get { return new XKey( AppKeys.LBS_TIME, DateTime.Now.ToFileTimeUtc() ); }
-        }
+		public static XKey TimeKey
+		{
+			get { return new XKey( AppKeys.LBS_TIME, DateTime.Now.ToFileTimeUtc() ); }
+		}
 
 		private XRegistry WBookStorage;
 
@@ -32,89 +32,89 @@ namespace wenku8.Storage
 			WBookStorage = new XRegistry( AppKeys.LBS_BXML, LFileName );
 		}
 
-        public async Task SyncSettings()
-        {
-            await OneDriveSync.Instance.SyncRegistry( WBookStorage );
-        }
+		public async Task SyncSettings()
+		{
+			await OneDriveSync.Instance.SyncRegistry( WBookStorage );
+		}
 
-        internal T[] GetList<T>( Func<XParameter, bool> Filter = null )
-        {
-            Type t = typeof( T );
-            if ( !( t == typeof( FavItem ) || t.GetTypeInfo().IsSubclassOf( typeof( FavItem ) ) ) )
-            {
-                throw new InvalidCastException( "Cannot cast " + t.Name + " into FavItem" );
-            }
+		internal T[] GetList<T>( Func<XParameter, bool> Filter = null )
+		{
+			Type t = typeof( T );
+			if ( !( t == typeof( FavItem ) || t.GetTypeInfo().IsSubclassOf( typeof( FavItem ) ) ) )
+			{
+				throw new InvalidCastException( "Cannot cast " + t.Name + " into FavItem" );
+			}
 
-            Func<XParameter, bool> NDel = x => !x.GetBool( AppKeys.LBS_DEL );
-            Func<XParameter, bool> XFilter = NDel;
-            if( Filter != null )
-            {
-                XFilter = x => NDel( x ) && Filter( x );
-            }
+			Func<XParameter, bool> NDel = x => !x.GetBool( AppKeys.LBS_DEL );
+			Func<XParameter, bool> XFilter = NDel;
+			if( Filter != null )
+			{
+				XFilter = x => NDel( x ) && Filter( x );
+			}
 
-            IEnumerable<XParameter> p = WBookStorage
-                .Parameters()
-                .Where( XFilter )
-                .OrderBy( x => x.GetBool( AppKeys.LBS_NEW ) )
-                .ToArray();
+			IEnumerable<XParameter> p = WBookStorage
+				.Parameters()
+				.Where( XFilter )
+				.OrderBy( x => x.GetBool( AppKeys.LBS_NEW ) )
+				.ToArray();
 
-            StringResources Res = new StringResources( "Book" );
+			StringResources Res = new StringResources( "Book" );
 
-            List<T> s = new List<T>();
-            foreach ( XParameter wp in p )
-            {
-                T Item = ( T ) Activator.CreateInstance(
-                    typeof( T )
-                    , wp.GetValue( AppKeys.GLOBAL_NAME )
-                    , wp.GetValue( AppKeys.LBS_DATE )
-                    , wp.GetValue( AppKeys.LBS_CH )
-                    , wp.GetValue( AppKeys.GLOBAL_ID )
-                    , wp.GetBool( AppKeys.LBS_WSYNC )
-                    , wp.GetBool( AppKeys.LBS_AUM )
-                    , wp.GetBool( AppKeys.LBS_NEW )
-                );
+			List<T> s = new List<T>();
+			foreach ( XParameter wp in p )
+			{
+				T Item = ( T ) Activator.CreateInstance(
+					typeof( T )
+					, wp.GetValue( AppKeys.GLOBAL_NAME )
+					, wp.GetValue( AppKeys.LBS_DATE )
+					, wp.GetValue( AppKeys.LBS_CH )
+					, wp.GetValue( AppKeys.GLOBAL_ID )
+					, wp.GetBool( AppKeys.LBS_WSYNC )
+					, wp.GetBool( AppKeys.LBS_AUM )
+					, wp.GetBool( AppKeys.LBS_NEW )
+				);
 
-                s.Add( Item );
-            }
+				s.Add( Item );
+			}
 
-            s.Reverse();
+			s.Reverse();
 
-            return s.ToArray();
-        }
+			return s.ToArray();
+		}
 
 		public string[] GetIdList()
 		{
 			IEnumerable<XParameter> Params = WBookStorage.Parameters().Where( x => !x.GetBool( AppKeys.LBS_DEL, false ) );
 
 			int i = 1;
-            int l = Params.Count();
+			int l = Params.Count();
 
-            string[] s = new string[ l ];
+			string[] s = new string[ l ];
 
-            foreach ( XParameter p in Params )
-            {
-                s[ ( l - i++ ) ] = p.GetValue( AppKeys.GLOBAL_ID );
-            }
+			foreach ( XParameter p in Params )
+			{
+				s[ ( l - i++ ) ] = p.GetValue( AppKeys.GLOBAL_ID );
+			}
 
 			return s;
 		}
 
 		public void RemoveBook( string id, bool Save = true )
 		{
-            XParameter P = WBookStorage.Parameter( id );
-            if ( P == null ) return;
-            P.SetValue( new XKey( AppKeys.LBS_DEL, true ) );
+			XParameter P = WBookStorage.Parameter( id );
+			if ( P == null ) return;
+			P.SetValue( new XKey( AppKeys.LBS_DEL, true ) );
 
-            WBookStorage.SetParameter( P );
+			WBookStorage.SetParameter( P );
 			if( Save ) WBookStorage.Save();
 		}
 
 		public XParameter GetBook( string id )
 		{
 			XParameter P =  WBookStorage.Parameter( id );
-            if ( P == null || P.GetBool( AppKeys.LBS_DEL ) ) return null;
+			if ( P == null || P.GetBool( AppKeys.LBS_DEL ) ) return null;
 
-            return P;
+			return P;
 		}
 
 		public void SaveBook( string id, string name, string date, string LastChapter, bool Save = true )
@@ -128,22 +128,22 @@ namespace wenku8.Storage
 				{
 					try
 					{
-                        p.SetValue(
-                            new XKey( AppKeys.GLOBAL_NAME, name )
-                            , new XKey( AppKeys.LBS_DATE, date )
-                            , new XKey( AppKeys.LBS_CH, LastChapter )
-                            , new XKey( AppKeys.LBS_NEW, true )
-                            , new XKey( AppKeys.LBS_DEL, false )
-                            , TimeKey
-                        );
+						p.SetValue(
+							new XKey( AppKeys.GLOBAL_NAME, name )
+							, new XKey( AppKeys.LBS_DATE, date )
+							, new XKey( AppKeys.LBS_CH, LastChapter )
+							, new XKey( AppKeys.LBS_NEW, true )
+							, new XKey( AppKeys.LBS_DEL, false )
+							, TimeKey
+						);
 
-                        WBookStorage.SetParameter( p );
+						WBookStorage.SetParameter( p );
 					}
 					catch ( Exception ex )
 					{
-                        Logger.Log( ID, ex.Message, LogType.ERROR );
-                    }
-                }
+						Logger.Log( ID, ex.Message, LogType.ERROR );
+					}
+				}
 			}
 			else
 			{
@@ -153,8 +153,8 @@ namespace wenku8.Storage
 					, new XKey( AppKeys.GLOBAL_NAME, name )
 					, new XKey( AppKeys.LBS_CH, LastChapter )
 					, new XKey( AppKeys.LBS_NEW, false )
-                    , new XKey( AppKeys.LBS_DEL, false )
-                    , TimeKey
+					, new XKey( AppKeys.LBS_DEL, false )
+					, TimeKey
 				} );
 			}
 
@@ -163,16 +163,16 @@ namespace wenku8.Storage
 
 		public bool BookExist( string id )
 		{
-            XParameter Param = WBookStorage.Parameter( id );
-            if ( Param == null ) return false;
+			XParameter Param = WBookStorage.Parameter( id );
+			if ( Param == null ) return false;
 
-            return !Param.GetBool( AppKeys.LBS_DEL, false );
+			return !Param.GetBool( AppKeys.LBS_DEL, false );
 		}
 
 		public void BookRead( string id )
 		{
 			SetBool( id, AppKeys.LBS_NEW, false );
-            SaveBookStorage();
+			SaveBookStorage();
 		}
 
 		public bool AutoUpdateSwitch( string id )
@@ -192,13 +192,13 @@ namespace wenku8.Storage
 		{
 			XParameter p = WBookStorage.Parameter( id );
 
-            if( status != null )
-            {
-                bool S = ( bool ) status;
+			if( status != null )
+			{
+				bool S = ( bool ) status;
 				SetBool( id, AppKeys.LBS_WSYNC, S );
 
-                return S;
-            }
+				return S;
+			}
 
 			if ( p.GetValue( AppKeys.LBS_WSYNC ) == null )
 			{
@@ -228,8 +228,8 @@ namespace wenku8.Storage
 			if ( p != null )
 			{
 				p.SetValue( new XKey( key, value ) );
-                p.SetValue( TimeKey );
-                WBookStorage.SetParameter( p );
+				p.SetValue( TimeKey );
+				WBookStorage.SetParameter( p );
 			}
 		}
 
@@ -239,8 +239,8 @@ namespace wenku8.Storage
 			if ( p != null )
 			{
 				p.RemoveKey( key );
-                p.SetValue( TimeKey );
-                WBookStorage.SetParameter( p );
+				p.SetValue( TimeKey );
+				WBookStorage.SetParameter( p );
 			}
 		}
 
@@ -256,9 +256,9 @@ namespace wenku8.Storage
 			return id;
 		}
 
-        public void SaveBookStorage()
-        {
-            WBookStorage.Save();
-        }
+		public void SaveBookStorage()
+		{
+			WBookStorage.Save();
+		}
 	}
 }

@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace wenku8.Model.Interfaces
 {
-    interface ISHActivity
-    {
-        Task<bool> Get();
-    }
+	interface ISHActivity
+	{
+		Task<bool> Get();
+	}
 }

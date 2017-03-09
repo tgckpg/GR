@@ -10,78 +10,78 @@ using Microsoft.Graphics.Canvas;
 
 namespace wenku8.Effects.P2DFlow.ForceFields
 {
-    enum VortexSpin { Clockwise, Anticlockwise }
+	enum VortexSpin { Clockwise, Anticlockwise }
 
-    class Vortex : IForceField
-    {
-        public float Strength = 50f;
-        public float MaxDist = 100.0f;
+	class Vortex : IForceField
+	{
+		public float Strength = 50f;
+		public float MaxDist = 100.0f;
 
-        public Vector2 Center;
-        public float Eye = 50.0f;
-        public VortexSpin Direction;
-
-#if DEBUG
-        private List<Tuple<Vector2, Vector2, float>> DebugInfo = new List<Tuple<Vector2, Vector2, float>>();
-#endif
-
-        private float ForceLine = 0;
-        private float ForceLineO = 0;
-
-        public Vortex( float Eye, float MaxDist )
-        {
-            this.Eye = Eye;
-            this.MaxDist = MaxDist;
-
-            ForceLineO = 0.5f * ( MaxDist - Eye );
-            ForceLine = Eye + ForceLineO;
-        }
-
-        public void Apply( Particle P )
-        {
-            float dist = Vector2.Distance( P.Pos, Center );
-
-            if ( MaxDist < dist || dist < Eye ) return;
-
-            dist -= Eye;
-            float Gradient = Math.Abs( P.mf * ( dist - ForceLine ) / ForceLineO );
-
-            Vector2 NormG = VSpin( Vector2.Normalize( P.Pos - Center ) ) * Gradient;
-            P.a += NormG * Strength;
+		public Vector2 Center;
+		public float Eye = 50.0f;
+		public VortexSpin Direction;
 
 #if DEBUG
-            DebugInfo.Add( new Tuple<Vector2, Vector2, float>( Center, P.Pos, Gradient ) );
+		private List<Tuple<Vector2, Vector2, float>> DebugInfo = new List<Tuple<Vector2, Vector2, float>>();
 #endif
-        }
 
-        private Vector2 VSpin( Vector2 V )
-        {
-            if ( Direction == VortexSpin.Clockwise )
-                return new Vector2( -V.Y, V.X );
-            else
-                return new Vector2( V.Y, -V.X );
-        }
+		private float ForceLine = 0;
+		private float ForceLineO = 0;
 
-        public void WireFrame( CanvasDrawingSession ds )
-        {
-            ds.DrawCircle( Center, Eye, Colors.DarkCyan );
-            ds.DrawCircle( Center, ForceLine, Colors.Red );
-            ds.DrawCircle( Center, MaxDist, Colors.DarkCyan );
+		public Vortex( float Eye, float MaxDist )
+		{
+			this.Eye = Eye;
+			this.MaxDist = MaxDist;
+
+			ForceLineO = 0.5f * ( MaxDist - Eye );
+			ForceLine = Eye + ForceLineO;
+		}
+
+		public void Apply( Particle P )
+		{
+			float dist = Vector2.Distance( P.Pos, Center );
+
+			if ( MaxDist < dist || dist < Eye ) return;
+
+			dist -= Eye;
+			float Gradient = Math.Abs( P.mf * ( dist - ForceLine ) / ForceLineO );
+
+			Vector2 NormG = VSpin( Vector2.Normalize( P.Pos - Center ) ) * Gradient;
+			P.a += NormG * Strength;
 
 #if DEBUG
-            foreach( Tuple<Vector2, Vector2, float> d in DebugInfo )
-            {
-                ds.DrawLine( d.Item1, d.Item2, Color.FromArgb( ( byte ) Math.Floor( 255 * d.Item3 ), 0, 255, 0 ) );
-            }
+			DebugInfo.Add( new Tuple<Vector2, Vector2, float>( Center, P.Pos, Gradient ) );
 #endif
-        }
+		}
 
-        public void FreeWireFrame()
-        {
+		private Vector2 VSpin( Vector2 V )
+		{
+			if ( Direction == VortexSpin.Clockwise )
+				return new Vector2( -V.Y, V.X );
+			else
+				return new Vector2( V.Y, -V.X );
+		}
+
+		public void WireFrame( CanvasDrawingSession ds )
+		{
+			ds.DrawCircle( Center, Eye, Colors.DarkCyan );
+			ds.DrawCircle( Center, ForceLine, Colors.Red );
+			ds.DrawCircle( Center, MaxDist, Colors.DarkCyan );
+
 #if DEBUG
-            DebugInfo = new List<Tuple<Vector2, Vector2, float>>();
+			foreach( Tuple<Vector2, Vector2, float> d in DebugInfo )
+			{
+				ds.DrawLine( d.Item1, d.Item2, Color.FromArgb( ( byte ) Math.Floor( 255 * d.Item3 ), 0, 255, 0 ) );
+			}
 #endif
-        }
+		}
 
-    }
+		public void FreeWireFrame()
+		{
+#if DEBUG
+			DebugInfo = new List<Tuple<Vector2, Vector2, float>>();
+#endif
+		}
+
+	}
 }

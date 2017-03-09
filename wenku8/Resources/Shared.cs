@@ -10,55 +10,55 @@ using Net.Astropenguin.Messaging;
 
 namespace wenku8.Resources
 {
-    using CompositeElement;
-    using Model.Book;
-    using Model.REST;
-    using Storage;
+	using CompositeElement;
+	using Model.Book;
+	using Model.REST;
+	using Storage;
 
-    static class Shared
-    {
-        public static GeneralStorage Storage;
+	static class Shared
+	{
+		public static GeneralStorage Storage;
 
-        // Books Cache used by loaders
-        public static BookPool BooksCache = new BookPool( 5 );
-        public static BookItem CurrentBook;
+		// Books Cache used by loaders
+		public static BookPool BooksCache = new BookPool( 5 );
+		public static BookItem CurrentBook;
 
-        // The default settings by locale
-        public static LocaleDefaults LocaleDefaults = new LocaleDefaults();
+		// The default settings by locale
+		public static LocaleDefaults LocaleDefaults = new LocaleDefaults();
 
-        public static SharersRequest ShRequest;
+		public static SharersRequest ShRequest;
 
-        // TODO: Should make this optional for each book
-        private static bool IsTrad = Config.Properties.LANGUAGE_TRADITIONAL;
+		// TODO: Should make this optional for each book
+		private static bool IsTrad = Config.Properties.LANGUAGE_TRADITIONAL;
 
-        public static string ToCTrad( this string v )
-        {
-            return IsTrad ? libtranslate.Chinese.Traditional( v ) : v;
-        }
+		public static string ToCTrad( this string v )
+		{
+			return IsTrad ? libtranslate.Chinese.Traditional( v ) : v;
+		}
 
-        public static byte[] ToCTrad( this byte[] v )
-        {
-            return IsTrad ? libtranslate.Chinese.Traditional( v ) : v;
-        }
+		public static byte[] ToCTrad( this byte[] v )
+		{
+			return IsTrad ? libtranslate.Chinese.Traditional( v ) : v;
+		}
 
-        private static StringResources LoadMesgRes;
+		private static StringResources LoadMesgRes;
 
-        public static void LoadMessage( string MESG_ID, params string[] args )
-        {
-            Worker.UIInvoke( () =>
-            {
-                if ( LoadMesgRes == null ) LoadMesgRes = new StringResources( "LoadingMessage" );
-                string mesg = LoadMesgRes.Str( MESG_ID );
+		public static void LoadMessage( string MESG_ID, params string[] args )
+		{
+			Worker.UIInvoke( () =>
+			{
+				if ( LoadMesgRes == null ) LoadMesgRes = new StringResources( "LoadingMessage" );
+				string mesg = LoadMesgRes.Str( MESG_ID );
 
-                mesg = string.IsNullOrEmpty( mesg ) ? MESG_ID : mesg;
+				mesg = string.IsNullOrEmpty( mesg ) ? MESG_ID : mesg;
 
-                if ( 0 < args.Length )
-                {
-                    mesg = string.Format( mesg, args );
-                }
+				if ( 0 < args.Length )
+				{
+					mesg = string.Format( mesg, args );
+				}
 
-                MessageBus.SendUI( typeof( LoadingMask ), mesg );
-            } );
-        }
-    }
+				MessageBus.SendUI( typeof( LoadingMask ), mesg );
+			} );
+		}
+	}
 }

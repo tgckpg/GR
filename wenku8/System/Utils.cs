@@ -14,7 +14,7 @@ using Net.Astropenguin.Loaders;
 
 namespace wenku8.System
 {
-    static class Utils
+	static class Utils
 	{
 		public static void DoNothing( string arg1, string arg2, Exception arg3 ) { }
 		public static void DoNothing( DRequestCompletedEventArgs arg1, string arg2 ) { }
@@ -22,7 +22,7 @@ namespace wenku8.System
 
 		public static string AutoByteUnit( ulong size )
 		{
-            double b = 1.0d * size;
+			double b = 1.0d * size;
 			string unit = "Byte";
 			if ( b > 1024 )
 			{
@@ -43,16 +43,16 @@ namespace wenku8.System
 			return b.ToString() + " " + unit;
 		}
 
-        public static bool Numberstring( string n )
-        {
-            if ( n.Length == 0 ) return false;
-            foreach ( char p in n )
-            {
-                if ( !char.IsDigit( p ) )
-                    return false;
-            }
-            return true;
-        }
+		public static bool Numberstring( string n )
+		{
+			if ( n.Length == 0 ) return false;
+			foreach ( char p in n )
+			{
+				if ( !char.IsDigit( p ) )
+					return false;
+			}
+			return true;
+		}
 
 		public static DateTime GetDateTimeFromstring( string time )
 		{
@@ -78,7 +78,7 @@ namespace wenku8.System
 			return p;
 		}
 
-        internal static bool CompareVersion( string thisVer, string CurrentVer )
+		internal static bool CompareVersion( string thisVer, string CurrentVer )
 		{
 			string[] k = thisVer.Split( '.' );
 			string[] l = CurrentVer.Split( '.' );
@@ -90,35 +90,35 @@ namespace wenku8.System
 			return false;
 		}
 
-        internal static string Md5( string str )
-        {
-            return Md5( CryptographicBuffer.ConvertStringToBinary( str, BinaryStringEncoding.Utf8 ) );
-        }
+		internal static string Md5( string str )
+		{
+			return Md5( CryptographicBuffer.ConvertStringToBinary( str, BinaryStringEncoding.Utf8 ) );
+		}
 
-        internal static string Md5( IBuffer Buff )
-        {
-            HashAlgorithmProvider alg = HashAlgorithmProvider.OpenAlgorithm( HashAlgorithmNames.Md5 );
-            return CryptographicBuffer.EncodeToHexString( alg.HashData( Buff ) );
-        }
+		internal static string Md5( IBuffer Buff )
+		{
+			HashAlgorithmProvider alg = HashAlgorithmProvider.OpenAlgorithm( HashAlgorithmNames.Md5 );
+			return CryptographicBuffer.EncodeToHexString( alg.HashData( Buff ) );
+		}
 
-        internal async static Task<string> Sha1( IStorageFile File )
-        {
-            HashAlgorithmProvider alg = HashAlgorithmProvider.OpenAlgorithm( HashAlgorithmNames.Sha1 );
+		internal async static Task<string> Sha1( IStorageFile File )
+		{
+			HashAlgorithmProvider alg = HashAlgorithmProvider.OpenAlgorithm( HashAlgorithmNames.Sha1 );
 
-            CryptographicHash hash = alg.CreateHash();
-            BasicProperties Prop = await File.GetBasicPropertiesAsync();
+			CryptographicHash hash = alg.CreateHash();
+			BasicProperties Prop = await File.GetBasicPropertiesAsync();
 
-            IBuffer buff = new Windows.Storage.Streams.Buffer( 1048576 );
-            IRandomAccessStream rStream = await File.OpenAsync( FileAccessMode.Read );
+			IBuffer buff = new Windows.Storage.Streams.Buffer( 1048576 );
+			IRandomAccessStream rStream = await File.OpenAsync( FileAccessMode.Read );
 
-            await rStream.ReadAsync( buff, 1048576, InputStreamOptions.None );
-            while ( 0 < buff.Length )
-            {
-                hash.Append( buff );
-                await rStream.ReadAsync( buff, 1048576, InputStreamOptions.None );
-            }
+			await rStream.ReadAsync( buff, 1048576, InputStreamOptions.None );
+			while ( 0 < buff.Length )
+			{
+				hash.Append( buff );
+				await rStream.ReadAsync( buff, 1048576, InputStreamOptions.None );
+			}
 
-            return CryptographicBuffer.EncodeToHexString( hash.GetValueAndReset() );
-        }
-    }
+			return CryptographicBuffer.EncodeToHexString( hash.GetValueAndReset() );
+		}
+	}
 }

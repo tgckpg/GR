@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace wenku8.Ext
 {
-    using Model.Book;
+	using Model.Book;
 
-    interface IBookLoader
-    {
-        void Load( BookItem b, bool useCache );
-    }
+	interface IBookLoader
+	{
+		void Load( BookItem b, bool useCache );
+	}
 }

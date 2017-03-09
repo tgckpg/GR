@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace wenku8.Ext
 {
-    interface INavList
-    {
-        bool IsHorizontal { get; set; }
-    }
+	interface INavList
+	{
+		bool IsHorizontal { get; set; }
+	}
 }

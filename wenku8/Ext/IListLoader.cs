@@ -8,9 +8,9 @@ using Net.Astropenguin.Loaders;
 
 namespace wenku8.Ext
 {
-    using Model.Book;
-    interface IListLoader : ILoader<BookItem>
-    {
-        int TotalCount { get; }
-    }
+	using Model.Book;
+	interface IListLoader : ILoader<BookItem>
+	{
+		int TotalCount { get; }
+	}
 }

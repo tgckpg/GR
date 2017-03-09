@@ -7,11 +7,11 @@ using wenku8.Model.ListItem;
 
 namespace wenku8.Ext
 {
-    interface IMainPageSettings
-    {
-        IEnumerable<SubtleUpdateItem> NavSections();
-        ActiveItem SelectedSection { get; }
+	interface IMainPageSettings
+	{
+		IEnumerable<SubtleUpdateItem> NavSections();
+		ActiveItem SelectedSection { get; }
 
-        Tuple<Type, string> PayloadCommand( string payload );
-    }
+		Tuple<Type, string> PayloadCommand( string payload );
+	}
 }

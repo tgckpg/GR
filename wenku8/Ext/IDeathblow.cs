@@ -6,19 +6,19 @@ using System.Threading.Tasks;
 
 namespace wenku8.Ext
 {
-    using Model.Book;
-    using Model.ListItem;
+	using Model.Book;
+	using Model.ListItem;
 
-    interface IDeathblow
-    {
-        string Id { get; }
+	interface IDeathblow
+	{
+		string Id { get; }
 
-        bool Registered { get; }
-        bool Check( byte[] responseBytes );
+		bool Registered { get; }
+		bool Check( byte[] responseBytes );
 
-        LocalBook GetParser();
-        BookItem GetBook();
+		LocalBook GetParser();
+		BookItem GetBook();
 
-        void Register();
-    }
+		void Register();
+	}
 }

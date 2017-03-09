@@ -10,19 +10,19 @@ namespace wenku8.AdvDM
 {
 	sealed class WHttpRequest : HttpRequest
 	{
-        public static CookieContainer Cookies = new CookieContainer();
-        internal static string UA = "WHTTPRequest";
+		public static CookieContainer Cookies = new CookieContainer();
+		internal static string UA = "WHTTPRequest";
 
 		public WHttpRequest( Uri RequestUri )
-            :base( RequestUri )
+			:base( RequestUri )
 		{
 			WCacheMode.OfflineEnabled += WCacheMode_OfflineEnabled;
 		}
 
-        ~WHttpRequest()
-        {
+		~WHttpRequest()
+		{
 			WCacheMode.OfflineEnabled -= WCacheMode_OfflineEnabled;
-        }
+		}
 
 		void WCacheMode_OfflineEnabled()
 		{
@@ -32,10 +32,10 @@ namespace wenku8.AdvDM
 
 		override protected void CreateRequest()
 		{
-            base.CreateRequest();
-            WCMessage.Method = HttpMethod.Post;
-            UserAgent = UA;
-            Kookies = Cookies;
+			base.CreateRequest();
+			WCMessage.Method = HttpMethod.Post;
+			UserAgent = UA;
+			Kookies = Cookies;
 		}
 	}
 }

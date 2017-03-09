@@ -7,66 +7,66 @@ using System.Threading.Tasks;
 
 namespace wenku8.AdvDM
 {
-    sealed class PostData
-    {
-        public string Id;
+	sealed class PostData
+	{
+		public string Id;
 
-        public string CacheName { get; private set; }
-        public string LogStamp { get; private set; }
+		public string CacheName { get; private set; }
+		public string LogStamp { get; private set; }
 
-        public string Data
-        {
-            get
-            {
-                if ( StringData != null )
-                {
-                    return StringData;
-                }
+		public string Data
+		{
+			get
+			{
+				if ( StringData != null )
+				{
+					return StringData;
+				}
 
-                using ( StreamReader SR = new StreamReader( StreamData ) )
-                {
-                    return SR.ReadToEnd();
-                }
-            }
-        }
+				using ( StreamReader SR = new StreamReader( StreamData ) )
+				{
+					return SR.ReadToEnd();
+				}
+			}
+		}
 
-        public Stream DataStream { get { return StreamData; } }
+		public Stream DataStream { get { return StreamData; } }
 
-        private string StringData;
-        private Stream StreamData;
+		private string StringData;
+		private Stream StreamData;
 
-        public PostData( string Name, string Id, string Data )
-            :this( Id, Data )
-        {
-            LogStamp = Name + ": " + Id;
-        }
+		public PostData( string Name, string Id, string Data )
+			:this( Id, Data )
+		{
+			LogStamp = Name + ": " + Id;
+		}
 
-        public PostData( string Name, string Id, Stream Data )
-            :this( Id, Data )
-        {
-            LogStamp = Name + ": " + Id;
-        }
+		public PostData( string Name, string Id, Stream Data )
+			:this( Id, Data )
+		{
+			LogStamp = Name + ": " + Id;
+		}
 
-        public PostData( string Id, string Data )
-        {
-            this.Id = Id;
-            LogStamp = Id;
+		public PostData( string Id, string Data )
+		{
+			this.Id = Id;
+			LogStamp = Id;
 
-            CacheName = wenku8.System.Utils.Md5( Id );
-            StringData = Data;
+			CacheName = wenku8.System.Utils.Md5( Id );
+			StringData = Data;
 
 #if DEBUG
-            LogStamp += ", " + Data;
+			LogStamp += ", " + Data;
 #endif
-        }
+		}
 
-        public PostData( string Id, Stream Data )
-        {
-            this.Id = Id;
-            LogStamp = Id;
+		public PostData( string Id, Stream Data )
+		{
+			this.Id = Id;
+			LogStamp = Id;
 
-            CacheName = wenku8.System.Utils.Md5( Id );
-            StreamData = Data;
-        }
-    }
+			CacheName = wenku8.System.Utils.Md5( Id );
+			StreamData = Data;
+		}
+	}
 }

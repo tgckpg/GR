@@ -6,68 +6,68 @@ using Net.Astropenguin.Loaders;
 
 namespace wenku8.Converters
 {
-    sealed public class NumberSimplifier : IValueConverter
-    {
-        private static Regex Number = new Regex( @"(\d[\d,]+)" );
+	sealed public class NumberSimplifier : IValueConverter
+	{
+		private static Regex Number = new Regex( @"(\d[\d,]+)" );
 
-        public object Convert( object value, Type targetType, object parameter, string language )
-        {
-            string abbrd = value.ToString();
-            Match m = Number.Match( abbrd );
+		public object Convert( object value, Type targetType, object parameter, string language )
+		{
+			string abbrd = value.ToString();
+			Match m = Number.Match( abbrd );
 
-            if ( m.Success )
-            {
-                string Size = m.Groups[ 1 ].Value.Replace( ",", "" );
+			if ( m.Success )
+			{
+				string Size = m.Groups[ 1 ].Value.Replace( ",", "" );
 
-                StringResources stx = new StringResources( "Numbers" );
-                string Sim = "";
+				StringResources stx = new StringResources( "Numbers" );
+				string Sim = "";
 
-                int l = 24;
+				int l = 24;
 
-                string Rounded = Size;
+				string Rounded = Size;
 
-                int g = 1;
+				int g = 1;
 
-                int sl = Size.Length;
-                if ( 3 < sl )
-                {
-                    for ( int i = 3; i <= l; i++ )
-                    {
-                        if ( i < sl )
-                        {
-                            Sim = stx.Str( "e" + i );
-                            g = string.IsNullOrEmpty( Sim ) ? g + 1 : 1;
-                        }
-                        else
-                        {
-                            i -= g;
-                            Sim = stx.Str( "e" + i );
+				int sl = Size.Length;
+				if ( 3 < sl )
+				{
+					for ( int i = 3; i <= l; i++ )
+					{
+						if ( i < sl )
+						{
+							Sim = stx.Str( "e" + i );
+							g = string.IsNullOrEmpty( Sim ) ? g + 1 : 1;
+						}
+						else
+						{
+							i -= g;
+							Sim = stx.Str( "e" + i );
 
-                            Rounded = Size.Substring( 0, sl - i ) + "." + Math.Round( int.Parse( Size.Substring( sl - i, 2 ) ) / 10.0 );
+							Rounded = Size.Substring( 0, sl - i ) + "." + Math.Round( int.Parse( Size.Substring( sl - i, 2 ) ) / 10.0 );
 
-                            // If it is the type of 1234.5
-                            // Trim this thing to 4 digits
-                            if( Rounded.Length == 6 )
-                            {
-                                Rounded = Math.Round( double.Parse( Rounded ) ) + "";
-                            }
-                            break;
-                        }
-                    }
-                }
+							// If it is the type of 1234.5
+							// Trim this thing to 4 digits
+							if( Rounded.Length == 6 )
+							{
+								Rounded = Math.Round( double.Parse( Rounded ) ) + "";
+							}
+							break;
+						}
+					}
+				}
 
-                if ( !string.IsNullOrEmpty( Sim ) )
-                {
-                    return abbrd.Replace( m.Groups[ 1 ].Value, Rounded + " " + Sim + " " );
-                }
-            }
+				if ( !string.IsNullOrEmpty( Sim ) )
+				{
+					return abbrd.Replace( m.Groups[ 1 ].Value, Rounded + " " + Sim + " " );
+				}
+			}
 
-            return abbrd;
-        }
+			return abbrd;
+		}
 
-        public object ConvertBack( object value, Type targetType, object parameter, string language )
-        {
-            return false;
-        }
-    }
+		public object ConvertBack( object value, Type targetType, object parameter, string language )
+		{
+			return false;
+		}
+	}
 }

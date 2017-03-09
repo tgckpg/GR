@@ -8,74 +8,74 @@ using Windows.UI.Xaml.Media.Animation;
 
 namespace wenku8.Effects
 {
-    static class SimpleStory
-    {
-        public static void DoubleAnimation( Storyboard Board, DependencyObject Element, string Property, double From, double To, double Duration = 350, double Delay = 0, EasingFunctionBase Easing = null )
-        {
-            DoubleAnimationUsingKeyFrames d = new DoubleAnimationUsingKeyFrames();
+	static class SimpleStory
+	{
+		public static void DoubleAnimation( Storyboard Board, DependencyObject Element, string Property, double From, double To, double Duration = 350, double Delay = 0, EasingFunctionBase Easing = null )
+		{
+			DoubleAnimationUsingKeyFrames d = new DoubleAnimationUsingKeyFrames();
 
-            if ( Easing == null ) Easing = new CubicEase() { EasingMode = EasingMode.EaseOut };
+			if ( Easing == null ) Easing = new CubicEase() { EasingMode = EasingMode.EaseOut };
 
-            EasingDoubleKeyFrame still = new EasingDoubleKeyFrame();
-            still.Value = From;
-            still.KeyTime = KeyTime.FromTimeSpan( TimeSpan.FromSeconds( 0 ) );
-            still.EasingFunction = Easing;
+			EasingDoubleKeyFrame still = new EasingDoubleKeyFrame();
+			still.Value = From;
+			still.KeyTime = KeyTime.FromTimeSpan( TimeSpan.FromSeconds( 0 ) );
+			still.EasingFunction = Easing;
 
-            if ( 0 < Delay )
-            {
-                LinearDoubleKeyFrame still_still = new LinearDoubleKeyFrame();
-                still_still.Value = From;
+			if ( 0 < Delay )
+			{
+				LinearDoubleKeyFrame still_still = new LinearDoubleKeyFrame();
+				still_still.Value = From;
 
-                still_still.KeyTime = still.KeyTime;
-                still.KeyTime = KeyTime.FromTimeSpan( TimeSpan.FromMilliseconds( Delay ) );
+				still_still.KeyTime = still.KeyTime;
+				still.KeyTime = KeyTime.FromTimeSpan( TimeSpan.FromMilliseconds( Delay ) );
 
-                d.KeyFrames.Add( still_still );
-            }
+				d.KeyFrames.Add( still_still );
+			}
 
-            EasingDoubleKeyFrame move = new EasingDoubleKeyFrame();
-            move.Value = To;
-            move.EasingFunction = Easing;
-            move.KeyTime = KeyTime.FromTimeSpan( TimeSpan.FromMilliseconds( Delay + Duration ) );
+			EasingDoubleKeyFrame move = new EasingDoubleKeyFrame();
+			move.Value = To;
+			move.EasingFunction = Easing;
+			move.KeyTime = KeyTime.FromTimeSpan( TimeSpan.FromMilliseconds( Delay + Duration ) );
 
-            d.Duration = new Duration( TimeSpan.FromMilliseconds( Delay + Duration ) );
+			d.Duration = new Duration( TimeSpan.FromMilliseconds( Delay + Duration ) );
 
-            d.KeyFrames.Add( still );
-            d.KeyFrames.Add( move );
+			d.KeyFrames.Add( still );
+			d.KeyFrames.Add( move );
 
-            Storyboard.SetTarget( d, Element );
-            Storyboard.SetTargetProperty( d, Property );
-            Board.Children.Add( d );
-        }
+			Storyboard.SetTarget( d, Element );
+			Storyboard.SetTargetProperty( d, Property );
+			Board.Children.Add( d );
+		}
 
-        public static void ObjectAnimation( Storyboard Board, DependencyObject Element, string Property, object From, object To, double Duration = 350, double Delay = 0 )
-        {
-            ObjectAnimationUsingKeyFrames d = new ObjectAnimationUsingKeyFrames();
+		public static void ObjectAnimation( Storyboard Board, DependencyObject Element, string Property, object From, object To, double Duration = 350, double Delay = 0 )
+		{
+			ObjectAnimationUsingKeyFrames d = new ObjectAnimationUsingKeyFrames();
 
-            DiscreteObjectKeyFrame still = new DiscreteObjectKeyFrame();
-            still.Value = From;
-            still.KeyTime = KeyTime.FromTimeSpan( TimeSpan.FromSeconds( 0 ) );
+			DiscreteObjectKeyFrame still = new DiscreteObjectKeyFrame();
+			still.Value = From;
+			still.KeyTime = KeyTime.FromTimeSpan( TimeSpan.FromSeconds( 0 ) );
 
-            if ( 0 < Delay )
-            {
-                DiscreteObjectKeyFrame still_still = new DiscreteObjectKeyFrame();
-                still_still.Value = To;
-                still_still.KeyTime = KeyTime.FromTimeSpan( TimeSpan.FromMilliseconds( Delay ) );
+			if ( 0 < Delay )
+			{
+				DiscreteObjectKeyFrame still_still = new DiscreteObjectKeyFrame();
+				still_still.Value = To;
+				still_still.KeyTime = KeyTime.FromTimeSpan( TimeSpan.FromMilliseconds( Delay ) );
 
-                d.KeyFrames.Add( still_still );
-            }
+				d.KeyFrames.Add( still_still );
+			}
 
-            DiscreteObjectKeyFrame move = new DiscreteObjectKeyFrame();
-            move.Value = To;
-            move.KeyTime = KeyTime.FromTimeSpan( TimeSpan.FromMilliseconds( Delay + Duration ) );
+			DiscreteObjectKeyFrame move = new DiscreteObjectKeyFrame();
+			move.Value = To;
+			move.KeyTime = KeyTime.FromTimeSpan( TimeSpan.FromMilliseconds( Delay + Duration ) );
 
-            d.Duration = new Duration( TimeSpan.FromMilliseconds( Delay + Duration ) );
+			d.Duration = new Duration( TimeSpan.FromMilliseconds( Delay + Duration ) );
 
-            d.KeyFrames.Add( still );
-            d.KeyFrames.Add( move );
+			d.KeyFrames.Add( still );
+			d.KeyFrames.Add( move );
 
-            Storyboard.SetTarget( d, Element );
-            Storyboard.SetTargetProperty( d, Property );
-            Board.Children.Add( d );
-        }
-    }
+			Storyboard.SetTarget( d, Element );
+			Storyboard.SetTargetProperty( d, Property );
+			Board.Children.Add( d );
+		}
+	}
 }

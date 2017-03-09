@@ -10,72 +10,72 @@ using Net.Astropenguin.Messaging;
 
 namespace wenku8.System
 {
-    using CompositeElement;
+	using CompositeElement;
 
-    sealed class ActionCenter
-    {
-        public const string General = "noti";
-        public const string Warning = "impo";
-        public const string Error = "Err";
+	sealed class ActionCenter
+	{
+		public const string General = "noti";
+		public const string Warning = "impo";
+		public const string Error = "Err";
 
-        public static ActionCenter Instance { get; private set; }
+		public static ActionCenter Instance { get; private set; }
 
-        private readonly Type SelfType = typeof( ActionCenter );
+		private readonly Type SelfType = typeof( ActionCenter );
 
-        public ActionCenter()
-        {
-            MessageBus.OnDelivery += MessageBus_OnDelivery;
-        }
+		public ActionCenter()
+		{
+			MessageBus.OnDelivery += MessageBus_OnDelivery;
+		}
 
-        public static void Init() { Instance = new ActionCenter(); }
+		public static void Init() { Instance = new ActionCenter(); }
 
-        ~ActionCenter()
-        {
-            MessageBus.OnDelivery -= MessageBus_OnDelivery;
-        }
+		~ActionCenter()
+		{
+			MessageBus.OnDelivery -= MessageBus_OnDelivery;
+		}
 
-        public void ShowError( string Key )
-        {
-            Worker.UIInvoke( () =>
-            {
-                StringResources stx = new StringResources( "Error" );
-                var j = Popups.ShowDialog( UIAliases.CreateDialog( stx.Str( Key ) ) );
-            } );
-        }
+		public void ShowError( string Key )
+		{
+			Worker.UIInvoke( () =>
+			{
+				StringResources stx = new StringResources( "Error" );
+				var j = Popups.ShowDialog( UIAliases.CreateDialog( stx.Str( Key ) ) );
+			} );
+		}
 
-        private void MessageBus_OnDelivery( Message Mesg )
-        {
-            if ( Mesg.TargetType != SelfType ) return;
+		private void MessageBus_OnDelivery( Message Mesg )
+		{
+			if ( Mesg.TargetType != SelfType ) return;
 
-            if( Mesg.Dispatcher != null )
-            {
-                ProcesssDispatcherMessage( Mesg );
-                return;
-            }
+			if( Mesg.Dispatcher != null )
+			{
+				ProcesssDispatcherMessage( Mesg );
+				return;
+			}
 
-            if( Mesg.Payload != null )
-            {
-                ProcessPayloadMessage( Mesg );
-                return;
-            }
+			if( Mesg.Payload != null )
+			{
+				ProcessPayloadMessage( Mesg );
+				return;
+			}
 
-            ProcessGeneralMessage( Mesg );
-        }
+			ProcessGeneralMessage( Mesg );
+		}
 
-        private void ProcesssDispatcherMessage( Message Mesg )
-        {
+		private void ProcesssDispatcherMessage( Message Mesg )
+		{
 
-        }
+		}
 
-        private void ProcessPayloadMessage( Message Mesg )
-        {
+		private void ProcessPayloadMessage( Message Mesg )
+		{
 
-        }
+		}
 
-        private void ProcessGeneralMessage( Message Mesg )
-        {
+		private void ProcessGeneralMessage( Message Mesg )
+		{
 
-        }
+		}
 
-    }
+	}
 }

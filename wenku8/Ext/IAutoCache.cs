@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace wenku8.Ext
 {
-    interface IAutoCache
-    {
-    }
+	interface IAutoCache
+	{
+	}
 }

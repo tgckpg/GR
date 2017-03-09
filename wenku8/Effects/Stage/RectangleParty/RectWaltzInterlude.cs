@@ -13,49 +13,49 @@ using Windows.UI.Xaml.Shapes;
 
 namespace wenku8.Effects.Stage.RectangleParty
 {
-    class RectWaltzInterlude : RectWaltzPrelude 
-    {
-        public RectWaltzInterlude( Canvas Stage )
-            :base( Stage )
-        {
-            SetEasing( null );
-        }
+	class RectWaltzInterlude : RectWaltzPrelude 
+	{
+		public RectWaltzInterlude( Canvas Stage )
+			:base( Stage )
+		{
+			SetEasing( null );
+		}
 
-        public override void SetParty()
-        {
-            base.SetParty();
-            Mainboard.RepeatBehavior = RepeatBehavior.Forever;
-        }
+		public override void SetParty()
+		{
+			base.SetParty();
+			Mainboard.RepeatBehavior = RepeatBehavior.Forever;
+		}
 
-        protected override void SetAnimation( Rectangle Rect, int i, int l )
-        {
-            int standfor = i * 1000 + NTimer.RandInt( 5000 );
+		protected override void SetAnimation( Rectangle Rect, int i, int l )
+		{
+			int standfor = i * 1000 + NTimer.RandInt( 5000 );
 
-            DoubleAnimationUsingKeyFrames d1 = CreateKeyFrames(
-                90, standfor, 200
-            );
+			DoubleAnimationUsingKeyFrames d1 = CreateKeyFrames(
+				90, standfor, 200
+			);
 
-            Storyboard.SetTarget( d1, Rect );
-            Storyboard.SetTargetProperty( d1, "(UIElement.RenderTransform).(CompositeTransform.Rotation)" );
+			Storyboard.SetTarget( d1, Rect );
+			Storyboard.SetTargetProperty( d1, "(UIElement.RenderTransform).(CompositeTransform.Rotation)" );
 
-            ColorItem CItem = new ColorItem( "A", RectColor() );
-            Color C1 = CItem.TColor;
-            CItem.L = NTimer.RandInt( 0, 100 );
-            Color C2 = CItem.TColor;
+			ColorItem CItem = new ColorItem( "A", RectColor() );
+			Color C1 = CItem.TColor;
+			CItem.L = NTimer.RandInt( 0, 100 );
+			Color C2 = CItem.TColor;
 
-            ColorAnimationUsingKeyFrames d2 = CreateKeyFrames( C1, C2, standfor, 200 );
+			ColorAnimationUsingKeyFrames d2 = CreateKeyFrames( C1, C2, standfor, 200 );
 
-            CreateKeyFrames( C2, C1, 1000 + NTimer.RandInt( 1000 ), NTimer.RandInt( 200, 5000 ), standfor + 200, d2 );
+			CreateKeyFrames( C2, C1, 1000 + NTimer.RandInt( 1000 ), NTimer.RandInt( 200, 5000 ), standfor + 200, d2 );
 
-            SolidColorBrush B = new SolidColorBrush();
-            Rect.Fill = B;
+			SolidColorBrush B = new SolidColorBrush();
+			Rect.Fill = B;
 
-            Storyboard.SetTarget( d2, B );
-            Storyboard.SetTargetProperty( d2, "Color" );
+			Storyboard.SetTarget( d2, B );
+			Storyboard.SetTargetProperty( d2, "Color" );
 
-            Mainboard.Children.Add( d1 );
-            Mainboard.Children.Add( d2 );
-        }
+			Mainboard.Children.Add( d1 );
+			Mainboard.Children.Add( d2 );
+		}
 
-    }
+	}
 }

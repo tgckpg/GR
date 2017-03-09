@@ -9,42 +9,42 @@ using Net.Astropenguin.DataModel;
 
 namespace wenku8.System
 {
-    sealed class ViewControl : ActiveData
-    {
-        private ApplicationView Instance;
-        public bool IsFullScreen
-        {
-            get
-            {
-                return Instance.IsFullScreenMode;
-            }
-            set
-            {
-                if ( value )
-                {
-                    Instance.TryEnterFullScreenMode();
-                }
-                else
-                {
-                    Instance.ExitFullScreenMode();
-                }
-                NotifyChanged( "IsFullScreen" );
-            }
-        }
+	sealed class ViewControl : ActiveData
+	{
+		private ApplicationView Instance;
+		public bool IsFullScreen
+		{
+			get
+			{
+				return Instance.IsFullScreenMode;
+			}
+			set
+			{
+				if ( value )
+				{
+					Instance.TryEnterFullScreenMode();
+				}
+				else
+				{
+					Instance.ExitFullScreenMode();
+				}
+				NotifyChanged( "IsFullScreen" );
+			}
+		}
 
-        public ApplicationViewOrientation Orientation
-        {
-            get { return Instance.Orientation; }
-        }
+		public ApplicationViewOrientation Orientation
+		{
+			get { return Instance.Orientation; }
+		}
 
-        public ViewControl()
-        {
-            Instance = ApplicationView.GetForCurrentView();
-        }
+		public ViewControl()
+		{
+			Instance = ApplicationView.GetForCurrentView();
+		}
 
-        public void ToggleFullScreen()
-        {
-            IsFullScreen = !Instance.IsFullScreenMode;
-        }
-    }
+		public void ToggleFullScreen()
+		{
+			IsFullScreen = !Instance.IsFullScreenMode;
+		}
+	}
 }
