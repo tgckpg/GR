@@ -85,7 +85,7 @@ namespace wenku8.Storage
 		public AutoAnchor( BookItem b )
 			: base( b )
 		{
-			VOL_ANC = ( b.IsDeathBook() ? "ALT.D." : "" ) + AppKeys.LBS_CH;
+			VOL_ANC = ( b.IsDeathblow() ? "ALT.D." : "" ) + AppKeys.LBS_CH;
 			OAnchors = new OAutoAnchor();
 		}
 

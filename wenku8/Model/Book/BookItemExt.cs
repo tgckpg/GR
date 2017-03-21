@@ -15,7 +15,7 @@
 			return Book is BookInstruction;
 		}
 
-		public static bool IsDeathBook( this BookItem Book )
+		public static bool IsDeathblow( this BookItem Book )
 		{
 			return Book.XTest( XProto.DeathBook );
 		}

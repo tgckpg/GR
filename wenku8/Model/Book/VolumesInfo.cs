@@ -23,7 +23,7 @@ namespace wenku8.Model.Book
 		public VolumesInfo( BookItem b )
 		{
 			BookId = b.Id;
-			if ( b.IsLocal() || b.IsSpider() )
+			if ( b.IsLocal() || b.IsSpider() || b.IsDeathblow() )
 			{
 				ParseByVolumes( VolRef = b.GetVolumes() );
 				return;
