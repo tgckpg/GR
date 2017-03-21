@@ -170,7 +170,7 @@ namespace wenku8.Resources
 		{
 			CanvasTextFormat Format = new CanvasTextFormat()
 			{
-				FontSize = 12
+				FontSize = Width * 0.169014f
 				, VerticalAlignment = CanvasVerticalAlignment.Top
 				, HorizontalAlignment = CanvasHorizontalAlignment.Left
 				, FontFamily = "Segoe MDL2 Assets"
@@ -187,7 +187,7 @@ namespace wenku8.Resources
 			}
 
 			CanvasGeometry ImageRect = CanvasGeometry.CreateRectangle( dev, 0, 0, Width, Height );
-			CanvasGeometry Badge = CanvasGeometry.CreateCircle( dev, new Vector2( Width - 15, Height - 15 ), 10 );
+			CanvasGeometry Badge = CanvasGeometry.CreateCircle( dev, new Vector2( Width - Width * 0.211267f, Height - Height * 0.211267f ), Width * 0.140845f );
 
 			CanvasGeometry Combined = ImageRect.CombineWith( Badge, Matrix3x2.CreateTranslation( 0, 0 ), CanvasGeometryCombine.Exclude );
 
@@ -198,7 +198,7 @@ namespace wenku8.Resources
 
 			ds.FillGeometry( Combined, Brush );
 
-			ds.DrawTextLayout( TextLayout, Width - 21f, Height - 21f, Colors.White );
+			ds.DrawTextLayout( TextLayout, Width - Width * 0.29577f, Height - Height * 0.29577f, Colors.White );
 		}
 
 		public static async void Destroy( ImageSource Source )

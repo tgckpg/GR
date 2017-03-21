@@ -79,10 +79,13 @@ namespace wenku8.Storage
 	{
 		public static readonly string ID = typeof( AutoAnchor ).Name;
 
+		private string VOL_ANC;
 		private OAutoAnchor OAnchors;
+
 		public AutoAnchor( BookItem b )
 			: base( b )
 		{
+			VOL_ANC = ( b.IsDeathBook() ? "ALT.D." : "" ) + AppKeys.LBS_CH;
 			OAnchors = new OAutoAnchor();
 		}
 
@@ -90,7 +93,7 @@ namespace wenku8.Storage
 		{
 			try
 			{
-				Reg.SetParameter( AppKeys.LBS_CH, new XKey[] { new XKey( AppKeys.GLOBAL_CID, cid ), BookStorage.TimeKey } );
+				Reg.SetParameter( VOL_ANC, new XKey[] { new XKey( AppKeys.GLOBAL_CID, cid ), BookStorage.TimeKey } );
 			}
 			catch ( Exception ex )
 			{
@@ -118,7 +121,7 @@ namespace wenku8.Storage
 
 		public string GetAutoVolAnc()
 		{
-			XParameter XParam = Reg.Parameter( AppKeys.LBS_CH );
+			XParameter XParam = Reg.Parameter( VOL_ANC );
 
 			if( XParam == null )
 			{

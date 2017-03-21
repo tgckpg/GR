@@ -42,20 +42,16 @@ namespace wenku8.Model.Pages
 				IsBookSpider = ZSId.Length == 2 && ZSId[ 0 ][ 0 ] == AppKeys.SP_ZONE_PFX;
 			}
 
-			if( IsBookSpider )
+			if ( IsBookSpider )
 			{
 				SpiderBook Book = await SpiderBook.CreateAsyncSpider( Id );
-				if( Book.ProcessSuccess ) return Book.GetBook();
+				if ( Book.ProcessSuccess ) return Book.GetBook();
 			}
-			else if( int.TryParse( Id, out _Id ) )
+			else if ( int.TryParse( Id, out _Id ) )
 			{
 				// Order-aware
-				IDeathblow Deathblow = X.Instance<IDeathblow>( XProto.Deathblow, Id );
-				if ( Deathblow.Registered && X.Exists )
-				{
-					await ProcessLocal( Deathblow.GetParser() );
-					return Deathblow.GetBook();
-				}
+				IDeathblow DeathBlow = await GetDeathblow( Id );
+				if ( DeathBlow != null ) return DeathBlow.GetBook();
 
 				LocalTextDocument Doc = new LocalTextDocument( Id );
 				if ( Doc.IsValid ) return Doc;
@@ -84,6 +80,21 @@ namespace wenku8.Model.Pages
 			B.XSetProp( "Mode", X.Const<string>( XProto.WProtocols, "ACTION_BOOK_META" ) );
 
 			return B;
+		}
+
+		public static async Task<IDeathblow> GetDeathblow( string Id )
+		{
+			if ( X.Exists )
+			{
+				IDeathblow Deathblow = X.Instance<IDeathblow>( XProto.Deathblow, Id );
+				if ( Deathblow.Registered )
+				{
+					await ProcessLocal( Deathblow.GetParser() );
+					return Deathblow;
+				}
+			}
+
+			return null;
 		}
 
 	}

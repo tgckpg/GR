@@ -207,6 +207,8 @@ namespace wenku8.Model.ListItem
 				BInst.Clear();
 
 				ProcPassThru PThru = new ProcPassThru( Convoy );
+
+				// SId is the parameter set by ZoneSpider
 				if ( !string.IsNullOrEmpty( BInst.SId ) )
 				{
 					// Wrap another level

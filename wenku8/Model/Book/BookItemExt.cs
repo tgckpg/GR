@@ -1,6 +1,8 @@
 ﻿namespace wenku8.Model.Book
 {
+	using Ext;
 	using Spider;
+
 	static class BookItemExt
 	{
 		public static bool IsLocal( this BookItem Book )
@@ -11,6 +13,11 @@
 		public static bool IsSpider( this BookItem Book )
 		{
 			return Book is BookInstruction;
+		}
+
+		public static bool IsDeathBook( this BookItem Book )
+		{
+			return Book.XTest( XProto.DeathBook );
 		}
 	}
 }

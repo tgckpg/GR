@@ -13,6 +13,7 @@ namespace wenku8.Ext
 		public const string Verification = "wenku8.System.Verification, wenku8-protocol";
 
 		public const string BookItemEx = "wenku8.Model.Book.BookItemEx, wenku8-protocol";
+		public const string DeathBook = "wenku8.Model.Book.DeathBook, wenku8-protocol";
 		public const string ItemProcessorEx = "wenku8.Model.ItemProcessorEx, wenku8-protocol";
 
 		public const string WRuntimeCache = "wenku8.AdvDM.WRuntimeCache, wenku8-protocol";
