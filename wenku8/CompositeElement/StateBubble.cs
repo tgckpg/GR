@@ -2,7 +2,7 @@
 
 namespace wenku8.CompositeElement
 {
-    public class StateBubble : StateControl
-    {
-    }
+	public class StateBubble : StateControl
+	{
+	}
 }

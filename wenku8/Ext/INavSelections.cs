@@ -6,15 +6,15 @@ using System.Threading.Tasks;
 
 namespace wenku8.Ext
 {
-    using Model.ListItem;
+	using Model.ListItem;
 
-    interface INavSelections
-    {
-        List<SubtleUpdateItem> Data { get; }
+	interface INavSelections
+	{
+		List<SubtleUpdateItem> Data { get; }
 
-        SubtleUpdateItem CustomSection();
-        IMainPageSettings MainPage_Settings { get; }
+		SubtleUpdateItem CustomSection();
+		IMainPageSettings MainPage_Settings { get; }
 
-        void Load();
-    }
+		void Load();
+	}
 }

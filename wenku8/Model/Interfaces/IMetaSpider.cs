@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace wenku8.Model.Interfaces
 {
-    interface IMetaSpider
-    {
-        string MetaLocation { get; }
-    }
+	interface IMetaSpider
+	{
+		string MetaLocation { get; }
+	}
 }

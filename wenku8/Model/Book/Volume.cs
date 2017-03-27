@@ -15,7 +15,7 @@ namespace wenku8.Model.Book
 			set { EndVisibility = value ? Visibility.Visible : Visibility.Collapsed; }
 		}
 
-        protected Volume() { }
+		protected Volume() { }
 
 		public Volume( string _vid, bool VTag, string VTitle, Chapter[] CList )
 		{

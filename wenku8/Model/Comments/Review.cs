@@ -5,28 +5,28 @@ namespace wenku8.Model.Comments
 {
 	class Review : Comment
 	{
-        public string Id { get; set; }
+		public string Id { get; set; }
 
 		public string LastReply
-        {
-            get
-            {
-                return TimeStamp.ToString();
-            }
-            set
-            {
-                TimeStamp = DateTime.ParseExact( value + "+8", "yyyyMMddHHmmssz", CultureInfo.CurrentUICulture );
-            }
-        }
+		{
+			get
+			{
+				return TimeStamp.ToString();
+			}
+			set
+			{
+				TimeStamp = DateTime.ParseExact( value + "+8", "yyyyMMddHHmmssz", CultureInfo.CurrentUICulture );
+			}
+		}
 
-        new public string PostTime { get; set; } 
+		new public string PostTime { get; set; } 
 
-        private int _numreply;
+		private int _numreply;
 
-        public string NumReplies
-        {
-            get { return 0 < _numreply ? "+" + _numreply : ""; }
-            set { _numreply = int.Parse( value ); }
-        }
+		public string NumReplies
+		{
+			get { return 0 < _numreply ? "+" + _numreply : ""; }
+			set { _numreply = int.Parse( value ); }
+		}
 	}
 }

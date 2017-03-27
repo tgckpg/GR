@@ -3,15 +3,15 @@ using Windows.UI;
 
 namespace wenku8.Model.ListItem
 {
-    using Config;
+	using Config;
 
-    class SubtleUpdateItem : ActiveItem
+	class SubtleUpdateItem : ActiveItem
 	{
 		private Color sc = Properties.APPEARENCE_THEME_SUBTLE_TEXT_COLOR;
 
 		protected bool iNew = false;
 		public bool IsNew { get { return iNew; } }
-        public Type Nav { get; private set; }
+		public Type Nav { get; private set; }
 
 		public Color SubtleColor
 		{
@@ -19,11 +19,11 @@ namespace wenku8.Model.ListItem
 			{
 				return sc;
 			}
-            set
-            {
-                sc = value;
-                NotifyChanged( "SubtleColor" );
-            }
+			set
+			{
+				sc = value;
+				NotifyChanged( "SubtleColor" );
+			}
 		}
 
 		virtual public void SetNew( bool val )
@@ -41,10 +41,10 @@ namespace wenku8.Model.ListItem
 		public SubtleUpdateItem( string Name, string Desc, string Desc2, string id )
 			: base( Name, Desc, Desc2, id ) { }
 
-        public SubtleUpdateItem( string Name, string UpdateDesc, Type Page, string id )
-            : base( Name, UpdateDesc, id )
-        {
-            Nav = Page;
-        }
+		public SubtleUpdateItem( string Name, string UpdateDesc, Type Page, string id )
+			: base( Name, UpdateDesc, id )
+		{
+			Nav = Page;
+		}
 	}
 }

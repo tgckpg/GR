@@ -4,15 +4,15 @@
 
 namespace wenku8.Resources
 {
-    using Config;
-    using Windows.UI.Xaml;
+	using Config;
+	using Windows.UI.Xaml;
 
-    public class LayoutSettings 
+	public class LayoutSettings 
 	{
-        public static double ScreenWidth { get { return Window.Current.Bounds.Width; } }
-        public static double ScreenHeight { get { return Window.Current.Bounds.Height; } }
+		public static double ScreenWidth { get { return Window.Current.Bounds.Width; } }
+		public static double ScreenHeight { get { return Window.Current.Bounds.Height; } }
 
-        public static Color MajorColor { get; private set; }
+		public static Color MajorColor { get; private set; }
 		public static Color MinorColor { get; private set; }
 		public static Color MajorBackgroundColor { get; private set; }
 		public static Color MinorBackgroundColor { get; private set; }
@@ -22,17 +22,17 @@ namespace wenku8.Resources
 		public static Color VerticalRibbonColor { get; private set; }
 		public static Color HorizontalRibbonColor { get; private set; }
 
-        public static Color Shades10 { get; private set; }
-        public static Color Shades20 { get; private set; }
-        public static Color Shades30 { get; private set; }
-        public static Color Shades40 { get; private set; }
-        public static Color Shades50 { get; private set; }
-        public static Color Shades60 { get; private set; }
-        public static Color Shades70 { get; private set; }
-        public static Color Shades80 { get; private set; }
-        public static Color Shades90 { get; private set; }
+		public static Color Shades10 { get; private set; }
+		public static Color Shades20 { get; private set; }
+		public static Color Shades30 { get; private set; }
+		public static Color Shades40 { get; private set; }
+		public static Color Shades50 { get; private set; }
+		public static Color Shades60 { get; private set; }
+		public static Color Shades70 { get; private set; }
+		public static Color Shades80 { get; private set; }
+		public static Color Shades90 { get; private set; }
 
-        public static Color RelativeShadesBrush { get; private set; }
+		public static Color RelativeShadesBrush { get; private set; }
 
 		public static bool IsDarkTheme { get; private set; }
 

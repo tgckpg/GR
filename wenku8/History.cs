@@ -5,14 +5,14 @@ using Net.Astropenguin.Logging;
 
 namespace wenku8
 {
-    using Resources;
-    using Settings;
-    using Model.ListItem;
-    using Model.Book;
+	using Resources;
+	using Settings;
+	using Model.ListItem;
+	using Model.Book;
 
-    class History
+	class History
 	{
-        public static readonly string ID = typeof( History ).Name;
+		public static readonly string ID = typeof( History ).Name;
 
 		public const string SettingsFile = FileLinks.ROOT_SETTING + FileLinks.READING_HISTORY;
 		private XRegistry Registry;
@@ -27,7 +27,7 @@ namespace wenku8
 			DateTime d = DateTime.Now.ToUniversalTime();
 			Logger.Log( ID, "Date: " + d.ToString(), LogType.DEBUG );
 			Registry.SetParameter(
-                b.Id
+				b.Id
 				, new XKey[] {
 					new XKey( AppKeys.GLOBAL_NAME, b.Title )
 					, new XKey( AppKeys.LBS_DATE, d.ToString() )

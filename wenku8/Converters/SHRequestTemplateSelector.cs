@@ -8,17 +8,17 @@ using Windows.UI.Xaml.Controls;
 
 namespace wenku8.Converters
 {
-    using Model.ListItem.Sharers;
+	using Model.ListItem.Sharers;
 
-    sealed public class SHRequestTemplateSelector : DataTemplateSelector
-    {
-        public DataTemplate Removed { get; set; }
-        public DataTemplate Normal { get; set; }
+	sealed public class SHRequestTemplateSelector : DataTemplateSelector
+	{
+		public DataTemplate Removed { get; set; }
+		public DataTemplate Normal { get; set; }
 
-        protected override DataTemplate SelectTemplateCore( object item, DependencyObject container )
-        {
-            SHGrant HSC =  ( ( GrantProcess ) item ).GrantDef;
-            return HSC.SourceRemoved ? Removed : Normal;
-        }
-    }
+		protected override DataTemplate SelectTemplateCore( object item, DependencyObject container )
+		{
+			SHGrant HSC =  ( ( GrantProcess ) item ).GrantDef;
+			return HSC.SourceRemoved ? Removed : Normal;
+		}
+	}
 }

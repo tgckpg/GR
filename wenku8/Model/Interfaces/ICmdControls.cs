@@ -7,17 +7,17 @@ using Windows.UI.Xaml.Controls;
 
 namespace wenku8.Model.Interfaces
 {
-    public delegate void ControlChangedEvent( object sender );
+	public delegate void ControlChangedEvent( object sender );
 
-    interface ICmdControls
-    {
-        event ControlChangedEvent ControlChanged;
+	interface ICmdControls
+	{
+		event ControlChangedEvent ControlChanged;
 
-        bool NoCommands { get; }
-        bool MajorNav { get; }
+		bool NoCommands { get; }
+		bool MajorNav { get; }
 
-        IList<ICommandBarElement> MajorControls { get; }
-        IList<ICommandBarElement> Major2ndControls { get; }
-        IList<ICommandBarElement> MinorControls { get; }
-    }
+		IList<ICommandBarElement> MajorControls { get; }
+		IList<ICommandBarElement> Major2ndControls { get; }
+		IList<ICommandBarElement> MinorControls { get; }
+	}
 }

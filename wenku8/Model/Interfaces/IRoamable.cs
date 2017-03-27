@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace wenku8.Model.Interfaces
 {
-    interface IRoamable
-    {
-        bool CanRoam { get; }
-        void Roam( double ox, double oy );
-    }
+	interface IRoamable
+	{
+		bool CanRoam { get; }
+		void Roam( double ox, double oy );
+	}
 }

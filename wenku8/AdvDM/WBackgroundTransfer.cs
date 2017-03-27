@@ -10,15 +10,15 @@ using Net.Astropenguin.Logging;
 
 namespace wenku8.AdvDM
 {
-    using Resources;
-    using Settings;
+	using Resources;
+	using Settings;
 
-    class WBackgroundTransfer
+	class WBackgroundTransfer
 	{
-        public static readonly string ID = typeof( WBackgroundTransfer ).Name;
+		public static readonly string ID = typeof( WBackgroundTransfer ).Name;
 
-        #region DThread Handlers
-        public delegate void DThreadCompleteHandler( DTheradCompleteArgs DArgs );
+		#region DThread Handlers
+		public delegate void DThreadCompleteHandler( DTheradCompleteArgs DArgs );
 		public delegate void DThreadProgressHandler( DThreadProgressArgs DArgs );
 		public delegate void DThreadUpdateHandler( DThreadUpdateArgs DArgs );
 
@@ -69,80 +69,80 @@ namespace wenku8.AdvDM
 
 		private static XRegistry WAdvDM;
 
-        public WBackgroundTransfer()
-        {
+		public WBackgroundTransfer()
+		{
 			WAdvDM = new XRegistry( AppKeys.AdvDM_FXML, AppKeys.DREG );
-        }
+		}
 
-        public async Task<Guid> RegisterImage( string url, string saveLocation )
-        {
-            try
-            {
-                BackgroundDownloader Downloader = new BackgroundDownloader();
-                DownloadOperation Download = Downloader.CreateDownload( new Uri( url ), await Shared.Storage.GetImage( saveLocation ) );
-                var j = HandleDownloadAsync( Download, saveLocation );
+		public async Task<Guid> RegisterImage( string url, string saveLocation )
+		{
+			try
+			{
+				BackgroundDownloader Downloader = new BackgroundDownloader();
+				DownloadOperation Download = Downloader.CreateDownload( new Uri( url ), await Shared.Storage.GetImage( saveLocation ) );
+				var j = HandleDownloadAsync( Download, saveLocation );
 
-                return Download.Guid;
-            }
-            catch( Exception ex )
-            {
-                Logger.Log( ID, ex.Message, LogType.WARNING );
-            }
+				return Download.Guid;
+			}
+			catch( Exception ex )
+			{
+				Logger.Log( ID, ex.Message, LogType.WARNING );
+			}
 
-            return Guid.Empty;
-        }
+			return Guid.Empty;
+		}
 
-        private async Task HandleDownloadAsync( DownloadOperation Download, string saveLocation )
-        {
-            try
-            {
-                Logger.Log( ID, "Running: " + Download.Guid, LogType.DEBUG );
+		private async Task HandleDownloadAsync( DownloadOperation Download, string saveLocation )
+		{
+			try
+			{
+				Logger.Log( ID, "Running: " + Download.Guid, LogType.DEBUG );
 
-                Progress<DownloadOperation> progressCallback = new Progress<DownloadOperation>( DownloadProgress );
+				Progress<DownloadOperation> progressCallback = new Progress<DownloadOperation>( DownloadProgress );
 
-                // Start
-                await Download.StartAsync().AsTask( progressCallback );
-                // await Download.AttachAsync().AsTask( progressCallback );
+				// Start
+				await Download.StartAsync().AsTask( progressCallback );
+				// await Download.AttachAsync().AsTask( progressCallback );
 
-                ResponseInformation Response = Download.GetResponseInformation();
+				ResponseInformation Response = Download.GetResponseInformation();
 
-                Logger.Log( ID, string.Format( "Completed: {0}, Status Code: {1}", Download.Guid, Response.StatusCode ), LogType.DEBUG );
+				Logger.Log( ID, string.Format( "Completed: {0}, Status Code: {1}", Download.Guid, Response.StatusCode ), LogType.DEBUG );
 
-                if( DThreadComplete != null )
-                    DThreadComplete( new DTheradCompleteArgs( saveLocation, Download.Guid ) );
-            }
-            catch ( TaskCanceledException )
-            {
-                Logger.Log( ID, "Canceled: " + Download.Guid, LogType.INFO );
-            }
-            catch ( Exception ex )
-            {
-                Logger.Log( ID, ex.Message, LogType.ERROR );
-            }
-        }
+				if( DThreadComplete != null )
+					DThreadComplete( new DTheradCompleteArgs( saveLocation, Download.Guid ) );
+			}
+			catch ( TaskCanceledException )
+			{
+				Logger.Log( ID, "Canceled: " + Download.Guid, LogType.INFO );
+			}
+			catch ( Exception ex )
+			{
+				Logger.Log( ID, ex.Message, LogType.ERROR );
+			}
+		}
 
-        private void DownloadProgress( DownloadOperation obj )
-        {
-            if( obj.Progress.TotalBytesToReceive == 0 )
-            {
-                Logger.Log( ID, string.Format( "{0} Bytes Received", obj.Progress.BytesReceived ), LogType.INFO );
-            }
-            else
-            {
-                Logger.Log( ID, string.Format( "{0}%", obj.Progress.BytesReceived / obj.Progress.TotalBytesToReceive * 100 ), LogType.INFO );
-            }
-        }
+		private void DownloadProgress( DownloadOperation obj )
+		{
+			if( obj.Progress.TotalBytesToReceive == 0 )
+			{
+				Logger.Log( ID, string.Format( "{0} Bytes Received", obj.Progress.BytesReceived ), LogType.INFO );
+			}
+			else
+			{
+				Logger.Log( ID, string.Format( "{0}%", obj.Progress.BytesReceived / obj.Progress.TotalBytesToReceive * 100 ), LogType.INFO );
+			}
+		}
 
-        private bool QueueAvailable()
-        {
-            return ( WAdvDM.CountParametersWithKey( AppKeys.DM_PENDING ) < QueueLimit );
-        }
+		private bool QueueAvailable()
+		{
+			return ( WAdvDM.CountParametersWithKey( AppKeys.DM_PENDING ) < QueueLimit );
+		}
 
-        public bool RequestRegistered( string SaveLocation )
-        {
-            XParameter p = WAdvDM.Parameter( SaveLocation );
-            return ( p != null && ( p.GetValue( AppKeys.DM_PENDING ) != null || p.GetValue( AppKeys.DM_REQUESTID ) != null ) );
-        }
+		public bool RequestRegistered( string SaveLocation )
+		{
+			XParameter p = WAdvDM.Parameter( SaveLocation );
+			return ( p != null && ( p.GetValue( AppKeys.DM_PENDING ) != null || p.GetValue( AppKeys.DM_REQUESTID ) != null ) );
+		}
 
 	}
 }

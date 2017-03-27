@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace wenku8.Ext
 {
-    interface IMemberInfo
-    {
-        event PropertyChangedEventHandler PropertyChanged;
-        string Signature { get; set; }
-    }
+	interface IMemberInfo
+	{
+		event PropertyChangedEventHandler PropertyChanged;
+		string Signature { get; set; }
+	}
 }

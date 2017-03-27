@@ -7,22 +7,22 @@ using Windows.Data.Json;
 
 namespace wenku8.Model.REST
 {
-    sealed class JsonStatus
-    {
-        public static JsonObject Parse( string JsonData )
-        {
-            JsonObject JResponse;
-            if ( !JsonObject.TryParse( JsonData, out JResponse ) )
-            {
-                throw new Exception( "A server Error has occurred" );
-            }
+	sealed class JsonStatus
+	{
+		public static JsonObject Parse( string JsonData )
+		{
+			JsonObject JResponse;
+			if ( !JsonObject.TryParse( JsonData, out JResponse ) )
+			{
+				throw new Exception( "A server Error has occurred" );
+			}
 
-            if ( !JResponse.GetNamedBoolean( "status", false ) )
-            {
-                throw new Exception( JResponse.GetNamedString( "message" ) );
-            }
+			if ( !JResponse.GetNamedBoolean( "status", false ) )
+			{
+				throw new Exception( JResponse.GetNamedString( "message" ) );
+			}
 
-            return JResponse;
-        }
-    }
+			return JResponse;
+		}
+	}
 }

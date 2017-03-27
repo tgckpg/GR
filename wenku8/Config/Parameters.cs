@@ -7,9 +7,9 @@ namespace wenku8.Config
 		//// Appearance
 		// Global
 		public const string FIRST_TIME_RUN = "First_Time_Run";
-        public const string INSTALLATION_INST = "Installation_Instance";
+		public const string INSTALLATION_INST = "Installation_Instance";
 		public const string VERSION = "Version";
-        public const string SMODE = "SMode";
+		public const string SMODE = "SMode";
 		public const string LOG_LEVEL = "Log_Level";
 		public const string ENABLE_SYSTEM_LOG = "Enable_System_Log";
 		public const string ENABLE_RSYSTEM_LOG = "Enable_RSystem_Log";
@@ -17,10 +17,10 @@ namespace wenku8.Config
 		public const string RSYSTEM_LOG_ADDRESS = "RSystem_Log_Address";
 		// ContentReader
 		public const string CONTENTREADER_AUTOBOOKMARK = "ContentReader_Autobookmark";
-        public const string CONTENTREADER_USEINERTIA = "ContentReader_UseInertia";
+		public const string CONTENTREADER_USEINERTIA = "ContentReader_UseInertia";
 		public const string APPEARANCE_CONTENTREADER_FONTSIZE = "Appearance_ContentReader_FontSize";
-        public const string APPEARANCE_CONTENTREADER_LEFTCONTEXT = "Appearance_ContentReader_LeftContext";
-        public const string APPEARANCE_CONTENTREADER_EMBED_ILLUS = "Appearance_ContentReader_EmbedIllus";
+		public const string APPEARANCE_CONTENTREADER_LEFTCONTEXT = "Appearance_ContentReader_LeftContext";
+		public const string APPEARANCE_CONTENTREADER_EMBED_ILLUS = "Appearance_ContentReader_EmbedIllus";
 		public const string APPEARANCE_CONTENTREADER_LINEHEIGHT = "Appearance_ContentReader_LineHeight";
 		public const string APPEARANCE_CONTENTREADER_PARAGRAPHSPACING = "Appearance_ContentReader_ParagraphSpacing";
 		public const string APPEARANCE_CONTENTREADER_BLOCKHEIGHT = "Appearance_ContentReader_BlockHeight";
@@ -66,7 +66,7 @@ namespace wenku8.Config
 		public const string APPEARENCE_THEME_SHADES_80 = "Appearance_Theme_Shades_80";
 		public const string APPEARENCE_THEME_SHADES_90 = "Appearance_Theme_Shades_90";
 
-        public const string APPEARENCE_THEME_RELATIVE_SHADES_COLOR = "Appearence_Theme_Relative_Shades_Color";
+		public const string APPEARENCE_THEME_RELATIVE_SHADES_COLOR = "Appearence_Theme_Relative_Shades_Color";
 
 		// Data - Image location
 		public const string DATA_IMAGE_SAVE_TO_MEDIA_LIBRARY = "Data_Image_Save_To_Media_Library";
@@ -82,14 +82,14 @@ namespace wenku8.Config
 		public const string LANGUAGE = "Language";
 		public const string LANGUAGE_TRADITIONAL = "Language_traditional";
 
-        // Protocol
-        public const string SERVER_MIN_RANK = "ServerMinimumRank";
-        public const string SERVER_MAX_PING = "ServerMaximumPing";
-        public const string SERVER_OSD_URI = "ServerOnlineScriptDirUri";
+		// Protocol
+		public const string SERVER_MIN_RANK = "ServerMinimumRank";
+		public const string SERVER_MAX_PING = "ServerMaximumPing";
+		public const string SERVER_OSD_URI = "ServerOnlineScriptDirUri";
 
-        // Misc
+		// Misc
 		public const string MISC_TEXT_PATCH_SYNTAX = "Misc_Text_Patch_Syntax";
-        public const string MISC_CHUNK_SINGLE_VOL = "Misc_Chunk_Single_Volume";
+		public const string MISC_CHUNK_SINGLE_VOL = "Misc_Chunk_Single_Volume";
 		public const string MISC_COGNITIVE_API_KEY = "Misc_Cognitive_Api_Key";
 	}
 }

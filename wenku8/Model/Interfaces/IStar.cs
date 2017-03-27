@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace wenku8.Model.Interfaces
 {
-    interface IStar : IRoamable
-    {
-        bool Reacting { get; }
+	interface IStar : IRoamable
+	{
+		bool Reacting { get; }
 
-        Task Explode();
-        Task Vanquish();
-    }
+		Task Explode();
+		Task Vanquish();
+	}
 }

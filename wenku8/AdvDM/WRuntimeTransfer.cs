@@ -11,18 +11,18 @@ using Net.Astropenguin.Helpers;
 
 namespace wenku8.AdvDM
 {
-    using Ext;
-    using Resources;
-    using Settings;
+	using Ext;
+	using Resources;
+	using Settings;
 
-    class WRuntimeTransfer : ActiveData
+	class WRuntimeTransfer : ActiveData
 	{
-        public readonly string ID = typeof( WRuntimeTransfer ).Name;
+		public readonly string ID = typeof( WRuntimeTransfer ).Name;
 
 		public static int FailedCount = 0;
 
-        public static int Stat_CCount = 0;
-        public static int Stat_FCount = 0;
+		public static int Stat_CCount = 0;
+		public static int Stat_FCount = 0;
 
 		#region DThread Handlers
 		public delegate void DCycleCompleteHandler( object sender, DCycleCompleteArgs DArgs );
@@ -32,7 +32,7 @@ namespace wenku8.AdvDM
 		private event DThreadCompleteHandler DThreadComplete;
 		private event DThreadUpdateHandler DThreadUpdate;
 
-        private event DCycleCompleteHandler DCycleComplete;
+		private event DCycleCompleteHandler DCycleComplete;
 
 		public event DThreadUpdateHandler OnThreadUpdate
 		{
@@ -78,72 +78,72 @@ namespace wenku8.AdvDM
 		private TransferInst LastThread;
 		public TransferInst CurrentThread;
 
-        private Dictionary<string, TransferInst> MemTransfers;
+		private Dictionary<string, TransferInst> MemTransfers;
 
-        public string ShortStat
-        {
-            get
-            {
-                return string.Format(
-                    "P: {0} C: {1} F: {2} X:{3} Status: {4}"
-                    , GetPendings().Count()
-                    , Stat_CCount 
-                    , Stat_FCount 
-                    , GetDeactivated().Count()
-                    , IsCycleStarted ? "Active" : "Inactive"
-                );
-            }
-        }
+		public string ShortStat
+		{
+			get
+			{
+				return string.Format(
+					"P: {0} C: {1} F: {2} X:{3} Status: {4}"
+					, GetPendings().Count()
+					, Stat_CCount 
+					, Stat_FCount 
+					, GetDeactivated().Count()
+					, IsCycleStarted ? "Active" : "Inactive"
+				);
+			}
+		}
 
 		public bool Running { get { return ResumeSession; } }
 
-        private const string RREG = FileLinks.ROOT_SETTING + FileLinks.ADM_RUNTIME_REG;
+		private const string RREG = FileLinks.ROOT_SETTING + FileLinks.ADM_RUNTIME_REG;
 
-        public WRuntimeTransfer()
-        {
-            CurrentTransfer = new WHttpRequest(
-                X.Static<Func<XKey[], Uri>>
-                ( XProto.WRuntimeCache, "Protocol" )
-                ( null )
-            );
+		public WRuntimeTransfer()
+		{
+			CurrentTransfer = new WHttpRequest(
+				X.Static<Func<XKey[], Uri>>
+				( XProto.WRuntimeCache, "Protocol" )
+				( null )
+			);
 
-            // Request Header
-            CurrentTransfer.ContentType = "application/x-www-form-urlencoded";
-            CurrentTransfer.OnRequestComplete += CurrentTransfer_OnRequestComplete;
+			// Request Header
+			CurrentTransfer.ContentType = "application/x-www-form-urlencoded";
+			CurrentTransfer.OnRequestComplete += CurrentTransfer_OnRequestComplete;
 
-            MemTransfers = new Dictionary<string, TransferInst>();
-        }
+			MemTransfers = new Dictionary<string, TransferInst>();
+		}
 
-        private IEnumerable<TransferInst> GetPendings()
-        {
-            return MemTransfers.Values.ToArray().Where( x => x != null && x.State == AppKeys.DM_PENDING );
-        }
+		private IEnumerable<TransferInst> GetPendings()
+		{
+			return MemTransfers.Values.ToArray().Where( x => x != null && x.State == AppKeys.DM_PENDING );
+		}
 
-        private IEnumerable<TransferInst> GetDeactivated()
-        {
-            return MemTransfers.Values.ToArray().Where( x => x != null && x.State == AppKeys.DM_DEACTIVATED );
-        }
+		private IEnumerable<TransferInst> GetDeactivated()
+		{
+			return MemTransfers.Values.ToArray().Where( x => x != null && x.State == AppKeys.DM_DEACTIVATED );
+		}
 
 		public void RegisterRuntimeThread( XKey[] Request, string SaveLocation, Guid DGroup, string Description, string CParam )
 		{
 			if ( MemTransfers.ContainsKey( SaveLocation ) )
-            {
+			{
 				// Thread Already exists
 				Logger.Log( ID, "Request Exists", LogType.INFO );
-            }
-            else
+			}
+			else
 			{
-                MemTransfers[ SaveLocation ] = new TransferInst(
-                    SaveLocation
-                    , X.Call<string>( XProto.WRuntimeCache, "GetRequestUri", new object[] { Request } )
-                    , DGroup
-                    , Description
-                    , CParam
-                );
+				MemTransfers[ SaveLocation ] = new TransferInst(
+					SaveLocation
+					, X.Call<string>( XProto.WRuntimeCache, "GetRequestUri", new object[] { Request } )
+					, DGroup
+					, Description
+					, CParam
+				);
 
-                UpdateStatus();
+				UpdateStatus();
 
-                if ( DThreadUpdate != null )
+				if ( DThreadUpdate != null )
 				{
 					Worker.UIInvoke( () =>
 					{
@@ -194,27 +194,27 @@ namespace wenku8.AdvDM
 			ResumeSession = false;
 			CurrentThread = null;
 
-            foreach( string id in GetPendings().Remap( x => x.ID ) )
-            {
-                MemTransfers.Remove( id );
-            }
+			foreach( string id in GetPendings().Remap( x => x.ID ) )
+			{
+				MemTransfers.Remove( id );
+			}
 		}
 
 		public void ClearFailedList()
 		{
-            foreach( string id in GetDeactivated().Remap( x => x.ID ) )
-            {
-                MemTransfers.Remove( id );
-            }
+			foreach( string id in GetDeactivated().Remap( x => x.ID ) )
+			{
+				MemTransfers.Remove( id );
+			}
 
-            // Save
+			// Save
 		}
 
 		#region Thread-Chain-Cycle
 
 		private void ActivateCurrentThread()
 		{
-            CurrentTransfer.UpdateProto( X.Static<Func<XKey[], Uri>>( XProto.WRuntimeCache, "Protocol" )( null ) );
+			CurrentTransfer.UpdateProto( X.Static<Func<XKey[], Uri>>( XProto.WRuntimeCache, "Protocol" )( null ) );
 			CurrentTransfer.OpenAsyncThread( CurrentThread.Request , false );
 		}
 		/// <summary>
@@ -258,16 +258,16 @@ namespace wenku8.AdvDM
 			}
 			try
 			{
-                // if save failed, exception will be triggered
-                ResponseProccessor(
-                    DArgs.ResponseBytes.Length < 6
-                    ? new DRequestCompletedEventArgs(
-                        DArgs.RequestUrl
-                        , DArgs.Error == null ? new Exception( "Unexpected server result" ) : DArgs.Error )
-                    : DArgs
-                    , LastThread );
+				// if save failed, exception will be triggered
+				ResponseProccessor(
+					DArgs.ResponseBytes.Length < 6
+					? new DRequestCompletedEventArgs(
+						DArgs.RequestUrl
+						, DArgs.Error == null ? new Exception( "Unexpected server result" ) : DArgs.Error )
+					: DArgs
+					, LastThread );
 
-                Stat_CCount++;
+				Stat_CCount++;
 				if ( DThreadComplete != null )
 				{
 					// Raise evennt to UI thread
@@ -281,44 +281,44 @@ namespace wenku8.AdvDM
 			}
 			catch ( Exception )
 			{
-                Stat_FCount++;
+				Stat_FCount++;
 				if ( LastThread != null )
 				{
-                    // Error occured, push request back to pending list
-                    LastThread.State = AppKeys.DM_PENDING;
-                    LastThread.FailedCount++;
+					// Error occured, push request back to pending list
+					LastThread.State = AppKeys.DM_PENDING;
+					LastThread.FailedCount++;
 
-                    // Increment failed count
-                    if ( 3 < LastThread.FailedCount )
-                    {
-                        // Failed too many times, deactivate thread
-                        Logger.Log( ID, "Thread deactivated:" + LastThread.ID , LogType.INFO );
-                        LastThread.State = AppKeys.DM_DEACTIVATED;
-                        // XXX: Save();
-                    }
+					// Increment failed count
+					if ( 3 < LastThread.FailedCount )
+					{
+						// Failed too many times, deactivate thread
+						Logger.Log( ID, "Thread deactivated:" + LastThread.ID , LogType.INFO );
+						LastThread.State = AppKeys.DM_DEACTIVATED;
+						// XXX: Save();
+					}
 				}
 				PushPending();
 			}
-            UpdateStatus();
-        }
+			UpdateStatus();
+		}
 
-        private void StepNext()
+		private void StepNext()
 		{
-            // Save success, remove from thread list
-            MemTransfers.Remove( CurrentThread.ID );
+			// Save success, remove from thread list
+			MemTransfers.Remove( CurrentThread.ID );
 			PushPending();
 		}
 
 		private void PushPending()
 		{
-            // LastThread Accessed by Event dispatcher
-            CurrentThread = GetPendings().FirstOrDefault();
+			// LastThread Accessed by Event dispatcher
+			CurrentThread = GetPendings().FirstOrDefault();
 			if ( CurrentThread != null )
 			{
 				if ( ResumeSession )
 				{
-                    // Move Request to DM_REQUEST0.
-                    CurrentThread.State = "RUNNING";
+					// Move Request to DM_REQUEST0.
+					CurrentThread.State = "RUNNING";
 					// Start-cycle
 					ActivateCurrentThread();
 				}
@@ -334,48 +334,48 @@ namespace wenku8.AdvDM
 				// No more thread
 				IsCycleStarted = false;
 
-                try
-                {
-                    if( DCycleComplete != null ) DCycleComplete( this, new DCycleCompleteArgs() );
-                }
-                catch( Exception e )
-                {
-                    FailedCount++;
-                    Logger.Log( ID, e.Message, LogType.ERROR );
-                }
-                UpdateStatus();
+				try
+				{
+					if( DCycleComplete != null ) DCycleComplete( this, new DCycleCompleteArgs() );
+				}
+				catch( Exception e )
+				{
+					FailedCount++;
+					Logger.Log( ID, e.Message, LogType.ERROR );
+				}
+				UpdateStatus();
 			}
 			// Runtime Transfer, don't need to save
 		}
 
 		#endregion
 
-        private void UpdateStatus()
-        {
-            Worker.UIInvoke( () => NotifyChanged( "ShortStat" ) );
-        }
+		private void UpdateStatus()
+		{
+			Worker.UIInvoke( () => NotifyChanged( "ShortStat" ) );
+		}
 
-        internal class TransferInst
-        {
-            public string State = AppKeys.DM_PENDING;
-            public string ID { get; private set; }
+		internal class TransferInst
+		{
+			public string State = AppKeys.DM_PENDING;
+			public string ID { get; private set; }
 
-            public string Request { get; private set; }
-            public Guid Group { get; private set; }
+			public string Request { get; private set; }
+			public Guid Group { get; private set; }
 
-            public int FailedCount { get; set; }
+			public int FailedCount { get; set; }
 
-            public string description { get; private set; }
-            public string cParam { get; private set; }
+			public string description { get; private set; }
+			public string cParam { get; private set; }
 
-            public TransferInst( string Location, string v, Guid dGroup, string description, string cParam )
-            {
-                this.ID = Location;
-                this.Request = v;
-                this.Group = dGroup;
-                this.description = description;
-                this.cParam = cParam;
-            }
-        }
+			public TransferInst( string Location, string v, Guid dGroup, string description, string cParam )
+			{
+				this.ID = Location;
+				this.Request = v;
+				this.Group = dGroup;
+				this.description = description;
+				this.cParam = cParam;
+			}
+		}
 	}
 }

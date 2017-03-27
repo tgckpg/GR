@@ -7,33 +7,33 @@ using Net.Astropenguin.Helpers;
 
 namespace wenku8.Model.ListItem
 {
-    using Resources;
+	using Resources;
 
-    public enum SectionMode
-    {
-        InfoPane, DirectNavigation
-    }
+	public enum SectionMode
+	{
+		InfoPane, DirectNavigation
+	}
 
-    class BookInfoItem : ActiveItem
-    {
-        public SectionMode Mode = SectionMode.InfoPane;
+	class BookInfoItem : ActiveItem
+	{
+		public SectionMode Mode = SectionMode.InfoPane;
 
 		private string Path;
 
-        public string SrcPath
+		public string SrcPath
 		{
 			get { return Path; }
 			set
 			{
 				Path = value;
-                AwaitBitmapSource();
+				AwaitBitmapSource();
 			}
 		}
 
-        private ImageSource _banner;
+		private ImageSource _banner;
 		public ImageSource Banner { get { return _banner; } }
 
-        public BookInfoItem( string aid, string Title, string Intro, string Date, string BannerPath )
+		public BookInfoItem( string aid, string Title, string Intro, string Date, string BannerPath )
 			: base( Title, Date, Intro, aid )
 		{
 			SrcPath = BannerPath;
@@ -44,26 +44,26 @@ namespace wenku8.Model.ListItem
 		{
 		}
 
-        private async void AwaitBitmapSource()
-        {
-            if ( string.IsNullOrEmpty( Path ) || !Shared.Storage.FileExists( Path ) )
-            {
-                _banner = await Image.NewBitmap( new Uri( "ms-appx:///Assets/Samples/bookcoversample.png", UriKind.Absolute ) );
-                NotifyChanged( "Banner" );
-            }
-            else
-            {
-                BitmapImage B = await Image.NewBitmap();
+		private async void AwaitBitmapSource()
+		{
+			if ( string.IsNullOrEmpty( Path ) || !Shared.Storage.FileExists( Path ) )
+			{
+				_banner = await Image.NewBitmap( new Uri( "ms-appx:///Assets/Samples/bookcoversample.png", UriKind.Absolute ) );
+				NotifyChanged( "Banner" );
+			}
+			else
+			{
+				BitmapImage B = await Image.NewBitmap();
 
-                Worker.UIInvoke( () =>
-                {
-                    Image.SetSourceFromUrl( B, Path );
-                    NotifyChanged( "Banner" );
-                } );
+				Worker.UIInvoke( () =>
+				{
+					Image.SetSourceFromUrl( B, Path );
+					NotifyChanged( "Banner" );
+				} );
 
-                _banner = B;
-            }
-        }
+				_banner = B;
+			}
+		}
 
-    }
+	}
 }

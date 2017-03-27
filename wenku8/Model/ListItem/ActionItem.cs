@@ -6,14 +6,14 @@ using System.Threading.Tasks;
 
 namespace wenku8.Model.ListItem
 {
-    sealed class ActionItem : ActiveItem
-    {
-        public object Param { get; private set; }
+	sealed class ActionItem : ActiveItem
+	{
+		public object Param { get; private set; }
 
-        public ActionItem( string Name, string Desc, object ActionParam )
-            :base( Name, Desc, null )
-        {
-            Param = ActionParam;
-        }
-    }
+		public ActionItem( string Name, string Desc, object ActionParam )
+			:base( Name, Desc, null )
+		{
+			Param = ActionParam;
+		}
+	}
 }

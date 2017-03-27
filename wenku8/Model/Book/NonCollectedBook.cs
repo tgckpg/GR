@@ -11,9 +11,9 @@ namespace wenku8.Model.Book
 			Id = "-1";
 		}
 
-        public override Volume[] GetVolumes()
-        {
-            return new Volume[ 0 ];
-        }
-    }
+		public override Volume[] GetVolumes()
+		{
+			return new Volume[ 0 ];
+		}
+	}
 }
