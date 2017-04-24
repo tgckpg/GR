@@ -25,7 +25,7 @@ namespace wenku8.Ext
 
 		Task<bool> Register();
 		void Logout();
-		void Login( string name, string passwd );
+		void Login( string Name, string Passwd, bool Remember = false );
 	}
 
 }
