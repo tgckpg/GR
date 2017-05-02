@@ -110,10 +110,12 @@ namespace wenku8.Config
 			// Content Reader
 			if ( !TestKey( Parameters.CONTENTREADER_AUTOBOOKMARK ) )
 				Properties.CONTENTREADER_AUTOBOOKMARK = true;
+			// Rememeber to adjust the optimal BlockHeight when changing this value
 			if ( !TestKey( Parameters.APPEARANCE_CONTENTREADER_FONTSIZE ) )
 				Properties.APPEARANCE_CONTENTREADER_FONTSIZE = 20;
+			// This value should be tested across different device, otherwise leave it to 0
 			if ( !TestKey( Parameters.APPEARANCE_CONTENTREADER_BLOCKHEIGHT ) )
-				Properties.APPEARANCE_CONTENTREADER_BLOCKHEIGHT = 0;
+				Properties.APPEARANCE_CONTENTREADER_BLOCKHEIGHT = 21.7;
 			if ( !TestKey( Parameters.APPEARANCE_CONTENTREADER_FONTWEIGHT ) )
 				Properties.APPEARANCE_CONTENTREADER_FONTWEIGHT = Windows.UI.Text.FontWeights.Normal;
 			if ( !TestKey( Parameters.APPEARANCE_CONTENTREADER_EMBED_ILLUS ) )
