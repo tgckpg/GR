@@ -19,6 +19,7 @@ namespace wenku8.Ext
 		bool CanRegister { get; }
 
 		string CurrentAccount { get; }
+		string CurrentPassword { get; }
 		string ServerMessage { get; }
 
 		event TypedEventHandler<object, MemberStatus> OnStatusChanged;
@@ -27,5 +28,4 @@ namespace wenku8.Ext
 		void Logout();
 		void Login( string Name, string Passwd, bool Remember = false );
 	}
-
 }
