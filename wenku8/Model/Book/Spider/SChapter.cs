@@ -44,7 +44,6 @@ namespace wenku8.Model.Book.Spider
 
 			TempFile = await AppStorage.MkTemp();
 
-			bool ToTrad = Config.Properties.LANGUAGE_TRADITIONAL;
 			foreach ( ProcConvoy Konvoi in Convoys )
 			{
 				ProcConvoy Convoy = ProcManager.TracePackage(
@@ -59,7 +58,7 @@ namespace wenku8.Model.Book.Spider
 				if ( Convoy.Payload is IStorageFile )
 				{
 					await TempFile.WriteBytes(
-						( await ( Convoy.Payload as IStorageFile ).ReadAllBytes() ).ToCTrad()
+						await ( Convoy.Payload as IStorageFile ).ReadAllBytes()
 						, true, new byte[] { ( byte ) '\n' }
 					);
 					return;
@@ -72,7 +71,7 @@ namespace wenku8.Model.Book.Spider
 				foreach ( IStorageFile ISF in ISFs )
 				{
 					Shared.LoadMessage( "MergingContents", ISF.Name );
-					await TempFile.WriteBytes( ( await ISF.ReadAllBytes() ).ToCTrad(), true, new byte[] { ( byte ) '\n' } );
+					await TempFile.WriteBytes( await ISF.ReadAllBytes(), true, new byte[] { ( byte ) '\n' } );
 				}
 			}
 		}

@@ -11,6 +11,7 @@ using Net.Astropenguin.Messaging;
 namespace wenku8.Resources
 {
 	using CompositeElement;
+	using Model;
 	using Model.Book;
 	using Model.REST;
 	using Storage;
@@ -28,20 +29,9 @@ namespace wenku8.Resources
 
 		public static SharersRequest ShRequest;
 
-		// TODO: Should make this optional for each book
-		private static bool IsTrad = Config.Properties.LANGUAGE_TRADITIONAL;
-
-		public static string ToCTrad( this string v )
-		{
-			return IsTrad ? libtranslate.Chinese.Traditional( v ) : v;
-		}
-
-		public static byte[] ToCTrad( this byte[] v )
-		{
-			return IsTrad ? libtranslate.Chinese.Traditional( v ) : v;
-		}
-
 		private static StringResources LoadMesgRes;
+
+		public static TradChinese TC;
 
 		public static void LoadMessage( string MESG_ID, params string[] args )
 		{

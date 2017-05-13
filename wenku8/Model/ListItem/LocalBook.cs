@@ -6,16 +6,15 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Windows.Storage;
-using Windows.Storage.Streams;
 
+using Net.Astropenguin.IO;
 using Net.Astropenguin.Loaders;
 using Net.Astropenguin.Logging;
 using Net.Astropenguin.Messaging;
 
-using wenku8.Model.Book;
-
 namespace wenku8.Model.ListItem
 {
+	using Book;
 	using Config;
 	using Resources;
 	using Settings;
@@ -61,7 +60,7 @@ namespace wenku8.Model.ListItem
 		public bool IsFav { get; set; }
 
 		public LocalBook( StorageFile File )
-			: base( File.Name.ToCTrad(), File.Path, File )
+			: base( File.Name, File.Path, File )
 		{
 			Regex Reg = new Regex( "^(\\d+)" );
 
@@ -141,16 +140,16 @@ namespace wenku8.Model.ListItem
 
 		virtual protected async Task Run()
 		{
-			IInputStream s = await File.OpenSequentialReadAsync();
+			MessageBus.SendUI( typeof( LocalBook ), "Reading ...", aid );
+			byte[] b = await File.ReadAllBytes();
 
-			string p;
-
-			using ( StreamReader ms = new StreamReader( s.AsStreamForRead() ) )
+			if ( await Shared.TC.ConfirmTranslate( aid, File.Name ) )
 			{
-				p = ms.ReadToEnd();
+				MessageBus.SendUI( typeof( LocalBook ), "Translating ...", aid );
+				await Task.Run( () => b = Shared.TC.Translate( b ) );
 			}
 
-			LocalTextDocument L = await LocalTextDocument.ParseAsync( aid, p );
+			LocalTextDocument L = await LocalTextDocument.ParseAsync( aid, Encoding.UTF8.GetString( b ) );
 
 			Name = L.Title;
 			Desc = "Saving ...";

@@ -19,5 +19,10 @@
 		{
 			return Book.XTest( XProto.DeathBook );
 		}
+
+		public static bool IsEx( this BookItem Book )
+		{
+			return Book.XTest( XProto.BookItemEx );
+		}
 	}
 }

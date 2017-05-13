@@ -23,7 +23,6 @@ namespace wenku8.Taotu
 {
 	using Model.Book;
 	using Model.Book.Spider;
-	using Resources;
 	using Settings;
 
 	abstract class GrimoireExtractor : Procedure, ISubProcedure
@@ -168,7 +167,7 @@ namespace wenku8.Taotu
 
 				// If the website split a single property into serveral pages
 				// That website is stupid. Would not support.
-				if( !Inst.ReadParam( Extr.PType.ToString(), PropValue.ToCTrad() ) )
+				if ( !Inst.ReadParam( Extr.PType.ToString(), PropValue ) )
 				{
 					ProcManager.PanelMessage( this, Res.RSTR( "InvalidParam", Extr.PType ), LogType.WARNING );
 				}

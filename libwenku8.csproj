@@ -252,6 +252,7 @@
     <Compile Include="wenku8\Model\Topics\Feed.cs" />
     <Compile Include="wenku8\Model\Topics\Special.cs" />
     <Compile Include="wenku8\Model\Book\LocalTextDocument.cs" />
+    <Compile Include="wenku8\Model\TradChinese.cs" />
     <Compile Include="wenku8\Resources\Image.cs" />
     <Compile Include="wenku8\Resources\LayoutResources.cs" />
     <Compile Include="wenku8\Resources\LayoutSettings.cs" />
@@ -289,6 +290,7 @@
     <Compile Include="wenku8\Taotu\GrimoireExtractor.cs" />
     <Compile Include="wenku8\Taotu\GrimoireListLoader.cs" />
     <Compile Include="wenku8\Taotu\GrimoireMarker.cs" />
+    <Compile Include="wenku8\Taotu\TongWenTang.cs" />
     <EmbeddedResource Include="Properties\libwenku8.rd.xml" />
   </ItemGroup>
   <ItemGroup>

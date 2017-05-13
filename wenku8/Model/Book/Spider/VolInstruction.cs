@@ -57,7 +57,7 @@ namespace wenku8.Model.Book.Spider
 
 		public Volume ToVolume( string aid )
 		{
-			string id = Utils.Md5( this.Title );
+			string id = Utils.Md5( Title );
 			return new SVolume(
 				this, id, aid
 				, SubInsts
