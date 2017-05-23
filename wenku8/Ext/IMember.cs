@@ -19,13 +19,13 @@ namespace wenku8.Ext
 		bool CanRegister { get; }
 
 		string CurrentAccount { get; }
+		string CurrentPassword { get; }
 		string ServerMessage { get; }
 
 		event TypedEventHandler<object, MemberStatus> OnStatusChanged;
 
 		Task<bool> Register();
 		void Logout();
-		void Login( string name, string passwd );
+		void Login( string Name, string Passwd, bool Remember = false );
 	}
-
 }

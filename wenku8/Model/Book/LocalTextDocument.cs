@@ -48,21 +48,17 @@ namespace wenku8.Model.Book
 
 		public async static Task<LocalTextDocument> ParseAsync( string aid, string doc )
 		{
-			if( Properties.LANGUAGE_TRADITIONAL )
-			{
-				MessageBus.SendUI( typeof( ListItem.LocalBook ), "Translating ...", aid );
-				await Task.Run( () => doc = doc.ToCTrad() );
-			}
-
 			try
 			{
 				LocalTextDocument TDoc = new LocalTextDocument( aid );
+
 				TDoc.Episodes = new List<TextEpisode>();
 
 				string[] lines = doc.Split( new char[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries );
 
 				int l = lines.Length - 2;
 
+				MessageBus.SendUI( typeof( ListItem.LocalBook ), "Verifying ...", aid );
 				// Filter unecessary line break and spaces
 				string s;
 				TDoc.Title = lines[ 1 ];

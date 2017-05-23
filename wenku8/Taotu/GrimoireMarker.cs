@@ -18,7 +18,6 @@ namespace wenku8.Taotu
 {
 	using Model.Book.Spider;
 	using Model.Interfaces;
-	using Resources;
 
 	enum WMarkerSub { Volume = 1, Chapter = 2 }
 
@@ -204,7 +203,7 @@ namespace wenku8.Taotu
 
 						VInst = new VolInstruction(
 							VTitleAddOnce ? SpTOC.LastIndex : match.Index
-							, FTitle.ToCTrad()
+							, FTitle
 						);
 
 						VInst.ProcMan = VolProcs;
@@ -259,7 +258,7 @@ namespace wenku8.Taotu
 
 						EInst = new EpInstruction(
 							VTitleAddOnce ? SpTOC.LastIndex : match.Index
-							, FTitle.ToCTrad()
+							, FTitle
 						);
 						EInst.ProcMan = EpProcs;
 						SpTOC.PushInstruction( EInst );

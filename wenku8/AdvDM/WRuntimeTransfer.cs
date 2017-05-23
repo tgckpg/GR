@@ -147,8 +147,7 @@ namespace wenku8.AdvDM
 				{
 					Worker.UIInvoke( () =>
 					{
-						if ( DThreadUpdate != null )
-							DThreadUpdate( new DThreadUpdateArgs( SaveLocation, DGroup, Description ) );
+						DThreadUpdate?.Invoke( new DThreadUpdateArgs( SaveLocation, DGroup, Description ) );
 					} );
 				}
 			}
@@ -336,7 +335,7 @@ namespace wenku8.AdvDM
 
 				try
 				{
-					if( DCycleComplete != null ) DCycleComplete( this, new DCycleCompleteArgs() );
+					DCycleComplete?.Invoke( this, new DCycleCompleteArgs() );
 				}
 				catch( Exception e )
 				{
