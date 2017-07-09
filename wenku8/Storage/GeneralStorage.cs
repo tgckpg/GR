@@ -58,6 +58,8 @@ namespace wenku8.Storage
 				, FileLinks.ROOT_EBWIN
 				// ZoneSpider Definitions
 				, FileLinks.ROOT_ZSPIDER
+				// ContentReader Thumbnails
+				, FileLinks.ROOT_READER_THUMBS
 				// Log files
 				, FileLinks.ROOT_LOG
 			};

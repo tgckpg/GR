@@ -7,7 +7,6 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
 using Net.Astropenguin.Controls;
-using Net.Astropenguin.Helpers;
 using Net.Astropenguin.Loaders;
 using Net.Astropenguin.Messaging;
 using Net.Astropenguin.UI;
@@ -20,7 +19,7 @@ namespace wenku8.CompositeElement
 	[TemplatePart( Name = TextName, Type = typeof( TextBlock ))]
 	public class LoadingMask : StateControl
 	{
-		public static DependencyProperty TextProperty = DependencyProperty.Register( "Text", typeof( string ), typeof( LoadingMask ), new PropertyMetadata( "Loading" ) );
+		public static DependencyProperty TextProperty = DependencyProperty.Register( "Text", typeof( string ), typeof( LoadingMask ), new PropertyMetadata( "Text", TextChanged ) );
 
 		public string Text
 		{
@@ -59,15 +58,21 @@ namespace wenku8.CompositeElement
 			MessageBus.OnDelivery -= MessageBus_OnDelivery;
 		}
 
-		virtual protected void MessageBus_OnDelivery( Message Mesg )
+		private static void TextChanged( DependencyObject d, DependencyPropertyChangedEventArgs e )
+		{
+			( ( LoadingMask ) d ).UpdateMessage();
+		}
+
+		private void UpdateMessage()
 		{
 			if ( Message == null || Closed ) return;
-			if ( Mesg.TargetType == typeof( System.ActionCenter ) ) return;
+			Message.Text = Text;
+		}
 
-			Worker.UIInvoke( () =>
-			{
-				Message.Text = Mesg.Content;
-			} );
+		virtual protected void MessageBus_OnDelivery( Message Mesg )
+		{
+			if ( Mesg.TargetType == typeof( System.ActionCenter ) ) return;
+			Text = Mesg.Content;
 		}
 
 		protected override void OnApplyTemplate()
@@ -76,6 +81,7 @@ namespace wenku8.CompositeElement
 
 			LoadingRing = GetTemplateChild( LoadingRingName ) as ProgressRing;
 			Message = GetTemplateChild( TextName ) as TextBlock;
+			Message.Text = Text;
 		}
 
 	}

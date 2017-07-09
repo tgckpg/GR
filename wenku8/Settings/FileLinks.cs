@@ -38,6 +38,7 @@ namespace wenku8.Settings
 		, ROOT_TILE = "shared/ShellContent/"
 		, ROOT_COVER = "shared/ShellContent/Covers/"
 		, ROOT_BANNER = "shared/ShellContent/Banners/"
+		, ROOT_READER_THUMBS = "shared/ShellContent/ReaderThumbs/"
 		, ROOT_BACKGROUNDSERVICE = "shared/transfers/"
 		, ROOT_IMAGE = "shared/transfers/Images/"
 		, ROOT_VOLUME = "shared/transfers/Volumes/"

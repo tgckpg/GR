@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Threading.Tasks;
+using Windows.UI.Xaml;
 
 using Net.Astropenguin.IO;
 using Net.Astropenguin.Logging;
@@ -16,6 +18,11 @@ namespace wenku8
 
 		public const string SettingsFile = FileLinks.ROOT_SETTING + FileLinks.READING_HISTORY;
 		private XRegistry Registry;
+
+		public static Task CreateThumbnail( UIElement element, string BookId )
+		{
+			return Image.CaptureScreen( FileLinks.ROOT_READER_THUMBS + BookId, element, 120, 90 );
+		}
 
 		public History()
 		{

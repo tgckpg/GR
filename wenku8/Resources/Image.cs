@@ -12,6 +12,7 @@ using Windows.Foundation;
 using Windows.Graphics.Imaging;
 using Windows.Storage.Streams;
 using Windows.UI;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
 using Windows.Storage;
@@ -197,6 +198,7 @@ namespace wenku8.Resources
 			Brush.SourceRectangle = new Rect( 0, 0, FillSize, FillSize );
 
 			ds.FillGeometry( Combined, Brush );
+			ds.FillGeometry( Badge, Color.FromArgb( 172, 0, 0, 0 ) );
 
 			ds.DrawTextLayout( TextLayout, Width - Width * 0.29577f, Height - Height * 0.29577f, Colors.White );
 		}
@@ -230,6 +232,22 @@ namespace wenku8.Resources
 
 			return b;
 		}
-	}
 
+		public static async Task CaptureScreen( string SaveLocation, UIElement element, int Width, int Height )
+		{
+			RenderTargetBitmap b = new RenderTargetBitmap();
+			await b.RenderAsync( element, Width, Height );
+			IBuffer Pixels = await b.GetPixelsAsync();
+
+			using ( InMemoryRandomAccessStream writeStream = new InMemoryRandomAccessStream() )
+			{
+				BitmapEncoder encoder = await BitmapEncoder.CreateAsync( BitmapEncoder.PngEncoderId, writeStream );
+				encoder.SetPixelData( BitmapPixelFormat.Bgra8, BitmapAlphaMode.Ignore, ( uint ) Width, ( uint ) Height, 96, 96, Pixels.ToArray() );
+				await encoder.FlushAsync();
+
+				Shared.Storage.WriteStream( SaveLocation, writeStream.GetInputStreamAt( 0 ).AsStreamForRead() );
+			}
+		}
+
+	}
 }
