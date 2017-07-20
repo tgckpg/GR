@@ -7,6 +7,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
 using Net.Astropenguin.Controls;
+using Net.Astropenguin.Helpers;
 using Net.Astropenguin.Loaders;
 using Net.Astropenguin.Messaging;
 using Net.Astropenguin.UI;
@@ -72,7 +73,7 @@ namespace wenku8.CompositeElement
 		virtual protected void MessageBus_OnDelivery( Message Mesg )
 		{
 			if ( Mesg.TargetType == typeof( System.ActionCenter ) ) return;
-			Text = Mesg.Content;
+			Worker.UIInvoke( () => Text = Mesg.Content );
 		}
 
 		protected override void OnApplyTemplate()

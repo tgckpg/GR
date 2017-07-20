@@ -92,6 +92,20 @@
     <Content Include="Shaders\Ripples.bin" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GR\Database\ContextManager.cs" />
+    <Compile Include="GR\Database\MigrateWen8.cs" />
+    <Compile Include="GR\Database\Models.cs" />
+    <Compile Include="GR\Database\Models\GenericSettings.cs" />
+    <Compile Include="GR\Database\Contexts\Settings.cs" />
+    <Compile Include="Migrations\20170718144830_MyFirstMigration.cs" />
+    <Compile Include="Migrations\20170718144830_MyFirstMigration.designer.cs">
+      <DependentUpon>20170718144830_MyFirstMigration.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\20170719142511_0000.cs" />
+    <Compile Include="Migrations\20170719142511_0000.designer.cs">
+      <DependentUpon>20170719142511_0000.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\SettingsContextModelSnapshot.cs" />
     <Compile Include="wenku8\AdvDM\BingService.cs" />
     <Compile Include="wenku8\Converters\HistoryThumbConverter.cs" />
     <Compile Include="wenku8\Converters\FuzzyTimeInterval.cs" />
@@ -355,6 +369,9 @@
       <Project>{6c187966-ffb6-4022-b80a-c966d099f14c}</Project>
       <Name>libtranslate</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
