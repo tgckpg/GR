@@ -42,7 +42,6 @@
     <v:ContentStyleConverter x:Key="ContentStyleConverter" />
 
     <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="/libwenku8/Themes/ParallaxHub.xaml" />
         <ResourceDictionary Source="/libwenku8/Themes/PassiveSplitView.xaml" />
         <ResourceDictionary Source="/libwenku8/Themes/FloatyButton.xaml" />
         <ResourceDictionary Source="/libwenku8/Themes/SplashRipple.xaml" />

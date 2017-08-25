@@ -654,6 +654,17 @@ namespace wenku8.Config
 				SetParameter( Parameters.CONTENTREADER_AUTOBOOKMARK, value );
 			}
 		}
+		public static bool CONTENTREADER_SESSION_START
+		{
+			get
+			{
+				return GetValue<bool>( Parameters.CONTENTREADER_SESSION_START );
+			}
+			set
+			{
+				SetParameter( Parameters.CONTENTREADER_SESSION_START, value );
+			}
+		}
 		public static bool APPEARANCE_CONTENTREADER_HIDEHEADER
 		{
 			get
