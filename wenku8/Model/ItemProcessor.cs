@@ -10,6 +10,7 @@ namespace wenku8.Model.Pages
 	using Book.Spider;
 	using Ext;
 	using ListItem;
+	using Resources;
 	using Settings;
 
 	sealed class ItemProcessor
@@ -76,7 +77,7 @@ namespace wenku8.Model.Pages
 
 		public static BookItem GetBookEx( string Id )
 		{
-			BookItem B = X.Instance<BookItem>( XProto.BookItemEx, Id );
+			BookItem B = Shared.BooksCache[ Id ] ?? X.Instance<BookItem>( XProto.BookItemEx, Id );
 			B.XSetProp( "Mode", X.Const<string>( XProto.WProtocols, "ACTION_BOOK_META" ) );
 
 			return B;

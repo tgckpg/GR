@@ -19,6 +19,7 @@ using Windows.Storage;
 
 using Net.Astropenguin.Helpers;
 using Net.Astropenguin.IO;
+using Net.Astropenguin.Logging;
 using Net.Astropenguin.Messaging;
 
 namespace wenku8.Resources
@@ -52,14 +53,7 @@ namespace wenku8.Resources
 				return;
 			}
 
-			try
-			{
-				await Image.SetSourceAsync( Shared.Storage.GetStream( Url ).AsRandomAccessStream() );
-			}
-			catch ( Exception ex )
-			{
-				MessageBus.Send( typeof( ActionCenter ), ex.Message );
-			}
+			Image.UriSource = new Uri( "ms-appdata:///local/" + Url, UriKind.Absolute );
 		}
 
 		public static async void SetSourceFromISF( this BitmapImage Image, IStorageFile File )
@@ -70,17 +64,7 @@ namespace wenku8.Resources
 				return;
 			}
 
-			try
-			{
-				using ( Stream s = await File.OpenStreamForReadAsync() )
-				{
-					await Image.SetSourceAsync( s.AsRandomAccessStream() );
-				}
-			}
-			catch ( Exception ex )
-			{
-				MessageBus.Send( typeof( ActionCenter ), ex.Message );
-			}
+			Image.UriSource = new Uri( File.Path, UriKind.Absolute );
 		}
 
 		internal async static Task<string> CreateTileImage( BookItem b )
@@ -161,7 +145,7 @@ namespace wenku8.Resources
 			}
 			catch ( Exception ex )
 			{
-				global::System.Diagnostics.Debugger.Break();
+				Logger.Log( "LiveTile", ex.Message, LogType.ERROR );
 			}
 
 			return null;
@@ -217,7 +201,7 @@ namespace wenku8.Resources
 				}
 				catch( Exception )
 				{
-
+					// Intentionally setting invalid source to release the memory
 				}
 			}
 		}
