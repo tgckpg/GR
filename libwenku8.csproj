@@ -112,7 +112,6 @@
     <Compile Include="wenku8\CompositeElement\SecondaryIconButton.cs" />
     <Compile Include="wenku8\CompositeElement\SecretSwipeButton.cs" />
     <Compile Include="wenku8\CompositeElement\SplashRipple.cs" />
-    <Compile Include="wenku8\CompositeElement\FloatyButton.cs" />
     <Compile Include="wenku8\CompositeElement\LoadingMask.cs" />
     <Compile Include="wenku8\CompositeElement\ButtonOperation.cs" />
     <Compile Include="wenku8\CompositeElement\PassiveSplitView.cs" />
@@ -309,10 +308,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Themes\Generic.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Themes\FloatyButton.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
