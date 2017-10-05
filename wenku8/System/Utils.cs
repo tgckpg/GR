@@ -95,6 +95,14 @@ namespace wenku8.System
 			return Md5( CryptographicBuffer.ConvertStringToBinary( str, BinaryStringEncoding.Utf8 ) );
 		}
 
+		public static int Md5Int( string str )
+		{
+			IBuffer Buff = CryptographicBuffer.ConvertStringToBinary( str, BinaryStringEncoding.Utf8 );
+			HashAlgorithmProvider alg = HashAlgorithmProvider.OpenAlgorithm( HashAlgorithmNames.Md5 );
+			byte[] bytes = alg.HashData( Buff ).ToArray();
+			return bytes[ 0 ] << 24 | bytes[ 1 ] << 16 | bytes[ 2 ] << 8 | bytes[ 0 ];
+		}
+
 		internal static string Md5( IBuffer Buff )
 		{
 			HashAlgorithmProvider alg = HashAlgorithmProvider.OpenAlgorithm( HashAlgorithmNames.Md5 );

@@ -95,6 +95,7 @@
     <Compile Include="wenku8\AdvDM\BingService.cs" />
     <Compile Include="wenku8\Converters\HistoryThumbConverter.cs" />
     <Compile Include="wenku8\Converters\FuzzyTimeInterval.cs" />
+    <Compile Include="wenku8\Effects\Stage\RandomStripe.cs" />
     <Compile Include="wenku8\Ext\IDeathblow.cs" />
     <Compile Include="wenku8\Model\Book\BookItemExt.cs" />
     <Compile Include="wenku8\Model\Interfaces\IIllusUpdate.cs" />
@@ -159,11 +160,6 @@
     <Compile Include="wenku8\Effects\P2DFlow\Spawners\LinearSpawner.cs" />
     <Compile Include="wenku8\Effects\P2DFlow\Spawners\PointerSpawner.cs" />
     <Compile Include="wenku8\Effects\P2DFlow\Spawners\Trail.cs" />
-    <Compile Include="wenku8\Effects\Stage\PartyBase.cs" />
-    <Compile Include="wenku8\Effects\Stage\RectangleParty\RectWaltzPrelude.cs" />
-    <Compile Include="wenku8\Effects\Stage\RectangleParty\RectWaltzInterlude.cs" />
-    <Compile Include="wenku8\Effects\Stage\CircleParty\Baumkuchen.cs" />
-    <Compile Include="wenku8\Effects\Stage\ScreenColorTransform.cs" />
     <Compile Include="wenku8\Effects\TextTransition.cs" />
     <Compile Include="wenku8\Effects\TransitionDisplay.cs" />
     <Compile Include="wenku8\Ext\IAutoCache.cs" />

@@ -41,9 +41,19 @@ namespace wenku8.System
 			return this.FirstOrDefault( x => x.Name == Name )?.Value;
 		}
 
+		new public void Clear()
+		{
+			ForEach( x => ( x.Value as IDisposable )?.Dispose() );
+			base.Clear();
+		}
+
 		public void Remove( string Name )
 		{
-			RemoveAll( ( x ) => x.Name == Name );
+			RemoveAll( ( x ) =>
+			{
+				( x.Value as IDisposable )?.Dispose();
+				return x.Name == Name;
+			} );
 		}
 
 	}

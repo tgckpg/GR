@@ -1,16 +1,17 @@
-﻿using Windows.UI;
-
-// wenku8App Static Resources
+﻿using Windows.Graphics.Display;
+using Windows.UI;
+using Windows.UI.Xaml;
 
 namespace wenku8.Resources
 {
 	using Config;
-	using Windows.UI.Xaml;
 
-	public class LayoutSettings 
+	public class LayoutSettings
 	{
 		public static double ScreenWidth { get { return Window.Current.Bounds.Width; } }
 		public static double ScreenHeight { get { return Window.Current.Bounds.Height; } }
+		public static uint DisplayWidth { get { return DisplayInformation.GetForCurrentView().ScreenWidthInRawPixels; } }
+		public static uint DisplayHeight { get { return DisplayInformation.GetForCurrentView().ScreenHeightInRawPixels; } }
 
 		public static Color MajorColor { get; private set; }
 		public static Color MinorColor { get; private set; }
