@@ -161,6 +161,12 @@ namespace wenku8.Effects.Stage
 						RowSpace = !RowSpace;
 					}
 				}
+
+				Brushes.All( x =>
+				{
+					x.Item2.Dispose();
+					return true;
+				} );
 			}
 
 			return RenderTarget;
