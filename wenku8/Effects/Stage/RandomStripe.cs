@@ -103,9 +103,9 @@ namespace wenku8.Effects.Stage
 			return Brushes;
 		}
 
-		public CanvasBitmap DrawBitmap( ICanvasResourceCreatorWithDpi Dev, int Width, int Height )
+		public CanvasBitmap DrawBitmap( ICanvasResourceCreator Dev, int Width, int Height )
 		{
-			CanvasRenderTarget RenderTarget = new CanvasRenderTarget( Dev, Width, Height );
+			CanvasRenderTarget RenderTarget = new CanvasRenderTarget( Dev, Width, Height, 96 );
 			using ( CanvasDrawingSession ds = RenderTarget.CreateDrawingSession() )
 			{
 				float x0 = 0;
