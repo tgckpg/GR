@@ -20,13 +20,11 @@ using Windows.Storage;
 using Net.Astropenguin.Helpers;
 using Net.Astropenguin.IO;
 using Net.Astropenguin.Logging;
-using Net.Astropenguin.Messaging;
 
 namespace wenku8.Resources
 {
 	using Model.Book;
 	using Settings;
-	using System;
 
 	static class Image
 	{
@@ -64,7 +62,16 @@ namespace wenku8.Resources
 				return;
 			}
 
-			Image.UriSource = new Uri( File.Path, UriKind.Absolute );
+			Uri _uri = new Uri( File.Path, UriKind.Absolute );
+			if ( _uri.Scheme == "file" )
+			{
+				IStorageFile LocalFile = await AppStorage.StaticTemp( File );
+				Image.UriSource = new Uri( LocalFile.Path, UriKind.Absolute );
+			}
+			else
+			{
+				Image.UriSource = new Uri( File.Path, UriKind.Absolute );
+			}
 		}
 
 		internal async static Task<string> CreateTileImage( BookItem b )

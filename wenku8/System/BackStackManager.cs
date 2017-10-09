@@ -51,8 +51,12 @@ namespace wenku8.System
 		{
 			RemoveAll( ( x ) =>
 			{
-				( x.Value as IDisposable )?.Dispose();
-				return x.Name == Name;
+				if ( x.Name == Name )
+				{
+					( x.Value as IDisposable )?.Dispose();
+					return true;
+				}
+				return false;
 			} );
 		}
 
