@@ -12,19 +12,19 @@ using Windows.Foundation;
 using Windows.Graphics.Imaging;
 using Windows.Storage.Streams;
 using Windows.UI;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
 using Windows.Storage;
 
 using Net.Astropenguin.Helpers;
 using Net.Astropenguin.IO;
-using Net.Astropenguin.Messaging;
+using Net.Astropenguin.Logging;
 
 namespace wenku8.Resources
 {
 	using Model.Book;
 	using Settings;
-	using System;
 
 	static class Image
 	{
@@ -51,14 +51,7 @@ namespace wenku8.Resources
 				return;
 			}
 
-			try
-			{
-				await Image.SetSourceAsync( Shared.Storage.GetStream( Url ).AsRandomAccessStream() );
-			}
-			catch ( Exception ex )
-			{
-				MessageBus.Send( typeof( ActionCenter ), ex.Message );
-			}
+			Image.UriSource = new Uri( "ms-appdata:///local/" + Url, UriKind.Absolute );
 		}
 
 		public static async void SetSourceFromISF( this BitmapImage Image, IStorageFile File )
@@ -69,16 +62,15 @@ namespace wenku8.Resources
 				return;
 			}
 
-			try
+			Uri _uri = new Uri( File.Path, UriKind.Absolute );
+			if ( _uri.Scheme == "file" )
 			{
-				using ( Stream s = await File.OpenStreamForReadAsync() )
-				{
-					await Image.SetSourceAsync( s.AsRandomAccessStream() );
-				}
+				IStorageFile LocalFile = await AppStorage.StaticTemp( File );
+				Image.UriSource = new Uri( LocalFile.Path, UriKind.Absolute );
 			}
-			catch ( Exception ex )
+			else
 			{
-				MessageBus.Send( typeof( ActionCenter ), ex.Message );
+				Image.UriSource = new Uri( File.Path, UriKind.Absolute );
 			}
 		}
 
@@ -160,7 +152,7 @@ namespace wenku8.Resources
 			}
 			catch ( Exception ex )
 			{
-				global::System.Diagnostics.Debugger.Break();
+				Logger.Log( "LiveTile", ex.Message, LogType.ERROR );
 			}
 
 			return null;
@@ -197,6 +189,7 @@ namespace wenku8.Resources
 			Brush.SourceRectangle = new Rect( 0, 0, FillSize, FillSize );
 
 			ds.FillGeometry( Combined, Brush );
+			ds.FillGeometry( Badge, Color.FromArgb( 172, 0, 0, 0 ) );
 
 			ds.DrawTextLayout( TextLayout, Width - Width * 0.29577f, Height - Height * 0.29577f, Colors.White );
 		}
@@ -215,7 +208,7 @@ namespace wenku8.Resources
 				}
 				catch( Exception )
 				{
-
+					// Intentionally setting invalid source to release the memory
 				}
 			}
 		}
@@ -230,6 +223,22 @@ namespace wenku8.Resources
 
 			return b;
 		}
-	}
 
+		public static async Task CaptureScreen( string SaveLocation, UIElement element, int Width, int Height )
+		{
+			RenderTargetBitmap b = new RenderTargetBitmap();
+			await b.RenderAsync( element, Width, Height );
+			IBuffer Pixels = await b.GetPixelsAsync();
+
+			using ( InMemoryRandomAccessStream writeStream = new InMemoryRandomAccessStream() )
+			{
+				BitmapEncoder encoder = await BitmapEncoder.CreateAsync( BitmapEncoder.PngEncoderId, writeStream );
+				encoder.SetPixelData( BitmapPixelFormat.Bgra8, BitmapAlphaMode.Ignore, ( uint ) Width, ( uint ) Height, 96, 96, Pixels.ToArray() );
+				await encoder.FlushAsync();
+
+				Shared.Storage.WriteStream( SaveLocation, writeStream.GetInputStreamAt( 0 ).AsStreamForRead() );
+			}
+		}
+
+	}
 }

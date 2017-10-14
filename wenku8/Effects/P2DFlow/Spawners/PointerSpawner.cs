@@ -17,8 +17,6 @@ namespace wenku8.Effects.P2DFlow.Spawners
 		public float Chaos = 1.0f;
 		public int Texture;
 
-		private int i;
-
 		public PFTrait SpawnTrait = PFTrait.NONE;
 
 		private Vector2 DrawPos;

@@ -51,7 +51,7 @@ namespace wenku8.AdvDM
 			}
 		}
 
-		public async Task<string> GetImage()
+		public async Task<string> GetImage( bool FullSize = false )
 		{
 			int offset = ServParam.GetSaveInt( "offset" );
 			XParameter ImgParam = ServParam.Parameter( offset.ToString() );
@@ -62,7 +62,7 @@ namespace wenku8.AdvDM
 			{
 				BingImageSearch BReq = new BingImageSearch( ServParam.GetValue( "keyword" ) );
 
-				ImgUrl = await BReq.GetImage( offset );
+				ImgUrl = await ( FullSize ? BReq.GetFullImage( offset ) : BReq.GetImage( offset ) );
 
 				ImgParam = new XParameter( offset.ToString() );
 				ImgParam.SetValue( new XKey( "url", ImgUrl ) );

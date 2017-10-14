@@ -45,6 +45,38 @@ namespace wenku8.Model.REST
 			return await TCS.Task;
 		}
 
+		public async Task<string> GetFullImage( int offset )
+		{
+			TaskCompletionSource<string> TCS = new TaskCompletionSource<string>();
+
+			BingHttpRequest Request = new BingHttpRequest( new Uri( string.Format( ImgQuery, Uri.EscapeDataString( q ), offset ) ) );
+			Request.OnRequestComplete += ( e ) =>
+			{
+				try
+				{
+					string ThumbUrl = GetContentUrl( e.ResponseString );
+					TCS.TrySetResult( ThumbUrl );
+				}
+				catch( Exception )
+				{
+					TCS.TrySetResult( null );
+				}
+			};
+
+			Request.OpenAsync();
+			return await TCS.Task;
+		}
+
+		private string GetContentUrl( string ResponseStr )
+		{
+			JsonObject Obj = JsonObject.Parse( ResponseStr );
+			JsonArray ResultArr = Obj.GetNamedArray( "value" );
+
+			ResultObj = ResultArr.FirstOrDefault()?.GetObject();
+
+			return ResultObj?.GetNamedString( "contentUrl" );
+		}
+
 		private string GetThumbnailUrl( string ResponseStr )
 		{
 			JsonObject Obj = JsonObject.Parse( ResponseStr );

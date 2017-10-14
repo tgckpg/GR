@@ -18,6 +18,7 @@ namespace wenku8.Config
 		// ContentReader
 		public const string CONTENTREADER_AUTOBOOKMARK = "ContentReader_Autobookmark";
 		public const string CONTENTREADER_USEINERTIA = "ContentReader_UseInertia";
+		public const string CONTENTREADER_SESSION_START = "ContentReader_Session_Start";
 		public const string APPEARANCE_CONTENTREADER_FONTSIZE = "Appearance_ContentReader_FontSize";
 		public const string APPEARANCE_CONTENTREADER_LEFTCONTEXT = "Appearance_ContentReader_LeftContext";
 		public const string APPEARANCE_CONTENTREADER_EMBED_ILLUS = "Appearance_ContentReader_EmbedIllus";
@@ -43,7 +44,6 @@ namespace wenku8.Config
 		public const string APPEARANCE_CONTENTREADER_ENABLEDOUBLETAP = "Appearance_ContentReader_EnableDoubleTap";
 		public const string APPEARANCE_CONTENTREADER_ENABLETAPBRUSH = "Appearance_ContentReader_EnableTapBrush";
 		public const string APPEARANCE_CONTENTREADER_TAPBRUSHCOLOR = "Appearance_ContentReader_TapBrushColor";
-		public const string APPEARANCE_PAGE_ORIENTATION = "Appearance_Page_Orientation";
 
 		// Theme Color
 		public const string APPEARENCE_THEME_PRESET_INDEX = "Appearance_Theme_Preset_Index";
@@ -60,7 +60,7 @@ namespace wenku8.Config
 		public const string APPEARENCE_THEME_SHADES_20 = "Appearance_Theme_Shades_20";
 		public const string APPEARENCE_THEME_SHADES_30 = "Appearance_Theme_Shades_30";
 		public const string APPEARENCE_THEME_SHADES_40 = "Appearance_Theme_Shades_40";
-		public const string APPEARENCE_THEME_SHADES_50 = "Appearance_Theme_Shades_10";
+		public const string APPEARENCE_THEME_SHADES_50 = "Appearance_Theme_Shades_50";
 		public const string APPEARENCE_THEME_SHADES_60 = "Appearance_Theme_Shades_60";
 		public const string APPEARENCE_THEME_SHADES_70 = "Appearance_Theme_Shades_70";
 		public const string APPEARENCE_THEME_SHADES_80 = "Appearance_Theme_Shades_80";

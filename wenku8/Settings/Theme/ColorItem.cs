@@ -5,6 +5,7 @@ using Net.Astropenguin.DataModel;
 
 namespace wenku8.Settings.Theme
 {
+	using Effects;
 	class ColorItem : ActiveData
 	{
 		public Color TColor { get { return OColor; } }
@@ -84,12 +85,20 @@ namespace wenku8.Settings.Theme
 		public int S
 		{
 			get { return HSL_S; }
-			set { HSL_S = value; SetFromHSL(); }
+			set
+			{
+				HSL_S = value.Clamp( 0, 100 );
+				SetFromHSL();
+			}
 		}
 		public int L
 		{
 			get { return HSL_L; }
-			set { HSL_L = value; SetFromHSL(); }
+			set
+			{
+				HSL_L = value.Clamp( 0, 100 );
+				SetFromHSL();
+			}
 		}
 		#endregion
 
@@ -253,9 +262,9 @@ namespace wenku8.Settings.Theme
 
 		private void SetFromCMYK()
 		{
-			OColor.R = ( byte ) ( int ) ( 255 * ( 100 - CMYK_C ) * ( 100 - CMYK_K ) );
-			OColor.G = ( byte ) ( int ) ( 255 * ( 100 - CMYK_M ) * ( 100 - CMYK_K ) );
-			OColor.B = ( byte ) ( int ) ( 255 * ( 100 - CMYK_Y ) * ( 100 - CMYK_K ) );
+			OColor.R = ( byte ) ( 255 * ( 100 - CMYK_C ) * ( 100 - CMYK_K ) );
+			OColor.G = ( byte ) ( 255 * ( 100 - CMYK_M ) * ( 100 - CMYK_K ) );
+			OColor.B = ( byte ) ( 255 * ( 100 - CMYK_Y ) * ( 100 - CMYK_K ) );
 			NotifyChanged( "R", "G", "B", "H", "S", "L", "Hex", "TColor" );
 		}
 
@@ -334,5 +343,4 @@ namespace wenku8.Settings.Theme
 			NotifyChanged( "R", "G", "B", "C", "M", "Y", "K", "Hex", "TColor" );
 		}
 	}
-
 }
