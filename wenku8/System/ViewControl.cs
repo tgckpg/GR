@@ -23,10 +23,12 @@ namespace wenku8.System
 				if ( value )
 				{
 					Instance.TryEnterFullScreenMode();
+					Instance.SetDesiredBoundsMode( ApplicationViewBoundsMode.UseCoreWindow );
 				}
 				else
 				{
 					Instance.ExitFullScreenMode();
+					Instance.SetDesiredBoundsMode( ApplicationViewBoundsMode.UseVisible );
 				}
 				NotifyChanged( "IsFullScreen" );
 			}
