@@ -16,18 +16,38 @@ namespace wenku8.Effects
 		public CanvasBitmap this[ int key ] { get { return ResPool[ key ]; } }
 		public TextureCenter Center;
 
+		private Dictionary<string, int> KeyIndex;
+		private volatile int _i = 0;
+
 		public TextureLoader()
 		{
 			ResPool = new Dictionary<int,CanvasBitmap>();
+			KeyIndex = new Dictionary<string, int>();
 			Center = new TextureCenter();
 		}
 
-		public async Task Load( ICanvasResourceCreator CC, int i, string File )
+		public async Task<int> Load( ICanvasResourceCreator CC, string Key, string fname )
 		{
-			CanvasBitmap CBmp = await CanvasBitmap.LoadAsync( CC, File );
+			int i = 0;
+			lock ( KeyIndex )
+			{
+				if ( KeyIndex.ContainsKey( Key ) )
+				{
+					// i = KeyIndex[ Key ];
+					return KeyIndex[ Key ];
+				}
+				else
+				{
+					i = _i++;
+					KeyIndex[ Key ] = i;
+				}
+			}
+
+			CanvasBitmap CBmp = await CanvasBitmap.LoadAsync( CC, fname );
 
 			Center[ i ] = new Vector2( ( float ) CBmp.Bounds.Width * 0.5f, ( float ) CBmp.Bounds.Height * 0.5f );
-			ResPool[ i ] = CBmp ;
+			ResPool[ i ] = CBmp;
+			return i;
 		}
 
 		public void Dispose()

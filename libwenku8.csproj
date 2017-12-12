@@ -11,8 +11,8 @@
     <AssemblyName>libwenku8</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
-    <TargetPlatformVersion>10.0.10586.0</TargetPlatformVersion>
-    <TargetPlatformMinVersion>10.0.10240.0</TargetPlatformMinVersion>
+    <TargetPlatformVersion>10.0.15063.0</TargetPlatformVersion>
+    <TargetPlatformMinVersion>10.0.14393.0</TargetPlatformMinVersion>
     <MinimumVisualStudioVersion>14</MinimumVisualStudioVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{A5A43C5B-DE2A-4C0C-9213-0A381AF9435A};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -105,6 +105,7 @@
     <Compile Include="wenku8\AdvDM\BingService.cs" />
     <Compile Include="wenku8\Converters\HistoryThumbConverter.cs" />
     <Compile Include="wenku8\Converters\FuzzyTimeInterval.cs" />
+    <Compile Include="wenku8\Effects\Stage\RandomStripe.cs" />
     <Compile Include="wenku8\Ext\IDeathblow.cs" />
     <Compile Include="wenku8\Model\Book\BookItemExt.cs" />
     <Compile Include="wenku8\Model\Interfaces\IIllusUpdate.cs" />
@@ -122,10 +123,8 @@
     <Compile Include="wenku8\CompositeElement\SecondaryIconButton.cs" />
     <Compile Include="wenku8\CompositeElement\SecretSwipeButton.cs" />
     <Compile Include="wenku8\CompositeElement\SplashRipple.cs" />
-    <Compile Include="wenku8\CompositeElement\FloatyButton.cs" />
     <Compile Include="wenku8\CompositeElement\LoadingMask.cs" />
     <Compile Include="wenku8\CompositeElement\ButtonOperation.cs" />
-    <Compile Include="wenku8\CompositeElement\ParallaxHub.cs" />
     <Compile Include="wenku8\CompositeElement\PassiveSplitView.cs" />
     <Compile Include="wenku8\CompositeElement\TitleStepper.cs" />
     <Compile Include="wenku8\CompositeElement\QClock.cs" />
@@ -171,11 +170,6 @@
     <Compile Include="wenku8\Effects\P2DFlow\Spawners\LinearSpawner.cs" />
     <Compile Include="wenku8\Effects\P2DFlow\Spawners\PointerSpawner.cs" />
     <Compile Include="wenku8\Effects\P2DFlow\Spawners\Trail.cs" />
-    <Compile Include="wenku8\Effects\Stage\PartyBase.cs" />
-    <Compile Include="wenku8\Effects\Stage\RectangleParty\RectWaltzPrelude.cs" />
-    <Compile Include="wenku8\Effects\Stage\RectangleParty\RectWaltzInterlude.cs" />
-    <Compile Include="wenku8\Effects\Stage\CircleParty\Baumkuchen.cs" />
-    <Compile Include="wenku8\Effects\Stage\ScreenColorTransform.cs" />
     <Compile Include="wenku8\Effects\TextTransition.cs" />
     <Compile Include="wenku8\Effects\TransitionDisplay.cs" />
     <Compile Include="wenku8\Ext\IAutoCache.cs" />
@@ -323,15 +317,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Themes\FloatyButton.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="Themes\LoadingMask.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Themes\ParallaxHub.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

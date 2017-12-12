@@ -165,7 +165,6 @@ namespace wenku8.Model.Book
 
 			EStepper = 0;
 
-			// This Volume is empty, step Next
 			if ( VInfo.cids[ VStepper ].Length == 0 )
 			{
 				Logger.Log(
@@ -174,6 +173,32 @@ namespace wenku8.Model.Book
 					, LogType.WARNING
 				);
 				return StepNext();
+			}
+
+			NotifyChanged( "Chapter" );
+
+			return true;
+		}
+
+		public bool StepPrev()
+		{
+			if ( EpAvailable( --EStepper ) )
+			{
+				NotifyChanged( "Chapter" );
+				return true;
+			}
+			if ( !VolAvailable( --VStepper ) ) return false;
+
+			EStepper = VInfo.cids[ VStepper ].Length - 1;
+
+			if ( EStepper < 0 )
+			{
+				Logger.Log(
+					ID
+					, string.Format( "Volume \"{0}\" has no Episodes, skipping", VolTitle )
+					, LogType.WARNING
+				);
+				return StepPrev();
 			}
 
 			NotifyChanged( "Chapter" );
@@ -226,27 +251,6 @@ namespace wenku8.Model.Book
 				return true;
 			else if ( 0 < VStepper )
 				return true;
-			return false;
-		}
-
-		public bool StepPrev()
-		{
-			if ( 0 < EStepper )
-			{
-				EStepper--;
-
-				NotifyChanged( "Chapter" );
-				return true;
-			}
-			else if ( 0 < VStepper )
-			{
-				VStepper--;
-				EStepper = VInfo.cids[ VStepper ].Length - 1;
-
-				NotifyChanged( "Chapter" );
-				return true;
-			}
-
 			return false;
 		}
 

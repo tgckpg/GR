@@ -65,7 +65,7 @@ namespace wenku8.CompositeElement
 		{
 			DependencyProperty TWidthProperty =
 				DependencyProperty.RegisterAttached( "TLabel", typeof( double ),
-				typeof( FloatyButton ), new PropertyMetadata( 0.0, OnLabelChanged ) );
+				typeof( SecretSwipeButton ), new PropertyMetadata( 0.0, OnLabelChanged ) );
 			Binding B = new Binding();
 			B.Path = new PropertyPath( "Label" );
 			B.Source = this;

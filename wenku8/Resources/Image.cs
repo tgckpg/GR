@@ -19,13 +19,12 @@ using Windows.Storage;
 
 using Net.Astropenguin.Helpers;
 using Net.Astropenguin.IO;
-using Net.Astropenguin.Messaging;
+using Net.Astropenguin.Logging;
 
 namespace wenku8.Resources
 {
 	using Model.Book;
 	using Settings;
-	using System;
 
 	static class Image
 	{
@@ -52,14 +51,7 @@ namespace wenku8.Resources
 				return;
 			}
 
-			try
-			{
-				await Image.SetSourceAsync( Shared.Storage.GetStream( Url ).AsRandomAccessStream() );
-			}
-			catch ( Exception ex )
-			{
-				MessageBus.Send( typeof( ActionCenter ), ex.Message );
-			}
+			Image.UriSource = new Uri( "ms-appdata:///local/" + Url, UriKind.Absolute );
 		}
 
 		public static async void SetSourceFromISF( this BitmapImage Image, IStorageFile File )
@@ -70,16 +62,15 @@ namespace wenku8.Resources
 				return;
 			}
 
-			try
+			Uri _uri = new Uri( File.Path, UriKind.Absolute );
+			if ( _uri.Scheme == "file" )
 			{
-				using ( Stream s = await File.OpenStreamForReadAsync() )
-				{
-					await Image.SetSourceAsync( s.AsRandomAccessStream() );
-				}
+				IStorageFile LocalFile = await AppStorage.StaticTemp( File );
+				Image.UriSource = new Uri( LocalFile.Path, UriKind.Absolute );
 			}
-			catch ( Exception ex )
+			else
 			{
-				MessageBus.Send( typeof( ActionCenter ), ex.Message );
+				Image.UriSource = new Uri( File.Path, UriKind.Absolute );
 			}
 		}
 
@@ -161,7 +152,7 @@ namespace wenku8.Resources
 			}
 			catch ( Exception ex )
 			{
-				global::System.Diagnostics.Debugger.Break();
+				Logger.Log( "LiveTile", ex.Message, LogType.ERROR );
 			}
 
 			return null;
@@ -217,7 +208,7 @@ namespace wenku8.Resources
 				}
 				catch( Exception )
 				{
-
+					// Intentionally setting invalid source to release the memory
 				}
 			}
 		}

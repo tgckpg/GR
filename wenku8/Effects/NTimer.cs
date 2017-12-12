@@ -56,12 +56,14 @@ namespace wenku8.Effects
 			}
 		}
 
-		public static T RandChoiceFromList<T>( IEnumerable<T> Choices )
+		public static T RandChoice<T>( Random R, params T[] Choices )
 		{
-			lock( SyncLock )
-			{
-				return Choices.ElementAt( R.Next( Choices.Count() ) );
-			}
+			return Choices[ R.Next( Choices.Count() ) ];
+		}
+
+		public static T RandChoiceFromList<T>( Random R, IEnumerable<T> Choices )
+		{
+			return Choices.ElementAt( R.Next( Choices.Count() ) );
 		}
 
 		public static T RandChoice<T>( params T[] Choices )
@@ -69,6 +71,14 @@ namespace wenku8.Effects
 			lock( SyncLock )
 			{
 				return Choices[ R.Next( Choices.Count() ) ];
+			}
+		}
+
+		public static T RandChoiceFromList<T>( IEnumerable<T> Choices )
+		{
+			lock( SyncLock )
+			{
+				return Choices.ElementAt( R.Next( Choices.Count() ) );
 			}
 		}
 
@@ -97,7 +107,7 @@ namespace wenku8.Effects
 		{
 			lock ( SyncLock )
 			{
-				return R.Next( minValue, maxValue );
+				return R.Next( minValue, maxValue + 1 );
 			}
 		}
 

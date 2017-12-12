@@ -1,9 +1,12 @@
 ﻿using System;
+using Windows.UI.Xaml.Media.Animation;
 
 namespace wenku8.Effects
 {
 	static class Easings
 	{
+		public static EasingFunctionBase EaseInCubic = new CubicEase() { EasingMode = EasingMode.EaseIn };
+
 		public static float OutQuintic( float t, float d )
 		{
 			if ( d <= t ) return 1;

@@ -232,7 +232,7 @@ namespace wenku8.Taotu
 						}
 						else
 						{
-							ProcConvoy VolConvoy = await VolProcs.CreateSpider().Crawl( new ProcConvoy( PPass, VInst ) );
+							ProcConvoy VolConvoy = await VolProcs.CreateSpider().Crawl( new ProcConvoy( PPass, FParam ) );
 						}
 					}
 				}
