@@ -97,13 +97,9 @@
     <Compile Include="GR\Database\Models.cs" />
     <Compile Include="GR\Database\Models\GenericSettings.cs" />
     <Compile Include="GR\Database\Contexts\Settings.cs" />
-    <Compile Include="Migrations\20170718144830_MyFirstMigration.cs" />
-    <Compile Include="Migrations\20170718144830_MyFirstMigration.designer.cs">
-      <DependentUpon>20170718144830_MyFirstMigration.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\20170719142511_0000.cs" />
-    <Compile Include="Migrations\20170719142511_0000.designer.cs">
-      <DependentUpon>20170719142511_0000.cs</DependentUpon>
+    <Compile Include="Migrations\20170720153824_Initial.cs" />
+    <Compile Include="Migrations\20170720153824_Initial.designer.cs">
+      <DependentUpon>20170720153824_Initial.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\SettingsContextModelSnapshot.cs" />
     <Compile Include="wenku8\AdvDM\BingService.cs" />
@@ -373,6 +369,7 @@
   <ItemGroup>
     <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>

@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace GR.Database.Models
 {
@@ -10,7 +11,7 @@ namespace GR.Database.Models
 		public string Key { get; set; }
 		public GSDataType Type { get; set; }
 		public string Value { get; set; }
-		public long DateCreated { get; set; }
+		public DateTime DateModified { get; set; }
 
 		public bool GetBool( string Key, bool Default = false )
 		{

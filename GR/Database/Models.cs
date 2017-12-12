@@ -8,4 +8,5 @@ namespace GR.Database.Models
 {
 	class ContentReader : GenericSettings { }
 	class Theme : GenericSettings { }
+	class GRSystem : GenericSettings { }
 }

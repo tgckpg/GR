@@ -21,6 +21,8 @@ namespace libwenku8.Migrations
                     b.Property<string>("Key")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<DateTime>("DateModified");
+
                     b.Property<int>("Type");
 
                     b.Property<string>("Value");
@@ -34,6 +36,8 @@ namespace libwenku8.Migrations
                 {
                     b.Property<string>("Key")
                         .ValueGeneratedOnAdd();
+
+                    b.Property<DateTime>("DateModified");
 
                     b.Property<int>("Type");
 

@@ -9,8 +9,8 @@ using GR.Database.Models;
 namespace libwenku8.Migrations
 {
     [DbContext(typeof(SettingsContext))]
-    [Migration("20170719142511_0000")]
-    partial class _0000
+    [Migration("20170720153824_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -21,6 +21,8 @@ namespace libwenku8.Migrations
                 {
                     b.Property<string>("Key")
                         .ValueGeneratedOnAdd();
+
+                    b.Property<DateTime>("DateModified");
 
                     b.Property<int>("Type");
 
@@ -35,6 +37,8 @@ namespace libwenku8.Migrations
                 {
                     b.Property<string>("Key")
                         .ValueGeneratedOnAdd();
+
+                    b.Property<DateTime>("DateModified");
 
                     b.Property<int>("Type");
 

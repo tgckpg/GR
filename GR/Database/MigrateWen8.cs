@@ -19,10 +19,10 @@ namespace GR.Database
 		public static void Start()
 		{
 			var m8 = new MigrateWen8();
-			m8.M0001_ContentReader();
+			m8.M0001_ContentReader_Theme();
 		}
 
-		private void M0001_ContentReader()
+		private void M0001_ContentReader_Theme()
 		{
 			Type ParamType = typeof( Parameters );
 			Type PropType = typeof( Properties );
