@@ -1,5 +1,8 @@
 ﻿{
   "dependencies": {
+    "Microsoft.EntityFrameworkCore": "1.1.5",
+    "Microsoft.EntityFrameworkCore.Sqlite": "1.1.5",
+    "Microsoft.EntityFrameworkCore.Tools": "1.1.5",
     "Microsoft.NETCore.UniversalWindowsPlatform": "5.4.1",
     "Microsoft.OneDriveSDK": "2.0.7",
     "Microsoft.OneDriveSDK.Authentication": "1.0.10",

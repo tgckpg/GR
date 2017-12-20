@@ -6,16 +6,19 @@ using System.Text;
 using System.Threading.Tasks;
 using Windows.UI;
 using Windows.UI.Text;
+using GR.Config;
+using GR.Database.Contexts;
+using GR.Database.Models;
+using Microsoft.EntityFrameworkCore;
 
-namespace MigrateWen8
+namespace GR.Migrations
 {
-	class MigrateWen8
+	class MigrateGR
 	{
-		/*
 		public static void Start()
 		{
-			var m8 = new MigrateWen8();
-			m8.M0001_ContentReader_Theme();
+			var mgr = new MigrateGR();
+			mgr.M0001_ContentReader_Theme();
 		}
 
 		private void M0001_ContentReader_Theme()
@@ -84,6 +87,5 @@ namespace MigrateWen8
 				OEntry.Value = Entry.Value;
 			}
 		}
-		*/
 	}
 }
