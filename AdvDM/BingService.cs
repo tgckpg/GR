@@ -20,7 +20,7 @@ namespace GR.AdvDM
 		public static string SYS_API_KEY { get; set; }
 		public static string API_KEY { get; private set; }
 
-		public string DefaultKeyword { get { return Book.Title + " " + Book.AuthorRaw; } }
+		public string DefaultKeyword { get { return Book.Title + " " + Book.Info.Author; } }
 
 		private XRegistry ServiceReg;
 		private XParameter ServParam;

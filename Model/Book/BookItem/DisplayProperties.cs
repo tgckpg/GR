@@ -8,8 +8,6 @@ using Windows.UI.Xaml.Media.Imaging;
 
 namespace GR.Model.Book
 {
-	using Resources;
-
 	partial class BookItem
 	{
 		private BitmapImage _Cover = null;
@@ -29,122 +27,108 @@ namespace GR.Model.Book
 			set { iv = value; NotifyChanged( "IsFav" ); }
 		}
 
-		private string TitleRaw = "";
-		public string Title
-		{
-			get { return TitleRaw; }
-			set { TitleRaw = value; NotifyChanged( "Title" ); }
-		}
-
-		private DateTime LastCacheRaw;
 		public DateTime LastCache
 		{
-			get { return LastCacheRaw; }
-			set { LastCacheRaw = value; NotifyChanged( "LastCache" ); }
+			get { return DateModified; }
+			set { DateModified = value; NotifyChanged( "LastCache" ); }
 		}
 
-		public string Description { get; set; }
-		public string LatestSection { get; set; }
-		public string OriginalUrl { get; set; }
 		public HashSet<string> Others { get; set; }
 
-		private string TodayHitCountRaw = "";
 		public string TodayHitCount
 		{
-			get { return DisplayString( TodayHitCountRaw, BookInfo.DailyHitsCount ); }
-			set { TodayHitCountRaw = value; NotifyChanged( "TodayHitCount" ); }
+			get { return DisplayString( Info.TodayHitCount, BookInfo.DailyHitsCount ); }
+			set { Info.TodayHitCount = value; NotifyChanged( "TodayHitCount" ); }
 		}
 
-		private string TotalHitCountRaw = "";
 		public string TotalHitCount
 		{
-			get { return DisplayString( TotalHitCountRaw, BookInfo.TotalHitsCount ); }
-			set { TotalHitCountRaw = value; NotifyChanged( "TotalHitCount" ); }
+			get { return DisplayString( Info.TotalHitCount, BookInfo.TotalHitsCount ); }
+			set { Info.TotalHitCount = value; NotifyChanged( "TotalHitCount" ); }
 		}
 
-
-		private string FavCountRaw = "";
 		public string FavCount
 		{
-			get { return DisplayString( FavCountRaw, BookInfo.FavCount ); }
-			set { FavCountRaw = value; NotifyChanged( "FavCount" ); }
+			get { return DisplayString( Info.FavCount, BookInfo.FavCount ); }
+			set { Info.FavCount = value; NotifyChanged( "FavCount" ); }
 		}
 
-		private string PushCountRaw = "";
 		public string PushCount
 		{
-			get { return DisplayString( PushCountRaw, BookInfo.PushCount ); }
-			set { PushCountRaw = value; NotifyChanged( "PushCount" ); }
+			get { return DisplayString( Info.PushCount, BookInfo.PushCount ); }
+			set { Info.PushCount = value; NotifyChanged( "PushCount" ); }
 		}
 
 		// Assesed by BookInfoView for LocalBookStorage
-		internal string RecentUpdateRaw { get; private set; }
 		public string RecentUpdate
 		{
-			get { return DisplayString( RecentUpdateRaw, BookInfo.Date ); }
-			set { RecentUpdateRaw = value; NotifyChanged( "RecentUpdate", "UpdateStatus" ); }
+			get { return DisplayString( Info.RecentUpdate, BookInfo.Date ); }
+			set { Info.RecentUpdate = value; NotifyChanged( "RecentUpdate", "UpdateStatus" ); }
+		}
+
+		public string LatestSection
+		{
+			get { return DisplayString( Info.LatestSection, BookInfo.LatestSection ); }
+			set { Info.LatestSection = value; NotifyChanged( "LatestSection" ); }
 		}
 
 		public string UpdateStatus
 		{
-			get { return DisplayString( RecentUpdateRaw, BookInfo.Date, "( " + Status + " ) " ); }
+			get { return DisplayString( Info.RecentUpdate, BookInfo.Date, "( " + Status + " ) " ); }
 		}
 
 		// Accesed by BookInfoView for Author Search
-		internal string AuthorRaw { get; private set; }
 		public string Author
 		{
-			get { return DisplayString( AuthorRaw, BookInfo.Author ); }
-			set { AuthorRaw = value; NotifyChanged( "Author" ); }
+			get { return DisplayString( Info.Author, BookInfo.Author ); }
+			set { Info.Author = value; NotifyChanged( "Author" ); }
 		}
 
 		// Accessed by BookInfoView for ScirptUpload
-		internal string PressRaw = "";
 		public string Press
 		{
-			get { return DisplayString( PressRaw, BookInfo.Press ); }
-			set { PressRaw = value; NotifyChanged( "Press" ); }
+			get { return DisplayString( Info.Press, BookInfo.Press ); }
+			set { Info.Press = value; NotifyChanged( "Press" ); }
 		}
 
-		private string IntroRaw = "";
+		private string _IntroError;
 		public string Intro
 		{
 			get
 			{
-				return Shared.Storage.FileExists( IntroPath )
-				  ? Shared.Storage.GetString( IntroPath )
-				  : IntroRaw
-				  ;
+				if ( !string.IsNullOrEmpty( _IntroError ) )
+					return _IntroError;
+
+				return string.IsNullOrEmpty( Info.LongDescription ) ? Description : Info.LongDescription;
 			}
 			set
 			{
-				IntroRaw = value;
+				Info.LongDescription = value;
 				NotifyChanged( "Intro" );
 			}
 		}
 
-		private string st = "";
 		public string Status
 		{
 			get
 			{
-				int temp;
-				if ( !int.TryParse( st, out temp ) )
-					return st;
-				return ( temp == 0 ) ? Res.Text( "Status_Active" ) : Res.Text( "Status_Ended;" );
+				if ( int.TryParse( Info.Status, out int temp ) )
+				{
+					return ( temp == 0 ) ? Res.Text( "Status_Active" ) : Res.Text( "Status_Ended;" );
+				}
+				return Info.Status;
 			}
-			set { st = value; NotifyChanged( "UpdateStatus", "Status", "StatusLong" ); }
+			set { Info.Status = value; NotifyChanged( "UpdateStatus", "Status", "StatusLong" ); }
 		}
 		public string StatusLong
 		{
 			get { return DisplayString( Status, BookInfo.Status ); }
 		}
 
-		private string LengthRaw = "";
 		public string Length
 		{
-			get { return DisplayString( LengthRaw, BookInfo.Length ); }
-			set { LengthRaw = value; NotifyChanged( "Length" ); }
+			get { return DisplayString( Info.Length, BookInfo.Length ); }
+			set { Info.Length = value; NotifyChanged( "Length" ); }
 		}
 
 		public string PlainTextInfo
@@ -153,7 +137,7 @@ namespace GR.Model.Book
 			{
 				string Content = "";
 				Content += TypeName( BookInfo.Title ) + ": " + Title;
-				Content += "\nCover: " + CoverSrcUrl;
+				Content += "\nCover: " + Info.CoverSrcUrl;
 				Content += "\n" + Author;
 				Content += "\n" + RecentUpdate;
 				Content += "\n" + TotalHitCount;

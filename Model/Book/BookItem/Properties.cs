@@ -1,12 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 
 using Net.Astropenguin.DataModel;
+using Net.Astropenguin.Helpers;
 using Net.Astropenguin.Loaders;
 
 namespace GR.Model.Book
 {
+	using Database.Models;
 	using Ext;
 	using ListItem;
 	using Resources;
@@ -31,8 +34,25 @@ namespace GR.Model.Book
 		Intro = 8192,
 	}
 
-	abstract partial class BookItem : ActiveData
+	abstract partial class BookItem : Book, IActiveData
 	{
+		public event PropertyChangedEventHandler PropertyChanged;
+
+		protected void NotifyChanged( params string[] Names )
+		{
+			if ( Worker.BackgroundOnly ) return;
+
+			Worker.UIInvoke( () =>
+			{
+				// Must check each time after property changed is called
+				// PropertyChanged may be null after event call
+				foreach ( string Name in Names )
+				{
+					PropertyChanged?.Invoke( this, new PropertyChangedEventArgs( Name ) );
+				}
+			} );
+		}
+
 		public static readonly string ID = typeof( BookItem ).Name;
 
 		private static StringResBg Res { get { return new StringResBg( "Book" ); } }
@@ -40,38 +60,11 @@ namespace GR.Model.Book
 		// For bookPool Indexing
 		public int i { get; protected set; }
 
-		public BookItem( string id )
-			:this()
-		{
-			// Initialize parameters
-			AuthorRaw = RecentUpdateRaw = "";
-			int j;
-			if ( int.TryParse( id, out j ) )
-			{
-				Id = id;
-				i = j;
-
-				try
-				{
-					OriginalUrl = X.Call<string>( XProto.WRequest, "GetBookPage", Id );
-				}
-				catch( Exception ) { }
-			}
-			else
-			{
-				throw new ArgumentException();
-			}
-
-			IsFav = new BookStorage().BookExist( id );
-		}
-
 		// Used by derived class
 		protected BookItem()
 		{
 			Others = new HashSet<string>();
 		}
-
-		virtual public string Id { get; protected set; }
 
 		public string CoverPath
 		{
@@ -84,7 +77,7 @@ namespace GR.Model.Book
 			{
 				// Since the path are always the same but the underlying
 				// file may change
-				// We need a different object reference is each time for
+				// We need a different object reference each time for
 				// notifying changes
 				return Shared.Storage.FileExists( CoverPath )
 					? new NameValue<string>( "Cover", CoverPath )
@@ -92,16 +85,9 @@ namespace GR.Model.Book
 			}
 		}
 
-		public string CoverSrcUrl = null;
-
 		public string BannerPath
 		{
 			get { return FileLinks.ROOT_BANNER + Id + ".jpg"; }
-		}
-
-		public string IntroPath
-		{
-			get { return FileLinks.ROOT_INTRO + Id + ".txt"; }
 		}
 
 		virtual public string VolumeRoot
@@ -123,7 +109,7 @@ namespace GR.Model.Book
 		{
 			get
 			{
-				return Shared.Storage.FileChanged( RecentUpdateRaw, TOCDatePath );
+				return Shared.Storage.FileChanged( Info.RecentUpdate, TOCDatePath );
 			}
 		}
 	}

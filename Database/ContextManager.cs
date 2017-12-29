@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 namespace GR.Database
 {
 	using Contexts;
+
 	class ContextManager
 	{
 		private static Type[] Contexts = new Type[]{
@@ -25,8 +26,7 @@ namespace GR.Database
 				}
 			}
 
-			GR.Migrations.MigrateGR.Start();
+			Migrations.MigrateGR.Start();
 		}
-
 	}
 }

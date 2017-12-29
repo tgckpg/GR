@@ -10,7 +10,7 @@ namespace GR.Ext
 	{
 		public const string Init = "wenku8_protocol.Init, wenku8-protocol"; 
 		public const string LibStart = "wenku8_protocol.LibStart, wenku8-protocol"; 
-		public const string Verification = "wenku8.System.Verification, wenku8-protocol";
+		public const string Verification = "wenku8.GSystem.Verification, wenku8-protocol";
 
 		public const string BookItemEx = "wenku8.Model.Book.BookItemEx, wenku8-protocol";
 		public const string DeathBook = "wenku8.Model.Book.DeathBook, wenku8-protocol";
@@ -21,7 +21,7 @@ namespace GR.Ext
 		public const string WProtocols = "wenku8.Settings.WProtocols, wenku8-protocol";
 		public const string WException = "wenku8.System.WException, wenku8-protocol";
 		public const string WCode = "wenku8.System.WCode, wenku8-protocol";
-		public const string ServerSelector = "wenku8.System.ServerSelector, wenku8-protocol";
+		public const string ServerSelector = "wenku8.GSystem.ServerSelector, wenku8-protocol";
 
 		public const string FavSection = "wenku8.Model.Section.FavSection, wenku8-protocol";
 		public const string NavListSection = "wenku8.Model.Section.NavListSection, wenku8-protocol";

@@ -19,44 +19,31 @@ namespace GR.Model.Book.Spider
 
 	sealed class BookInstruction : BookItem, IInstructionSet
 	{
-		private string _ssid; // Save Sub Id
-
-		// Id may either be:
-		// 1. base.Id( Book Id )
-		// 2. base.Id( Zone Id ) + _SSId( "/" + Id for Zone Item )
-		public override string Id
-		{
-			get { return base.Id + _ssid; }
-		}
-
 		private ProcManager BSReference;
 		public XParameter BookSpiderDef
 		{
 			get { return BSReference.ToXParam( Id ); }
 		}
 
-
-		private string _SId;
 		public string SId
 		{
-			get { return _SId; }
+			get { return ZItemId; }
 			private set
 			{
-				_SId = value;
 				if ( string.IsNullOrEmpty( value ) )
 				{
-					_ssid = value;
+					ZItemId = value;
 				}
 				else
 				{
-					SetSSID( GSystem.Utils.Md5( value ).Substring( 0, 8 ) );
+					ZItemId = GSystem.Utils.Md5( value ).Substring( 0, 8 );
 				}
 			}
 		}
 
 		public override string VolumeRoot
 		{
-			get { return FileLinks.ROOT_SPIDER_VOL + Id + "/"; }
+			get { return FileLinks.ROOT_SPIDER_VOL + ZoneId + "/" + ZItemId + "/"; }
 		}
 
 		private SortedDictionary<int, ConvoyInstructionSet> Insts;
@@ -100,15 +87,12 @@ namespace GR.Model.Book.Spider
 
 		public BookInstruction( string ZoneId, string ssid )
 		{
-			Id = ZoneId;
-			SetSSID( ssid );
+			this.ZoneId = ZoneId;
+			ZItemId = ssid;
 		}
 
 		// This will be set on Selecting Zone Item
 		public void SetId( string Id ) { this.Id = Id; }
-
-		// This will create subdirectories for <Zone Id>/<ZoneItem Id>
-		private void SetSSID( string Id ) { _ssid = "/" + Id; }
 
 		// This will be set on Crawling
 		public void PlaceDefs( string SId, ProcManager BookSpider )
@@ -255,32 +239,6 @@ namespace GR.Model.Book.Spider
 				.Remap( x => ( x as VolInstruction ).ToVolume( Id ) )
 				.Distinct( new VolDistinct() )
 				.ToArray();
-		}
-
-		public override void ReadInfo( XRegistry XReg )
-		{
-			base.ReadInfo( XReg );
-
-			XParameter Param = XReg.Parameter( "METADATA" );
-
-			SId = Param?.GetValue( "sid" );
-
-			if ( !string.IsNullOrEmpty( _ssid ) )
-			{
-				// base.Id need to be chopped if sid present
-				base.Id = base.Id.Replace( _ssid, "" );
-			}
-		}
-
-		public override void SaveInfo( XRegistry XReg )
-		{
-			XParameter Param = XReg.Parameter( "METADATA" );
-			if( Param == null ) Param = new XParameter( "METADATA" );
-
-			Param.SetValue( new XKey( "sid", SId ) );
-			XReg.SetParameter( Param );
-
-			base.SaveInfo( XReg );
 		}
 
 		private class VolDistinct : IEqualityComparer<Volume>

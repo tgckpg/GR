@@ -96,21 +96,23 @@
     <Compile Include="Converters\HistoryThumbConverter.cs" />
     <Compile Include="Converters\FuzzyTimeInterval.cs" />
     <Compile Include="Database\ContextManager.cs" />
-    <Compile Include="Database\Contexts\Book.cs" />
+    <Compile Include="Database\Contexts\Books.cs" />
     <Compile Include="Database\Contexts\Settings.cs" />
     <Compile Include="Database\GRMigrationProviders.cs" />
     <Compile Include="Database\Models.cs" />
-    <Compile Include="Database\Models\Books.cs" />
+    <Compile Include="Database\Models\Book.cs" />
     <Compile Include="Database\Models\GenericSettings.cs" />
     <Compile Include="Database\Schema\AutoNow.cs" />
+    <Compile Include="Database\Schema\DbHashSet.cs" />
+    <Compile Include="Database\Schema\ModelExt.cs" />
     <Compile Include="Effects\Stage\RandomStripe.cs" />
     <Compile Include="Ext\IDeathblow.cs" />
-    <Compile Include="Migrations\MigrateGR.cs" />
-    <Compile Include="Migrations\Books\20171220031449_Initial.cs" />
-    <Compile Include="Migrations\Books\20171220031449_Initial.designer.cs">
-      <DependentUpon>20171220031449_Initial.cs</DependentUpon>
+    <Compile Include="Migrations\Books\20171229050413_Initial.cs" />
+    <Compile Include="Migrations\Books\20171229050413_Initial.designer.cs">
+      <DependentUpon>20171229050413_Initial.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Books\BooksContextModelSnapshot.cs" />
+    <Compile Include="Migrations\MigrateGR.cs" />
     <Compile Include="Migrations\Settings\20171220031758_Initial.cs" />
     <Compile Include="Migrations\Settings\20171220031758_Initial.designer.cs">
       <DependentUpon>20171220031758_Initial.cs</DependentUpon>

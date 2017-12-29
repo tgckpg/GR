@@ -1,16 +1,23 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
+using Microsoft.EntityFrameworkCore.Metadata;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.UI.Xaml;
 
 using Net.Astropenguin.Helpers;
 using Net.Astropenguin.Loaders;
+using Net.Astropenguin.Logging;
 using Net.Astropenguin.Messaging;
 
 namespace GR.Resources
 {
 	using CompositeElement;
+	using Database.Contexts;
+	using Database.Models;
 	using Model;
 	using Model.Book;
 	using Model.REST;
@@ -32,6 +39,29 @@ namespace GR.Resources
 		private static StringResources LoadMesgRes;
 
 		public static TradChinese TC;
+
+		private static BooksContext _Books;
+		public static BooksContext BooksDb
+		{
+			get
+			{
+				if ( _Books == null )
+				{
+					_Books = new BooksContext();
+				}
+				return _Books;
+			}
+		}
+
+		internal static Book QueryBook( string id )
+		{
+			Book Bk = BooksDb.Books.Find( id );
+			if ( Bk != null )
+			{
+				BooksDb.Entry( Bk ).Reference( b => b.Info ).Load();
+			}
+			return Bk;
+		}
 
 		public static void LoadMessage( string MESG_ID, params string[] args )
 		{

@@ -1,5 +1,6 @@
 ﻿using GR.Database.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore.Migrations;
 using System;
 using System.Collections.Generic;
@@ -19,6 +20,14 @@ namespace GR.Database.Contexts
 			optionsBuilder.UseSqlite( "Data Source=books.db" );
 			optionsBuilder.ReplaceService<IMigrationsSqlGenerator, GRMigrationsSqlGenerator>();
 			optionsBuilder.ReplaceService<IMigrationsAnnotationProvider, GRMigrationsAnnotationProvider>();
+		}
+
+		protected override void OnModelCreating( ModelBuilder modelBuilder )
+		{
+			EntityTypeBuilder<Book> BookEntity = modelBuilder.Entity<Book>();
+			BookEntity.HasIndex( b => b.ZoneId );
+			BookEntity.HasIndex( b => b.ZItemId );
+			BookEntity.HasIndex( b => b.Title );
 		}
 	}
 }

@@ -7,29 +7,10 @@ using Windows.UI.Xaml;
 
 namespace GR.Effects
 {
-	sealed class NTimer : DispatcherTimer
+	sealed class NTimer
 	{
-		private NTimer() : base() { }
-
 		private static readonly Random R = new Random();
 		private static readonly object SyncLock = new object();
-
-		private static NTimer __instance;
-		public static NTimer Instance
-		{
-			get
-			{
-				if ( __instance == null )
-				{
-					lock ( SyncLock )
-					{
-						__instance = new NTimer();
-					}
-				}
-
-				return __instance;
-			}
-		}
 
 		public static double RandDouble()
 		{

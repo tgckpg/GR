@@ -10,6 +10,7 @@ using Net.Astropenguin.Logging;
 
 namespace GR.Model.Book
 {
+	using Database.Schema;
 	using Effects;
 	using Resources;
 	using Settings;
@@ -19,6 +20,12 @@ namespace GR.Model.Book
 		public static string TypeName( BookInfo InfoType )
 		{
 			return Res.Text( InfoType.ToString() );
+		}
+
+		public void IntroError( string Msg )
+		{
+			_IntroError = Msg;
+			NotifyChanged( "Intro" );
 		}
 
 		public bool ParseXml( string xml )
@@ -54,7 +61,7 @@ namespace GR.Model.Book
 				case AppKeys.XML_BMTA_LSECTION: LatestSection = CDATA; return true;
 				case AppKeys.XML_BINF_INTROPRV: Description = CDATA; return true;
 				case AppKeys.BINF_INTRO: Intro = Value; return true;
-				case AppKeys.BINF_ORGURL: OriginalUrl = Value; return true;
+				case AppKeys.BINF_ORGURL: Info.OriginalUrl = Value; return true;
 				// Special for spider, push content properties
 				case AppKeys.BINF_OTHERS: Others.Add( Value ); return true;
 
@@ -62,7 +69,7 @@ namespace GR.Model.Book
 					try
 					{
 						new Uri( Value );
-						CoverSrcUrl = Value;
+						Info.CoverSrcUrl = Value;
 						return true;
 					}
 					catch ( Exception )
@@ -93,39 +100,31 @@ namespace GR.Model.Book
 
 		abstract public Volume[] GetVolumes();
 
+		virtual public void SaveInfo()
+		{
+			// XXX
+			// We've no choice, since this is not supported by the EF
+			// Hopefully we'll be able to rewrite the entire BookItem into Extension methods
+			// For now we'll just copy the data and proceed the update
+
+			Database.Models.Book Bk = Shared.BooksDb.Books.Find( Id );
+			if ( Bk == null )
+			{
+				Bk = new Database.Models.Book();
+				Bk.CopyFrom( this );
+				Shared.BooksDb.Books.Add( Bk );
+			}
+			else
+			{
+				Bk.CopyFrom( this );
+				Shared.BooksDb.Books.Update( Bk );
+			}
+			Shared.BooksDb.SaveChanges();
+		}
+
 		virtual public void SaveInfo( XRegistry XReg )
 		{
-			XParameter Param = XReg.Parameter( "METADATA" );
-			if( Param == null ) Param = new XParameter( "METADATA" );
-
-			Param.SetValue( new XKey[]
-			{
-				new XKey( "Title", Title )
-				, new XKey( "Author", AuthorRaw )
-				, new XKey( "RecentUpdate", RecentUpdateRaw )
-				, new XKey( "TotalHitCount", TotalHitCountRaw )
-				, new XKey( "TodayHitCount", TodayHitCountRaw )
-				, new XKey( "PushCount", PushCountRaw )
-				, new XKey( "FavCount", FavCountRaw )
-				, new XKey( "Length", LengthRaw )
-				, new XKey( "LatestSection", LatestSection )
-				, new XKey( "Press", PressRaw )
-				, new XKey( "Intro", IntroRaw )
-				, new XKey( "OriginalUrl", OriginalUrl )
-				, new XKey( "CoverSrcUrl", CoverSrcUrl )
-			} );
-
-			int i = 0;
-			foreach( string S in Others )
-			{
-				XParameter OtherParam = new XParameter( "others" );
-				OtherParam.Id += i++;
-				OtherParam.SetValue( new XKey( "other", S ) );
-				Param.SetParameter( OtherParam );
-			}
-
-			XReg.SetParameter( Param );
-			XReg.Save();
+			throw new NotSupportedException();
 		}
 
 		virtual public void ReadInfo( XRegistry XReg )
@@ -133,19 +132,8 @@ namespace GR.Model.Book
 			XParameter Param = XReg.Parameter( "METADATA" );
 			if ( Param == null ) return;
 
-			Title = Param.GetValue( "Title" );
-			Author = Param.GetValue( "Author" );
-			RecentUpdate = Param.GetValue( "RecentUpdate" );
-			TotalHitCount = Param.GetValue( "TotalHitCount" );
-			TodayHitCount = Param.GetValue( "TodayHitCount" );
-			PushCount = Param.GetValue( "PushCount" );
-			FavCount = Param.GetValue( "FavCount" );
-			Length = Param.GetValue( "Length" );
-			LatestSection = Param.GetValue( "LatestSection" );
-			Press = Param.GetValue( "Press" );
-			Intro = Param.GetValue( "Intro" );
-			CoverSrcUrl = Param.GetValue( "CoverSrcUrl" );
-			OriginalUrl = Param.GetValue( "OriginalUrl" );
+			Info = Shared.BooksDb.BookInfo.FirstOrDefault( x => x.BookId == Id );
+			if ( Info == null ) Info = new Database.Models.BookInfo();
 
 			XParameter[] OtherParams = Param.Parameters( "others" );
 			foreach ( XParameter OtherParam in OtherParams )
@@ -168,7 +156,7 @@ namespace GR.Model.Book
 			LatestSection = B.LatestSection;
 			Press = B.Press;
 			Intro = B.Intro;
-			OriginalUrl = B.OriginalUrl;
+			Info.OriginalUrl = B.Info.OriginalUrl;
 			Others = B.Others;
 		}
 
@@ -193,7 +181,7 @@ namespace GR.Model.Book
 				+ "\nEum eos sapiente voluptatem. Expedita hic at pariatur repellat.Praesentium dolorem eos quasi voluptatibus optio distinctio ea. Ea modi qui quam sapiente.Debitis enim facere odit dolor impedit. Tempore et quia fugiat hic atque nostrum neque earum."
 				+ "\nVitae consequuntur ducimus aut dolore repellat sint.Ab quos dolores facere. Et sit ea rerum aut minima. Fuga sequi iure sunt tempore quia error dolorem. Nulla modi distinctio sit corrupti et et omnis laboriosam.Qui est ratione nesciunt et officia.";
 
-			Book.OriginalUrl = "https://blog.astropenguin.net/";
+			Book.Info.OriginalUrl = "https://blog.astropenguin.net/";
 
 			Book.Others.Add( "Others 1" );
 			Book.Others.Add( "Others 2" );

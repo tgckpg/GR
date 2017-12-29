@@ -12,6 +12,6 @@ namespace GR.Ext
 	interface IPaneInfoSection
 	{
 		event PropertyChangedEventHandler PropertyChanged;
-		IEnumerable<ActiveData> Data { get; set; }
+		IEnumerable<IActiveData> Data { get; set; }
 	}
 }
