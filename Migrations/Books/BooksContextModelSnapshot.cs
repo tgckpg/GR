@@ -18,14 +18,12 @@ namespace GR.Migrations.Books
 
             modelBuilder.Entity("GR.Database.Models.Book", b =>
                 {
-                    b.Property<string>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
                     b.Property<DateTime>("DateModified");
 
                     b.Property<string>("Description");
-
-                    b.Property<string>("InfoBookId");
 
                     b.Property<byte>("TextLayout");
 
@@ -41,8 +39,6 @@ namespace GR.Migrations.Books
 
                     b.HasKey("Id");
 
-                    b.HasIndex("InfoBookId");
-
                     b.HasIndex("Title");
 
                     b.HasIndex("ZItemId");
@@ -54,10 +50,12 @@ namespace GR.Migrations.Books
 
             modelBuilder.Entity("GR.Database.Models.BookInfo", b =>
                 {
-                    b.Property<string>("BookId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("Author");
+
+                    b.Property<int>("BookId");
 
                     b.Property<string>("CoverSrcUrl");
 
@@ -93,7 +91,10 @@ namespace GR.Migrations.Books
 
                     b.Property<string>("UpdateStatus");
 
-                    b.HasKey("BookId");
+                    b.HasKey("Id");
+
+                    b.HasIndex("BookId")
+                        .IsUnique();
 
                     b.ToTable("BookInfo");
                 });
@@ -103,33 +104,73 @@ namespace GR.Migrations.Books
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("Content");
+                    b.Property<int>("BookId");
 
                     b.Property<DateTime>("DateModified");
 
                     b.Property<int>("Index");
 
+                    b.Property<string>("Json_Meta");
+
                     b.Property<string>("Title");
 
-                    b.Property<string>("VolumeId");
+                    b.Property<int>("VolumeId");
 
                     b.HasKey("Id");
 
+                    b.HasIndex("BookId");
+
                     b.HasIndex("VolumeId");
 
-                    b.ToTable("Chapter");
+                    b.ToTable("Chapters");
+                });
+
+            modelBuilder.Entity("GR.Database.Models.ChapterContent", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("ChapterId");
+
+                    b.Property<string>("Text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ChapterId")
+                        .IsUnique();
+
+                    b.ToTable("ChapterContents");
+                });
+
+            modelBuilder.Entity("GR.Database.Models.ChapterImage", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("ChapterId");
+
+                    b.Property<string>("Json_Urls");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ChapterId")
+                        .IsUnique();
+
+                    b.ToTable("ChapterImages");
                 });
 
             modelBuilder.Entity("GR.Database.Models.Volume", b =>
                 {
-                    b.Property<string>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("BookId");
+                    b.Property<int>("BookId");
 
                     b.Property<DateTime>("DateModified");
 
                     b.Property<int>("Index");
+
+                    b.Property<string>("Json_Meta");
 
                     b.Property<string>("Title");
 
@@ -137,28 +178,52 @@ namespace GR.Migrations.Books
 
                     b.HasIndex("BookId");
 
-                    b.ToTable("Volume");
+                    b.ToTable("Volumes");
                 });
 
-            modelBuilder.Entity("GR.Database.Models.Book", b =>
+            modelBuilder.Entity("GR.Database.Models.BookInfo", b =>
                 {
-                    b.HasOne("GR.Database.Models.BookInfo", "Info")
-                        .WithMany()
-                        .HasForeignKey("InfoBookId");
+                    b.HasOne("GR.Database.Models.Book", "Book")
+                        .WithOne("Info")
+                        .HasForeignKey("GR.Database.Models.BookInfo", "BookId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("GR.Database.Models.Chapter", b =>
                 {
-                    b.HasOne("GR.Database.Models.Volume")
+                    b.HasOne("GR.Database.Models.Book", "Book")
+                        .WithMany()
+                        .HasForeignKey("BookId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("GR.Database.Models.Volume", "Volume")
                         .WithMany("Chapters")
-                        .HasForeignKey("VolumeId");
+                        .HasForeignKey("VolumeId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("GR.Database.Models.ChapterContent", b =>
+                {
+                    b.HasOne("GR.Database.Models.Chapter", "Chapter")
+                        .WithOne("Content")
+                        .HasForeignKey("GR.Database.Models.ChapterContent", "ChapterId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("GR.Database.Models.ChapterImage", b =>
+                {
+                    b.HasOne("GR.Database.Models.Chapter", "Chapter")
+                        .WithOne("Image")
+                        .HasForeignKey("GR.Database.Models.ChapterImage", "ChapterId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("GR.Database.Models.Volume", b =>
                 {
-                    b.HasOne("GR.Database.Models.Book")
+                    b.HasOne("GR.Database.Models.Book", "Book")
                         .WithMany("Volumes")
-                        .HasForeignKey("BookId");
+                        .HasForeignKey("BookId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
         }
     }

@@ -9,16 +9,17 @@ using libtaotu.Models.Procedure;
 
 namespace GR.Model.Book.Spider
 {
-	sealed class SVolume : Volume
+	using Database.Models;
+
+	sealed class SVolume
 	{
 		public VolInstruction Inst { get; private set; }
 
 		public StorageFile TempFile { get; private set; }
 
 		public SVolume( VolInstruction Inst, string vid, string aid, Chapter[] C )
-			:base( vid, false, Inst.Title, C )
 		{
-			this.Inst = Inst;
+			throw new NotImplementedException();
 		}
 
 		public async Task SubProcRun( BookInstruction BInst )

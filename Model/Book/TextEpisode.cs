@@ -35,7 +35,9 @@ namespace GR.Model.Book
 		public async Task Save( string vid )
 		{
 			MessageBus.SendUI( typeof( ListItem.LocalBook ), "Saving ... " + Title, aid );
-			await new ContentParser().OrganizeBookContent( Content, new LocalChapter( Title, aid, vid, id ) );
+			throw new NotImplementedException();
+
+			// await new ContentParser().ParseAsync( Content, new Chapter( Title, aid, vid, id ) );
 		}
 
 		public void Push( string p )

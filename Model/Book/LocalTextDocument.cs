@@ -10,9 +10,8 @@ using Net.Astropenguin.Messaging;
 
 namespace GR.Model.Book
 {
-	using Config;
+	using Database.Models;
 	using Settings;
-	using Resources;
 
 	sealed class LocalTextDocument : BookItem
 	{
@@ -23,18 +22,14 @@ namespace GR.Model.Book
 		public bool IsValid { get; private set; }
 
 		private List<TextEpisode> Episodes;
-		private List<TextVolume> Volumes;
 
 		private XRegistry BookReg;
 		public LocalTextDocument( string id )
+			:base( "l", BookType.L, id )
 		{
-			this.Id = id;
 			BookReg = new XRegistry( "<BookMeta />", MetaLocation );
-
 			TryGetInformation();
 		}
-
-		public LocalTextDocument( LocalChapter C ) : this( C.aid ) { }
 
 		private void TryGetInformation()
 		{
@@ -74,7 +69,7 @@ namespace GR.Model.Book
 							{
 								TDoc.Episodes.Add( Ep );
 							}
-							Ep = new TextEpisode( TDoc.Id, s.Trim() );
+							Ep = new TextEpisode( aid, s.Trim() );
 							continue;
 						}
 					}
@@ -105,14 +100,10 @@ namespace GR.Model.Book
 
 		public async Task Save()
 		{
-			foreach( TextVolume Vol in Volumes )
+			foreach( Volume Vol in Volumes )
 			{
-				BookReg.SetParameter( Vol.id, new XKey[] {
-					new XKey( AppKeys.GLOBAL_VID, true )
-					, new XKey( AppKeys.GLOBAL_NAME, Vol.Title )
-				} );
-
-				await Vol.Save();
+				throw new NotImplementedException();
+				// await Vol.Save();
 			}
 
 			BookReg.SetParameter( AppKeys.GLOBAL_META, new XKey( AppKeys.GLOBAL_NAME, Title ) );
@@ -124,7 +115,7 @@ namespace GR.Model.Book
 		private async Task GuessVolTitle()
 		{
 			Logger.Log( ID, "Guessing Volumes for: " + Title, LogType.DEBUG );
-			Volumes = new List<TextVolume>();
+			Entry.Volumes = new List<Volume>();
 
 			IEnumerable<TextEpisode> OEps = Episodes.Where( x => true );
 			while ( 0 < OEps.Count() )
@@ -180,7 +171,7 @@ namespace GR.Model.Book
 			}
 		}
 
-		private TextVolume ProcessVolume( string aid, IEnumerable<TextEpisode> VolGroup, int i )
+		private Volume ProcessVolume( int aid, IEnumerable<TextEpisode> VolGroup, int i )
 		{
 			string VolTitle = VolGroup.First().Title;
 			if( 0 < i ) VolTitle = VolTitle.Substring( 0, i );
@@ -188,21 +179,7 @@ namespace GR.Model.Book
 			Logger.Log( ID, "Guess this is a Volume: " + VolTitle, LogType.DEBUG );
 			MessageBus.SendUI( typeof( ListItem.LocalBook ), VolTitle, aid );
 
-			return new TextVolume( aid, VolTitle, VolGroup );
-		}
-
-		override public Volume[] GetVolumes()
-		{
-			XParameter[] Params = BookReg.Parameters( AppKeys.GLOBAL_VID );
-
-			List<Volume> Vols = new List<Volume>();
-			foreach( XParameter Param in Params )
-			{
-				TextVolume TVol = new TextVolume( Id, Param.Id );
-				Vols.Add( new Volume( Param.Id, false, TVol.Title, TVol.GetChapters() ) );
-			}
-
-			return Vols.ToArray();
+			return new Volume() { BookId = aid, Title = VolTitle };
 		}
 	}
 }

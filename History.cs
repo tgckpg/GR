@@ -34,7 +34,7 @@ namespace GR
 			DateTime d = DateTime.Now.ToUniversalTime();
 			Logger.Log( ID, "Date: " + d.ToString(), LogType.DEBUG );
 			Registry.SetParameter(
-				b.Id
+				b.GID
 				, new XKey[] {
 					new XKey( AppKeys.GLOBAL_NAME, b.Title )
 					, new XKey( AppKeys.LBS_DATE, d.ToString() )

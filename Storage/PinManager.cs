@@ -84,7 +84,7 @@ namespace GR.Storage
 
 		public void RegPin( BookItem Book, string TileId, bool Save = true )
 		{
-			LocalPins.SetParameter( Book.Id, new XKey[]
+			LocalPins.SetParameter( Book.GID, new XKey[]
 			{
 				new XKey( AppKeys.GLOBAL_NAME, Book.Title )
 				, new XKey( AppKeys.GLOBAL_RID, TileId )

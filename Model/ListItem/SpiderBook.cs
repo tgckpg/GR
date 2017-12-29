@@ -84,7 +84,7 @@ namespace GR.Model.ListItem
 		public SpiderBook( BookInstruction BInst )
 		{
 			this.BInst = BInst;
-			aid = BInst.Id;
+			aid = BInst.ZItemId;
 
 			CanProcess = true;
 
@@ -118,7 +118,7 @@ namespace GR.Model.ListItem
 		{
 			SpiderBook Book = new SpiderBook();
 
-			Book.aid = BInst.Id;
+			Book.aid = BInst.ZItemId;
 			Book.PSettings = new XRegistry( "<ProcSpider />", Book.MetaLocation, false );
 			Book.PSettings.SetParameter( BInst.BookSpiderDef );
 

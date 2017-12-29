@@ -14,6 +14,10 @@ namespace GR.Database.Contexts
 	{
 		public DbSet<Book> Books { get; set; }
 		public DbSet<BookInfo> BookInfo { get; set; }
+		public DbSet<Volume> Volumes { get; set; }
+		public DbSet<Chapter> Chapters { get; set; }
+		public DbSet<ChapterImage> ChapterImages { get; set; }
+		public DbSet<ChapterContent> ChapterContents { get; set; }
 
 		protected override void OnConfiguring( DbContextOptionsBuilder optionsBuilder )
 		{

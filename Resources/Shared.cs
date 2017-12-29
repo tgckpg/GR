@@ -53,7 +53,7 @@ namespace GR.Resources
 			}
 		}
 
-		internal static Book QueryBook( string id )
+		public static Book QueryBook( string id )
 		{
 			Book Bk = BooksDb.Books.Find( id );
 			if ( Bk != null )
@@ -61,6 +61,22 @@ namespace GR.Resources
 				BooksDb.Entry( Bk ).Reference( b => b.Info ).Load();
 			}
 			return Bk;
+		}
+
+		public static Book QueryBook( string ZoneId, string ZItemId, BookType SrcType )
+		{
+			Book Bk = BooksDb.Books.FirstOrDefault( b => b.ZoneId == ZoneId && b.ZItemId == ZItemId && b.Type == SrcType );
+			if ( Bk != null )
+			{
+				BooksDb.Entry( Bk ).Reference( b => b.Info ).Load();
+			}
+			return Bk;
+		}
+
+		public static bool ContentExists( Chapter C )
+		{
+			throw new NotImplementedException();
+			return false;
 		}
 
 		public static void LoadMessage( string MESG_ID, params string[] args )

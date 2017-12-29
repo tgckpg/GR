@@ -13,6 +13,7 @@ using Net.Astropenguin.IO;
 
 namespace GR.Model.Book.Spider
 {
+	using Database.Models;
 	using Interfaces;
 	using ListItem;
 	using Settings;
@@ -22,7 +23,7 @@ namespace GR.Model.Book.Spider
 		private ProcManager BSReference;
 		public XParameter BookSpiderDef
 		{
-			get { return BSReference.ToXParam( Id ); }
+			get { return BSReference.ToXParam( GID ); }
 		}
 
 		public string SId
@@ -63,36 +64,25 @@ namespace GR.Model.Book.Spider
 			}
 		}
 
-		public BookInstruction()
+		public BookInstruction( string Uid = null )
+			: base( null, BookType.S, Uid ?? Guid.NewGuid().ToString() )
 		{
 			Insts = new SortedDictionary<int, ConvoyInstructionSet>();
-			Id = Guid.NewGuid().ToString();
 		}
 
-		public BookInstruction( SChapter C )
-			: this()
+		public BookInstruction( string Uid, XRegistry Settings )
+			: this( Uid )
 		{
-			Id = C.aid;
-			SpiderBook Sb = new SpiderBook( this );
-			ReadInfo( Sb.PSettings );
-			PackSavedVols( Sb.PSettings );
-		}
-
-		public BookInstruction( string GUID, XRegistry Settings )
-			: this()
-		{
-			Id = GUID;
 			ReadInfo( Settings );
 		}
 
 		public BookInstruction( string ZoneId, string ssid )
+			: base( ZoneId, BookType.S, ssid )
 		{
-			this.ZoneId = ZoneId;
-			ZItemId = ssid;
 		}
 
 		// This will be set on Selecting Zone Item
-		public void SetId( string Id ) { this.Id = Id; }
+		public void SetId( string Id ) { this.ZoneId = Id; }
 
 		// This will be set on Crawling
 		public void PlaceDefs( string SId, ProcManager BookSpider )
@@ -208,7 +198,10 @@ namespace GR.Model.Book.Spider
 					VParam.SetValue( new XKey( "VInst", true ) );
 
 					int j = 0;
-					foreach ( Chapter C in Vol.ChapterList )
+
+					throw new NotImplementedException();
+					/*
+					foreach ( Chapter C in Vol.Chapters )
 					{
 						SChapter SC = C as SChapter;
 						if ( SC == null ) continue;
@@ -219,6 +212,7 @@ namespace GR.Model.Book.Spider
 
 						VParam.SetParameter( CParam );
 					}
+					*/
 
 					XReg.SetParameter( VParam );
 				}
@@ -236,7 +230,7 @@ namespace GR.Model.Book.Spider
 
 			return Insts.Values
 				.Where( x => x is VolInstruction )
-				.Remap( x => ( x as VolInstruction ).ToVolume( Id ) )
+				.Remap( x => ( x as VolInstruction ).ToVolume( ZItemId ) )
 				.Distinct( new VolDistinct() )
 				.ToArray();
 		}
@@ -245,12 +239,12 @@ namespace GR.Model.Book.Spider
 		{
 			public bool Equals( Volume x, Volume y )
 			{
-				return x.vid == y.vid;
+				return x.Id == y.Id;
 			}
 
 			public int GetHashCode( Volume obj )
 			{
-				return obj.vid.GetHashCode();
+				return obj.Id.GetHashCode();
 			}
 		}
 	}

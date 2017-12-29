@@ -38,11 +38,11 @@ namespace GR.AdvDM
 
 			ServiceReg = new XRegistry( "<bing />", FileLinks.ROOT_SETTING + FileLinks.BING_SERVICE );
 
-			ServParam = ServiceReg.Parameter( Book.Id );
+			ServParam = ServiceReg.Parameter( Book.GID );
 
 			if ( ServParam == null )
 			{
-				ServParam = new XParameter( Book.Id );
+				ServParam = new XParameter( Book.GID );
 				ServParam.SetValue( new XKey( "keyword", DefaultKeyword ) );
 				ServParam.SetValue( new XKey( "offset", 0 ) );
 

@@ -8,7 +8,7 @@ using Net.Astropenguin.Logging;
 
 namespace GR.Model.Loaders
 {
-	using Book;
+	using Database.Models;
 	using Resources;
 	using Settings;
 	using Text;
@@ -17,11 +17,9 @@ namespace GR.Model.Loaders
 	{
 		public static readonly string ID = typeof( ContentParser ).Name;
 
-		public async Task OrganizeBookContent( string e, Chapter C )
+		public Task ParseAsync( string e, Chapter C )
 		{
-			await Task.Run(
-				() => OrganizeBookContent( e, C.ChapterPath, C.IllustrationPath )
-			);
+			return Task.Run( () => Parse( e, C ) );
 		}
 
 		/// <summary>
@@ -30,8 +28,13 @@ namespace GR.Model.Loaders
 		/// <param name="e"> Content </param>
 		/// <param name="path"> Save Location </param>
 		/// <param name="illspath"> Illustraction Location </param>
-		public void OrganizeBookContent( string e, string path, string illspath )
+		private void Parse( string e, Chapter C )
 		{
+			if( C.Content == null )
+			{
+				Shared.BooksDb.Entry( C ).Reference( b => b.Content ).Load();
+			}
+
 			/** WARNING: DO NOT MODIFY THIS LOGIC AS IT WILL MESS WITH THE BOOK ANCHOR **/
 			try
 			{
@@ -53,14 +56,14 @@ namespace GR.Model.Loaders
 				}
 				paragraphs = null;
 
-				string ills;
-				if ( HasExtractedIllustrations( ref content, out ills ) )
-				{
-					Shared.Storage.WriteString( illspath, ills );
-				}
+				ExtractImages( ref content, C );
 
-				// Write Chapter Content
-				Shared.Storage.WriteString( path, Manipulation.PatchSyntax( content ) );
+				if ( C.Content == null )
+					C.Content = new ChapterContent();
+
+				C.Content.Text = Manipulation.PatchSyntax( content );
+
+				Shared.BooksDb.SaveChanges();
 			}
 			catch ( Exception ex )
 			{
@@ -68,16 +71,21 @@ namespace GR.Model.Loaders
 			}
 		}
 
-		private bool HasExtractedIllustrations( ref string content, out string ills )
+		private void ExtractImages( ref string content, Chapter C )
 		{
 			const string token = "<!--image-->";
 			const int tokenl = 12;
 
-			ills = "";
+			if( C.Image == null )
+			{
+				Shared.BooksDb.Entry( C ).Reference( b => b.Image ).Load();
+			}
+
+			ChapterImage ills = C.Image ?? new ChapterImage();
 
 			int i = content.IndexOf( token );
 
-			if ( i == -1 ) return false;
+			if ( i == -1 ) return;
 
 			int nIllus = 0;
 			string Replaced = 0 < i ? content.Substring( 0, i ) : "";
@@ -85,7 +93,8 @@ namespace GR.Model.Loaders
 
 			while ( !( i == -1 || j == -1 ) )
 			{
-				ills += content.Substring( i + tokenl, j - i - tokenl ) + "\n";
+				ills.Urls.Add( content.Substring( i + tokenl, j - i - tokenl ) );
+
 				i = content.IndexOf( token, j + tokenl );
 
 				string ImgFlag = "\n" + AppKeys.ANO_IMG + nIllus.ToString() + "\n";
@@ -107,7 +116,8 @@ namespace GR.Model.Loaders
 
 			content = Replaced;
 
-			return !string.IsNullOrEmpty( ills );
+			if( C.Image != ills )
+				C.Image = ills;
 		}
 	}
 }

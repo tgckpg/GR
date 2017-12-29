@@ -92,7 +92,7 @@ namespace GR.Model.ListItem
 					ProcessSuccess = true;
 
 					Name = Doc.Title;
-					Desc = Doc.Id;
+					Desc = Doc.ZItemId;
 				}
 			} );
 		}
@@ -156,7 +156,7 @@ namespace GR.Model.ListItem
 
 			await L.Save();
 
-			Desc = L.Id;
+			Desc = L.ZItemId;
 		}
 
 		virtual protected void MessageBus_OnDelivery( Message MesgArgs )

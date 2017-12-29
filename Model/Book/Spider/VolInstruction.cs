@@ -55,8 +55,10 @@ namespace GR.Model.Book.Spider
 			base.PushInstruction( Inst );
 		}
 
-		public Volume ToVolume( string aid )
+		public Database.Models.Volume ToVolume( string aid )
 		{
+			throw new NotImplementedException();
+			/*
 			string id = Utils.Md5( Title );
 			return new SVolume(
 				this, id, aid
@@ -65,6 +67,7 @@ namespace GR.Model.Book.Spider
 					.Remap( x => x.ToChapter( aid, id ) )
 					.ToArray()
 			);
+			*/
 		}
 
 		public override XParameter ToXParam()

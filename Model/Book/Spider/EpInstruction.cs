@@ -11,6 +11,8 @@ using Net.Astropenguin.IO;
 
 namespace GR.Model.Book.Spider
 {
+	using Database.Models;
+
 	sealed class EpInstruction : ConvoyInstructionSet
 	{
 		public int Index { get; private set; }
@@ -45,9 +47,14 @@ namespace GR.Model.Book.Spider
 			}
 		}
 
-		public Chapter ToChapter( string aid, string vid )
+		public Chapter ToChapter( Book Bk, Volume Vol )
 		{
-			return new SChapter( this, aid, vid );
+			return new Chapter()
+			{
+				Title = this.Title,
+				BookId = Bk.Id,
+				VolumeId = Vol.Id
+			};
 		}
 
 		public override XParameter ToXParam()

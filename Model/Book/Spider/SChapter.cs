@@ -12,33 +12,27 @@ using libtaotu.Models.Procedure;
 
 namespace GR.Model.Book.Spider
 {
+	using Database.Models;
 	using Resources;
 	using Settings;
 	using GSystem;
 
-	sealed class SChapter : Chapter
+	sealed class SChapter
 	{
+		private Chapter Ch;
 		public EpInstruction Inst { get; private set; }
-
-		protected override string VolRoot
-		{
-			get
-			{
-				return FileLinks.ROOT_SPIDER_VOL + aid + "/";
-			}
-		}
-
 		public StorageFile TempFile { get; private set; }
 
-		public SChapter( EpInstruction Inst, string aid, string vid )
-			: base( Inst.Title, aid, vid, Utils.Md5( Inst.Title ) )
+		public SChapter( EpInstruction Inst, Chapter Ch )
 		{
+			Ch.Title = Inst.Title;
 			this.Inst = Inst;
 		}
 
 		public async Task SubProcRun( bool useCache = true )
 		{
-			if ( useCache && IsCached ) return;
+			if ( useCache && !string.IsNullOrEmpty( Ch.Content.Text ) )
+				return;
 
 			IEnumerable<ProcConvoy> Convoys = await Inst.Process();
 

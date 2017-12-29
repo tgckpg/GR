@@ -22,7 +22,7 @@ namespace GR.Storage
 		{
 			Reg = new XRegistry( AppKeys.LBS_AXML, FileLinks.ROOT_ANCHORS + b.Id + ".xml" );
 			Reg.SetParameter( AppKeys.GLOBAL_META, new XKey( AppKeys.GLOBAL_NAME, b.Title ) );
-			aid = b.Id;
+			aid = b.GID;
 		}
 
 		virtual public async Task SyncSettings()

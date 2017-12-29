@@ -9,6 +9,7 @@ using Net.Astropenguin.Messaging;
 
 namespace GR.Model.Book
 {
+	using Database.Models;
 	using Settings;
 	using GSystem;
 
@@ -69,15 +70,7 @@ namespace GR.Model.Book
 		public Chapter[] GetChapters()
 		{
 			XParameter[] Params = VolReg.Parameters( AppKeys.GLOBAL_CID );
-
-			List<Chapter> Chapters = new List<Chapter>();
-			foreach( XParameter Param in Params )
-			{
-				LocalChapter C = new LocalChapter( Param.GetValue( AppKeys.GLOBAL_NAME ), aid, id, Param.Id );
-				Chapters.Add( C );
-			}
-
-			return Chapters.ToArray();
+			throw new NotImplementedException();
 		}
 	}
 }

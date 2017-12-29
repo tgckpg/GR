@@ -1,19 +1,19 @@
 ﻿namespace GR.Model.ListItem
 {
-	using Book;
-	sealed class TOCItem : TreeItem 
+	using Database.Models;
+	sealed class TOCItem : TreeItem
 	{
 		private Volume Vol;
 		private Chapter Ch;
 
 		public TOCItem( Volume V )
-			:base( V.VolumeTitle, 0 )
+			: base( V.Title, 0 )
 		{
 			Vol = V;
 		}
 
 		public TOCItem( Chapter C )
-			:base( C.ChapterTitle, 1 )
+			: base( C.Title, 1 )
 		{
 			Ch = C;
 		}
@@ -34,8 +34,8 @@
 		{
 			if ( Ch == null )
 			{
-				if ( Vol.ChapterList.Length == 0 ) return null;
-				return Vol.ChapterList[ 0 ];
+				if ( Vol.Chapters.Count == 0 ) return null;
+				return Vol.Chapters[ 0 ];
 			}
 			return Ch;
 		}

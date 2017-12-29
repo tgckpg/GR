@@ -29,11 +29,9 @@ namespace GR.Model.Book
 
 		public DateTime LastCache
 		{
-			get { return DateModified; }
-			set { DateModified = value; NotifyChanged( "LastCache" ); }
+			get { return Entry.DateModified; }
+			set { Entry.DateModified = value; NotifyChanged( "LastCache" ); }
 		}
-
-		public HashSet<string> Others { get; set; }
 
 		public string TodayHitCount
 		{
@@ -99,7 +97,7 @@ namespace GR.Model.Book
 				if ( !string.IsNullOrEmpty( _IntroError ) )
 					return _IntroError;
 
-				return string.IsNullOrEmpty( Info.LongDescription ) ? Description : Info.LongDescription;
+				return string.IsNullOrEmpty( Info.LongDescription ) ? Entry.Description : Info.LongDescription;
 			}
 			set
 			{

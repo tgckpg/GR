@@ -91,7 +91,7 @@ namespace GR.Model.Book
 			{
 				Books.Any( x => {
 					j++;
-					return x.Value.Id == s;
+					return x.Value.ZItemId == s;
 				} );
 			}
 

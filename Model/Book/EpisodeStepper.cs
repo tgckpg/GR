@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
-
+using GR.Database.Models;
+using GR.Settings;
 using Net.Astropenguin.DataModel;
 using Net.Astropenguin.Logging;
 
@@ -22,9 +23,9 @@ namespace GR.Model.Book
 
 		internal bool SetCurrentPosition( Chapter C, bool VolHead = false )
 		{
-			string Id = C.cid;
+			int ChapterId = C.Id;
 
-			int i = Array.IndexOf( VInfo.vids, C.vid );
+			int i = Array.IndexOf( VInfo.vids, C.Volume.Meta[ AppKeys.GLOBAL_VID ] );
 			if ( i == -1 ) return false;
 
 			VStepper = i;
@@ -36,7 +37,7 @@ namespace GR.Model.Book
 			{
 				while ( EStepper < VInfo.cids[ VStepper ].Length )
 				{
-					if ( VInfo.cids[ VStepper ][ EStepper ] == Id )
+					if ( VInfo.cids[ VStepper ][ EStepper ] == ChapterId )
 					{
 						return true;
 					}
@@ -67,20 +68,12 @@ namespace GR.Model.Book
 		{
 			get
 			{
-				if ( VInfo.VolRef != null )
-				{
-					return VInfo
-						.VolRef.First( x => x.vid == Vid )
-						.ChapterList.First( x => x.cid == Cid )
-						;
-				}
-
-				return new Chapter( EpTitle, VInfo.BookId, Vid, Cid );
+				return VInfo.Volumes.First( x => x.Id == Vid ).Chapters.First( x => x.Id == Cid );
 			}
 		}
 
-		public string Cid { get { return VInfo.cids[ VStepper ][ EStepper ]; } }
-		public string Vid { get { return VInfo.vids[ VStepper ]; } }
+		public int Cid { get { return VInfo.cids[ VStepper ][ EStepper ]; } }
+		public int Vid { get { return VInfo.vids[ VStepper ]; } }
 		public string EpTitle { get { return VInfo.EpTitles[ VStepper ][ EStepper ]; } }
 		public string VolTitle { get { return VInfo.VolTitles[ VStepper ]; } }
 

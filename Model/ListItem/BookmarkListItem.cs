@@ -5,9 +5,9 @@ using Net.Astropenguin.IO;
 
 namespace GR.Model.ListItem
 {
+	using GR.Database.Models;
 	using GSystem;
 	using Settings;
-	using Book;
 
 	sealed class BookmarkListItem : TreeItem
 	{
@@ -29,7 +29,7 @@ namespace GR.Model.ListItem
 		}
 
 		public BookmarkListItem( Volume V )
-			:base( V.VolumeTitle, 0 )
+			:base( V.Title, 0 )
 		{
 			BindVolume = V;
 			AnchorIndex = -1;
@@ -40,7 +40,7 @@ namespace GR.Model.ListItem
 			if ( BindParam == null ) return null;
 			string cid = BindParam.GetValue( AppKeys.GLOBAL_CID );
 
-			return BindVolume.ChapterList.First( ( Chapter C ) => { return C.cid == cid; } );
+			return BindVolume.Chapters.First( ( Chapter C ) => { return C.Id.ToString() == cid; } );
 		}
 
 		public bool IsItem( Volume V )

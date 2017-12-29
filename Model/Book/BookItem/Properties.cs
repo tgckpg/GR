@@ -9,12 +9,9 @@ using Net.Astropenguin.Loaders;
 
 namespace GR.Model.Book
 {
-	using Database.Models;
-	using Ext;
 	using ListItem;
 	using Resources;
 	using Settings;
-	using Storage;
 
 	enum BookInfo
 	{
@@ -34,7 +31,7 @@ namespace GR.Model.Book
 		Intro = 8192,
 	}
 
-	abstract partial class BookItem : Book, IActiveData
+	abstract partial class BookItem : IActiveData
 	{
 		public event PropertyChangedEventHandler PropertyChanged;
 
@@ -59,12 +56,6 @@ namespace GR.Model.Book
 
 		// For bookPool Indexing
 		public int i { get; protected set; }
-
-		// Used by derived class
-		protected BookItem()
-		{
-			Others = new HashSet<string>();
-		}
 
 		public string CoverPath
 		{
@@ -92,7 +83,7 @@ namespace GR.Model.Book
 
 		virtual public string VolumeRoot
 		{
-			get { return FileLinks.GetVolumeRoot( Id ); }
+			get { return "NULL"; }
 		}
 
 		public string TOCPath

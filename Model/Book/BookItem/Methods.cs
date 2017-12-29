@@ -98,27 +98,12 @@ namespace GR.Model.Book
 			return false;
 		}
 
-		abstract public Volume[] GetVolumes();
+		virtual public void ParseVolumeData( string Data ) { }
+		virtual public Database.Models.Volume[] GetVolumes() => Volumes.ToArray();
 
 		virtual public void SaveInfo()
 		{
-			// XXX
-			// We've no choice, since this is not supported by the EF
-			// Hopefully we'll be able to rewrite the entire BookItem into Extension methods
-			// For now we'll just copy the data and proceed the update
-
-			Database.Models.Book Bk = Shared.BooksDb.Books.Find( Id );
-			if ( Bk == null )
-			{
-				Bk = new Database.Models.Book();
-				Bk.CopyFrom( this );
-				Shared.BooksDb.Books.Add( Bk );
-			}
-			else
-			{
-				Bk.CopyFrom( this );
-				Shared.BooksDb.Books.Update( Bk );
-			}
+			Shared.BooksDb.Books.Update( Entry );
 			Shared.BooksDb.SaveChanges();
 		}
 
@@ -129,17 +114,7 @@ namespace GR.Model.Book
 
 		virtual public void ReadInfo( XRegistry XReg )
 		{
-			XParameter Param = XReg.Parameter( "METADATA" );
-			if ( Param == null ) return;
-
-			Info = Shared.BooksDb.BookInfo.FirstOrDefault( x => x.BookId == Id );
-			if ( Info == null ) Info = new Database.Models.BookInfo();
-
-			XParameter[] OtherParams = Param.Parameters( "others" );
-			foreach ( XParameter OtherParam in OtherParams )
-			{
-				Others.Add( OtherParam.GetValue( "other" ) );
-			}
+			throw new NotSupportedException();
 		}
 
 		public void Update( BookItem B )
@@ -157,7 +132,7 @@ namespace GR.Model.Book
 			Press = B.Press;
 			Intro = B.Intro;
 			Info.OriginalUrl = B.Info.OriginalUrl;
-			Others = B.Others;
+			Entry.Info.Json_Others = B.Info.Json_Others;
 		}
 
 		public void CoverUpdate()
