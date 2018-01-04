@@ -37,7 +37,7 @@ namespace GR.Model
 
 		public void SetPrefs( IEnumerable<LocalBook> Books )
 		{
-			foreach ( LocalBook Book in Books ) PrefList[ Book.aid ] = true;
+			foreach ( LocalBook Book in Books ) PrefList[ Book.ZItemId ] = true;
 		}
 
 		public async Task<bool> ConfirmTranslate( string aid, string v )

@@ -27,7 +27,7 @@ namespace GR.Model.Book
 
 		public string GID
 		{
-			get { return string.Format( "{0}-{1}-{2}", Entry.ZoneId, Entry.Type, Entry.ZItemId ); }
+			get { return string.Format( "{0}.{1}.{2}", Entry.ZoneId, Entry.Type, Entry.ZItemId ); }
 		}
 
 		public int Id
@@ -73,7 +73,7 @@ namespace GR.Model.Book
 		protected BookItem( string ZoneId, BookType SrcType, string ItemId )
 		{
 			// Stile create this instance, but cannot be saved in Db
-			if( ZoneId == null && ItemId == null )
+			if( ZoneId == null || ItemId == null )
 			{
 				_Entry = new Book() { Info = new Database.Models.BookInfo() };
 				return;

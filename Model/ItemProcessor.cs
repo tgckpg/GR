@@ -18,13 +18,12 @@ namespace GR.Model.Pages
 		public static async Task ProcessLocal( LocalBook LB )
 		{
 			await LB.Process();
-			if ( LB is SpiderBook )
+			if ( LB is SpiderBook SB )
 			{
-				SpiderBook SB = ( SpiderBook ) LB;
-				BookInstruction BS = SB.GetBook();
-				if ( BS.Packable )
+				BookInstruction Inst = SB.GetBook();
+				if ( Inst.Packable )
 				{
-					BS.PackVolumes( SB.GetPPConvoy() );
+					Inst.PackVolumes( SB.GetPPConvoy() );
 				}
 			}
 		}
@@ -37,15 +36,9 @@ namespace GR.Model.Pages
 			bool IsBookSpider = false;
 			IsBookSpider = Guid.TryParse( Id, out _Guid );
 
-			if ( !IsBookSpider && Id.Contains( '/' ) )
-			{
-				string[] ZSId = Id.Split( '/' );
-				IsBookSpider = ZSId.Length == 2 && ZSId[ 0 ][ 0 ] == AppKeys.SP_ZONE_PFX;
-			}
-
 			if ( IsBookSpider )
 			{
-				SpiderBook Book = await SpiderBook.CreateAsyncSpider( Id );
+				SpiderBook Book = await SpiderBook.CreateSAsync( Id );
 				if ( Book.ProcessSuccess ) return Book.GetBook();
 			}
 			else if ( int.TryParse( Id, out _Id ) )

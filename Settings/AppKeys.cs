@@ -46,8 +46,9 @@
 			, GLOBAL_RID = "rid"
 			// User id
 			, GLOBAL_UID = "uid"
-
 			, GLOBAL_AID = "aid"
+
+			, GLOBAL_SSID = "ssid"
 
 			// Meta Tag
 			, GLOBAL_META = "meta"
@@ -114,9 +115,6 @@
 			, UA = "Grimoire Reaper/{0} ( wenku8 engine; taotu engine; UAP ) wenku10 by Astropenguin"
 			;
 
-		public const char
-			SP_ZONE_PFX = 'Z'
-			, ANO_IMG = '\ufff9'
-			;
+		public const char ANO_IMG = '\ufff9';
 	}
 }

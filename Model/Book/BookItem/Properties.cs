@@ -91,17 +91,6 @@ namespace GR.Model.Book
 			get { return VolumeRoot + "toc.txt"; }
 		}
 
-		public string TOCDatePath
-		{
-			get { return VolumeRoot + "toc.dsp"; }
-		}
-
-		virtual public bool NeedUpdate
-		{
-			get
-			{
-				return Shared.Storage.FileChanged( Info.RecentUpdate, TOCDatePath );
-			}
-		}
+		virtual public bool NeedUpdate { get; protected set; }
 	}
 }

@@ -56,7 +56,8 @@ namespace GR.Model.ListItem
 			}
 		}
 
-		public string aid { get; protected set; }
+		public string ZoneId { get; protected set; }
+		public string ZItemId { get; protected set; }
 		public bool IsFav { get; set; }
 
 		public LocalBook( StorageFile File )
@@ -67,7 +68,7 @@ namespace GR.Model.ListItem
 			Match m = Reg.Match( File.Name );
 			if ( m.Groups[ 1 ].Success )
 			{
-				aid = m.Groups[ 1 ].Value;
+				ZItemId = m.Groups[ 1 ].Value;
 				CanProcess = true;
 			}
 			else
@@ -83,7 +84,7 @@ namespace GR.Model.ListItem
 		{
 			await Task.Run( () =>
 			{
-				LocalTextDocument Doc = new LocalTextDocument( aid );
+				LocalTextDocument Doc = new LocalTextDocument( ZItemId );
 				if ( Doc.IsValid )
 				{
 					Processed = File == null;
@@ -100,7 +101,7 @@ namespace GR.Model.ListItem
 		public static async Task<LocalBook> CreateAsync( string Id )
 		{
 			LocalBook Book = new LocalBook();
-			Book.aid = Id;
+			Book.ZItemId = Id;
 			await Book.TestProcessed();
 			return Book;
 		}
@@ -140,16 +141,16 @@ namespace GR.Model.ListItem
 
 		virtual protected async Task Run()
 		{
-			MessageBus.SendUI( typeof( LocalBook ), "Reading ...", aid );
+			MessageBus.SendUI( typeof( LocalBook ), "Reading ...", ZItemId );
 			byte[] b = await File.ReadAllBytes();
 
-			if ( await Shared.TC.ConfirmTranslate( aid, File.Name ) )
+			if ( await Shared.TC.ConfirmTranslate( ZItemId, File.Name ) )
 			{
-				MessageBus.SendUI( typeof( LocalBook ), "Translating ...", aid );
+				MessageBus.SendUI( typeof( LocalBook ), "Translating ...", ZItemId );
 				await Task.Run( () => b = Shared.TC.Translate( b ) );
 			}
 
-			LocalTextDocument L = await LocalTextDocument.ParseAsync( aid, Encoding.UTF8.GetString( b ) );
+			LocalTextDocument L = await LocalTextDocument.ParseAsync( ZItemId, Encoding.UTF8.GetString( b ) );
 
 			Name = L.Title;
 			Desc = "Saving ...";
@@ -162,7 +163,7 @@ namespace GR.Model.ListItem
 		virtual protected void MessageBus_OnDelivery( Message MesgArgs )
 		{
 			if( MesgArgs.TargetType == typeof( LocalBook )
-				&& MesgArgs.Payload.ToString() == aid )
+				&& MesgArgs.Payload.ToString() == ZItemId )
 			{
 				Desc = MesgArgs.Content;
 			}
@@ -171,14 +172,14 @@ namespace GR.Model.ListItem
 		virtual public void ToggleFav()
 		{
 			BookStorage BS = new BookStorage();
-			if( BS.BookExist( aid ) )
+			if( BS.BookExist( ZItemId ) )
 			{
-				BS.RemoveBook( aid );
+				BS.RemoveBook( ZItemId );
 				IsFav = false;
 			}
 			else
 			{
-				BS.SaveBook( aid, Name, "", "" );
+				BS.SaveBook( ZItemId, Name, "", "" );
 				IsFav = true;
 			}
 
@@ -188,7 +189,7 @@ namespace GR.Model.ListItem
 
 		virtual public void RemoveSource()
 		{
-			Shared.Storage.RemoveDir( FileLinks.ROOT_LOCAL_VOL + aid );
+			Shared.Storage.RemoveDir( FileLinks.ROOT_LOCAL_VOL + ZItemId );
 			Processed = false;
 			ProcessSuccess = false;
 			CanProcess = File != null;

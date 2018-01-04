@@ -4,33 +4,36 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using Net.Astropenguin.IO;
+using Net.Astropenguin.Linq;
+
 using libtaotu.Controls;
 using libtaotu.Models.Procedure;
 
-using Net.Astropenguin.IO;
+using GR.Database.Models;
+using GR.GSystem;
+using GR.Settings;
 
 namespace GR.Model.Book.Spider
 {
-	using Database.Models;
-
 	sealed class EpInstruction : ConvoyInstructionSet
 	{
 		public int Index { get; private set; }
 		public string Title { get; private set; }
 
-		public EpInstruction( int index, string title )
+		public EpInstruction( int Index, string Title )
 			:base()
 		{
-			this.Index = index;
-			this.Title = title;
+			this.Index = Index;
+			this.Title = Title;
 		}
 
-		public EpInstruction( XParameter Param, XRegistry ProcDefs )
+		public EpInstruction( Chapter Ch, XRegistry ProcDefs )
 			: base()
 		{
-			this.Index = Param.GetSaveInt( "Index" );
-			this.Title = Param.GetValue( "Title" );
-			this.ProcId = Param.GetValue( "ProcId" );
+			Index = Ch.Index;
+			Title = Ch.Title;
+			ProcId = Ch.Meta[ "ProcId" ];
 
 			Convoy = ProcParameter.RestoreParams( ProcDefs );
 
@@ -41,30 +44,31 @@ namespace GR.Model.Book.Spider
 				ProcMan.ReadParam( ProcParam );
 			}
 
-			foreach( XParameter ValParam in Param.Parameters( "Value" ) )
+			for ( int i = 0; Ch.Meta.ContainsKey( "P" + i ); i++ )
 			{
-				PushConvoyParam( ValParam.GetValue( "Value" ) );
+				PushConvoyParam( Ch.Meta[ "P" + i ] );
 			}
 		}
 
-		public Chapter ToChapter( Book Bk, Volume Vol )
+		public Chapter ToChapter( Database.Models.Book Bk )
 		{
-			return new Chapter()
+			Chapter Ch = new Chapter()
 			{
 				Title = this.Title,
+				Index = this.Index,
 				BookId = Bk.Id,
-				VolumeId = Vol.Id
 			};
+
+			Ch.Meta[ "ProcId" ] = ProcId;
+			Ch.Meta[ AppKeys.GLOBAL_CID ] = Utils.Md5( Ch.Title );
+			ConvoyParams.ExecEach( ( x, i ) => Ch.Meta[ "P" + i ] = x );
+
+			return Ch;
 		}
 
 		public override XParameter ToXParam()
 		{
-			XParameter Params = new XParameter( "EpInst" );
-			Params.SetValue( new XKey( "ProcId", ProcId ) );
-			Params.SetValue( new XKey( "Index", Index ) );
-			Params.SetValue( new XKey( "Title", Title ) );
-			Params.SetParameter( GetConvoyXParams() );
-			return Params;
+			throw new NotSupportedException();
 		}
 	}
 }

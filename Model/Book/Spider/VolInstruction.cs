@@ -10,30 +10,30 @@ using Net.Astropenguin.Linq;
 using libtaotu.Controls;
 using libtaotu.Models.Procedure;
 
-using GR.Model.Interfaces;
+using GR.Database.Models;
+using GR.GSystem;
+using GR.Settings;
 
 namespace GR.Model.Book.Spider
 {
-	using GSystem;
-
 	sealed class VolInstruction : ConvoyInstructionSet
 	{
 		public int Index { get; private set; }
 		public string Title { get; private set; }
 
-		public VolInstruction( int index, string title )
+		public VolInstruction( int Index, string Title )
 			:base()
 		{
-			this.Index = index;
-			this.Title = title;
+			this.Index = Index;
+			this.Title = Title;
 		}
 
-		public VolInstruction( XParameter Param, XRegistry ProcDefs )
+		public VolInstruction( Volume Vol, XRegistry ProcDefs )
 			: base()
 		{
-			this.Index = Param.GetSaveInt( "Index" );
-			this.Title = Param.GetValue( "Title" );
-			this.ProcId = Param.GetValue( "ProcId" );
+			Index = Vol.Index;
+			Title = Vol.Title;
+			ProcId = Vol.Meta[ "ProcId" ];
 
 			Convoy = ProcParameter.RestoreParams( ProcDefs );
 
@@ -44,40 +44,32 @@ namespace GR.Model.Book.Spider
 				ProcMan.ReadParam( ProcParam );
 			}
 
-			foreach( XParameter ValParam in Param.Parameters( "Value" ) )
+			for ( int i = 0; Vol.Meta.ContainsKey( "P" + i ); i++ )
 			{
-				PushConvoyParam( ValParam.GetValue( "Value" ) );
+				PushConvoyParam( Vol.Meta[ "P" + i ] );
 			}
 		}
 
-		public override void PushInstruction( IInstructionSet Inst )
+		public Volume ToVolume( Database.Models.Book Bk )
 		{
-			base.PushInstruction( Inst );
-		}
+			Volume Vol = new Volume()
+			{
+				Title = this.Title,
+				Index = this.Index,
+				BookId = Bk.Id,
+				Chapters = SubInsts.Cast<EpInstruction>().Remap( x => x.ToChapter( Bk ) ).ToList()
+			};
 
-		public Database.Models.Volume ToVolume( string aid )
-		{
-			throw new NotImplementedException();
-			/*
-			string id = Utils.Md5( Title );
-			return new SVolume(
-				this, id, aid
-				, SubInsts
-					.Cast<EpInstruction>()
-					.Remap( x => x.ToChapter( aid, id ) )
-					.ToArray()
-			);
-			*/
+			Vol.Meta[ "ProcId" ] = ProcId;
+			Vol.Meta[ AppKeys.GLOBAL_VID ] = Utils.Md5( Vol.Title );
+			ConvoyParams.ExecEach( ( x, i ) => Vol.Meta[ "P" + i ] = x );
+
+			return Vol;
 		}
 
 		public override XParameter ToXParam()
 		{
-			XParameter Params = new XParameter( "VolInst" );
-			Params.SetValue( new XKey( "ProcId", ProcId ) );
-			Params.SetValue( new XKey( "Index", Index ) );
-			Params.SetValue( new XKey( "Title", Title ) );
-			Params.SetParameter( GetConvoyXParams() );
-			return Params;
+			throw new NotSupportedException();
 		}
 	}
 }

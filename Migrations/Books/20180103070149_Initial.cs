@@ -17,6 +17,7 @@ namespace GR.Migrations.Books
                     DateModified = table.Column<DateTime>(nullable: false)
                         .Annotation("AutoNow", (byte)3),
                     Description = table.Column<string>(nullable: true),
+                    Json_Meta = table.Column<string>(nullable: true),
                     TextLayout = table.Column<byte>(nullable: false),
                     Title = table.Column<string>(nullable: false),
                     Type = table.Column<byte>(nullable: false),

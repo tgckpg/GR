@@ -18,7 +18,7 @@ namespace GR.Database.Schema
 			get
 			{
 				JsonObject Obj = new JsonObject();
-				this.ExecEach( x => Obj.Add( x.Key, JsonValue.CreateStringValue( x.Value ) ) );
+				this.ExecEach( x => Obj.Add( x.Key, x.Value == null ? JsonValue.CreateNullValue() : JsonValue.CreateStringValue( x.Value ) ) );
 				return Obj.Stringify();
 			}
 			set
@@ -26,7 +26,7 @@ namespace GR.Database.Schema
 				try
 				{
 					Clear();
-					JsonObject.Parse( value ).ExecEach( x => this[ x.Key ] = x.Value.GetString() );
+					JsonObject.Parse( value ).ExecEach( x => this[ x.Key ] = x.Value.ValueType == JsonValueType.Null ? null : x.Value.GetString() );
 				}
 				catch ( Exception ex )
 				{

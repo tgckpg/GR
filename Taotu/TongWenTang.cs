@@ -17,6 +17,7 @@ using libtaotu.Models.Procedure;
 
 namespace GR.Taotu
 {
+	using Database.Schema;
 	using CompositeElement;
 	using Model.Book.Spider;
 	using Resources;
@@ -37,13 +38,8 @@ namespace GR.Taotu
 			{
 				BookInstruction Book = ( BookInstruction ) Convoy.Payload;
 
-				// Read Param
-				XRegistry InfoReg = new XRegistry( "<wentang />", null, false );
-				Book.SaveInfo( InfoReg );
-
-				// Translate and Read
-				InfoReg = new XRegistry( Shared.TC.Translate( InfoReg.ToString() ), null, false );
-				Book.ReadInfo( InfoReg );
+				Book.Entry.EachProperty<string>( x => Shared.TC.Translate( x ) );
+				Book.Entry.Info.EachProperty<string>( x => Shared.TC.Translate( x ) );
 
 				return Convoy;
 			}

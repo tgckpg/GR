@@ -89,14 +89,9 @@ namespace GR.Model.Book.Spider
 			ProcId = Id;
 		}
 
-		public IEnumerable<XParameter> GetConvoyXParams()
-		{
-			return ConvoyParams.ToXParam();
-		}
-
 		public override Task Edit()
 		{
-			throw new NotImplementedException();
+			throw new NotSupportedException();
 		}
 	}
 }

@@ -103,18 +103,16 @@ namespace GR.Model.Book
 
 		virtual public void SaveInfo()
 		{
-			Shared.BooksDb.Books.Update( Entry );
+			if ( Shared.BooksDb.Books.Any( b => b.Id == Entry.Id ) )
+			{
+				Shared.BooksDb.Books.Update( Entry );
+			}
+			else
+			{
+				Shared.BooksDb.Books.Add( Entry );
+			}
+
 			Shared.BooksDb.SaveChanges();
-		}
-
-		virtual public void SaveInfo( XRegistry XReg )
-		{
-			throw new NotSupportedException();
-		}
-
-		virtual public void ReadInfo( XRegistry XReg )
-		{
-			throw new NotSupportedException();
 		}
 
 		public void Update( BookItem B )

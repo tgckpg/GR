@@ -15,7 +15,7 @@ namespace GR.Model.Book.Spider
 {
 	using Database.Models;
 	using Interfaces;
-	using ListItem;
+	using Resources;
 	using Settings;
 
 	sealed class BookInstruction : BookItem, IInstructionSet
@@ -23,31 +23,14 @@ namespace GR.Model.Book.Spider
 		private ProcManager BSReference;
 		public XParameter BookSpiderDef
 		{
-			get { return BSReference.ToXParam( GID ); }
-		}
-
-		public string SId
-		{
-			get { return ZItemId; }
-			private set
+			get
 			{
-				if ( string.IsNullOrEmpty( value ) )
-				{
-					ZItemId = value;
-				}
-				else
-				{
-					ZItemId = GSystem.Utils.Md5( value ).Substring( 0, 8 );
-				}
+				if ( BSReference == null ) return null;
+				return BSReference.ToXParam( GID );
 			}
 		}
 
-		public override string VolumeRoot
-		{
-			get { return FileLinks.ROOT_SPIDER_VOL + ZoneId + "/" + ZItemId + "/"; }
-		}
-
-		private SortedDictionary<int, ConvoyInstructionSet> Insts;
+		private SortedDictionary<int, ConvoyInstructionSet> Insts = new SortedDictionary<int, ConvoyInstructionSet>();
 		public bool? Packed { get; private set; }
 
 		public bool Packable
@@ -64,31 +47,22 @@ namespace GR.Model.Book.Spider
 			}
 		}
 
-		public BookInstruction( string Uid = null )
-			: base( null, BookType.S, Uid ?? Guid.NewGuid().ToString() )
+		public override bool NeedUpdate
 		{
-			Insts = new SortedDictionary<int, ConvoyInstructionSet>();
+			get { return false; } // XXX: Check with TOC matching
+			protected set => base.NeedUpdate = value;
 		}
 
-		public BookInstruction( string Uid, XRegistry Settings )
-			: this( Uid )
-		{
-			ReadInfo( Settings );
-		}
-
-		public BookInstruction( string ZoneId, string ssid )
-			: base( ZoneId, BookType.S, ssid )
-		{
-		}
-
-		// This will be set on Selecting Zone Item
-		public void SetId( string Id ) { this.ZoneId = Id; }
+		public BookInstruction( string ZoneId, string ssid ) : base( ZoneId, BookType.S, ssid ) { }
+		public BookInstruction() : this( null, Guid.NewGuid().ToString() ) { }
 
 		// This will be set on Crawling
-		public void PlaceDefs( string SId, ProcManager BookSpider )
+		public void PlaceDefs( string ssid, ProcManager BookSpider )
 		{
-			this.SId = SId;
-			this.BSReference = BookSpider;
+			ZItemId = string.IsNullOrEmpty( ssid ) ? null : GSystem.Utils.Md5( ssid ).Substring( 0, 8 );
+			BSReference = BookSpider;
+
+			Entry.Meta[ AppKeys.GLOBAL_SSID ] = ssid;
 		}
 
 		public void PushInstruction( IInstructionSet Inst )
@@ -161,22 +135,22 @@ namespace GR.Model.Book.Spider
 		{
 			if ( Packed != null ) return;
 
-			XRegistry XReg = new XRegistry( "<VolInfo />", TOCPath );
-			XParameter[] VParams = XReg.Parameters( "VInst" );
-			if ( VParams.Count() == 0 )
+			Shared.BooksDb.Entry( Entry ).Collection( x => x.Volumes ).Load();
+			if ( !Volumes.Any() )
 			{
 				Packed = false;
 				return;
 			}
 
-			foreach ( XParameter VParam in VParams )
+			foreach ( Volume Vol in Entry.Volumes )
 			{
-				VolInstruction VInst = new VolInstruction( VParam, Settings );
+				VolInstruction VInst = new VolInstruction( Vol, Settings );
 
-				IEnumerable<XParameter> CParams = VParam.Parameters( "EpInst" );
-				foreach ( XParameter CParam in CParams )
+				Shared.BooksDb.Entry( Vol ).Collection( x => x.Chapters ).Load();
+
+				foreach ( Chapter Ch in Vol.Chapters )
 				{
-					VInst.PushInstruction( new EpInstruction( CParam, Settings ) );
+					VInst.PushInstruction( new EpInstruction( Ch, Settings ) );
 				}
 
 				PushInstruction( VInst );
@@ -185,54 +159,9 @@ namespace GR.Model.Book.Spider
 			Packed = 0 < Insts.Count;
 		}
 
-		public async Task SaveTOC( IEnumerable<SVolume> SVols )
+		public VolInstruction[] GetVolInsts()
 		{
-			await Task.Run( () =>
-			{
-				XRegistry XReg = new XRegistry( "<VolInfo />", TOCPath, false );
-				int i = 0;
-				foreach ( SVolume Vol in SVols )
-				{
-					XParameter VParam = Vol.Inst.ToXParam();
-					VParam.Id += i++;
-					VParam.SetValue( new XKey( "VInst", true ) );
-
-					int j = 0;
-
-					throw new NotImplementedException();
-					/*
-					foreach ( Chapter C in Vol.Chapters )
-					{
-						SChapter SC = C as SChapter;
-						if ( SC == null ) continue;
-
-						XParameter CParam = SC.Inst.ToXParam();
-						CParam.Id += j++;
-						CParam.SetValue( new XKey( "EpInst", true ) );
-
-						VParam.SetParameter( CParam );
-					}
-					*/
-
-					XReg.SetParameter( VParam );
-				}
-
-				XReg.Save();
-			} );
-		}
-
-		public override Volume[] GetVolumes()
-		{
-			if ( Packed == null )
-			{
-				return new Volume[ 0 ];
-			}
-
-			return Insts.Values
-				.Where( x => x is VolInstruction )
-				.Remap( x => ( x as VolInstruction ).ToVolume( ZItemId ) )
-				.Distinct( new VolDistinct() )
-				.ToArray();
+			return Insts.Values.Where( x => x is VolInstruction ).Cast<VolInstruction>().ToArray();
 		}
 
 		private class VolDistinct : IEqualityComparer<Volume>

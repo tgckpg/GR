@@ -56,6 +56,14 @@ namespace GR.Database.Models
 
 		public BookInfo Info { get; set; }
 
+		[NotMapped]
+		public DbDictionary Meta { get; set; } = new DbDictionary();
+		public string Json_Meta
+		{
+			get => Meta.Data;
+			set => Meta.Data = value;
+		}
+
 		public List<Volume> Volumes { get; set; }
 	}
 
@@ -111,10 +119,12 @@ namespace GR.Database.Models
 		public int Id{ get; set; }
 
 		// EF convension
+		[Column( Order = 0 )]
 		public int BookId { get; set; }
 		public Book Book { get; set; }
 
 		[Required]
+		[Column( Order = 1 )]
 		public int Index { get; set; }
 		public string Title { get; set; }
 
@@ -138,14 +148,17 @@ namespace GR.Database.Models
 		public int Id { get; set; }
 
 		// EF convension
+		[Column( Order = 0 )]
 		public int BookId { get; set; }
 		public Book Book { get; set; }
 
 		// EF convension
+		[Column( Order = 1 )]
 		public int VolumeId { get; set; }
 		public Volume Volume { get; set; }
 
 		[Required]
+		[Column( Order = 2 )]
 		public int Index { get; set; }
 		public string Title { get; set; }
 

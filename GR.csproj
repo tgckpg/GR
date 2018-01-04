@@ -106,11 +106,12 @@
     <Compile Include="Database\Schema\DbDictionary.cs" />
     <Compile Include="Database\Schema\DbList.cs" />
     <Compile Include="Database\Schema\DbHashSet.cs" />
+    <Compile Include="Database\Schema\ModelExt.cs" />
     <Compile Include="Effects\Stage\RandomStripe.cs" />
     <Compile Include="Ext\IDeathblow.cs" />
-    <Compile Include="Migrations\Books\20171229114600_Initial.cs" />
-    <Compile Include="Migrations\Books\20171229114600_Initial.designer.cs">
-      <DependentUpon>20171229114600_Initial.cs</DependentUpon>
+    <Compile Include="Migrations\Books\20180103070149_Initial.cs" />
+    <Compile Include="Migrations\Books\20180103070149_Initial.designer.cs">
+      <DependentUpon>20180103070149_Initial.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Books\BooksContextModelSnapshot.cs" />
     <Compile Include="Migrations\MigrateGR.cs" />
@@ -211,8 +212,6 @@
     <Compile Include="Model\Book\Spider\ConvoyInstructionSet.cs" />
     <Compile Include="Model\Book\Spider\BookInstruction.cs" />
     <Compile Include="Model\Book\Spider\EpInstruction.cs" />
-    <Compile Include="Model\Book\Spider\SChapter.cs" />
-    <Compile Include="Model\Book\Spider\SVolume.cs" />
     <Compile Include="Model\Book\Spider\VolInstruction.cs" />
     <Compile Include="Model\Book\TextEpisode.cs" />
     <Compile Include="Model\Book\TextVolume.cs" />

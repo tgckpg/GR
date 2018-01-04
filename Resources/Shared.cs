@@ -73,10 +73,9 @@ namespace GR.Resources
 			return Bk;
 		}
 
-		public static bool ContentExists( Chapter C )
+		public static IEnumerable<Book> QueryBooks( BookType SrcType )
 		{
-			throw new NotImplementedException();
-			return false;
+			return BooksDb.Books.Where( b => b.Type == SrcType );
 		}
 
 		public static void LoadMessage( string MESG_ID, params string[] args )

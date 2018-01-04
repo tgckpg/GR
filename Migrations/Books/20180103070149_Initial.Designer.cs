@@ -9,7 +9,7 @@ using GR.Database.Models;
 namespace GR.Migrations.Books
 {
     [DbContext(typeof(BooksContext))]
-    [Migration("20171229114600_Initial")]
+    [Migration("20180103070149_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -25,6 +25,8 @@ namespace GR.Migrations.Books
                     b.Property<DateTime>("DateModified");
 
                     b.Property<string>("Description");
+
+                    b.Property<string>("Json_Meta");
 
                     b.Property<byte>("TextLayout");
 

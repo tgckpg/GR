@@ -25,6 +25,8 @@ namespace GR.Migrations.Books
 
                     b.Property<string>("Description");
 
+                    b.Property<string>("Json_Meta");
+
                     b.Property<byte>("TextLayout");
 
                     b.Property<string>("Title")

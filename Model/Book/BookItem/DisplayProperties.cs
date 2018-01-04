@@ -58,10 +58,19 @@ namespace GR.Model.Book
 		}
 
 		// Assesed by BookInfoView for LocalBookStorage
-		public string RecentUpdate
+		virtual public string RecentUpdate
 		{
 			get { return DisplayString( Info.RecentUpdate, BookInfo.Date ); }
-			set { Info.RecentUpdate = value; NotifyChanged( "RecentUpdate", "UpdateStatus" ); }
+			set
+			{
+				if ( Info.RecentUpdate != value )
+				{
+					NeedUpdate = true;
+					Info.RecentUpdate = value;
+
+					NotifyChanged( "RecentUpdate", "UpdateStatus" );
+				}
+			}
 		}
 
 		public string LatestSection
