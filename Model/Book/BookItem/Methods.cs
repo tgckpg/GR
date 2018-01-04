@@ -117,20 +117,10 @@ namespace GR.Model.Book
 
 		public void Update( BookItem B )
 		{
-			Id = B.Id;
-			Title = B.Title;
-			Author = B.Author;
-			RecentUpdate = B.RecentUpdate;
-			TotalHitCount = B.TotalHitCount;
-			TodayHitCount = B.TodayHitCount;
-			PushCount = B.PushCount;
-			FavCount = B.FavCount;
-			Length = B.Length;
-			LatestSection = B.LatestSection;
-			Press = B.Press;
-			Intro = B.Intro;
-			Info.OriginalUrl = B.Info.OriginalUrl;
-			Entry.Info.Json_Others = B.Info.Json_Others;
+			Entry.Title = B.Title;
+			Entry.Description = B.Description;
+			Entry.Info = B.Info;
+			Entry.Json_Meta = B.Entry.Json_Meta;
 		}
 
 		public void CoverUpdate()

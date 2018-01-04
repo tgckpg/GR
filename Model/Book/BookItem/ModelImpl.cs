@@ -70,6 +70,16 @@ namespace GR.Model.Book
 		public List<Volume> Volumes => Entry.Volumes;
 		public HashSet<string> Others => Info.Others;
 
+		protected BookItem( Book Bk )
+		{
+			if ( Shared.BooksDb.Entry( Bk ).State == Microsoft.EntityFrameworkCore.EntityState.Detached )
+			{
+				if ( Bk.Id == 0 ) throw new InvalidOperationException( "Only tracked Entry is allowed" );
+			}
+
+			_Entry = Bk;
+		}
+
 		protected BookItem( string ZoneId, BookType SrcType, string ItemId )
 		{
 			// Stile create this instance, but cannot be saved in Db

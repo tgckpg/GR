@@ -53,6 +53,7 @@ namespace GR.Model.Book.Spider
 			protected set => base.NeedUpdate = value;
 		}
 
+		public BookInstruction( Book Bk ) : base( Bk ) { }
 		public BookInstruction( string ZoneId, string ssid ) : base( ZoneId, BookType.S, ssid ) { }
 		public BookInstruction() : this( null, Guid.NewGuid().ToString() ) { }
 
