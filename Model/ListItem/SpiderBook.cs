@@ -81,20 +81,23 @@ namespace GR.Model.ListItem
 
 		public static async Task<SpiderBook> ImportFile( string ProcSetting, bool Save )
 		{
-			throw new NotImplementedException();
-
-			// ZItemId should be set from ProcSetting's GUID
-			// Before TestProcessed
-			XRegistry Settings = new XRegistry( ProcSetting, null );
-
 			SpiderBook Book = new SpiderBook();
-			Book.PSettings = Settings;
+			Book.PSettings = new XRegistry( ProcSetting, null );
+
+			Book.InitProcMan();
+			Book.ZoneId = "[Local]";
+			Book.ZItemId = Book.ProcMan.GUID;
 
 			await Book.TestProcessed();
+
 			if ( Book.CanProcess || Book.ProcessSuccess )
 			{
 				Book.PSettings.Location = Book.MetaLocation;
-				if ( Save ) Book.PSettings.Save();
+
+				if ( Save )
+				{
+					Book.PSettings.Save();
+				}
 			}
 
 			return Book;
