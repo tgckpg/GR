@@ -131,7 +131,6 @@
     <Compile Include="AdvDM\WCacheMode.cs" />
     <Compile Include="AdvDM\SHttpRequest.cs" />
     <Compile Include="AdvDM\WHttpRequest.cs" />
-    <Compile Include="AdvDM\WRuntimeTransfer.cs" />
     <Compile Include="CompositeElement\AttachedCopyAction.cs" />
     <Compile Include="CompositeElement\AppBarButtonEx.cs" />
     <Compile Include="CompositeElement\SecondaryIconButton.cs" />

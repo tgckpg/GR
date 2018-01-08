@@ -27,7 +27,7 @@ namespace GR.Model
 
 		public string Translate( string v )
 		{
-			return IsTrad ? Chinese.Traditional( v ) : v;
+			return IsTrad && !string.IsNullOrEmpty( v ) ? Chinese.Traditional( v ) : v;
 		}
 
 		public byte[] Translate( byte[] v )

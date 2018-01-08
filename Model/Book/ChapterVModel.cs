@@ -69,7 +69,7 @@ namespace GR.Model.Book
 			ChapterVModel C = obj as ChapterVModel;
 			if ( C != null )
 			{
-				return C.Ch == this.Ch;
+				return C.Ch == Ch;
 			}
 
 			return false;

@@ -12,6 +12,7 @@ using libtaotu.Models.Procedure;
 
 using GR.Database.Models;
 using GR.GSystem;
+using GR.Model.Interfaces;
 using GR.Settings;
 
 namespace GR.Model.Book.Spider
@@ -20,6 +21,9 @@ namespace GR.Model.Book.Spider
 	{
 		public int Index { get; private set; }
 		public string Title { get; private set; }
+
+		public string VId => Utils.Md5( Title );
+		public IReadOnlyList<IInstructionSet> EpInsts => SubInsts.AsReadOnly();
 
 		public VolInstruction( int Index, string Title )
 			:base()
@@ -61,7 +65,8 @@ namespace GR.Model.Book.Spider
 			};
 
 			Vol.Meta[ "ProcId" ] = ProcId;
-			Vol.Meta[ AppKeys.GLOBAL_VID ] = Utils.Md5( Vol.Title );
+			Vol.Meta[ AppKeys.GLOBAL_VID ] = VId;
+			Vol.Chapters.ExecEach( x => x.Volume = Vol );
 			ConvoyParams.ExecEach( ( x, i ) => Vol.Meta[ "P" + i ] = x );
 
 			return Vol;

@@ -165,17 +165,5 @@ namespace GR.Model.Book.Spider
 			return Insts.Values.Where( x => x is VolInstruction ).Cast<VolInstruction>().ToArray();
 		}
 
-		private class VolDistinct : IEqualityComparer<Volume>
-		{
-			public bool Equals( Volume x, Volume y )
-			{
-				return x.Id == y.Id;
-			}
-
-			public int GetHashCode( Volume obj )
-			{
-				return obj.Id.GetHashCode();
-			}
-		}
 	}
 }

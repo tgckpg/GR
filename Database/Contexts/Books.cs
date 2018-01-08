@@ -81,14 +81,14 @@ namespace GR.Database.Contexts
 	{
 		public void AddProvider( ILoggerProvider provider )
 		{
-			throw new NotImplementedException();
+			throw new NotSupportedException();
 		}
 
 		public ILogger CreateLogger( string categoryName ) => new GRLogger() { Id = categoryName };
 
 		public void Dispose()
 		{
-			throw new NotImplementedException();
+			throw new NotSupportedException();
 		}
 	}
 

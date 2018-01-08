@@ -21,6 +21,8 @@ namespace GR.Model.Book.Spider
 		public int Index { get; private set; }
 		public string Title { get; private set; }
 
+		public string CId => Utils.Md5( Title );
+
 		public EpInstruction( int Index, string Title )
 			:base()
 		{
@@ -60,7 +62,7 @@ namespace GR.Model.Book.Spider
 			};
 
 			Ch.Meta[ "ProcId" ] = ProcId;
-			Ch.Meta[ AppKeys.GLOBAL_CID ] = Utils.Md5( Ch.Title );
+			Ch.Meta[ AppKeys.GLOBAL_CID ] = CId;
 			ConvoyParams.ExecEach( ( x, i ) => Ch.Meta[ "P" + i ] = x );
 
 			return Ch;

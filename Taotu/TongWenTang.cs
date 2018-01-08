@@ -38,8 +38,8 @@ namespace GR.Taotu
 			{
 				BookInstruction Book = ( BookInstruction ) Convoy.Payload;
 
-				Book.Entry.EachProperty<string>( x => Shared.TC.Translate( x ) );
-				Book.Entry.Info.EachProperty<string>( x => Shared.TC.Translate( x ) );
+				Book.Entry.EachProperty<string>( Shared.TC.Translate );
+				Book.Entry.Info.EachProperty<string>( Shared.TC.Translate );
 
 				return Convoy;
 			}

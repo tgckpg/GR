@@ -123,8 +123,7 @@ namespace GR.Database.Models
 		public int BookId { get; set; }
 		public Book Book { get; set; }
 
-		[Required]
-		[Column( Order = 1 )]
+		[Required, Column( Order = 1 )]
 		public int Index { get; set; }
 		public string Title { get; set; }
 
@@ -157,8 +156,7 @@ namespace GR.Database.Models
 		public int VolumeId { get; set; }
 		public Volume Volume { get; set; }
 
-		[Required]
-		[Column( Order = 2 )]
+		[Required, Column( Order = 2 )]
 		public int Index { get; set; }
 		public string Title { get; set; }
 

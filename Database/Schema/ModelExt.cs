@@ -16,7 +16,7 @@ namespace GR.Database.Schema
 
 			foreach ( PropertyInfo SrcInfo in SrcMbInfo )
 			{
-				if ( SrcInfo.PropertyType is T )
+				if ( SrcInfo.PropertyType == typeof( T ) )
 				{
 					SrcInfo.SetValue( Entity, Exec( ( T ) SrcInfo.GetValue( Entity ) ) );
 				}
