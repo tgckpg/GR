@@ -57,13 +57,13 @@ namespace GR.Model.Book
 		public string Title
 		{
 			get { return Entry.Title; }
-			set { Entry.Title = value; }
+			set { Entry.Title = value; NotifyChanged( "Title" ); }
 		}
 
 		public string Description
 		{
 			get { return Entry.Description; }
-			set { Entry.Description = value; }
+			set { Entry.Description = value; NotifyChanged( "Description" ); }
 		}
 
 		public Database.Models.BookInfo Info => Entry.Info;
@@ -82,33 +82,7 @@ namespace GR.Model.Book
 
 		protected BookItem( string ZoneId, BookType SrcType, string ItemId )
 		{
-			// Stile create this instance, but cannot be saved in Db
-			if( ZoneId == null || ItemId == null )
-			{
-				_Entry = new Book() { Info = new Database.Models.BookInfo() };
-				return;
-			}
-
-			Book Bk = Shared.QueryBook( ZoneId, ItemId, SrcType );
-
-			if ( Bk == null )
-			{
-				_Entry = new Book()
-				{
-					Type = SrcType,
-					ZoneId = ZoneId,
-					ZItemId = ItemId,
-					Title = "[Unknown]",
-					Info = new Database.Models.BookInfo()
-				};
-
-				Shared.BooksDb.Books.Add( _Entry );
-				Shared.BooksDb.SaveChanges();
-			}
-			else
-			{
-				_Entry = Bk;
-			}
+			_Entry = Shared.GetBook( ZoneId, ItemId, SrcType );
 		}
 	}
 }

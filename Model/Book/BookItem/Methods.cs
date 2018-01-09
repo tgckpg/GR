@@ -103,16 +103,7 @@ namespace GR.Model.Book
 
 		virtual public void SaveInfo()
 		{
-			if ( Shared.BooksDb.Books.Any( b => b.Id == Entry.Id ) )
-			{
-				Shared.BooksDb.Books.Update( Entry );
-			}
-			else
-			{
-				Shared.BooksDb.Books.Add( Entry );
-			}
-
-			Shared.BooksDb.SaveChanges();
+			Shared.SaveBook( Entry );
 		}
 
 		public void Update( BookItem B )

@@ -29,7 +29,7 @@ namespace GR.Database.Contexts
 			optionsBuilder.UseSqlite( "Data Source=books.db" );
 			optionsBuilder.ReplaceService<IMigrationsSqlGenerator, GRMigrationsSqlGenerator>();
 			optionsBuilder.ReplaceService<IMigrationsAnnotationProvider, GRMigrationsAnnotationProvider>();
-			optionsBuilder.UseLoggerFactory( GRLoggingFacility );
+			// optionsBuilder.UseLoggerFactory( GRLoggingFacility );
 		}
 
 		protected override void OnModelCreating( ModelBuilder modelBuilder )

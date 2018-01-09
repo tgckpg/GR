@@ -63,14 +63,57 @@ namespace GR.Resources
 			return Bk;
 		}
 
-		public static Book QueryBook( string ZoneId, string ZItemId, BookType SrcType )
+		public static List<Book> UnsavedBooks = new List<Book>();
+
+		public static Book GetBook( string ZoneId, string ZItemId, BookType SrcType )
 		{
-			Book Bk = BooksDb.Books.FirstOrDefault( b => b.ZoneId == ZoneId && b.ZItemId == ZItemId && b.Type == SrcType );
-			if ( Bk != null )
+			lock ( UnsavedBooks )
 			{
-				BooksDb.Entry( Bk ).Reference( b => b.Info ).Load();
+				Book Bk = UnsavedBooks.FirstOrDefault( b => b.ZoneId == ZoneId && b.ZItemId == ZItemId && b.Type == SrcType );
+
+				if ( Bk == null )
+				{
+					Bk = BooksDb.Books.FirstOrDefault( b => b.ZoneId == ZoneId && b.ZItemId == ZItemId && b.Type == SrcType );
+				}
+
+				if ( Bk == null )
+				{
+					Bk = new Book()
+					{
+						Type = SrcType,
+						ZoneId = ZoneId,
+						ZItemId = ZItemId,
+						Title = "[Unknown]",
+						Info = new Database.Models.BookInfo()
+					};
+
+					UnsavedBooks.Add( Bk );
+				}
+				else
+				{
+					BooksDb.Entry( Bk ).Reference( b => b.Info ).Load();
+				}
+
+				return Bk;
 			}
-			return Bk;
+		}
+
+		public static void SaveBook( Book Bk )
+		{
+			lock( UnsavedBooks )
+			{
+				if ( UnsavedBooks.Contains( Bk ) )
+				{
+					BooksDb.Books.Add( Bk );
+					UnsavedBooks.Remove( Bk );
+				}
+				else
+				{
+					BooksDb.Books.Update( Bk );
+				}
+
+				BooksDb.SaveChanges();
+			}
 		}
 
 		public static IEnumerable<Book> QueryBooks( BookType SrcType )
