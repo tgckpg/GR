@@ -1,4 +1,7 @@
 ﻿using System;
+using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
 
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
@@ -7,62 +10,27 @@ using Net.Astropenguin.Helpers;
 
 namespace GR.Model.ListItem
 {
+	using GR.Settings;
 	using Resources;
 
-	public enum SectionMode
+	class BookBannerItem : ActiveItem
 	{
-		InfoPane, DirectNavigation
-	}
+		public int BookId;
 
-	class BookInfoItem : ActiveItem
-	{
-		public SectionMode Mode = SectionMode.InfoPane;
+		private string BannerUrl => FileLinks.ROOT_BANNER + BookId;
+		public bool BannerExist => Shared.Storage.FileExists( BannerUrl );
+		public Uri UriSource => new Uri( "ms-appdata:///local/" + BannerUrl );
 
-		private string Path;
-
-		public string SrcPath
+		public BookBannerItem( int BookId, string Title, string Intro, string Date )
+			: base( Title, Date, Intro, BookId.ToString() )
 		{
-			get { return Path; }
-			set
-			{
-				Path = value;
-				AwaitBitmapSource();
-			}
+			this.BookId = BookId;
 		}
 
-		private ImageSource _banner;
-		public ImageSource Banner { get { return _banner; } }
-
-		public BookInfoItem( string aid, string Title, string Intro, string Date, string BannerPath )
-			: base( Title, Date, Intro, aid )
+		public void SaveBanner( byte[] Data )
 		{
-			SrcPath = BannerPath;
-		}
-
-		public BookInfoItem( string aid, string Title, string Intro, string Date )
-			: base( Title, Date, Intro, aid )
-		{
-		}
-
-		private async void AwaitBitmapSource()
-		{
-			if ( string.IsNullOrEmpty( Path ) || !Shared.Storage.FileExists( Path ) )
-			{
-				_banner = await Image.NewBitmap( new Uri( "ms-appx:///Assets/Samples/bookcoversample.png", UriKind.Absolute ) );
-				NotifyChanged( "Banner" );
-			}
-			else
-			{
-				BitmapImage B = await Image.NewBitmap();
-
-				Worker.UIInvoke( () =>
-				{
-					Image.SetSourceFromUrl( B, Path );
-					NotifyChanged( "Banner" );
-				} );
-
-				_banner = B;
-			}
+			Shared.Storage.WriteBytes( BannerUrl, Data );
+			NotifyChanged( "BannerExist" );
 		}
 
 	}

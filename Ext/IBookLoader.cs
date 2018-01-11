@@ -11,5 +11,6 @@ namespace GR.Ext
 	interface IBookLoader
 	{
 		void Load( BookItem b, bool useCache );
+		void LoadCover( BookItem b, bool useCache );
 	}
 }

@@ -9,7 +9,7 @@ namespace GR.Converters
 	{
 		public object Convert( object value, Type targetType, object parameter, string language )
 		{
-			return BookItem.TypeName( ( BookInfo ) value );
+			return BookItem.TypeName( ( PropType ) value );
 		}
 
 		public object ConvertBack( object value, Type targetType, object parameter, string language )

@@ -10,7 +10,7 @@ namespace GR.Model.ListItem
 {
 	using Config;
 
-	class FavItem : BookInfoItem 
+	class FavItem : ActiveItem
 	{
 		private bool wSync = false, _autoCache = false, uActive = false;
 		private Color sc = Properties.APPEARENCE_THEME_SUBTLE_TEXT_COLOR;
@@ -104,12 +104,10 @@ namespace GR.Model.ListItem
 		public DateTime Date { get { return _date; } }
 
 		public FavItem( string Name, string Date, string LastUpdate, string id, bool wenkusync, bool Automation, bool isNew )
-			: base( id, Name, LastUpdate, Date )
+			: base( Name, LastUpdate, Date, id )
 		{
 			_autoCache = Automation;
 			wenkuSync = wenkusync;
-
-			Mode = SectionMode.DirectNavigation;
 
 			SubtleColor = Properties.APPEARENCE_THEME_RELATIVE_SHADES_COLOR;
 			SetNew( isNew );

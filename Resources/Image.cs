@@ -80,21 +80,22 @@ namespace GR.Resources
 			if ( Shared.Storage.FileExists( TilePath ) )
 				goto ReturnAppStoragePath;
 
-			if ( !Shared.Storage.FileExists( b.CoverPath ) )
+			if ( !b.CoverExist )
 			{
 				return "ms-appx:///Assets/Samples/Empty150.png";
 			}
 
-			BitmapImage bi = new BitmapImage();
-			await bi.SetSourceAsync( Shared.Storage.GetStream( b.CoverPath ).AsRandomAccessStream() );
-			int Width = bi.PixelWidth;
-			int Height = bi.PixelHeight;
-			bi = null;
-
-			using ( Stream readStream = Shared.Storage.GetStream( b.CoverPath ) )
+			using ( Stream s = b.CoverStream() )
 			{
-				var decoder = await BitmapDecoder.CreateAsync( readStream.AsRandomAccessStream() );
+				BitmapImage bi = new BitmapImage();
+				await bi.SetSourceAsync( s.AsRandomAccessStream() );
+				int Width = bi.PixelWidth;
+				int Height = bi.PixelHeight;
+				bi = null;
 
+				s.Seek( 0, SeekOrigin.Begin );
+
+				var decoder = await BitmapDecoder.CreateAsync( s.AsRandomAccessStream() );
 				using ( InMemoryRandomAccessStream writeStream = new InMemoryRandomAccessStream() )
 				{
 					BitmapEncoder encoder = await BitmapEncoder.CreateForTranscodingAsync( writeStream, decoder );
@@ -133,9 +134,9 @@ namespace GR.Resources
 				{
 					using ( CanvasDrawingSession ds = RenderTarget.CreateDrawingSession() )
 					{
-						if ( Shared.Storage.FileExists( Book.CoverPath ) )
+						if ( Book.CoverExist )
 						{
-							using ( Stream s = Shared.Storage.GetStream( Book.CoverPath ) )
+							using ( Stream s = Book.CoverStream() )
 								await PunchImage( dev, ds, s, Width, Height, Text );
 						}
 						else

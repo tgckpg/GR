@@ -8,6 +8,8 @@ using Windows.UI.Xaml.Media.Imaging;
 
 namespace GR.Model.Book
 {
+	using ListItem;
+
 	partial class BookItem
 	{
 		private BitmapImage _Cover = null;
@@ -15,8 +17,26 @@ namespace GR.Model.Book
 		{
 			get
 			{
-				TrySetSource();
+				_Cover = _Cover ?? new BitmapImage()
+				{
+					UriSource = new Uri( "ms-appdata:///local/" + CoverUrl )
+				};
+
 				return _Cover;
+			}
+		}
+
+		public NameValue<string> CoverSourcePath
+		{
+			get
+			{
+				// Since the path are always the same but the underlying
+				// file may change
+				// We need a different object reference each time for
+				// notifying changes
+				return CoverExist 
+						? new NameValue<string>( "Cover", CoverUrl )
+						: null;
 			}
 		}
 
@@ -35,32 +55,32 @@ namespace GR.Model.Book
 
 		public string TodayHitCount
 		{
-			get { return DisplayString( Info.TodayHitCount, BookInfo.DailyHitsCount ); }
+			get { return DisplayString( Info.TodayHitCount, PropType.DailyHitsCount ); }
 			set { Info.TodayHitCount = value; NotifyChanged( "TodayHitCount" ); }
 		}
 
 		public string TotalHitCount
 		{
-			get { return DisplayString( Info.TotalHitCount, BookInfo.TotalHitsCount ); }
+			get { return DisplayString( Info.TotalHitCount, PropType.TotalHitsCount ); }
 			set { Info.TotalHitCount = value; NotifyChanged( "TotalHitCount" ); }
 		}
 
 		public string FavCount
 		{
-			get { return DisplayString( Info.FavCount, BookInfo.FavCount ); }
+			get { return DisplayString( Info.FavCount, PropType.FavCount ); }
 			set { Info.FavCount = value; NotifyChanged( "FavCount" ); }
 		}
 
 		public string PushCount
 		{
-			get { return DisplayString( Info.PushCount, BookInfo.PushCount ); }
+			get { return DisplayString( Info.PushCount, PropType.PushCount ); }
 			set { Info.PushCount = value; NotifyChanged( "PushCount" ); }
 		}
 
 		// Assesed by BookInfoView for LocalBookStorage
 		virtual public string RecentUpdate
 		{
-			get { return DisplayString( Info.RecentUpdate, BookInfo.Date ); }
+			get { return DisplayString( Info.RecentUpdate, PropType.Date ); }
 			set
 			{
 				if ( Info.RecentUpdate != value )
@@ -75,26 +95,26 @@ namespace GR.Model.Book
 
 		public string LatestSection
 		{
-			get { return DisplayString( Info.LatestSection, BookInfo.LatestSection ); }
+			get { return DisplayString( Info.LatestSection, PropType.LatestSection ); }
 			set { Info.LatestSection = value; NotifyChanged( "LatestSection" ); }
 		}
 
 		public string UpdateStatus
 		{
-			get { return DisplayString( Info.RecentUpdate, BookInfo.Date, "( " + Status + " ) " ); }
+			get { return DisplayString( Info.RecentUpdate, PropType.Date, "( " + Status + " ) " ); }
 		}
 
 		// Accesed by BookInfoView for Author Search
 		public string Author
 		{
-			get { return DisplayString( Info.Author, BookInfo.Author ); }
+			get { return DisplayString( Info.Author, PropType.Author ); }
 			set { Info.Author = value; NotifyChanged( "Author" ); }
 		}
 
 		// Accessed by BookInfoView for ScirptUpload
 		public string Press
 		{
-			get { return DisplayString( Info.Press, BookInfo.Press ); }
+			get { return DisplayString( Info.Press, PropType.Press ); }
 			set { Info.Press = value; NotifyChanged( "Press" ); }
 		}
 
@@ -129,12 +149,12 @@ namespace GR.Model.Book
 		}
 		public string StatusLong
 		{
-			get { return DisplayString( Status, BookInfo.Status ); }
+			get { return DisplayString( Status, PropType.Status ); }
 		}
 
 		public string Length
 		{
-			get { return DisplayString( Info.Length, BookInfo.Length ); }
+			get { return DisplayString( Info.Length, PropType.Length ); }
 			set { Info.Length = value; NotifyChanged( "Length" ); }
 		}
 
@@ -143,7 +163,7 @@ namespace GR.Model.Book
 			get
 			{
 				string Content = "";
-				Content += TypeName( BookInfo.Title ) + ": " + Title;
+				Content += TypeName( PropType.Title ) + ": " + Title;
 				Content += "\nCover: " + Info.CoverSrcUrl;
 				Content += "\n" + Author;
 				Content += "\n" + RecentUpdate;
@@ -156,10 +176,11 @@ namespace GR.Model.Book
 				Content += "\n" + Press;
 				Content += "\n" + string.Join( "\n", Others );
 				Content += "\n" + StatusLong;
-				Content += "\n" + TypeName( BookInfo.Intro ) + ": " + Intro;
+				Content += "\n" + TypeName( PropType.Intro ) + ": " + Intro;
 
-				return Content; 
+				return Content;
 			}
 		}
+
 	}
 }

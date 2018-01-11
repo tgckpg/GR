@@ -84,7 +84,7 @@ namespace GR.Resources
 						ZoneId = ZoneId,
 						ZItemId = ZItemId,
 						Title = "[Unknown]",
-						Info = new Database.Models.BookInfo()
+						Info = new BookInfo()
 					};
 
 					UnsavedBooks.Add( Bk );

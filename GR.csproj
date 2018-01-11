@@ -109,9 +109,9 @@
     <Compile Include="Database\Schema\ModelExt.cs" />
     <Compile Include="Effects\Stage\RandomStripe.cs" />
     <Compile Include="Ext\IDeathblow.cs" />
-    <Compile Include="Migrations\Books\20180103070149_Initial.cs" />
-    <Compile Include="Migrations\Books\20180103070149_Initial.designer.cs">
-      <DependentUpon>20180103070149_Initial.cs</DependentUpon>
+    <Compile Include="Migrations\Books\20180111080952_Initial.cs" />
+    <Compile Include="Migrations\Books\20180111080952_Initial.designer.cs">
+      <DependentUpon>20180111080952_Initial.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Books\BooksContextModelSnapshot.cs" />
     <Compile Include="Migrations\MigrateGR.cs" />
@@ -193,7 +193,6 @@
     <Compile Include="Ext\INavList.cs" />
     <Compile Include="Model\Interfaces\INavPage.cs" />
     <Compile Include="Ext\INavSelections.cs" />
-    <Compile Include="Ext\IPaneInfoSection.cs" />
     <Compile Include="Ext\ISectionItem.cs" />
     <Compile Include="Ext\XProto.cs" />
     <Compile Include="Ext\IAppFlags.cs" />
@@ -201,7 +200,6 @@
     <Compile Include="Ext\IRuntimeCache.cs" />
     <Compile Include="Ext\X.cs" />
     <Compile Include="History.cs" />
-    <Compile Include="Model\Book\BookItem\Properties.cs" />
     <Compile Include="Model\Book\BookItem\Methods.cs" />
     <Compile Include="Model\Book\BookItem\DisplayProperties.cs" />
     <Compile Include="Model\Book\BookPool.cs" />

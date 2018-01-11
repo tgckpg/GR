@@ -31,7 +31,7 @@ namespace GR.Taotu
 		public string TargetUrl { get; internal set; }
 		public bool Incoming { get; internal set; }
 
-		public static IEnumerable<GenericData<BookInfo>> PossibleTypes { get; set; }
+		public static IEnumerable<GenericData<PropType>> PossibleTypes { get; set; }
 		public PropExt SubEdit { get; set; }
 
 		public ProcManager SubProcedures
@@ -45,7 +45,7 @@ namespace GR.Taotu
 		public GrimoireExtractor()
 			: base( ProcType.EXTRACT )
 		{
-			PossibleTypes = GenericData<BookInfo>.Convert( Enum.GetValues( typeof( BookInfo ) ) );
+			PossibleTypes = GenericData<PropType>.Convert( Enum.GetValues( typeof( PropType ) ) );
 			PropDefs = new ObservableCollection<PropExt>();
 		}
 
@@ -242,7 +242,7 @@ namespace GR.Taotu
 
 		public class PropExt : ProcFind.RegItem
 		{
-			public static readonly Type BINF = typeof( BookInfo );
+			public static readonly Type BINF = typeof( PropType );
 
 			public ProcManager SubProc { get; set; }
 			public bool HasSubProcs { get { return SubProc.HasProcedures; } }
@@ -262,7 +262,7 @@ namespace GR.Taotu
 				set { base.Enabled = value; }
 			}
 
-			public GenericData<BookInfo> SelectedType 
+			public GenericData<PropType> SelectedType 
 			{
 				get
 				{
@@ -270,10 +270,10 @@ namespace GR.Taotu
 				}
 			}
 
-			public IEnumerable<GenericData<BookInfo>> Types { get { return PossibleTypes; } }
-			public BookInfo PType { get; set; }
+			public IEnumerable<GenericData<PropType>> Types { get { return PossibleTypes; } }
+			public PropType PType { get; set; }
 
-			public PropExt( BookInfo PType = BookInfo.Others )
+			public PropExt( PropType PType = PropType.Others )
 			{
 				this.PType = PType;
 				this.SubProc = new ProcManager();
@@ -290,7 +290,7 @@ namespace GR.Taotu
 				if ( Sub != null ) SubProc.ReadParam( Sub );
 
 				PType = Enum.GetValues( BINF )
-					.Cast<BookInfo>()
+					.Cast<PropType>()
 					.FirstOrDefault( x => Enum.GetName(  BINF, x ) == SType );
 			}
 

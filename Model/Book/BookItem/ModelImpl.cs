@@ -11,6 +11,8 @@ namespace GR.Model.Book
 
 	partial class BookItem
 	{
+		public static readonly string ID = typeof( BookItem ).Name;
+
 		protected Book _Entry;
 		public Book Entry
 		{
@@ -66,7 +68,7 @@ namespace GR.Model.Book
 			set { Entry.Description = value; NotifyChanged( "Description" ); }
 		}
 
-		public Database.Models.BookInfo Info => Entry.Info;
+		public BookInfo Info => Entry.Info;
 		public List<Volume> Volumes => Entry.Volumes;
 		public HashSet<string> Others => Info.Others;
 

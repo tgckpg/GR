@@ -139,7 +139,7 @@ namespace GR.Model.ListItem
 			PSettings = new XRegistry( "<ProcSpider />", MetaLocation );
 			ProcParameter.DestroyParams( PSettings );
 
-			if ( BInst != null ) Shared.Storage.DeleteFile( BInst.CoverPath );
+			BInst?.ClearCover();
 
 			await TestProcessed();
 		}

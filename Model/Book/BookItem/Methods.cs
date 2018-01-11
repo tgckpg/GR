@@ -1,23 +1,68 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Xml.Linq;
 using Windows.UI.Xaml.Media.Imaging;
 
+using Net.Astropenguin.DataModel;
 using Net.Astropenguin.IO;
+using Net.Astropenguin.Helpers;
+using Net.Astropenguin.Loaders;
 using Net.Astropenguin.Logging;
 
 namespace GR.Model.Book
 {
-	using Database.Schema;
 	using Effects;
 	using Resources;
 	using Settings;
 
-	partial class BookItem
+	enum PropType
 	{
-		public static string TypeName( BookInfo InfoType )
+		Others = 1,
+		Title = 2,
+		DailyHitsCount = 4,
+		TotalHitsCount = 8,
+		FavCount = 16,
+		PushCount = 32,
+		Date = 64,
+		Author = 128,
+		Press = 256,
+		Status = 512,
+		Length = 1024,
+		LatestSection = 2048,
+		Cover = 4096,
+		Intro = 8192,
+	}
+
+	partial class BookItem : IActiveData
+	{
+		public event PropertyChangedEventHandler PropertyChanged;
+
+		protected void NotifyChanged( params string[] Names )
+		{
+			if ( Worker.BackgroundOnly ) return;
+
+			Worker.UIInvoke( () =>
+			{
+				// Must check each time after property changed is called
+				// PropertyChanged may be null after event call
+				foreach ( string Name in Names )
+				{
+					PropertyChanged?.Invoke( this, new PropertyChangedEventArgs( Name ) );
+				}
+			} );
+		}
+
+		public int Index { get; protected set; }
+
+		virtual public bool NeedUpdate { get; protected set; }
+
+		private static StringResBg Res { get { return new StringResBg( "Book" ); } }
+
+		public static string TypeName( PropType InfoType )
 		{
 			return Res.Text( InfoType.ToString() );
 		}
@@ -114,11 +159,6 @@ namespace GR.Model.Book
 			Entry.Json_Meta = B.Entry.Json_Meta;
 		}
 
-		public void CoverUpdate()
-		{
-			NotifyChanged( "CoverExistsPath" );
-		}
-
 		static public BookItem DummyBook()
 		{
 			BookItem Book = new NonCollectedBook( "Dummy Title" );
@@ -144,22 +184,27 @@ namespace GR.Model.Book
 			return Book;
 		}
 
-		private string DisplayString( string Raw, BookInfo InfType, string Suffix = "" )
+		private string DisplayString( string Raw, PropType InfType, string Suffix = "" )
 		{
 			return string.IsNullOrEmpty( Raw ) ? "" : ( TypeName( InfType ) + ": " + Raw + Suffix );
 		}
 
-		private async void TrySetSource()
+		private string CoverUrl => FileLinks.ROOT_COVER + Entry.Id;
+		public bool CoverExist => Shared.Storage.FileExists( CoverUrl );
+		public Stream CoverStream() => Shared.Storage.GetStream( CoverUrl );
+
+		public void SaveCover( byte[] Data )
 		{
-			if ( _Cover != null || CoverExistsPath == null ) return;
+			Shared.Storage.WriteBytes( CoverUrl, Data );
+			_Cover = null;
+			NotifyChanged( "Cover", "CoverSourcePath" );
+		}
 
-			using ( Stream s = Shared.Storage.GetStream( CoverPath ) )
-			{
-				_Cover = new BitmapImage();
-				await _Cover.SetSourceAsync( s.AsRandomAccessStream() );
-
-				NotifyChanged( "Cover" );
-			}
+		public void ClearCover()
+		{
+			Shared.Storage.DeleteFile( CoverUrl );
+			_Cover = null;
+			NotifyChanged( "Cover", "CoverSourcePath" );
 		}
 
 	}
