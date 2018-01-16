@@ -84,7 +84,7 @@ namespace GR.Model.Book
 
 		protected BookItem( string ZoneId, BookType SrcType, string ItemId )
 		{
-			_Entry = Shared.GetBook( ZoneId, ItemId, SrcType );
+			_Entry = Shared.BooksDb.GetBook( ZoneId, ItemId, SrcType );
 		}
 	}
 }

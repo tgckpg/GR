@@ -39,6 +39,74 @@ namespace GR.Database.Contexts
 			BookEntity.HasIndex( b => b.ZItemId );
 			BookEntity.HasIndex( b => b.Title );
 		}
+
+		private List<Book> UnsavedBooks = new List<Book>();
+
+		public Book QueryBook( string id )
+		{
+			Book Bk = Books.Find( id );
+			if ( Bk != null )
+			{
+				Entry( Bk ).Reference( b => b.Info ).Load();
+			}
+			return Bk;
+		}
+
+		public Book GetBook( string ZoneId, string ZItemId, BookType SrcType )
+		{
+			lock ( UnsavedBooks )
+			{
+				Book Bk = UnsavedBooks.FirstOrDefault( b => b.ZoneId == ZoneId && b.ZItemId == ZItemId && b.Type == SrcType );
+
+				if ( Bk == null )
+				{
+					Bk = Books.FirstOrDefault( b => b.ZoneId == ZoneId && b.ZItemId == ZItemId && b.Type == SrcType );
+				}
+
+				if ( Bk == null )
+				{
+					Bk = new Book()
+					{
+						Type = SrcType,
+						ZoneId = ZoneId,
+						ZItemId = ZItemId,
+						Title = "[Unknown]",
+						Info = new BookInfo()
+					};
+
+					UnsavedBooks.Add( Bk );
+				}
+				else
+				{
+					Entry( Bk ).Reference( b => b.Info ).Load();
+				}
+
+				return Bk;
+			}
+		}
+
+		public void SaveBook( Book Bk )
+		{
+			lock( UnsavedBooks )
+			{
+				if ( UnsavedBooks.Contains( Bk ) )
+				{
+					Books.Add( Bk );
+					UnsavedBooks.Remove( Bk );
+				}
+				else
+				{
+					Books.Update( Bk );
+				}
+
+				SaveChanges();
+			}
+		}
+
+		public IEnumerable<Book> QueryBooks( BookType SrcType )
+		{
+			return Books.Where( b => b.Type == SrcType );
+		}
 	}
 
 	class GRLogScope : IDisposable

@@ -17,7 +17,6 @@ namespace GR.Resources
 {
 	using CompositeElement;
 	using Database.Contexts;
-	using Database.Models;
 	using Model;
 	using Model.Book;
 	using Model.REST;
@@ -41,85 +40,7 @@ namespace GR.Resources
 		public static TradChinese TC;
 
 		private static BooksContext _Books;
-		public static BooksContext BooksDb
-		{
-			get
-			{
-				if ( _Books == null )
-				{
-					_Books = new BooksContext();
-				}
-				return _Books;
-			}
-		}
-
-		public static Book QueryBook( string id )
-		{
-			Book Bk = BooksDb.Books.Find( id );
-			if ( Bk != null )
-			{
-				BooksDb.Entry( Bk ).Reference( b => b.Info ).Load();
-			}
-			return Bk;
-		}
-
-		public static List<Book> UnsavedBooks = new List<Book>();
-
-		public static Book GetBook( string ZoneId, string ZItemId, BookType SrcType )
-		{
-			lock ( UnsavedBooks )
-			{
-				Book Bk = UnsavedBooks.FirstOrDefault( b => b.ZoneId == ZoneId && b.ZItemId == ZItemId && b.Type == SrcType );
-
-				if ( Bk == null )
-				{
-					Bk = BooksDb.Books.FirstOrDefault( b => b.ZoneId == ZoneId && b.ZItemId == ZItemId && b.Type == SrcType );
-				}
-
-				if ( Bk == null )
-				{
-					Bk = new Book()
-					{
-						Type = SrcType,
-						ZoneId = ZoneId,
-						ZItemId = ZItemId,
-						Title = "[Unknown]",
-						Info = new BookInfo()
-					};
-
-					UnsavedBooks.Add( Bk );
-				}
-				else
-				{
-					BooksDb.Entry( Bk ).Reference( b => b.Info ).Load();
-				}
-
-				return Bk;
-			}
-		}
-
-		public static void SaveBook( Book Bk )
-		{
-			lock( UnsavedBooks )
-			{
-				if ( UnsavedBooks.Contains( Bk ) )
-				{
-					BooksDb.Books.Add( Bk );
-					UnsavedBooks.Remove( Bk );
-				}
-				else
-				{
-					BooksDb.Books.Update( Bk );
-				}
-
-				BooksDb.SaveChanges();
-			}
-		}
-
-		public static IEnumerable<Book> QueryBooks( BookType SrcType )
-		{
-			return BooksDb.Books.Where( b => b.Type == SrcType );
-		}
+		public static BooksContext BooksDb => _Books ?? ( _Books = new BooksContext() );
 
 		public static void LoadMessage( string MESG_ID, params string[] args )
 		{

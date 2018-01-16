@@ -308,7 +308,6 @@
   <ItemGroup>
     <Content Include="Shaders\Dissolve.hlsl" />
     <Content Include="Shaders\Ripples.hlsl" />
-    <Content Include="Resources\aboutText.txt" />
     <Content Include="Resources\badwords.txt" />
   </ItemGroup>
   <ItemGroup>

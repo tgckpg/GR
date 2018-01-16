@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using Windows.UI.Xaml.Media.Imaging;
@@ -73,24 +74,6 @@ namespace GR.Model.Book
 			NotifyChanged( "Intro" );
 		}
 
-		public bool ParseXml( string xml )
-		{
-			try
-			{
-				XDocument BookmetaXml = XDocument.Parse( xml );
-				IEnumerable<XElement> metadata = BookmetaXml.FirstNode.Document.Descendants( "data" );
-				foreach ( XElement md in metadata )
-				{
-					ReadParam( md.GetXValue( "name" ), md.GetXValue( "value" ), md.Value );
-				}
-			}
-			catch ( Exception )
-			{
-				return false;
-			}
-			return true;
-		}
-
 		public bool ReadParam( string Name, string Value, string CDATA = null )
 		{
 			if ( CDATA == null ) CDATA = Value;
@@ -143,12 +126,11 @@ namespace GR.Model.Book
 			return false;
 		}
 
-		virtual public void ParseVolumeData( string Data ) { }
 		virtual public Database.Models.Volume[] GetVolumes() => Volumes.ToArray();
 
 		virtual public void SaveInfo()
 		{
-			Shared.SaveBook( Entry );
+			Shared.BooksDb.SaveBook( Entry );
 		}
 
 		public void Update( BookItem B )
@@ -189,22 +171,32 @@ namespace GR.Model.Book
 			return string.IsNullOrEmpty( Raw ) ? "" : ( TypeName( InfType ) + ": " + Raw + Suffix );
 		}
 
-		private string CoverUrl => FileLinks.ROOT_COVER + Entry.Id;
-		public bool CoverExist => Shared.Storage.FileExists( CoverUrl );
+		private string CoverUrl => FileLinks.ROOT_COVER + Entry.Meta[ AppKeys.BINF_COVER ];
+		public bool CoverExist => Entry.Meta.ContainsKey( AppKeys.BINF_COVER ) && Shared.Storage.FileExists( CoverUrl );
 		public Stream CoverStream() => Shared.Storage.GetStream( CoverUrl );
 
 		public void SaveCover( byte[] Data )
 		{
+			string ImageUid = GSystem.Utils.Md5( Data.AsBuffer() );
+
+			Entry.Meta[ AppKeys.BINF_COVER ] = ImageUid;
+			SaveInfo();
+
 			Shared.Storage.WriteBytes( CoverUrl, Data );
+
 			_Cover = null;
-			NotifyChanged( "Cover", "CoverSourcePath" );
+			NotifyChanged( "Cover", "CoverExist", "CoverSourcePath" );
 		}
 
 		public void ClearCover()
 		{
 			Shared.Storage.DeleteFile( CoverUrl );
+
+			Entry.Meta.Remove( AppKeys.BINF_COVER );
+			SaveInfo();
+
 			_Cover = null;
-			NotifyChanged( "Cover", "CoverSourcePath" );
+			NotifyChanged( "Cover", "CoverExist", "CoverSourcePath" );
 		}
 
 	}

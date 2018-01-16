@@ -134,9 +134,19 @@ namespace GR.Ext
 			X.Field( Obj.GetType(), Prop ).SetValue( Obj, Value );
 		}
 
+		public static void XCall( this object Obj, string Method, params object[] args )
+		{
+			X.Method( Obj.GetType(), Method ).Invoke( Obj, args );
+		}
+
 		public static T XCall<T>( this object Obj, string Method, params object[] args )
 		{
 			return ( T ) X.Method( Obj.GetType(), Method ).Invoke( Obj, args );
+		}
+
+		public static Task XCallAsync( this object Obj, string Method, params object[] args )
+		{
+			return ( Task ) X.Method( Obj.GetType(), Method ).Invoke( Obj, args );
 		}
 
 		public static Task<T> XCallAsync<T>( this object Obj, string Method, params object[] args )
