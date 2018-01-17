@@ -68,6 +68,22 @@ namespace GR.Model.Book
 			set { Entry.Description = value; NotifyChanged( "Description" ); }
 		}
 
+		public bool IsFav
+		{
+			get { return Entry.Fav; }
+			set
+			{
+				Entry.Fav = value;
+				NotifyChanged( "IsFav" );
+			}
+		}
+
+		public DateTime LastCache
+		{
+			get { return Entry.DateModified; }
+			set { Entry.DateModified = value; NotifyChanged( "LastCache" ); }
+		}
+
 		public BookInfo Info => Entry.Info;
 		public List<Volume> Volumes => Entry.Volumes;
 		public HashSet<string> Others => Info.Others;

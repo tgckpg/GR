@@ -26,10 +26,8 @@ namespace GR.Database.Models
 		WD
 	}
 
-	public enum LayoutMethod : byte
-	{
-		Orientation = 1, TextDirection = 2
-	}
+	public enum LayoutMethod : byte { Orientation = 1, TextDirection = 2 }
+	public enum AnchorType : byte { BookMark = 1, AutoAnchor = 2 }
 
 	public class Book
 	{
@@ -45,14 +43,17 @@ namespace GR.Database.Models
 
 		[Required]
 		public string Title { get; set; }
-
 		public string Description { get; set; }
+
+		public bool Fav { get; set; }
 
 		[Required]
 		public LayoutMethod TextLayout { get; set; }
 
 		[AutoNow( SqliteTriggers.INSERT | SqliteTriggers.UPDATE )]
 		public DateTime DateModified { get; set; }
+
+		public DateTime? LastAccess { get; set; }
 
 		public BookInfo Info { get; set; }
 
@@ -67,12 +68,36 @@ namespace GR.Database.Models
 		public List<Volume> Volumes { get; set; }
 	}
 
+	public class Anchor
+	{
+		[Key]
+		public int Id { get; set; }
+
+		public int BookId { get; set; }
+		public Book Book { get; set; }
+
+		public AnchorType Type { get; set; }
+
+		public string Ref0 { get; set; }
+		public string Ref1 { get; set; }
+		public string Ref2 { get; set; }
+
+		[NotMapped]
+		public DbDictionary Meta { get; set; } = new DbDictionary();
+		public string Json_Meta
+		{
+			get => Meta.Data;
+			set => Meta.Data = value;
+		}
+
+		public int Index { get; set; } 
+	}
+
 	public class BookInfo
 	{
 		[Key]
 		public int Id { get; set; }
 
-		// EF convension
 		public int BookId { get; set; }
 		public Book Book { get; set; }
 
@@ -180,7 +205,6 @@ namespace GR.Database.Models
 		[Key]
 		public int Id { get; set; }
 
-		// EF convension
 		public int ChapterId { get; set; }
 		public Chapter Chapter { get; set; }
 
@@ -192,7 +216,6 @@ namespace GR.Database.Models
 		[Key]
 		public int Id { get; set; }
 
-		// EF convension
 		public int ChapterId { get; set; }
 		public Chapter Chapter { get; set; }
 

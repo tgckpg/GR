@@ -1,75 +1,52 @@
-﻿using System;
+﻿using GR.Database.Models;
+using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Windows.UI.Xaml;
 
-using Net.Astropenguin.IO;
-using Net.Astropenguin.Logging;
+using Net.Astropenguin.Linq;
 
 namespace GR
 {
+	using Model.ListItem;
 	using Resources;
 	using Settings;
-	using Model.ListItem;
-	using Model.Book;
 
 	class History
 	{
 		public static readonly string ID = typeof( History ).Name;
 
 		public const string SettingsFile = FileLinks.ROOT_SETTING + FileLinks.READING_HISTORY;
-		private XRegistry Registry;
 
-		public static Task CreateThumbnail( UIElement element, string BookId )
+		public static Task CreateThumbnail( UIElement element, int BookId )
 		{
 			return Image.CaptureScreen( FileLinks.ROOT_READER_THUMBS + BookId, element, 120, 90 );
 		}
 
 		public History()
 		{
-			Registry = new XRegistry( AppKeys.LBS_AXML, SettingsFile );
-		}
-
-		public void Push( BookItem b )
-		{
-			DateTime d = DateTime.Now.ToUniversalTime();
-			Logger.Log( ID, "Date: " + d.ToString(), LogType.DEBUG );
-			Registry.SetParameter(
-				b.GID
-				, new XKey[] {
-					new XKey( AppKeys.GLOBAL_NAME, b.Title )
-					, new XKey( AppKeys.LBS_DATE, d.ToString() )
-				}
-			);
-			Registry.Save();
 		}
 
 		public ActiveItem[] GetListItems()
 		{
-			XParameter[] allHistory = Registry.Parameters();
-			Array.Sort( allHistory, delegate ( XParameter a, XParameter b ) {
-				DateTime date = DateTime.Parse( a.GetValue( AppKeys.LBS_DATE ) );
-				DateTime dateb = DateTime.Parse( b.GetValue( AppKeys.LBS_DATE ) );
-				return dateb.CompareTo( date );
-			} );
-			ActiveItem[] ll = new ActiveItem[ allHistory.Length ];
-
-			int l = allHistory.Length;
-			for( int i = 0; i < l; i ++ )
-			{
-				DateTime date = DateTime.Parse( allHistory[ i ].GetValue( AppKeys.LBS_DATE ) );
-				ll[i] = new ActiveItem(
-					allHistory[i].GetValue( AppKeys.GLOBAL_NAME )
-					, date.ToLocalTime().ToString()
-					, allHistory[i].Id
-				);
-			}
-
-			return ll;
+			IQueryable<Book> Books = Shared.BooksDb.Books.Where( x => x.LastAccess != null ).OrderByDescending( x => x.LastAccess );
+			return Books.Remap( x => new HistoryItem( x ) );
 		}
 
 		public void Clear()
 		{
-			Shared.Storage.DeleteFile( SettingsFile );
+			Shared.BooksDb.Books.Where( x => x.LastAccess != null ).ExecEach( x => { x.LastAccess = null; } );
+			Shared.BooksDb.SaveChanges();
 		}
+
+		public class HistoryItem : ActiveItem
+		{
+			public HistoryItem( Book Bk )
+				: base( Bk.Title, Bk.LastAccess?.ToLocalTime().ToString(), Bk )
+			{
+				Payload = Bk.Id.ToString();
+			}
+		}
+
 	}
 }

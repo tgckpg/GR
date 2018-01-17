@@ -147,7 +147,10 @@ namespace GR.Model.Book.Spider
 			{
 				VolInstruction VInst = new VolInstruction( Vol, Settings );
 
-				Shared.BooksDb.Entry( Vol ).Collection( x => x.Chapters ).Load();
+				if ( Vol.Chapters == null )
+				{
+					Shared.BooksDb.Entry( Vol ).Collection( x => x.Chapters ).Load();
+				}
 
 				foreach ( Chapter Ch in Vol.Chapters )
 				{

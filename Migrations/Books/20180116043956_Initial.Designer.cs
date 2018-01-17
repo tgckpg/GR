@@ -9,13 +9,39 @@ using GR.Database.Models;
 namespace GR.Migrations.Books
 {
     [DbContext(typeof(BooksContext))]
-    [Migration("20180111080952_Initial")]
+    [Migration("20180116043956_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.5");
+
+            modelBuilder.Entity("GR.Database.Models.Anchor", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("BookId");
+
+                    b.Property<int>("Index");
+
+                    b.Property<string>("Json_Meta");
+
+                    b.Property<string>("Ref0");
+
+                    b.Property<string>("Ref1");
+
+                    b.Property<string>("Ref2");
+
+                    b.Property<byte>("Type");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BookId");
+
+                    b.ToTable("Anrchors");
+                });
 
             modelBuilder.Entity("GR.Database.Models.Book", b =>
                 {
@@ -26,7 +52,11 @@ namespace GR.Migrations.Books
 
                     b.Property<string>("Description");
 
+                    b.Property<bool>("Fav");
+
                     b.Property<string>("Json_Meta");
+
+                    b.Property<DateTime?>("LastAccess");
 
                     b.Property<byte>("TextLayout");
 
@@ -182,6 +212,14 @@ namespace GR.Migrations.Books
                     b.HasIndex("BookId");
 
                     b.ToTable("Volumes");
+                });
+
+            modelBuilder.Entity("GR.Database.Models.Anchor", b =>
+                {
+                    b.HasOne("GR.Database.Models.Book", "Book")
+                        .WithMany()
+                        .HasForeignKey("BookId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("GR.Database.Models.BookInfo", b =>

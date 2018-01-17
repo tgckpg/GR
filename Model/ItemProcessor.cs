@@ -30,18 +30,15 @@ namespace GR.Model.Pages
 
 		public static async Task<BookItem> GetBookFromId( string Id )
 		{
-			Guid _Guid;
-			int _Id;
-
 			bool IsBookSpider = false;
-			IsBookSpider = Guid.TryParse( Id, out _Guid );
+			IsBookSpider = Guid.TryParse( Id, out Guid _Guid );
 
 			if ( IsBookSpider )
 			{
 				SpiderBook Book = await SpiderBook.CreateSAsync( Id );
 				if ( Book.ProcessSuccess ) return Book.GetBook();
 			}
-			else if ( int.TryParse( Id, out _Id ) )
+			else if ( int.TryParse( Id, out int _Id ) )
 			{
 				// Order-aware
 				IDeathblow DeathBlow = await GetDeathblow( Id );
@@ -51,6 +48,30 @@ namespace GR.Model.Pages
 				if ( Doc.IsValid ) return Doc;
 
 				if ( X.Exists ) return GetBookEx( Id );
+			}
+
+			return null;
+		}
+
+		public static BookItem GetBookItem( Database.Models.Book Bk )
+		{
+			switch( Bk.Type )
+			{
+				case Database.Models.BookType.S:
+					return new BookInstruction( Bk );
+				case Database.Models.BookType.L:
+					return new LocalTextDocument( Bk );
+			}
+
+			if ( X.Exists )
+			{
+				switch ( Bk.Type )
+				{
+					case Database.Models.BookType.W:
+						return X.Instance<BookItem>( XProto.BookItemEx, Bk );
+					case Database.Models.BookType.WD:
+						return X.Instance<BookItem>( XProto.DeathBook, Bk );
+				}
 			}
 
 			return null;

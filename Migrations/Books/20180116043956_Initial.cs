@@ -17,7 +17,9 @@ namespace GR.Migrations.Books
                     DateModified = table.Column<DateTime>(nullable: false)
                         .Annotation("AutoNow", (byte)3),
                     Description = table.Column<string>(nullable: true),
+                    Fav = table.Column<bool>(nullable: false),
                     Json_Meta = table.Column<string>(nullable: true),
+                    LastAccess = table.Column<DateTime>(nullable: true),
                     TextLayout = table.Column<byte>(nullable: false),
                     Title = table.Column<string>(nullable: false),
                     Type = table.Column<byte>(nullable: false),
@@ -27,6 +29,31 @@ namespace GR.Migrations.Books
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Books", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Anrchors",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    BookId = table.Column<int>(nullable: false),
+                    Index = table.Column<int>(nullable: false),
+                    Json_Meta = table.Column<string>(nullable: true),
+                    Ref0 = table.Column<string>(nullable: true),
+                    Ref1 = table.Column<string>(nullable: true),
+                    Ref2 = table.Column<string>(nullable: true),
+                    Type = table.Column<byte>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Anrchors", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Anrchors_Books_BookId",
+                        column: x => x.BookId,
+                        principalTable: "Books",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -163,6 +190,11 @@ namespace GR.Migrations.Books
                 });
 
             migrationBuilder.CreateIndex(
+                name: "IX_Anrchors_BookId",
+                table: "Anrchors",
+                column: "BookId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Books_Title",
                 table: "Books",
                 column: "Title");
@@ -213,6 +245,9 @@ namespace GR.Migrations.Books
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "Anrchors");
+
             migrationBuilder.DropTable(
                 name: "BookInfo");
 

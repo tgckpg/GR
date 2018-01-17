@@ -109,9 +109,9 @@
     <Compile Include="Database\Schema\ModelExt.cs" />
     <Compile Include="Effects\Stage\RandomStripe.cs" />
     <Compile Include="Ext\IDeathblow.cs" />
-    <Compile Include="Migrations\Books\20180111080952_Initial.cs" />
-    <Compile Include="Migrations\Books\20180111080952_Initial.designer.cs">
-      <DependentUpon>20180111080952_Initial.cs</DependentUpon>
+    <Compile Include="Migrations\Books\20180116043956_Initial.cs" />
+    <Compile Include="Migrations\Books\20180116043956_Initial.designer.cs">
+      <DependentUpon>20180116043956_Initial.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Books\BooksContextModelSnapshot.cs" />
     <Compile Include="Migrations\MigrateGR.cs" />
@@ -210,8 +210,6 @@
     <Compile Include="Model\Book\Spider\BookInstruction.cs" />
     <Compile Include="Model\Book\Spider\EpInstruction.cs" />
     <Compile Include="Model\Book\Spider\VolInstruction.cs" />
-    <Compile Include="Model\Book\TextEpisode.cs" />
-    <Compile Include="Model\Book\TextVolume.cs" />
     <Compile Include="Model\Book\VirtualVolume.cs" />
     <Compile Include="Model\Book\VolumesInfo.cs" />
     <Compile Include="Model\Comments\Comment.cs" />

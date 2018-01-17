@@ -40,19 +40,6 @@ namespace GR.Model.Book
 			}
 		}
 
-		private bool iv = false;
-		public bool IsFav
-		{
-			get { return iv; }
-			set { iv = value; NotifyChanged( "IsFav" ); }
-		}
-
-		public DateTime LastCache
-		{
-			get { return Entry.DateModified; }
-			set { Entry.DateModified = value; NotifyChanged( "LastCache" ); }
-		}
-
 		public string TodayHitCount
 		{
 			get { return DisplayString( Info.TodayHitCount, PropType.DailyHitsCount ); }

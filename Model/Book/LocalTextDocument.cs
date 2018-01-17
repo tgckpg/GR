@@ -4,56 +4,40 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using Net.Astropenguin.IO;
+using Net.Astropenguin.Linq;
 using Net.Astropenguin.Logging;
 using Net.Astropenguin.Messaging;
 
 namespace GR.Model.Book
 {
 	using Database.Models;
+	using Loaders;
+	using GSystem;
 	using Settings;
 
 	sealed class LocalTextDocument : BookItem
 	{
 		new public static readonly string ID = typeof( LocalTextDocument ).Name;
 
-		public string MetaLocation { get { return FileLinks.ROOT_LOCAL_VOL + Id + "/METADATA.xml"; } }
-
 		public bool IsValid { get; private set; }
+
+		public LocalTextDocument( Book Bk ) : base( Bk ) { }
+		public LocalTextDocument( string id ) : base( "l", BookType.L, id ) { }
 
 		private List<TextEpisode> Episodes;
 
-		private XRegistry BookReg;
-		public LocalTextDocument( string id )
-			:base( "l", BookType.L, id )
-		{
-			BookReg = new XRegistry( "<BookMeta />", MetaLocation );
-			TryGetInformation();
-		}
-
-		private void TryGetInformation()
-		{
-			XParameter Param = BookReg.Parameter( AppKeys.GLOBAL_META );
-			if( Param != null )
-			{
-				Title = Param.GetValue( AppKeys.GLOBAL_NAME );
-				IsValid = true;
-			}
-		}
-
-		public async static Task<LocalTextDocument> ParseAsync( string aid, string doc )
+		public async static Task<LocalTextDocument> ParseAsync( string ZItemId, string Doc )
 		{
 			try
 			{
-				LocalTextDocument TDoc = new LocalTextDocument( aid );
-
+				LocalTextDocument TDoc = new LocalTextDocument( ZItemId );
 				TDoc.Episodes = new List<TextEpisode>();
 
-				string[] lines = doc.Split( new char[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries );
+				string[] lines = Doc.Split( new char[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries );
 
 				int l = lines.Length - 2;
 
-				MessageBus.SendUI( typeof( ListItem.LocalBook ), "Verifying ...", aid );
+				MessageBus.SendUI( typeof( ListItem.LocalBook ), "Verifying ...", ZItemId );
 				// Filter unecessary line break and spaces
 				string s;
 				TDoc.Title = lines[ 1 ];
@@ -63,13 +47,13 @@ namespace GR.Model.Book
 					s = lines[ i ];
 					if ( 3 < s.Length )
 					{
-						if ( !( s[ 0 ] == s[ 1 ] && s[ 1 ] == s[ 2 ] && s[ 2 ] == s[ 3 ] && s[ 3 ] == ' ' ) )
+						if ( !( s[ 0 ] == ' ' && s[ 1 ] == ' ' && s[ 2 ] == ' ' && s[ 3 ] == ' ' ) )
 						{
 							if ( Ep != null )
 							{
 								TDoc.Episodes.Add( Ep );
 							}
-							Ep = new TextEpisode( aid, s.Trim() );
+							Ep = new TextEpisode() { Title = s.Trim(), Content = "" };
 							continue;
 						}
 					}
@@ -79,14 +63,12 @@ namespace GR.Model.Book
 					s = s.Trim();
 					if ( !string.IsNullOrEmpty( s ) )
 					{
-						Ep.Push( s );
+						Ep.Content += s + "\n";
 					}
 				}
 
-				MessageBus.SendUI( typeof( ListItem.LocalBook ), "Analyzing ...", aid );
+				MessageBus.SendUI( typeof( ListItem.LocalBook ), "Analyzing ...", ZItemId );
 				await TDoc.GuessVolTitle();
-				// Write Chapter Content
-				// Shared.Storage.WriteString( path, content );
 
 				return TDoc;
 			}
@@ -100,22 +82,26 @@ namespace GR.Model.Book
 
 		public async Task Save()
 		{
-			foreach( Volume Vol in Volumes )
+			SaveInfo();
+			foreach( TextEpisode Ep in Episodes )
 			{
-				throw new NotImplementedException();
-				// await Vol.Save();
+				MessageBus.SendUI( typeof( ListItem.LocalBook ), "Saving: " + Ep.Ch.Title, ZItemId );
+				await new ContentParser().ParseAsync( Ep.Content, Ep.Ch );
 			}
 
-			BookReg.SetParameter( AppKeys.GLOBAL_META, new XKey( AppKeys.GLOBAL_NAME, Title ) );
-
-			MessageBus.SendUI( typeof( ListItem.LocalBook ), "Saving Metadata... ", Id );
-			BookReg.Save();
+			Episodes.Clear();
 		}
 
 		private async Task GuessVolTitle()
 		{
 			Logger.Log( ID, "Guessing Volumes for: " + Title, LogType.DEBUG );
-			Entry.Volumes = new List<Volume>();
+
+			if( Entry.Volumes == null )
+			{
+				await Resources.Shared.BooksDb.Entry( Entry ).Collection( x => x.Volumes ).LoadAsync();
+			}
+
+			Entry.Volumes.Clear();
 
 			IEnumerable<TextEpisode> OEps = Episodes.Where( x => true );
 			while ( 0 < OEps.Count() )
@@ -151,12 +137,12 @@ namespace GR.Model.Book
 					{
 						if ( 0 < Taken )
 						{
-							Volumes.Add( ProcessVolume( Id, Eps, i ) );
+							Volumes.Add( ProcessVolume( Eps, i ) );
 							OEps = OEps.Skip( Eps.Count() );
 						}
 						else
 						{
-							Volumes.Add( ProcessVolume( Id, OEps.Take( 1 ), i ) );
+							Volumes.Add( ProcessVolume( OEps.Take( 1 ), i ) );
 							OEps = OEps.Skip( 1 );
 						}
 						Taken = 0;
@@ -171,15 +157,48 @@ namespace GR.Model.Book
 			}
 		}
 
-		private Volume ProcessVolume( int aid, IEnumerable<TextEpisode> VolGroup, int i )
+		private Volume ProcessVolume( IEnumerable<TextEpisode> Chapters, int VSplice )
 		{
-			string VolTitle = VolGroup.First().Title;
-			if( 0 < i ) VolTitle = VolTitle.Substring( 0, i );
+			string VolTitle = Chapters.First().Title;
+
+			if ( 0 < VSplice )
+			{
+				VolTitle = VolTitle.Substring( 0, VSplice );
+			}
+
+			VolTitle = VolTitle.Trim();
 
 			Logger.Log( ID, "Guess this is a Volume: " + VolTitle, LogType.DEBUG );
-			MessageBus.SendUI( typeof( ListItem.LocalBook ), VolTitle, aid );
+			MessageBus.SendUI( typeof( ListItem.LocalBook ), VolTitle, ZItemId );
 
-			return new Volume() { BookId = aid, Title = VolTitle };
+			Volume Vol = new Volume()
+			{
+				Title = VolTitle,
+				Book = Entry
+			};
+
+			Vol.Meta[ AppKeys.GLOBAL_VID ] = Utils.Md5( VolTitle );
+			Vol.Chapters = Chapters.Remap( ( x, i ) =>
+			{
+				x.Ch = new Chapter()
+				{
+					Book = Entry,
+					Volume = Vol,
+					Title = x.Title.Substring( VSplice ).Trim(),
+					Index = i
+				};
+				x.Ch.Meta[ AppKeys.GLOBAL_CID ] = Utils.Md5( x.Ch.Title );
+				return x.Ch;
+			} ).ToList();
+
+			return Vol;
+		}
+
+		private class TextEpisode
+		{
+			public string Title;
+			public string Content;
+			public Chapter Ch;
 		}
 	}
 }

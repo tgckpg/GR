@@ -22,11 +22,25 @@ namespace GR.Database.Contexts
 		public DbSet<ChapterImage> ChapterImages { get; set; }
 		public DbSet<ChapterContent> ChapterContents { get; set; }
 
+		public DbSet<Anchor> Anrchors { get; set; }
+
 		public ILoggerFactory GRLoggingFacility => new GRLoggerFactory();
+
+		public string FileLocation { get; private set; }
+
+		public BooksContext()
+		{
+			FileLocation = "books.db";
+		}
+
+		public BooksContext( string FileName )
+		{
+			FileLocation = FileName;
+		}
 
 		protected override void OnConfiguring( DbContextOptionsBuilder optionsBuilder )
 		{
-			optionsBuilder.UseSqlite( "Data Source=books.db" );
+			optionsBuilder.UseSqlite( "Data Source=" + FileLocation );
 			optionsBuilder.ReplaceService<IMigrationsSqlGenerator, GRMigrationsSqlGenerator>();
 			optionsBuilder.ReplaceService<IMigrationsAnnotationProvider, GRMigrationsAnnotationProvider>();
 			// optionsBuilder.UseLoggerFactory( GRLoggingFacility );
@@ -42,7 +56,7 @@ namespace GR.Database.Contexts
 
 		private List<Book> UnsavedBooks = new List<Book>();
 
-		public Book QueryBook( string id )
+		public Book QueryBook( int id )
 		{
 			Book Bk = Books.Find( id );
 			if ( Bk != null )
