@@ -136,7 +136,11 @@ namespace GR.Model.Book.Spider
 		{
 			if ( Packed != null ) return;
 
-			Shared.BooksDb.Entry( Entry ).Collection( x => x.Volumes ).Load();
+			if ( Entry.Volumes == null )
+			{
+				Entry.Volumes = Shared.BooksDb.Entry( Entry ).Collection( x => x.Volumes ).Query().OrderBy( x => x.Index ).ToList();
+			}
+
 			if ( !Volumes.Any() )
 			{
 				Packed = false;
@@ -149,7 +153,7 @@ namespace GR.Model.Book.Spider
 
 				if ( Vol.Chapters == null )
 				{
-					Shared.BooksDb.Entry( Vol ).Collection( x => x.Chapters ).Load();
+					Vol.Chapters = Shared.BooksDb.Entry( Vol ).Collection( x => x.Chapters ).Query().OrderBy( x => x.Index ).ToList();
 				}
 
 				foreach ( Chapter Ch in Vol.Chapters )

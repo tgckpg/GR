@@ -11,7 +11,7 @@ namespace GR.Model.Text
 {
 	using Config;
 
-	class Paragraph : ActiveData, IDisposable
+	public class Paragraph : ActiveData, IDisposable
 	{
 		private const int HORZ_SPC = 5;
 		// So many paragrahs, it will be dumb for new-ing all of them
