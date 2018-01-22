@@ -65,23 +65,22 @@ namespace GR.Migrations.Books
                     Author = table.Column<string>(nullable: true),
                     BookId = table.Column<int>(nullable: false),
                     CoverSrcUrl = table.Column<string>(nullable: true),
+                    DailyHitCount = table.Column<string>(nullable: true),
                     DateModified = table.Column<DateTime>(nullable: false)
                         .Annotation("AutoNow", (byte)3),
                     FavCount = table.Column<string>(nullable: true),
                     Json_Flags = table.Column<string>(nullable: true),
                     Json_Others = table.Column<string>(nullable: true),
+                    LastUpdateDate = table.Column<string>(nullable: true),
                     LatestSection = table.Column<string>(nullable: true),
                     Length = table.Column<string>(nullable: true),
                     LongDescription = table.Column<string>(nullable: true),
                     OriginalUrl = table.Column<string>(nullable: true),
+                    PostingDate = table.Column<string>(nullable: true),
                     Press = table.Column<string>(nullable: true),
                     PushCount = table.Column<string>(nullable: true),
-                    RecentUpdate = table.Column<string>(nullable: true),
                     Status = table.Column<string>(nullable: true),
-                    StatusLong = table.Column<string>(nullable: true),
-                    TodayHitCount = table.Column<string>(nullable: true),
-                    TotalHitCount = table.Column<string>(nullable: true),
-                    UpdateStatus = table.Column<string>(nullable: true)
+                    TotalHitCount = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {

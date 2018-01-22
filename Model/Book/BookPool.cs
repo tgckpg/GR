@@ -54,17 +54,7 @@ namespace GR.Model.Book
 				if ( Books.ContainsKey( id ) )
 				{
 					Logger.Log( ID, "Triggered Once: id( " + id + " ) ", LogType.INFO );
-					// If found, update book info
-					BookItem b = Books[ id ];
-					b.TodayHitCount = value.TodayHitCount;
-					b.TotalHitCount = value.TotalHitCount;
-					b.PushCount = value.PushCount;
-					b.FavCount = value.FavCount;
-					b.RecentUpdate = value.RecentUpdate;
-					b.Author = value.Author;
-					b.Press = value.Press;
-					b.Status = value.Status;
-					b.Length = value.Length;
+					Books[ id ].Update( value );
 				}
 				else
 				{

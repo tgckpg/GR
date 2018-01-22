@@ -25,8 +25,6 @@ namespace GR.Database
 					Context.Database.Migrate();
 				}
 			}
-
-			Migrations.MigrateGR.Start();
 		}
 	}
 }

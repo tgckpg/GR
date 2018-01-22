@@ -26,7 +26,7 @@ namespace GR.Database.Models
 		WD
 	}
 
-	public enum LayoutMethod : byte { Orientation = 1, TextDirection = 2 }
+	public enum LayoutMethod : byte { VerticalWriting = 1, RightToLeft = 2 }
 	public enum AnchorType : byte { BookMark = 1, AutoAnchor = 2 }
 
 	public class Book
@@ -102,16 +102,15 @@ namespace GR.Database.Models
 		public Book Book { get; set; }
 
 		public string LongDescription { get; set; }
-		public string TodayHitCount { get; set; }
+		public string DailyHitCount { get; set; }
 		public string TotalHitCount { get; set; }
 		public string FavCount { get; set; }
 		public string PushCount { get; set; }
-		public string RecentUpdate { get; set; }
-		public string UpdateStatus { get; set; }
+		public string PostingDate { get; set; }
+		public string LastUpdateDate { get; set; }
 		public string Author { get; set; }
 		public string Press { get; set; }
 		public string Status { get; set; }
-		public string StatusLong { get; set; }
 		public string Length { get; set; }
 		public string LatestSection { get; set; }
 

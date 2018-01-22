@@ -10,18 +10,25 @@ using GR.Config;
 using GR.Database.Contexts;
 using GR.Database.Models;
 using Microsoft.EntityFrameworkCore;
+using Net.Astropenguin.Linq;
+using GR.Ext;
+using GR.Storage;
+using GR.Model.ListItem;
+using GR.Model.Book;
+using GR.Resources;
 
 namespace GR.Migrations
 {
 	class MigrateGR
 	{
-		public static void Start()
+		public static async Task Start()
 		{
 			var mgr = new MigrateGR();
-			mgr.M0001_ContentReader_Theme();
+			await mgr.M0001_ContentReader_Theme();
+			await mgr.M0002_LocalBookStorage();
 		}
 
-		private void M0001_ContentReader_Theme()
+		private Task M0001_ContentReader_Theme()
 		{
 			Type ParamType = typeof( Parameters );
 			Type PropType = typeof( Properties );
@@ -47,9 +54,30 @@ namespace GR.Migrations
 					}
 				}
 
-				Context.SaveChanges();
+				return Context.SaveChangesAsync();
 			}
 
+		}
+
+		private async Task M0002_LocalBookStorage()
+		{
+			BookStorage BkStore = new BookStorage();
+			await BkStore.SyncSettings();
+
+			List<Book> Books = new List<Book>();
+			foreach ( FavItem Item in BkStore.GetList<FavItem>() )
+			{
+				BookItem Bk = X.Instance<BookItem>( XProto.BookItemEx, Item.Payload );
+				Bk.Entry.Fav = true;
+				Bk.Title = Item.Name;
+
+				Bk.Info.LatestSection = Item.Desc.Replace( BookItem.PropertyName( PropType.LatestSection ) + ": ", "" );
+				Bk.Info.LastUpdateDate = Item.Desc2;
+
+				Books.Add( Bk.Entry );
+			}
+
+			Shared.BooksDb.SaveBooks( Books );
 		}
 
 		private ( string, GSDataType ) ValueType( object Val )

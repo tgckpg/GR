@@ -99,18 +99,35 @@ namespace GR.Database.Contexts
 			}
 		}
 
+		private void _SaveBook( Book Bk )
+		{
+			if ( UnsavedBooks.Contains( Bk ) )
+			{
+				Books.Add( Bk );
+				UnsavedBooks.Remove( Bk );
+			}
+			else
+			{
+				Books.Update( Bk );
+			}
+		}
+
 		public void SaveBook( Book Bk )
 		{
 			lock( UnsavedBooks )
 			{
-				if ( UnsavedBooks.Contains( Bk ) )
+				_SaveBook( Bk );
+				SaveChanges();
+			}
+		}
+
+		public void SaveBooks( IEnumerable<Book> Items )
+		{
+			lock ( UnsavedBooks )
+			{
+				foreach( Book Bk in Items )
 				{
-					Books.Add( Bk );
-					UnsavedBooks.Remove( Bk );
-				}
-				else
-				{
-					Books.Update( Bk );
+					_SaveBook( Bk );
 				}
 
 				SaveChanges();

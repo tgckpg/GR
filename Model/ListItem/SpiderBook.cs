@@ -180,7 +180,7 @@ namespace GR.Model.ListItem
 			BInst = ( BookInstruction ) Convoy.Payload;
 
 			Name = BInst.Title;
-			Desc = BInst.RecentUpdate;
+			Desc = BInst.LastUpdateDate;
 
 			XParameter XParam = new XParameter( "ProcessState" );
 			XParam.SetValue( new XKey[] {
@@ -216,7 +216,7 @@ namespace GR.Model.ListItem
 					{
 						BInst = new BookInstruction( ZoneId, ZItemId );
 						Name = BInst.Title;
-						Desc = BInst.RecentUpdate;
+						Desc = BInst.LastUpdateDate;
 					}
 
 					CanProcess = true;

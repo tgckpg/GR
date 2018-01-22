@@ -91,6 +91,8 @@ namespace GR.Migrations.Books
 
                     b.Property<string>("CoverSrcUrl");
 
+                    b.Property<string>("DailyHitCount");
+
                     b.Property<DateTime>("DateModified");
 
                     b.Property<string>("FavCount");
@@ -98,6 +100,8 @@ namespace GR.Migrations.Books
                     b.Property<string>("Json_Flags");
 
                     b.Property<string>("Json_Others");
+
+                    b.Property<string>("LastUpdateDate");
 
                     b.Property<string>("LatestSection");
 
@@ -107,21 +111,15 @@ namespace GR.Migrations.Books
 
                     b.Property<string>("OriginalUrl");
 
+                    b.Property<string>("PostingDate");
+
                     b.Property<string>("Press");
 
                     b.Property<string>("PushCount");
 
-                    b.Property<string>("RecentUpdate");
-
                     b.Property<string>("Status");
 
-                    b.Property<string>("StatusLong");
-
-                    b.Property<string>("TodayHitCount");
-
                     b.Property<string>("TotalHitCount");
-
-                    b.Property<string>("UpdateStatus");
 
                     b.HasKey("Id");
 
