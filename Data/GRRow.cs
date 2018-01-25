@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace GR.Data
 {
-	public class GRRow : GRRowBase 
+	public class GRRow<T> : GRRowBase<T>, IGRRow
 	{
-		public GRTable Table { get; set; }
+		public IGRTable Table { get; set; }
 
-		public GRRow( GRTable Table )
+		public GRRow( GRTable<T> Table )
 		{
 			this.Table = Table;
 		}

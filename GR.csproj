@@ -107,6 +107,9 @@
     <Compile Include="Database\Schema\DbList.cs" />
     <Compile Include="Database\Schema\DbHashSet.cs" />
     <Compile Include="Database\Schema\ModelExt.cs" />
+    <Compile Include="Data\GRCell.cs" />
+    <Compile Include="Data\GRColumn.cs" />
+    <Compile Include="Data\Interfaces.cs" />
     <Compile Include="Effects\Stage\RandomStripe.cs" />
     <Compile Include="Ext\IDeathblow.cs" />
     <Compile Include="Migrations\Books\20180122100417_Initial.cs" />

@@ -10,9 +10,9 @@ using Net.Astropenguin.Linq;
 
 namespace GR.Data
 {
-	public class GRRowBase : ActiveData
+	public class GRRowBase<T> : ActiveData, IGRRowBase
 	{
-		public static readonly Type BaseType = typeof( GRRowBase );
+		public readonly Type BaseType = typeof( GRRowBase<T> );
 		public string C00 => _Cell( 0 );
 		public string C01 => _Cell( 1 );
 		public string C02 => _Cell( 2 );
@@ -24,7 +24,7 @@ namespace GR.Data
 		public string C08 => _Cell( 8 );
 		public string C09 => _Cell( 9 );
 
-		public object Source { get; set; }
+		public T Source { get; set; }
 		public Func<int, object, string> Cell = ( i, x ) => "";
 
 		private static IReadOnlyList<PropertyInfo> _CellProps;
@@ -68,7 +68,7 @@ namespace GR.Data
 			if ( 0 < FromCol )
 				_Cells = _Cells.Skip( FromCol );
 
-			if ( FromCol < ToCol )
+			if ( FromCol <= ToCol )
 				_Cells = _Cells.Take( ToCol - FromCol + 1 );
 
 			NotifyChanged( _Cells.ToArray() );

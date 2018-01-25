@@ -7,13 +7,12 @@ using System.Threading.Tasks;
 using Windows.UI.Xaml;
 
 using Net.Astropenguin.Linq;
-using GR.Resources;
 
 namespace GR.Data
 {
-	public class GRTable : GRRowBase
+	public class GRTable<T> : GRRowBase<T>, IGRTable
 	{
-		public static readonly Type GRTableType = typeof( GRTable );
+		public readonly Type GRTableType = typeof( GRTable<T> );
 
 		public GridLength H00 { get; set; } = new GridLength( 100, GridUnitType.Star );
 		public GridLength H01 { get; set; } = new GridLength( 100, GridUnitType.Star );
@@ -28,20 +27,29 @@ namespace GR.Data
 
 		public GridLength HSP { get; set; } = new GridLength( 0, GridUnitType.Star );
 
-		public static string IconSort( int k ) => k == 0 ? "" : ( k == 1 ? SegoeMDL2.ChevronUp : SegoeMDL2.ChevronDown );
-		public int S00 { get; set; }
-		public int S01 { get; set; }
-		public int S02 { get; set; }
-		public int S03 { get; set; }
-		public int S04 { get; set; }
-		public int S05 { get; set; }
-		public int S06 { get; set; }
-		public int S07 { get; set; }
-		public int S08 { get; set; }
-		public int S09 { get; set; }
+		public int S00 => CellProps[ 0 ].Sorting;
+		public int S01 => CellProps[ 1 ].Sorting;
+		public int S02 => CellProps[ 2 ].Sorting;
+		public int S03 => CellProps[ 3 ].Sorting;
+		public int S04 => CellProps[ 4 ].Sorting;
+		public int S05 => CellProps[ 5 ].Sorting;
+		public int S06 => CellProps[ 6 ].Sorting;
+		public int S07 => CellProps[ 7 ].Sorting;
+		public int S08 => CellProps[ 8 ].Sorting;
+		public int S09 => CellProps[ 9 ].Sorting;
 
-		public IEnumerable<GRRow> _Items;
-		public IEnumerable<GRRow> Items
+		public List<GRCell<T>> CellProps { get; private set; }
+		private Dictionary<GRCell<T>, int> PropIndexes;
+
+		public GRTable( List<GRCell<T>> CellProps )
+		{
+			this.CellProps = CellProps;
+			PropIndexes = new Dictionary<GRCell<T>, int>();
+			CellProps.ExecEach( ( x, i ) => { PropIndexes[ x ] = i; } );
+		}
+
+		public IEnumerable<GRRow<T>> _Items;
+		public IEnumerable<GRRow<T>> Items
 		{
 			get => _Items;
 			set
@@ -73,26 +81,11 @@ namespace GR.Data
 			return ColIndex < Headers.Count && 0 < ( ( GridLength ) Headers[ ColIndex ].GetValue( this ) ).Value;
 		}
 
-		public override void RefreshCols( int FromCol, int ToCol )
-		{
-			IEnumerable<string> _HdNames = HeaderNames;
-
-			if ( 0 < FromCol )
-				_HdNames = _HdNames.Skip( FromCol );
-
-			if ( FromCol < ToCol )
-				_HdNames = _HdNames.Take( ToCol - FromCol + 1 );
-
-			NotifyChanged( _HdNames.ToArray() );
-			base.RefreshCols( FromCol, ToCol );
-
-			Items?.ExecEach( x => x.RefreshCols( FromCol, ToCol ) );
-		}
-
 		public void SortCol( int ColIndex, int Direction )
 		{
-			Sortings.ExecEach( x => x.SetValue( this, 0 ) );
-			Sortings[ ColIndex ].SetValue( this, Direction );
+			Sortings.ExecEach( ( x, i ) => CellProps[ i ].Sorting = 0 );
+			CellProps[ ColIndex ].Sorting = Direction;
+
 			NotifyChanged( SortingNames.ToArray() );
 		}
 
@@ -103,7 +96,7 @@ namespace GR.Data
 			if ( 0 < FromCol )
 				Cols = Cols.Skip( FromCol );
 
-			if ( FromCol < ToCol )
+			if ( FromCol <= ToCol )
 				Cols = Cols.Take( ToCol - FromCol + 1 );
 
 			if ( Enable )
@@ -125,5 +118,93 @@ namespace GR.Data
 
 			RefreshCols( FromCol, ToCol );
 		}
+
+		public bool ToggleCol( GRCell<T> CellProp )
+		{
+			int ActiveCols = 0;
+
+			bool CellEnabled = false;
+
+			CellProps.ExecEach( ( x, i ) =>
+			{
+				bool Enabled = ColEnabled( i );
+
+				if ( Enabled )
+					ActiveCols++;
+
+				if( x == CellProp )
+				{
+					CellEnabled = Enabled;
+				}
+			} );
+
+			if ( CellEnabled )
+			{
+				PropIndexes[ CellProp ] = CellProps.IndexOf( CellProp );
+				MoveColumn( CellProp, CellProps.Count - 1 );
+				ActiveCols--;
+			}
+			else
+			{
+				if ( ActiveCols < PropIndexes[ CellProp ] )
+				{
+					PropIndexes[ CellProp ] = ActiveCols;
+				}
+				MoveColumn( CellProp, PropIndexes[ CellProp ] );
+				ActiveCols++;
+			}
+
+			SetCol( PropIndexes[ CellProp ], ActiveCols - 1, true );
+			SetCol( ActiveCols, -1, false );
+
+			return !CellEnabled;
+		}
+
+		public override void RefreshCols( int FromCol, int ToCol )
+		{
+			IEnumerable<string> _HdNames = HeaderNames;
+			IEnumerable<string> _StNames = SortingNames;
+
+			if ( 0 < FromCol )
+			{
+				_HdNames = _HdNames.Skip( FromCol );
+				_StNames = _StNames.Skip( FromCol );
+			}
+
+			if ( FromCol <= ToCol )
+			{
+				int k = ToCol - FromCol + 1;
+				_HdNames = _HdNames.Take( k );
+				_StNames = _StNames.Take( k );
+			}
+
+			NotifyChanged( _HdNames.Concat( _StNames ).ToArray() );
+			base.RefreshCols( FromCol, ToCol );
+
+			Items?.ExecEach( x => x.RefreshCols( FromCol, ToCol ) );
+		}
+
+		private void MoveColumn( GRCell<T> CellProp, int Index )
+		{
+			int k = CellProps.IndexOf( CellProp );
+
+			if ( k < Index )
+			{
+				for ( int i = k; i < Index; i++ )
+				{
+					CellProps[ i ] = CellProps[ i + 1 ];
+				}
+			}
+			else
+			{
+				for ( int i = k; Index < i; i-- )
+				{
+					CellProps[ i ] = CellProps[ i - 1 ];
+				}
+			}
+
+			CellProps[ Index ] = CellProp;
+		}
+
 	}
 }
