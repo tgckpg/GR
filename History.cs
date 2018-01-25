@@ -27,7 +27,7 @@ namespace GR
 		{
 		}
 
-		public ActiveItem[] GetListItems()
+		public HistoryItem[] GetListItems()
 		{
 			IQueryable<Book> Books = Shared.BooksDb.Books.Where( x => x.LastAccess != null ).OrderByDescending( x => x.LastAccess );
 			return Books.Remap( x => new HistoryItem( x ) );

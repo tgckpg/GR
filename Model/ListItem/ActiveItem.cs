@@ -2,7 +2,7 @@
 
 namespace GR.Model.ListItem
 {
-	class ActiveItem : ActiveData
+	class ActiveItem : ActiveData, INamable
 	{
 		private string _desc;
 		virtual public string Desc

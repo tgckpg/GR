@@ -19,5 +19,8 @@ namespace GR.Model.Book
 		}
 
 		public string Intro => Entry.Info.LongDescription ?? Entry.Description;
+
+		public override bool Equals( object obj ) => Entry.Equals( ( obj as BookDisplay )?.Entry );
+		public override int GetHashCode() => Entry.GetHashCode();
 	}
 }

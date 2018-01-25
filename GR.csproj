@@ -149,7 +149,7 @@
     <Compile Include="Config\Parameters.cs" />
     <Compile Include="Config\Properties.cs" />
     <Compile Include="Converters\SHRequestTemplateSelector.cs" />
-    <Compile Include="Converters\NumerSimplifier.cs" />
+    <Compile Include="Converters\NumberSimplifier.cs" />
     <Compile Include="Converters\BookInfoConverter.cs" />
     <Compile Include="Converters\ContentStyleConverter.cs" />
     <Compile Include="Converters\PanePosConverter.cs" />
@@ -296,6 +296,9 @@
     <Compile Include="GSystem\Utils.cs" />
     <Compile Include="GSystem\ViewControl.cs" />
     <Compile Include="Ext\IMemberInfo.cs" />
+    <Compile Include="Data\GRRow.cs" />
+    <Compile Include="Data\GRRowBase.cs" />
+    <Compile Include="Data\GRTable.cs" />
     <Compile Include="Taotu\GrimoireExtractor.cs" />
     <Compile Include="Taotu\GrimoireListLoader.cs" />
     <Compile Include="Taotu\GrimoireMarker.cs" />
