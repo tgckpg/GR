@@ -18,6 +18,7 @@ namespace GR.Model.Book
 			this.Entry = Entry;
 		}
 
+		public string Zone => Entry.ZoneId;
 		public string Intro => Entry.Info.LongDescription ?? Entry.Description;
 
 		public override bool Equals( object obj ) => Entry.Equals( ( obj as BookDisplay )?.Entry );

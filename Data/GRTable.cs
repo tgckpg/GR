@@ -14,16 +14,16 @@ namespace GR.Data
 	{
 		public readonly Type GRTableType = typeof( GRTable<T> );
 
-		public GridLength H00 { get; set; } = new GridLength( 100, GridUnitType.Star );
-		public GridLength H01 { get; set; } = new GridLength( 100, GridUnitType.Star );
-		public GridLength H02 { get; set; } = new GridLength( 100, GridUnitType.Star );
-		public GridLength H03 { get; set; } = new GridLength( 100, GridUnitType.Star );
-		public GridLength H04 { get; set; } = new GridLength( 100, GridUnitType.Star );
-		public GridLength H05 { get; set; } = new GridLength( 100, GridUnitType.Star );
-		public GridLength H06 { get; set; } = new GridLength( 100, GridUnitType.Star );
-		public GridLength H07 { get; set; } = new GridLength( 100, GridUnitType.Star );
-		public GridLength H08 { get; set; } = new GridLength( 100, GridUnitType.Star );
-		public GridLength H09 { get; set; } = new GridLength( 100, GridUnitType.Star );
+		public GridLength H00 { get; set; } = new GridLength( 100, GridUnitType.Pixel );
+		public GridLength H01 { get; set; } = new GridLength( 100, GridUnitType.Pixel );
+		public GridLength H02 { get; set; } = new GridLength( 100, GridUnitType.Pixel );
+		public GridLength H03 { get; set; } = new GridLength( 100, GridUnitType.Pixel );
+		public GridLength H04 { get; set; } = new GridLength( 100, GridUnitType.Pixel );
+		public GridLength H05 { get; set; } = new GridLength( 100, GridUnitType.Pixel );
+		public GridLength H06 { get; set; } = new GridLength( 100, GridUnitType.Pixel );
+		public GridLength H07 { get; set; } = new GridLength( 100, GridUnitType.Pixel );
+		public GridLength H08 { get; set; } = new GridLength( 100, GridUnitType.Pixel );
+		public GridLength H09 { get; set; } = new GridLength( 100, GridUnitType.Pixel );
 
 		public GridLength HSP { get; set; } = new GridLength( 0, GridUnitType.Star );
 
@@ -117,6 +117,18 @@ namespace GR.Data
 			}
 
 			RefreshCols( FromCol, ToCol );
+		}
+
+		public void ResizeCol( int ColIndex, double Delta )
+		{
+			PropertyInfo Header = Headers[ ColIndex ];
+			GridLength GL = ( GridLength ) Header.GetValue( this );
+
+			double k = GL.Value + Delta;
+			if ( k < 100 ) k = 100;
+
+			Header.SetValue( this, new GridLength( k, GL.GridUnitType ) );
+			NotifyChanged( Header.Name );
 		}
 
 		public bool ToggleCol( GRCell<T> CellProp )
