@@ -14,16 +14,18 @@ namespace GR.Data
 	{
 		public readonly Type GRTableType = typeof( GRTable<T> );
 
-		public GridLength H00 { get; set; } = new GridLength( 100, GridUnitType.Pixel );
-		public GridLength H01 { get; set; } = new GridLength( 100, GridUnitType.Pixel );
-		public GridLength H02 { get; set; } = new GridLength( 100, GridUnitType.Pixel );
-		public GridLength H03 { get; set; } = new GridLength( 100, GridUnitType.Pixel );
-		public GridLength H04 { get; set; } = new GridLength( 100, GridUnitType.Pixel );
-		public GridLength H05 { get; set; } = new GridLength( 100, GridUnitType.Pixel );
-		public GridLength H06 { get; set; } = new GridLength( 100, GridUnitType.Pixel );
-		public GridLength H07 { get; set; } = new GridLength( 100, GridUnitType.Pixel );
-		public GridLength H08 { get; set; } = new GridLength( 100, GridUnitType.Pixel );
-		public GridLength H09 { get; set; } = new GridLength( 100, GridUnitType.Pixel );
+		public double DefaultGL = 200;
+
+		public GridLength H00 { get; set; }
+		public GridLength H01 { get; set; }
+		public GridLength H02 { get; set; }
+		public GridLength H03 { get; set; }
+		public GridLength H04 { get; set; }
+		public GridLength H05 { get; set; }
+		public GridLength H06 { get; set; }
+		public GridLength H07 { get; set; }
+		public GridLength H08 { get; set; }
+		public GridLength H09 { get; set; }
 
 		public GridLength HSP { get; set; } = new GridLength( 0, GridUnitType.Star );
 
@@ -45,6 +47,8 @@ namespace GR.Data
 		{
 			this.CellProps = CellProps;
 			PropIndexes = new Dictionary<GRCell<T>, int>();
+
+			Headers.ExecEach( x => x.SetValue( this, new GridLength( DefaultGL, GridUnitType.Pixel ) ) );
 			CellProps.ExecEach( ( x, i ) => { PropIndexes[ x ] = i; } );
 		}
 
@@ -104,7 +108,7 @@ namespace GR.Data
 				foreach ( PropertyInfo GLInfo in Cols )
 				{
 					GridLength GL = ( GridLength ) GLInfo.GetValue( this );
-					GLInfo.SetValue( this, new GridLength( 100, GL.GridUnitType ) );
+					GLInfo.SetValue( this, new GridLength( DefaultGL, GL.GridUnitType ) );
 				}
 			}
 			else
@@ -194,6 +198,23 @@ namespace GR.Data
 			base.RefreshCols( FromCol, ToCol );
 
 			Items?.ExecEach( x => x.RefreshCols( FromCol, ToCol ) );
+		}
+
+		public void MoveColumn( int FromIndex, int ToIndex )
+		{
+			if ( FromIndex == ToIndex ) return;
+
+			int ActiveCols = 0;
+
+			CellProps.ExecEach( ( x, i ) =>
+			{
+				if ( ColEnabled( i ) )
+					ActiveCols++;
+			} );
+
+			MoveColumn( CellProps[ FromIndex ], ToIndex );
+			SetCol( Math.Min( FromIndex, ToIndex ), ActiveCols - 1, true );
+			SetCol( ActiveCols, -1, false );
 		}
 
 		private void MoveColumn( GRCell<T> CellProp, int Index )
