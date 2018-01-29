@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using Windows.UI.Xaml;
@@ -47,11 +48,27 @@ namespace GR.Data
 		int S08 { get; }
 		int S09 { get; }
 
-		bool ColEnabled( int colIndex );
+		List<IGRCell> CellProps { get; }
+		IReadOnlyList<PropertyInfo> Headers { get; }
+
+		void SetCol( int FromCol, int ToCol, bool Enable );
+		bool ColEnabled( int ColIndex );
+		bool ToggleCol( IGRCell Cell );
+		void ResizeCol( int ColIndex, double x );
+		void MoveColumn( int FromCol, int ToCol );
 	}
 
 	public interface IGRRow : IGRRowBase
 	{
 		IGRTable Table { get; }
 	}
+
+	public interface IGRCell
+	{
+		int Sorting { get; set; }
+		PropertyInfo Property { get; }
+
+		string Value( object x );
+	}
+
 }

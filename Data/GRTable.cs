@@ -40,13 +40,13 @@ namespace GR.Data
 		public int S08 => CellProps[ 8 ].Sorting;
 		public int S09 => CellProps[ 9 ].Sorting;
 
-		public List<GRCell<T>> CellProps { get; private set; }
-		private Dictionary<GRCell<T>, int> PropIndexes;
+		public List<IGRCell> CellProps { get; private set; }
+		private Dictionary<IGRCell, int> PropIndexes;
 
-		public GRTable( List<GRCell<T>> CellProps )
+		public GRTable( List<IGRCell> CellProps )
 		{
 			this.CellProps = CellProps;
-			PropIndexes = new Dictionary<GRCell<T>, int>();
+			PropIndexes = new Dictionary<IGRCell, int>();
 
 			Headers.ExecEach( x => x.SetValue( this, new GridLength( DefaultGL, GridUnitType.Pixel ) ) );
 			CellProps.ExecEach( ( x, i ) => { PropIndexes[ x ] = i; } );
@@ -135,7 +135,7 @@ namespace GR.Data
 			NotifyChanged( Header.Name );
 		}
 
-		public bool ToggleCol( GRCell<T> CellProp )
+		public bool ToggleCol( IGRCell CellProp )
 		{
 			int ActiveCols = 0;
 
@@ -217,7 +217,7 @@ namespace GR.Data
 			SetCol( ActiveCols, -1, false );
 		}
 
-		private void MoveColumn( GRCell<T> CellProp, int Index )
+		private void MoveColumn( IGRCell CellProp, int Index )
 		{
 			int k = CellProps.IndexOf( CellProp );
 
