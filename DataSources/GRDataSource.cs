@@ -25,7 +25,8 @@ namespace GR.DataSources
 		abstract public Task SaveConfig();
 
 		abstract public void Reload();
-		abstract public void Sort( int ColIndex );
+		abstract public void Sort( int ColIndex, int Order );
+		abstract public void ToggleSort( int ColIndex );
 
 		abstract public string ColumnName( IGRCell CellProp );
 		abstract public void ItemAction( IGRRow Row );

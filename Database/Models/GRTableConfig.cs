@@ -29,6 +29,7 @@ namespace GR.Database.Models
 	{
 		public string Name { get; set; }
 		public double Width { get; set; }
+		public int Order { get; set; }
 
 		public override IJsonValue Data
 		{
@@ -37,6 +38,7 @@ namespace GR.Database.Models
 				JsonObject obj = new JsonObject();
 				obj[ "name" ] = JsonValue.CreateStringValue( Name );
 				obj[ "width" ] = JsonValue.CreateNumberValue( Width );
+				obj[ "order" ] = JsonValue.CreateNumberValue( Order );
 				return obj;
 			}
 		}
@@ -48,6 +50,7 @@ namespace GR.Database.Models
 			JsonObject Obj = Data.GetObject();
 			Name = Obj.GetNamedString( "name" );
 			Width = Obj.GetNamedNumber( "width" );
+			Order = ( int ) Obj.GetNamedNumber( "order" );
 		}
 	}
 
