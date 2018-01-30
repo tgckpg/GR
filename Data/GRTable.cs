@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Windows.UI.Xaml;
 
 using Net.Astropenguin.Linq;
+using GR.Database.Models;
 
 namespace GR.Data
 {
@@ -133,6 +134,35 @@ namespace GR.Data
 
 			Header.SetValue( this, new GridLength( k, GL.GridUnitType ) );
 			NotifyChanged( Header.Name );
+		}
+
+		public void Configure( GRTableConfig Config )
+		{
+			List<IGRCell> OrderedProps = new List<IGRCell>();
+			int i = 0;
+			foreach ( ColumnConfig Col in Config.Columns )
+			{
+				int ColIndex = CellProps.FindIndex( x => x.Property.Name == Col.Name );
+				if ( ColIndex == -1 ) continue;
+
+				// Set column width
+				PropertyInfo GLInfo = Headers[ i ];
+				GridLength GL = ( GridLength ) GLInfo.GetValue( this );
+				Headers[ i ].SetValue( this, new GridLength( Col.Width, GL.GridUnitType ) );
+
+				// Set column order
+				IGRCell Prop = CellProps[ ColIndex ];
+				CellProps.RemoveAt( ColIndex );
+				OrderedProps.Add( Prop );
+				i++;
+			}
+
+			OrderedProps.AddRange( CellProps );
+			CellProps = OrderedProps;
+
+			// Set column status
+			SetCol( 0, i - 1, true );
+			SetCol( i, -1, false );
 		}
 
 		public bool ToggleCol( IGRCell CellProp )

@@ -14,6 +14,7 @@ namespace GR.Database.Contexts
 		public DbSet<ContentReader> ContentReader { get; set; }
 		public DbSet<Theme> Theme { get; set; }
 		public DbSet<GRSystem> System { get; set; }
+		public DbSet<GRTableConfig> TableConfigs { get; set; }
 
 		protected override void OnConfiguring( DbContextOptionsBuilder optionsBuilder )
 		{

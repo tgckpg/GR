@@ -102,8 +102,10 @@
     <Compile Include="Database\Models.cs" />
     <Compile Include="Database\Models\Book.cs" />
     <Compile Include="Database\Models\GenericSettings.cs" />
+    <Compile Include="Database\Models\GRTableConfig.cs" />
     <Compile Include="Database\Schema\AutoNow.cs" />
     <Compile Include="Database\Schema\DbDictionary.cs" />
+    <Compile Include="Database\Schema\DbJsonInstance.cs" />
     <Compile Include="Database\Schema\DbList.cs" />
     <Compile Include="Database\Schema\DbHashSet.cs" />
     <Compile Include="Database\Schema\ModelExt.cs" />
@@ -119,9 +121,9 @@
     </Compile>
     <Compile Include="Migrations\Books\BooksContextModelSnapshot.cs" />
     <Compile Include="Migrations\MigrateGR.cs" />
-    <Compile Include="Migrations\Settings\20171220031758_Initial.cs" />
-    <Compile Include="Migrations\Settings\20171220031758_Initial.designer.cs">
-      <DependentUpon>20171220031758_Initial.cs</DependentUpon>
+    <Compile Include="Migrations\Settings\20180130041432_Initial.cs" />
+    <Compile Include="Migrations\Settings\20180130041432_Initial.designer.cs">
+      <DependentUpon>20180130041432_Initial.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Settings\SettingsContextModelSnapshot.cs" />
     <Compile Include="Model\Book\BookItemExt.cs" />

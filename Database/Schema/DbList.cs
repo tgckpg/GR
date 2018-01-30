@@ -13,6 +13,7 @@ namespace GR.Database.Schema
 {
 	public class DbList : List<string>
 	{
+		public string Error { get; private set; }
 		public string Data
 		{
 			get
@@ -25,12 +26,41 @@ namespace GR.Database.Schema
 			{
 				try
 				{
+					Error = null;
 					Clear();
 					JsonArray.Parse( value ).GetArray().ExecEach( x => Add( x.GetString() ) );
 				}
 				catch ( Exception ex )
 				{
-					Add( ex.Message );
+					Error = ex.Message;
+				}
+			}
+		}
+	}
+
+	public class DbList<T> : List<T>
+		where T : DbJsonInstance
+	{
+		public string Error { get; private set; }
+		public string Data
+		{
+			get
+			{
+				JsonArray Arr = new JsonArray();
+				this.ExecEach( x => Arr.Add( x.Data ) );
+				return Arr.Stringify();
+			}
+			set
+			{
+				try
+				{
+					Error = null;
+					Clear();
+					JsonArray.Parse( value ).GetArray().ExecEach( x => Add( ( T ) Activator.CreateInstance( typeof( T ), x ) ) );
+				}
+				catch ( Exception ex )
+				{
+					Error = ex.Message;
 				}
 			}
 		}

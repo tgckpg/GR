@@ -12,7 +12,17 @@ namespace GR.DataSources
 	{
 		abstract public IGRTable Table { get; }
 
+		/// <summary>
+		/// Construct table columns
+		/// </summary>
 		abstract public void StructTable();
+
+		/// <summary>
+		/// Load table configurations for this DataSource
+		/// </summary>
+		/// <returns></returns>
+		abstract public Task Configure();
+
 		abstract public void Reload();
 		abstract public void Sort( int ColIndex );
 

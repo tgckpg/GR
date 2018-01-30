@@ -7,6 +7,8 @@ using System.Text;
 using System.Threading.Tasks;
 using Windows.UI.Xaml;
 
+using GR.Database.Models;
+
 namespace GR.Data
 {
 	public interface IGRRowBase : INotifyPropertyChanged

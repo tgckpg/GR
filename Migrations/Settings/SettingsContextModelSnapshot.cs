@@ -48,6 +48,18 @@ namespace GR.Migrations.Settings
                     b.ToTable("System");
                 });
 
+            modelBuilder.Entity("GR.Database.Models.GRTableConfig", b =>
+                {
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Json_Columns");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("TableConfigs");
+                });
+
             modelBuilder.Entity("GR.Database.Models.Theme", b =>
                 {
                     b.Property<string>("Key")
