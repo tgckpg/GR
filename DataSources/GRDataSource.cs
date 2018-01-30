@@ -22,6 +22,7 @@ namespace GR.DataSources
 		/// </summary>
 		/// <returns></returns>
 		abstract public Task Configure();
+		abstract public Task SaveConfig();
 
 		abstract public void Reload();
 		abstract public void Sort( int ColIndex );

@@ -109,7 +109,10 @@ namespace GR.Data
 				foreach ( PropertyInfo GLInfo in Cols )
 				{
 					GridLength GL = ( GridLength ) GLInfo.GetValue( this );
-					GLInfo.SetValue( this, new GridLength( DefaultGL, GL.GridUnitType ) );
+					if ( GL.Value == 0 )
+					{
+						GLInfo.SetValue( this, new GridLength( DefaultGL, GL.GridUnitType ) );
+					}
 				}
 			}
 			else
@@ -117,7 +120,10 @@ namespace GR.Data
 				foreach ( PropertyInfo GLInfo in Cols )
 				{
 					GridLength GL = ( GridLength ) GLInfo.GetValue( this );
-					GLInfo.SetValue( this, new GridLength( 0, GL.GridUnitType ) );
+					if ( GL.Value != 0 )
+					{
+						GLInfo.SetValue( this, new GridLength( 0, GL.GridUnitType ) );
+					}
 				}
 			}
 
@@ -160,8 +166,7 @@ namespace GR.Data
 			OrderedProps.AddRange( CellProps );
 			CellProps = OrderedProps;
 
-			// Set column status
-			SetCol( 0, i - 1, true );
+			RefreshCols( 0, i - 1 );
 			SetCol( i, -1, false );
 		}
 
@@ -250,20 +255,36 @@ namespace GR.Data
 		private void MoveColumn( IGRCell CellProp, int Index )
 		{
 			int k = CellProps.IndexOf( CellProp );
+			int MaxCols = Headers.Count;
+
+			object kH = k < MaxCols ? Headers[ k ].GetValue( this ) : null;
 
 			if ( k < Index )
 			{
-				for ( int i = k; i < Index; i++ )
+				for ( int i = k, j = k + 1; i < Index; i++, j++ )
 				{
-					CellProps[ i ] = CellProps[ i + 1 ];
+					CellProps[ i ] = CellProps[ j ];
+					if ( j < MaxCols )
+					{
+						Headers[ i ].SetValue( this, Headers[ j ].GetValue( this ) );
+					}
 				}
 			}
 			else
 			{
-				for ( int i = k; Index < i; i-- )
+				for ( int i = k, j = k - 1; Index < i; i--, j-- )
 				{
-					CellProps[ i ] = CellProps[ i - 1 ];
+					CellProps[ i ] = CellProps[ j ];
+					if ( i < MaxCols )
+					{
+						Headers[ i ].SetValue( this, Headers[ j ].GetValue( this ) );
+					}
 				}
+			}
+
+			if ( Index < MaxCols && kH != null )
+			{
+				Headers[ Index ].SetValue( this, kH );
 			}
 
 			CellProps[ Index ] = CellProp;
