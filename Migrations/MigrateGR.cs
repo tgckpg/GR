@@ -16,6 +16,8 @@ using GR.Storage;
 using GR.Model.ListItem;
 using GR.Model.Book;
 using GR.Resources;
+using GR.Settings;
+using Net.Astropenguin.IO;
 
 namespace GR.Migrations
 {
@@ -26,6 +28,7 @@ namespace GR.Migrations
 			var mgr = new MigrateGR();
 			await mgr.M0001_ContentReader_Theme();
 			await mgr.M0002_LocalBookStorage();
+			await mgr.M0003_ReadingHistory();
 		}
 
 		private Task M0001_ContentReader_Theme()
@@ -78,6 +81,31 @@ namespace GR.Migrations
 			}
 
 			Shared.BooksDb.SaveBooks( Books );
+		}
+
+		private async Task M0003_ReadingHistory()
+		{
+			XRegistry XReg = new XRegistry( "<n/>", FileLinks.ROOT_SETTING + "ReadingHistory.xml" );
+			XParameter[] XParams = XReg.Parameters();
+			foreach( XParameter XParam  in XParams )
+			{
+				string Id = XParam.Id;
+				string Name = XParam.GetValue( "name" );
+				string Date = XParam.GetValue( "date" );
+
+				if ( int.TryParse( Id, out int aid ) )
+				{
+					BookItem Bk = X.Instance<BookItem>( XProto.BookItemEx, Id );
+					Bk.Title = Name;
+
+					if ( DateTime.TryParse( Date, out DateTime dt ) )
+					{
+						Bk.Entry.LastAccess = dt;
+					}
+				}
+			}
+
+			Shared.BooksDb.SaveChanges();
 		}
 
 		private ( string, GSDataType ) ValueType( object Val )

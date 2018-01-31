@@ -16,8 +16,6 @@ namespace GR
 	{
 		public static readonly string ID = typeof( History ).Name;
 
-		public const string SettingsFile = FileLinks.ROOT_SETTING + FileLinks.READING_HISTORY;
-
 		public static Task CreateThumbnail( UIElement element, int BookId )
 		{
 			return Image.CaptureScreen( FileLinks.ROOT_READER_THUMBS + BookId, element, 120, 90 );

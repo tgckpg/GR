@@ -4,11 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using Net.Astropenguin.DataModel;
+
 namespace GR.DataSources
 {
 	using Data;
 
-	abstract public class GRDataSource
+	abstract public class GRDataSource : ActiveData
 	{
 		abstract public IGRTable Table { get; }
 

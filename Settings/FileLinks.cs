@@ -18,7 +18,6 @@ namespace GR.Settings
 		, LAYOUT_CONTREADER = "Layout_ContentReader.xml"
 		, LAYOUT_STAFFPICKS = "Layout_StaffPicks.xml"
 		, READING_ANCHORS = "ReadingAnchors.xml"
-		, READING_HISTORY = "ReadingHistory.xml"
 		, ADM_DOWNLOAD_REG = "AdvDM_DReg.xml"
 		, ADM_RUNTIME_REG = "AdvDM_RReg.xml"
 		, EBWIN_DICT_REG = "EBWinDicts.xml"

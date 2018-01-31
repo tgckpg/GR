@@ -20,6 +20,7 @@ namespace GR.Model.Book
 
 		public string Zone => Entry.ZoneId;
 		public string Intro => Entry.Info.LongDescription ?? Entry.Description;
+		public string LastAccess => Entry.LastAccess.ToString();
 
 		public override bool Equals( object obj ) => Entry.Equals( ( obj as BookDisplay )?.Entry );
 		public override int GetHashCode() => Entry.GetHashCode();
