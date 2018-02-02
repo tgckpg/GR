@@ -110,6 +110,7 @@
     <Compile Include="Database\Schema\DbHashSet.cs" />
     <Compile Include="Database\Schema\ModelExt.cs" />
     <Compile Include="DataSources\GRDataSource.cs" />
+    <Compile Include="DataSources\GRViewSource.cs" />
     <Compile Include="Data\GRCell.cs" />
     <Compile Include="Data\GRColumn.cs" />
     <Compile Include="Data\Interfaces.cs" />

@@ -38,7 +38,7 @@ namespace GR.Model.Book
 		public static readonly string ID = typeof( BookItem ).Name;
 
 		private static StringResBg _Res;
-		private static StringResBg Res => _Res ?? ( _Res = new StringResBg( "Book" ) );
+		protected static StringResBg Res => _Res ?? ( _Res = new StringResBg( "Book" ) );
 
 		public static string PropertyName( PropType InfoType ) => Res.Text( InfoType.ToString() );
 		public static string PropertyName( PropertyInfo Property )

@@ -23,7 +23,7 @@ namespace GR.DataSources
 		/// Load table configurations for this DataSource
 		/// </summary>
 		/// <returns></returns>
-		abstract public Task Configure();
+		abstract public Task ConfigureAsync();
 		abstract public Task SaveConfig();
 
 		abstract public void Reload();

@@ -11,6 +11,8 @@ using Windows.Storage.Streams;
 
 using Net.Astropenguin.Helpers;
 using Net.Astropenguin.Loaders;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace GR.GSystem
 {
@@ -56,7 +58,7 @@ namespace GR.GSystem
 
 		public static DateTime GetDateTimeFromstring( string time )
 		{
-			if( Numberstring( time ) && time.Length != 14 )
+			if ( Numberstring( time ) && time.Length != 14 )
 				throw new FormatException();
 			return new DateTime(
 				int.Parse( time.Substring( 0, 4 ) )
@@ -82,10 +84,10 @@ namespace GR.GSystem
 		{
 			string[] k = thisVer.Split( '.' );
 			string[] l = CurrentVer.Split( '.' );
-			if ( int.Parse( k[3] ) >= int.Parse( l[3] )
-				&& int.Parse( k[2] ) >= int.Parse( l[2] )
-				&& int.Parse( k[1] ) >= int.Parse( l[1] )
-				&& int.Parse( k[0] ) >= int.Parse( l[0] )
+			if ( int.Parse( k[ 3 ] ) >= int.Parse( l[ 3 ] )
+				&& int.Parse( k[ 2 ] ) >= int.Parse( l[ 2 ] )
+				&& int.Parse( k[ 1 ] ) >= int.Parse( l[ 1 ] )
+				&& int.Parse( k[ 0 ] ) >= int.Parse( l[ 0 ] )
 				 ) return true;
 			return false;
 		}
@@ -128,5 +130,22 @@ namespace GR.GSystem
 
 			return CryptographicBuffer.EncodeToHexString( hash.GetValueAndReset() );
 		}
+
+		private static readonly char[] BaseChars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz".ToCharArray();
+
+		public static string Base62( int value )
+		{
+			char[] buffer = new char[ Math.Max( ( int ) Math.Ceiling( Math.Log( value + 1, 62 ) ), 1 ) ];
+
+			int i = buffer.Length;
+			do
+			{
+				buffer[ --i ] = BaseChars[ value % 62 ];
+				value = value / 62;
+			}
+			while ( value > 0 );
+			return new string( buffer );
+		}
+
 	}
 }

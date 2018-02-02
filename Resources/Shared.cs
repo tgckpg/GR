@@ -17,6 +17,7 @@ namespace GR.Resources
 {
 	using CompositeElement;
 	using Database.Contexts;
+	using GR.Model.ListItem;
 	using Model;
 	using Model.Book;
 	using Model.REST;
@@ -41,6 +42,8 @@ namespace GR.Resources
 
 		private static BooksContext _Books;
 		public static BooksContext BooksDb => _Books ?? ( _Books = new BooksContext() );
+
+		public static List<TreeItem> ExpZones = new List<TreeItem>();
 
 		public static void LoadMessage( string MESG_ID, params string[] args )
 		{
