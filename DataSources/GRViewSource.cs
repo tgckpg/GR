@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace GR.DataSources
 {
+	using Data;
 	using Model.ListItem;
 
 	public class GRViewSource : TreeItem
@@ -16,5 +17,7 @@ namespace GR.DataSources
 
 		protected GRDataSource _DataSource;
 		virtual public GRDataSource DataSource => _DataSource ?? ( _DataSource = ( GRDataSource ) Activator.CreateInstance( DataSourceType ) );
+
+		virtual public Action<IGRRow> ItemAction { get; set; }
 	}
 }

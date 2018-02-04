@@ -31,6 +31,5 @@ namespace GR.DataSources
 		abstract public void ToggleSort( int ColIndex );
 
 		abstract public string ColumnName( IGRCell CellProp );
-		abstract public void ItemAction( IGRRow Row );
 	}
 }

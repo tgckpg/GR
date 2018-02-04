@@ -46,7 +46,7 @@ namespace GR.Model.ListItem
 			set
 			{
 				_Children = _Children ?? new List<TreeItem>();
-				foreach( TreeItem x in value )
+				foreach ( TreeItem x in value )
 				{
 					if ( x.Parent == null )
 					{
@@ -67,6 +67,7 @@ namespace GR.Model.ListItem
 
 					_Children.Add( x );
 				}
+				NotifyChanged( "Children" );
 			}
 		}
 

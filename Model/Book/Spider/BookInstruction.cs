@@ -31,12 +31,9 @@ namespace GR.Model.Book.Spider
 		}
 
 		private SortedDictionary<int, ConvoyInstructionSet> Insts = new SortedDictionary<int, ConvoyInstructionSet>();
-		public bool? Packed { get; private set; }
 
-		public bool Packable
-		{
-			get { return 0 < Insts.Count; }
-		}
+		public bool? Packed { get; private set; }
+		public bool Packable => 0 < Insts.Count;
 
 		public int LastIndex
 		{
@@ -90,6 +87,17 @@ namespace GR.Model.Book.Spider
 			int i = Ep.Index;
 			while ( Insts.ContainsKey( i ) ) i++;
 			Insts.Add( i, Ep );
+		}
+
+		public override void Update( BookItem B )
+		{
+			base.Update( B );
+			if( B is BookInstruction BInst )
+			{
+				Insts = BInst.Insts;
+				BSReference = BInst.BSReference;
+				Packed = BInst.Packed;
+			}
 		}
 
 		public void Clear()

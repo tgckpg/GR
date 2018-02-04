@@ -192,6 +192,7 @@ namespace GR.Model.Book
 			, $"Cover: {Info.CoverSrcUrl}"
 			, Author, Press
 			, TotalHitCount, DailyHitCount, PushCount, FavCount, Length
+			, LastUpdateDate
 			, PostingDate, LatestSection, StatusLong
 			, string.Join( "\n", Others )
 			, PropertyName( PropType.Intro ) + ": " + Intro
@@ -218,7 +219,7 @@ namespace GR.Model.Book
 			NotifyChanged( "Intro" );
 		}
 
-		public void Update( BookItem B )
+		virtual public void Update( BookItem B )
 		{
 			Entry.Title = B.Title;
 			Entry.Description = B.Description;
@@ -264,6 +265,7 @@ namespace GR.Model.Book
 					Info.PostingDate = Value;
 					NotifyChanged( "PostingDate" );
 					break;
+				case AppKeys.BINF_LUPDATE:
 				case AppKeys.XML_BINF_LUPDATE:
 					LastUpdateDate = Value;
 					break;

@@ -80,6 +80,7 @@
 			, BINF_OTHERS = "Others"
 			, BINF_LENGTH = "Length"
 			, BINF_STATUS = "Status"
+			, BINF_LUPDATE = "LastUpdateDate"
 			, BINF_PRESS = "Press"
 			, BINF_ORGURL = "OriginalUrl"
 			, BINF_COVER = "Cover"

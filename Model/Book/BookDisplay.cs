@@ -24,5 +24,7 @@ namespace GR.Model.Book
 
 		public override bool Equals( object obj ) => Entry.Equals( ( obj as BookDisplay )?.Entry );
 		public override int GetHashCode() => Entry.GetHashCode();
+
+		public object Payload { get; set; }
 	}
 }
