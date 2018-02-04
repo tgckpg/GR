@@ -55,6 +55,7 @@ namespace GR.Database.Models
 
 		public DateTime? LastAccess { get; set; }
 
+		[Required]
 		public BookInfo Info { get; set; }
 
 		[NotMapped]

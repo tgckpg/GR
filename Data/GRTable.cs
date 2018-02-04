@@ -30,16 +30,16 @@ namespace GR.Data
 
 		public GridLength HSP { get; set; } = new GridLength( 0, GridUnitType.Star );
 
-		public int S00 => CellProps[ 0 ].Sorting;
-		public int S01 => CellProps[ 1 ].Sorting;
-		public int S02 => CellProps[ 2 ].Sorting;
-		public int S03 => CellProps[ 3 ].Sorting;
-		public int S04 => CellProps[ 4 ].Sorting;
-		public int S05 => CellProps[ 5 ].Sorting;
-		public int S06 => CellProps[ 6 ].Sorting;
-		public int S07 => CellProps[ 7 ].Sorting;
-		public int S08 => CellProps[ 8 ].Sorting;
-		public int S09 => CellProps[ 9 ].Sorting;
+		public int S00 => ColEnabled( 0 ) ? CellProps[ 0 ].Sorting : 0;
+		public int S01 => ColEnabled( 1 ) ? CellProps[ 1 ].Sorting : 0;
+		public int S02 => ColEnabled( 2 ) ? CellProps[ 2 ].Sorting : 0;
+		public int S03 => ColEnabled( 3 ) ? CellProps[ 3 ].Sorting : 0;
+		public int S04 => ColEnabled( 4 ) ? CellProps[ 4 ].Sorting : 0;
+		public int S05 => ColEnabled( 5 ) ? CellProps[ 5 ].Sorting : 0;
+		public int S06 => ColEnabled( 6 ) ? CellProps[ 6 ].Sorting : 0;
+		public int S07 => ColEnabled( 7 ) ? CellProps[ 7 ].Sorting : 0;
+		public int S08 => ColEnabled( 8 ) ? CellProps[ 8 ].Sorting : 0;
+		public int S09 => ColEnabled( 9 ) ? CellProps[ 9 ].Sorting : 0;
 
 		public List<IGRCell> CellProps { get; private set; }
 		private Dictionary<IGRCell, int> PropIndexes;
@@ -83,7 +83,7 @@ namespace GR.Data
 
 		public bool ColEnabled( int ColIndex )
 		{
-			return ColIndex < Headers.Count && 0 < ( ( GridLength ) Headers[ ColIndex ].GetValue( this ) ).Value;
+			return ColIndex < Math.Min( Headers.Count, CellProps.Count ) && 0 < ( ( GridLength ) Headers[ ColIndex ].GetValue( this ) ).Value;
 		}
 
 		public void SortCol( int ColIndex, int Direction )

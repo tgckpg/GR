@@ -18,6 +18,7 @@ namespace GR.Model.Book
 {
 	using Database.Models;
 	using ListItem;
+	using Net.Astropenguin.Linq;
 	using Resources;
 	using Settings;
 	using System.Reflection;
@@ -223,7 +224,12 @@ namespace GR.Model.Book
 		{
 			Entry.Title = B.Title;
 			Entry.Description = B.Description;
-			Entry.Info = B.Info;
+
+			typeof( BookInfo )
+				.GetProperties()
+				.Where( x => x.GetType() == typeof( string ) )
+				.ExecEach( x => x.SetValue( Entry.Info, x.GetValue( B.Entry.Info ) ) );
+
 			Entry.Json_Meta = B.Entry.Json_Meta;
 		}
 

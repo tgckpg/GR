@@ -99,6 +99,12 @@ namespace GR.Database.Contexts
 			}
 		}
 
+		public void RemoveUnsaved( Book Bk )
+		{
+			lock ( UnsavedBooks )
+				UnsavedBooks.Remove( Bk );
+		}
+
 		private void _SaveBook( Book Bk )
 		{
 			if ( UnsavedBooks.Contains( Bk ) )

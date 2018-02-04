@@ -52,9 +52,12 @@ namespace GR.Data
 
 		List<IGRCell> CellProps { get; }
 		IReadOnlyList<PropertyInfo> Headers { get; }
+		IReadOnlyList<PropertyInfo> Sortings { get; }
 
-		void SetCol( int FromCol, int ToCol, bool Enable );
+		void Configure( GRTableConfig config );
+
 		bool ColEnabled( int ColIndex );
+		void SetCol( int FromCol, int ToCol, bool Enable );
 		bool ToggleCol( IGRCell Cell );
 		void ResizeCol( int ColIndex, double x );
 		void MoveColumn( int FromCol, int ToCol );

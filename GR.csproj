@@ -116,9 +116,9 @@
     <Compile Include="Data\Interfaces.cs" />
     <Compile Include="Effects\Stage\RandomStripe.cs" />
     <Compile Include="Ext\IDeathblow.cs" />
-    <Compile Include="Migrations\Books\20180122100417_Initial.cs" />
-    <Compile Include="Migrations\Books\20180122100417_Initial.designer.cs">
-      <DependentUpon>20180122100417_Initial.cs</DependentUpon>
+    <Compile Include="Migrations\Books\20180204165922_Initial.cs" />
+    <Compile Include="Migrations\Books\20180204165922_Initial.designer.cs">
+      <DependentUpon>20180204165922_Initial.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Books\BooksContextModelSnapshot.cs" />
     <Compile Include="Migrations\MigrateGR.cs" />
@@ -131,6 +131,7 @@
     <Compile Include="Model\Book\BookDisplay.cs" />
     <Compile Include="Model\Interfaces\IIllusUpdate.cs" />
     <Compile Include="Model\ItemProcessor.cs" />
+    <Compile Include="Model\ListItem\Sharers\HSDisplay.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="AdvDM\PostData.cs" />
     <Compile Include="AdvDM\RuntimeCache.cs" />
