@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -10,7 +11,7 @@ using Net.Astropenguin.Linq;
 
 namespace GR.Data
 {
-	public class GRRowBase<T> : ActiveData, IGRRowBase
+	abstract public class GRRowBase<T> : ActiveData, IGRRowBase
 	{
 		public readonly Type BaseType = typeof( GRRowBase<T> );
 		public string C00 => _Cell( 0 );
@@ -24,7 +25,30 @@ namespace GR.Data
 		public string C08 => _Cell( 8 );
 		public string C09 => _Cell( 9 );
 
-		public T Source { get; set; }
+		public object CellData => _Source;
+
+		private T _Source;
+		public T Source
+		{
+			get => _Source;
+			set
+			{
+				if( _Source is INotifyPropertyChanged _OSrc )
+				{
+					_OSrc.PropertyChanged -= NotifyColUpdate;
+				}
+
+				_Source = value;
+
+				if( _Source is INotifyPropertyChanged _NSrc )
+				{
+					_NSrc.PropertyChanged += NotifyColUpdate;
+				}
+			}
+		}
+
+		abstract protected void NotifyColUpdate( object sender, PropertyChangedEventArgs e );
+
 		public Func<int, object, string> Cell = ( i, x ) => "";
 
 		private static IReadOnlyList<PropertyInfo> _CellProps;

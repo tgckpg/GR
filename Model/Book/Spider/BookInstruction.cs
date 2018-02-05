@@ -21,14 +21,7 @@ namespace GR.Model.Book.Spider
 	sealed class BookInstruction : BookItem, IInstructionSet
 	{
 		private ProcManager BSReference;
-		public XParameter BookSpiderDef
-		{
-			get
-			{
-				if ( BSReference == null ) return null;
-				return BSReference.ToXParam( GID );
-			}
-		}
+		public XParameter BookSpiderDef => BSReference?.ToXParam( GID );
 
 		private SortedDictionary<int, ConvoyInstructionSet> Insts = new SortedDictionary<int, ConvoyInstructionSet>();
 
@@ -178,28 +171,6 @@ namespace GR.Model.Book.Spider
 		public VolInstruction[] GetVolInsts()
 		{
 			return Insts.Values.Where( x => x is VolInstruction ).Cast<VolInstruction>().ToArray();
-		}
-
-		public override void SaveInfo()
-		{
-			// Perform double check if this entry already exist in database
-			if ( !Shared.BooksDb.Entry( _Entry ).IsKeySet )
-			{
-				Book DbRecord = Shared.BooksDb.Books.FirstOrDefault( b => b.ZoneId == ZoneId && b.ZItemId == ZItemId && b.Type == Type );
-				if ( DbRecord != null )
-				{
-					DbRecord.Title = _Entry.Title;
-					DbRecord.Description = _Entry.Description;
-					DbRecord.Json_Meta = _Entry.Json_Meta;
-					DbRecord.Info = _Entry.Info;
-
-					Shared.BooksDb.RemoveUnsaved( _Entry );
-					_Entry = DbRecord;
-				}
-			}
-
-			// Save the book here
-			base.SaveInfo();
 		}
 
 	}

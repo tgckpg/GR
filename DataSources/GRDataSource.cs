@@ -17,6 +17,18 @@ namespace GR.DataSources
 	abstract public class GRDataSource : ActiveData
 	{
 		abstract public IGRTable Table { get; }
+		virtual public string SearchExample => "";
+
+		protected string _Search = "";
+		virtual public string Search
+		{
+			get => _Search;
+			set
+			{
+				_Search = value;
+				Reload();
+			}
+		}
 
 		/// <summary>
 		/// Construct table columns

@@ -2,14 +2,18 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+
+using Net.Astropenguin.DataModel;
 
 namespace GR.Model.Book
 {
 	using Database.Models;
+	using Net.Astropenguin.Linq;
 
-	public class BookDisplay
+	public class BookDisplay : ActiveData
 	{
 		public Book Entry { get; private set; }
 

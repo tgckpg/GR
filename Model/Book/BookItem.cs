@@ -237,6 +237,22 @@ namespace GR.Model.Book
 
 		virtual public void SaveInfo()
 		{
+			// Perform double check if this entry already exist in database
+			if ( !Shared.BooksDb.Entry( Entry ).IsKeySet )
+			{
+				Book DbRecord = Shared.BooksDb.Books.FirstOrDefault( b => b.ZoneId == ZoneId && b.ZItemId == ZItemId && b.Type == Type );
+				if ( DbRecord != null )
+				{
+					DbRecord.Title = Entry.Title;
+					DbRecord.Description = Entry.Description;
+					DbRecord.Json_Meta = Entry.Json_Meta;
+					DbRecord.Info = Entry.Info;
+
+					Shared.BooksDb.RemoveUnsaved( Entry );
+					_Entry = DbRecord;
+				}
+			}
+
 			Shared.BooksDb.SaveBook( Entry );
 		}
 

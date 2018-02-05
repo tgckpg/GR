@@ -6,6 +6,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls.Primitives;
 
 using GR.Database.Models;
 
@@ -23,6 +24,8 @@ namespace GR.Data
 		string C07 { get; }
 		string C08 { get; }
 		string C09 { get; }
+
+		object CellData { get; }
 	}
 
 	public interface IGRTable : IGRRowBase
@@ -57,8 +60,10 @@ namespace GR.Data
 		void Configure( GRTableConfig config );
 
 		bool ColEnabled( int ColIndex );
-		void SetCol( int FromCol, int ToCol, bool Enable );
 		bool ToggleCol( IGRCell Cell );
+		int ColIndex( Type PropertyOwner, string PropertyName );
+
+		void SetCol( int FromCol, int ToCol, bool Enable );
 		void ResizeCol( int ColIndex, double x );
 		void MoveColumn( int FromCol, int ToCol );
 	}
@@ -66,6 +71,9 @@ namespace GR.Data
 	public interface IGRRow : IGRRowBase
 	{
 		IGRTable Table { get; }
+		Func<object,FlyoutBase> ContextMenu { get; }
+
+		void Refresh();
 	}
 
 	public interface IGRCell

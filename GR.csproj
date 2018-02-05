@@ -130,6 +130,7 @@
     <Compile Include="Model\Book\BookItemExt.cs" />
     <Compile Include="Model\Book\BookDisplay.cs" />
     <Compile Include="Model\Interfaces\IIllusUpdate.cs" />
+    <Compile Include="Model\Interfaces\IExtViewSource.cs" />
     <Compile Include="Model\ItemProcessor.cs" />
     <Compile Include="Model\ListItem\Sharers\HSDisplay.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

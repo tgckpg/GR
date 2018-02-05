@@ -8,6 +8,7 @@ using Windows.UI.Xaml;
 
 using Net.Astropenguin.Linq;
 using GR.Database.Models;
+using System.ComponentModel;
 
 namespace GR.Data
 {
@@ -81,9 +82,21 @@ namespace GR.Data
 		private string[] _SortingNames;
 		public IReadOnlyList<string> SortingNames => _SortingNames ?? ( _SortingNames = Sortings.Remap( x => x.Name ) );
 
+		// Listen for the Column update
+		protected override void NotifyColUpdate( object sender, PropertyChangedEventArgs e )
+		{
+			int Index = ColIndex( sender.GetType(), e.PropertyName );
+			if ( ColEnabled( Index ) )
+			{
+				NotifyChanged( Cells[ Index ].Name );
+			}
+		}
+
+		public int ColIndex( Type PropertyOwner, string PropertyName ) => CellProps.FindIndex( x => x.Property.DeclaringType == PropertyOwner && x.Property.Name == PropertyName );
+
 		public bool ColEnabled( int ColIndex )
 		{
-			return ColIndex < Math.Min( Headers.Count, CellProps.Count ) && 0 < ( ( GridLength ) Headers[ ColIndex ].GetValue( this ) ).Value;
+			return 0 <= ColIndex && ColIndex < Math.Min( Headers.Count, CellProps.Count ) && 0 < ( ( GridLength ) Headers[ ColIndex ].GetValue( this ) ).Value;
 		}
 
 		public void SortCol( int ColIndex, int Direction )
