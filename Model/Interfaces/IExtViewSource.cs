@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Controls.Primitives;
 
 namespace GR.Model.Interfaces
 {
@@ -40,6 +41,11 @@ namespace GR.Model.Interfaces
 
 		private void Page_Loaded( object sender, RoutedEventArgs e ) => _SetTemplate();
 		private void Page_Unloaded( object sender, RoutedEventArgs e ) => _Unload();
+
+		virtual public FlyoutBase GetContextMenu( FrameworkElement Elem )
+		{
+			return null;
+		}
 	}
 
 	interface IExtViewSource

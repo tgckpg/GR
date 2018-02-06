@@ -71,8 +71,6 @@ namespace GR.Data
 	public interface IGRRow : IGRRowBase
 	{
 		IGRTable Table { get; }
-		Func<object,FlyoutBase> ContextMenu { get; }
-
 		void Refresh();
 	}
 

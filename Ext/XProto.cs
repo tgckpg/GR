@@ -31,6 +31,7 @@ namespace GR.Ext
 		public const string Member = "wenku8.Member, wenku8-protocol";
 		public const string MemberInfo = "wenku8.Settings.MemberInfo, wenku8-protocol";
 
+		public const string BookDisplayPageExt = "GR.PageExtensions.BookDisplayPageExt, wenku10";
 		public const string AutoCache = "GR.Model.Loaders.AutoCache, wenku10";
 		public const string BookLoader = "GR.Model.Loaders.BookLoader, wenku10";
 		public const string TwitterAuthData = "GR.Model.Twitter.AuthData, wenku10";
@@ -43,9 +44,7 @@ namespace GR.Ext
 		public const string MainPageSettings = "GR.Settings.Layout.MainPage, wenku10";
 		public const string MainStage = "wenku10.MainStage, wenku10";
 
-		public const string HistoryPage = "wenku10.Pages.History, wenku10";
 		public const string CatListPage = "wenku10.Pages.WCateList, wenku10";
-		public const string NavListPage = "wenku10.Pages.WNavList, wenku10";
 
 		public const string BingService = "GR.AdvDM.BingService, GR";
 	}

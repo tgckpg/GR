@@ -11,7 +11,6 @@ using Net.Astropenguin.DataModel;
 namespace GR.Model.Book
 {
 	using Database.Models;
-	using Net.Astropenguin.Linq;
 
 	public class BookDisplay : ActiveData
 	{

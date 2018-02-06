@@ -35,19 +35,19 @@ namespace GR.Data
 			{
 				if( _Source is INotifyPropertyChanged _OSrc )
 				{
-					_OSrc.PropertyChanged -= NotifyColUpdate;
+					_OSrc.PropertyChanged -= NotifyCellUpdate;
 				}
 
 				_Source = value;
 
 				if( _Source is INotifyPropertyChanged _NSrc )
 				{
-					_NSrc.PropertyChanged += NotifyColUpdate;
+					_NSrc.PropertyChanged += NotifyCellUpdate;
 				}
 			}
 		}
 
-		abstract protected void NotifyColUpdate( object sender, PropertyChangedEventArgs e );
+		abstract protected void NotifyCellUpdate( object sender, PropertyChangedEventArgs e );
 
 		public Func<int, object, string> Cell = ( i, x ) => "";
 

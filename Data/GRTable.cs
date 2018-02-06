@@ -83,7 +83,7 @@ namespace GR.Data
 		public IReadOnlyList<string> SortingNames => _SortingNames ?? ( _SortingNames = Sortings.Remap( x => x.Name ) );
 
 		// Listen for the Column update
-		protected override void NotifyColUpdate( object sender, PropertyChangedEventArgs e )
+		protected override void NotifyCellUpdate( object sender, PropertyChangedEventArgs e )
 		{
 			int Index = ColIndex( sender.GetType(), e.PropertyName );
 			if ( ColEnabled( Index ) )

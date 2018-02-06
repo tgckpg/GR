@@ -68,7 +68,7 @@ namespace GR.Database.Contexts
 
 		public Book GetBook( string ZoneId, string ZItemId, BookType SrcType )
 		{
-			lock ( UnsavedBooks )
+			lock ( this )
 			{
 				Book Bk = UnsavedBooks.FirstOrDefault( b => b.ZoneId == ZoneId && b.ZItemId == ZItemId && b.Type == SrcType );
 
@@ -101,7 +101,7 @@ namespace GR.Database.Contexts
 
 		public void RemoveUnsaved( Book Bk )
 		{
-			lock ( UnsavedBooks )
+			lock ( this )
 				UnsavedBooks.Remove( Bk );
 		}
 
@@ -120,7 +120,7 @@ namespace GR.Database.Contexts
 
 		public void SaveBook( Book Bk )
 		{
-			lock( UnsavedBooks )
+			lock( this )
 			{
 				_SaveBook( Bk );
 				SaveChanges();
@@ -129,7 +129,7 @@ namespace GR.Database.Contexts
 
 		public void SaveBooks( IEnumerable<Book> Items )
 		{
-			lock ( UnsavedBooks )
+			lock ( this )
 			{
 				foreach( Book Bk in Items )
 				{

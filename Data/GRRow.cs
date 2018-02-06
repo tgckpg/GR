@@ -24,7 +24,7 @@ namespace GR.Data
 			return Table.ColEnabled( ColIndex ) ? base._Cell( ColIndex ) : "";
 		}
 
-		protected override void NotifyColUpdate( object sender, PropertyChangedEventArgs e )
+		protected override void NotifyCellUpdate( object sender, PropertyChangedEventArgs e )
 		{
 			int Index = Table.ColIndex( sender.GetType(), e.PropertyName );
 			if( Table.ColEnabled( Index ) )
@@ -36,15 +36,6 @@ namespace GR.Data
 		public void Refresh()
 		{
 			NotifyChanged( CellNames.Where( ( i, x ) => Table.ColEnabled( i ) ) );
-		}
-
-		private static Func<object, FlyoutBase> NullBase = x => null;
-
-		private Func<object, FlyoutBase> _ContextMenu;
-		public Func<object, FlyoutBase> ContextMenu
-		{
-			get => _ContextMenu ?? NullBase;
-			set => _ContextMenu = value;
 		}
 	}
 }
