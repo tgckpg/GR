@@ -14,6 +14,7 @@ namespace GR.Database
 		private static Type[] Contexts = new Type[]{
 			typeof( SettingsContext )
 			, typeof( BooksContext )
+			, typeof( ZCacheContext )
 		};
 
 		public static void Migrate()

@@ -43,6 +43,9 @@ namespace GR.Resources
 		private static BooksContext _Books;
 		public static BooksContext BooksDb => _Books ?? ( _Books = new BooksContext() );
 
+		private static ZCacheContext _ZCache;
+		public static ZCacheContext ZCacheDb => _ZCache ?? ( _ZCache = new ZCacheContext() );
+
 		public static List<TreeItem> ExpZones = new List<TreeItem>();
 
 		public static void LoadMessage( string MESG_ID, params string[] args )

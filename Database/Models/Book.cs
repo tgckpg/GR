@@ -1,11 +1,12 @@
-﻿using GR.Database.Schema;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace GR.Database.Models
 {
+	using Schema;
+
 	public enum BookType : byte
 	{
 		/// <summary>

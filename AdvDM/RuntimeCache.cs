@@ -105,17 +105,15 @@ namespace GR.AdvDM
 			, Action<DRequestCompletedEventArgs, string> Handler
 			, Action<string, string, Exception> DowloadFailedHandler, bool PreCache )
 		{
-			string cache = GR.GSystem.Utils.Md5( CacheName );
+			string cache = GSystem.Utils.Md5( CacheName );
 			try
 			{
 				string dString = e.ResponseString;
 
-				// Write Cache
 				if ( PreCache )
-					Task.Run( () =>
-					{
-						Shared.Storage.WriteBytes( FileLinks.ROOT_CACHE + cache, e.ResponseBytes );
-					} );
+				{
+					Shared.ZCacheDb.Write( cache, e.ResponseBytes );
+				}
 			}
 			catch ( Exception ex )
 			{

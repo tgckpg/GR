@@ -98,17 +98,20 @@
     <Compile Include="Database\ContextManager.cs" />
     <Compile Include="Database\Contexts\Books.cs" />
     <Compile Include="Database\Contexts\Settings.cs" />
+    <Compile Include="Database\Contexts\ZCache.cs" />
     <Compile Include="Database\GRMigrationProviders.cs" />
     <Compile Include="Database\Models.cs" />
     <Compile Include="Database\Models\Book.cs" />
     <Compile Include="Database\Models\GenericSettings.cs" />
     <Compile Include="Database\Models\GRTableConfig.cs" />
+    <Compile Include="Database\Models\ZCache.cs" />
     <Compile Include="Database\Schema\AutoNow.cs" />
     <Compile Include="Database\Schema\DbDictionary.cs" />
     <Compile Include="Database\Schema\DbJsonInstance.cs" />
     <Compile Include="Database\Schema\DbList.cs" />
     <Compile Include="Database\Schema\DbHashSet.cs" />
     <Compile Include="Database\Schema\ModelExt.cs" />
+    <Compile Include="Database\Schema\ZData.cs" />
     <Compile Include="DataSources\GRDataSource.cs" />
     <Compile Include="DataSources\GRViewSource.cs" />
     <Compile Include="Data\GRCell.cs" />
@@ -127,6 +130,11 @@
       <DependentUpon>20180130041432_Initial.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Settings\SettingsContextModelSnapshot.cs" />
+    <Compile Include="Migrations\ZCache\20180207051946_Initial.cs" />
+    <Compile Include="Migrations\ZCache\20180207051946_Initial.designer.cs">
+      <DependentUpon>20180207051946_Initial.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\ZCache\ZCacheContextModelSnapshot.cs" />
     <Compile Include="Model\Book\BookItemExt.cs" />
     <Compile Include="Model\Book\BookDisplay.cs" />
     <Compile Include="Model\Interfaces\IIllusUpdate.cs" />
