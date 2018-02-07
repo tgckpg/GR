@@ -19,6 +19,28 @@ namespace GR.DataSources
 		abstract public IGRTable Table { get; }
 		virtual public string SearchExample => "";
 
+		private bool _IsLoading;
+		virtual public bool IsLoading
+		{
+			get => _IsLoading;
+			protected set
+			{
+				_IsLoading = value;
+				NotifyChanged( "IsLoading" );
+			}
+		}
+
+		private string _Message;
+		virtual public string Message
+		{
+			get => _Message;
+			protected set
+			{
+				_Message = value;
+				NotifyChanged( "Message" );
+			}
+		}
+
 		protected string _Search = "";
 		virtual public string Search
 		{

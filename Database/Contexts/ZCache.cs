@@ -25,10 +25,12 @@ namespace GR.Database.Contexts
 			optionsBuilder.ReplaceService<IMigrationsAnnotationProvider, GRMigrationsAnnotationProvider>();
 		}
 
+		private volatile object TransationLock = new Object();
+
 		private volatile object FlushLock = new Object();
 		private volatile bool Flushing = false;
 
-		private Worker DelayedWriter = new Worker();
+		private Worker DelayedWriter = new Worker( "ZCache" );
 		private ConcurrentQueue<ZCache> Caches = new ConcurrentQueue<ZCache>();
 
 		public ZCache GetCache( string Id )
@@ -37,7 +39,7 @@ namespace GR.Database.Contexts
 			if ( Cache == null )
 			{
 				Cache = KeyStore.Find( Id );
-				if( Cache == null )
+				if ( Cache == null )
 				{
 					return null;
 				}
@@ -54,7 +56,7 @@ namespace GR.Database.Contexts
 			{
 				ZCache Cache = Caches.FirstOrDefault( x => x.Key == Id ) ?? KeyStore.Find( Id );
 
-				if( Cache == null )
+				if ( Cache == null )
 				{
 					Cache = new ZCache() { Key = Id };
 					Caches.Enqueue( Cache );
@@ -76,10 +78,12 @@ namespace GR.Database.Contexts
 
 			await Task.Delay( 3000 );
 
+			BeginFlush:
 			int l = Caches.Count();
 			Logger.Log( "ZCache", "Flushing caches: " + l, LogType.DEBUG );
 
 			List<ZCache> Untrack = new List<ZCache>();
+
 			foreach ( ZCache Cache in Caches )
 			{
 				// Tracked entries are handled by EF Core
@@ -101,7 +105,8 @@ namespace GR.Database.Contexts
 			SaveChanges();
 
 			// Drop inactive entries
-			for ( int i = 0; i < l; )
+			int i = 0;
+			while ( i < l )
 			{
 				if ( Caches.TryDequeue( out ZCache CCache ) )
 				{
@@ -117,7 +122,28 @@ namespace GR.Database.Contexts
 				}
 			}
 
+			if( 0 < i )
+			{
+				goto BeginFlush;
+			}
+
 			Flushing = false;
+		}
+
+		public override TEntity Find<TEntity>( params object[] keyValues )
+		{
+			lock ( TransationLock )
+			{
+				return base.Find<TEntity>( keyValues );
+			}
+		}
+
+		public override int SaveChanges()
+		{
+			lock ( TransationLock )
+			{
+				return base.SaveChanges();
+			}
 		}
 
 	}
