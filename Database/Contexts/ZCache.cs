@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Migrations;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,7 +13,6 @@ using Net.Astropenguin.Logging;
 namespace GR.Database.Contexts
 {
 	using Models;
-	using System.Collections.Concurrent;
 
 	class ZCacheContext : DbContext
 	{

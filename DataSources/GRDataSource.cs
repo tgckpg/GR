@@ -14,6 +14,8 @@ namespace GR.DataSources
 	using Database.Contexts;
 	using Database.Models;
 
+	public class EmptySearchQueryException : Exception { }
+
 	abstract public class GRDataSource : ActiveData
 	{
 		abstract public IGRTable Table { get; }
@@ -40,6 +42,8 @@ namespace GR.DataSources
 				NotifyChanged( "Message" );
 			}
 		}
+
+		virtual public bool Searchable => true;
 
 		protected string _Search = "";
 		virtual public string Search

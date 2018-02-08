@@ -8,6 +8,7 @@ using Net.Astropenguin.Linq;
 namespace GR.Model.ListItem
 {
 	using GSystem;
+
 	public class TreeItem : ActiveData
 	{
 		public string ItemTitle { get; protected set; }
@@ -48,27 +49,17 @@ namespace GR.Model.ListItem
 				_Children = _Children ?? new List<TreeItem>();
 				foreach ( TreeItem x in value )
 				{
-					if ( x.Parent == null )
-					{
-						x.Parent = this;
-					}
-					else
-					{
-						if ( x.Parent == this )
-						{
-							// Move item to the end of the list
-							_Children.Remove( x );
-						}
-						else
-						{
-							throw new InvalidOperationException( "Item belongs to another tree" );
-						}
-					}
-
-					_Children.Add( x );
+					_AddChild( x );
 				}
 				NotifyChanged( "Children" );
 			}
+		}
+
+		public void AddChild( TreeItem Item )
+		{
+			_Children = _Children ?? new List<TreeItem>();
+			_AddChild( Item );
+			NotifyChanged( "Children" );
 		}
 
 		public TreeItem( string Name, int Level )
@@ -77,6 +68,28 @@ namespace GR.Model.ListItem
 		}
 
 		public TreeItem( string Name ) : this( Name, 0 ) { }
+
+		private void _AddChild( TreeItem x )
+		{
+			if ( x.Parent == null )
+			{
+				x.Parent = this;
+			}
+			else
+			{
+				if ( x.Parent == this )
+				{
+					// Move item to the end of the list
+					_Children.Remove( x );
+				}
+				else
+				{
+					throw new InvalidOperationException( "Item belongs to another tree" );
+				}
+			}
+
+			_Children.Add( x );
+		}
 	}
 
 	public class TreeList : ObservableCollection<TreeItem>
@@ -88,25 +101,55 @@ namespace GR.Model.ListItem
 
 		public void Toggle( TreeItem Item )
 		{
+			lock ( this ) _Toggle( Item );
+		}
+
+		public void Open( TreeItem Item )
+		{
 			lock ( this )
 			{
-				int ItemIndex = IndexOf( Item );
-
-				if ( ItemIndex == -1 )
-					throw new InvalidOperationException( "Item not found" );
-
-				TreeItem[] OItems = this.Where( x => x != Item && x.Path.StartsWith( Item.Path ) ).ToArray();
-
-				if ( OItems.Any() )
+				List<TreeItem> Path = new List<TreeItem>();
+				_BuildPath( Item, Path );
+				for ( int i = 0, l = Path.Count(); i < l; i++ )
 				{
-					OItems.ExecEach( x => Remove( x ) );
-				}
-				else
-				{
-					ItemIndex++;
-					Item.Children.ExecEach( ( x, i ) => InsertItem( ItemIndex + i, x ) );
+					TreeItem K = Path[ i ];
+					if ( IndexOf( K ) == -1 && 0 < i )
+					{
+						_Toggle( Path[ i - 1 ] );
+					}
 				}
 			}
 		}
+
+		private void _Toggle( TreeItem Item )
+		{
+			int ItemIndex = IndexOf( Item );
+
+			if ( ItemIndex == -1 )
+				throw new InvalidOperationException( "Item not found" );
+
+			TreeItem[] OItems = this.Where( x => x != Item && x.Path.StartsWith( Item.Path ) ).ToArray();
+
+			if ( OItems.Any() )
+			{
+				OItems.ExecEach( x => Remove( x ) );
+			}
+			else
+			{
+				ItemIndex++;
+				Item.Children.ExecEach( ( x, i ) => InsertItem( ItemIndex + i, x ) );
+			}
+		}
+
+		private void _BuildPath( TreeItem Item, List<TreeItem> PathTree )
+		{
+			if ( Item.Parent != null )
+			{
+				_BuildPath( Item.Parent, PathTree );
+			}
+
+			PathTree.Add( Item );
+		}
+
 	}
 }

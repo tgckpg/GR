@@ -103,6 +103,9 @@
 			, SP_PROCESS_COMP = "Spider_Process_Comp"
 			, PM_CHECK_TILES = "PinManager_Check_Tiles"
 
+			, SEARCH_AUTHOR = "search-author"
+			, OPEN_VIEWSOURCE = "open-view-source"
+
 			, EX_DEATHBLOW = "ExDeathblow"
 
 			// Background Task
@@ -113,7 +116,7 @@
 			, SYS_EXCEPTION = "exception"
 			, SYS_MESSAGE = "mesg"
 
-			, UA = "Grimoire Reaper/{0} ( wenku8 engine; taotu engine; UAP ) wenku10 by Astropenguin"
+			, UA = "Grimoire Reaper/{0} ( Windows; taotu engine; UAP ) wenku10 by Astropenguin"
 			;
 
 		public const char ANO_IMG = '\ufff9';
