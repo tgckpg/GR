@@ -49,9 +49,9 @@ namespace GR.Taotu
 			PropDefs = new ObservableCollection<PropExt>();
 		}
 
-		public override async Task<ProcConvoy> Run( ProcConvoy Convoy )
+		public override async Task<ProcConvoy> Run( ICrawler Crawler, ProcConvoy Convoy )
 		{
-			await base.Run( Convoy );
+			await base.Run( Crawler, Convoy );
 
 			string LoadUrl = TargetUrl;
 			string Content = "";
@@ -68,7 +68,7 @@ namespace GR.Taotu
 
 			if ( UsableConvoy != null )
 			{
-				ProcManager.PanelMessage( this, Res.RSTR( "IncomingCheck" ), LogType.INFO );
+				Crawler.PLog( this, Res.RSTR( "IncomingCheck" ), LogType.INFO );
 
 				if ( UsableConvoy.Payload is IEnumerable<IStorageFile> )
 				{
@@ -92,7 +92,7 @@ namespace GR.Taotu
 
 					if ( ISF == null && string.IsNullOrEmpty( LoadUrl ) )
 					{
-						ProcManager.PanelMessage( this, Res.RSTR( "NoUsablePayload" ), LogType.WARNING );
+						Crawler.PLog( this, Res.RSTR( "NoUsablePayload" ), LogType.WARNING );
 						return Convoy;
 					}
 
@@ -127,19 +127,19 @@ namespace GR.Taotu
 
 				if ( string.IsNullOrEmpty( Content ) && ISF == null )
 				{
-					ISF = await ProceduralSpider.DownloadSource( LoadUrl );
+					ISF = await Crawler.DownloadSource( LoadUrl );
 				}
 			}
 
 			if ( ISF != null ) Content = await ISF.ReadString();
 
 			// Event Content is null, Props might be still extractable as there might be some predefined props exists
-			await ExtractProps( BookInst, Content );
+			await ExtractProps( Crawler, BookInst, Content );
 
 			return new ProcConvoy( this, BookInst );
 		}
 
-		private async Task ExtractProps( BookItem Inst, string Content )
+		private async Task ExtractProps( ICrawler Crawler, BookItem Inst, string Content )
 		{
 			foreach( PropExt Extr in PropDefs )
 			{
@@ -149,9 +149,9 @@ namespace GR.Taotu
 
 				if ( Extr.SubProc.HasProcedures )
 				{
-					ProcManager.PanelMessage( this, Res.RSTR( "SubProcRun" ), LogType.INFO );
+					Crawler.PLog( this, Res.RSTR( "SubProcRun" ), LogType.INFO );
 					ProcPassThru PPass = new ProcPassThru( new ProcConvoy( this, Inst ) );
-					ProcConvoy SubConvoy = await Extr.SubProc.CreateSpider().Crawl( new ProcConvoy( PPass, PropValue ) );
+					ProcConvoy SubConvoy = await Extr.SubProc.CreateSpider( Crawler ).Crawl( new ProcConvoy( PPass, PropValue ) );
 
 					// Process ReceivedConvoy
 					if ( SubConvoy.Payload is string )
@@ -169,7 +169,7 @@ namespace GR.Taotu
 				// That website is stupid. Would not support.
 				if ( !Inst.ReadParam( Extr.PType.ToString(), PropValue ) )
 				{
-					ProcManager.PanelMessage( this, Res.RSTR( "InvalidParam", Extr.PType ), LogType.WARNING );
+					Crawler.PLog( this, Res.RSTR( "InvalidParam", Extr.PType ), LogType.WARNING );
 				}
 			}
 		}

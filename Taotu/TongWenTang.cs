@@ -13,6 +13,7 @@ using Net.Astropenguin.Helpers;
 using Net.Astropenguin.UI.Icons;
 
 using libtaotu.Controls;
+using libtaotu.Models.Interfaces;
 using libtaotu.Models.Procedure;
 
 namespace GR.Taotu
@@ -29,7 +30,7 @@ namespace GR.Taotu
 
 		public TongWenTang() : base( ProcType.TRANSLATE ) { }
 
-		public override async Task<ProcConvoy> Run( ProcConvoy Convoy )
+		public override async Task<ProcConvoy> Run( ICrawler Crawler, ProcConvoy Convoy )
 		{
 			if ( !Shared.TC.DoTranslate ) return Convoy;
 
@@ -44,7 +45,7 @@ namespace GR.Taotu
 				return Convoy;
 			}
 
-			ProcManager.PanelMessage( this, Res.RSTR( "IncomingCheck" ), LogType.INFO );
+			Crawler.PLog( this, Res.RSTR( "IncomingCheck" ), LogType.INFO );
 
 			ProcConvoy UsableConvoy = ProcManager.TracePackage(
 				Convoy, ( P, C ) =>

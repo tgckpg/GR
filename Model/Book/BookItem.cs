@@ -240,9 +240,11 @@ namespace GR.Model.Book
 			// Perform double check if this entry already exist in database
 			if ( !Shared.BooksDb.Entry( Entry ).IsKeySet )
 			{
-				Book DbRecord = Shared.BooksDb.Books.FirstOrDefault( b => b.ZoneId == ZoneId && b.ZItemId == ZItemId && b.Type == Type );
+				Book DbRecord = Shared.BooksDb.QueryBook( Type, ZoneId, ZItemId );
 				if ( DbRecord != null )
 				{
+					Shared.BooksDb.Entry( DbRecord ).Reference( x => x.Info ).Load();
+
 					DbRecord.Title = Entry.Title;
 					DbRecord.Description = Entry.Description;
 					DbRecord.Json_Meta = Entry.Json_Meta;

@@ -131,9 +131,9 @@ namespace GR.Taotu
 			return Param;
 		}
 
-		public override async Task<ProcConvoy> Run( ProcConvoy Convoy )
+		public override async Task<ProcConvoy> Run( ICrawler Crawler, ProcConvoy Convoy )
 		{
-			Convoy = await base.Run( Convoy );
+			Convoy = await base.Run( Crawler, Convoy );
 
 			ProcConvoy UsableConvoy;
 			if ( !TryGetConvoy( out UsableConvoy, ( P, C ) =>
@@ -211,7 +211,7 @@ namespace GR.Taotu
 					}
 					else
 					{
-						ProcManager.PanelMessage( this, Res.RSTR( "InvalidPattern" ), LogType.WARNING );
+						Crawler.PLog( this, Res.RSTR( "InvalidPattern" ), LogType.WARNING );
 						continue;
 					}
 
@@ -232,7 +232,7 @@ namespace GR.Taotu
 						}
 						else
 						{
-							ProcConvoy VolConvoy = await VolProcs.CreateSpider().Crawl( new ProcConvoy( PPass, FParam ) );
+							ProcConvoy VolConvoy = await VolProcs.CreateSpider( Crawler ).Crawl( new ProcConvoy( PPass, FParam ) );
 						}
 					}
 				}
@@ -265,7 +265,7 @@ namespace GR.Taotu
 					}
 					else
 					{
-						ProcManager.PanelMessage( this, Res.RSTR( "InvalidPattern" ), LogType.WARNING );
+						Crawler.PLog( this, Res.RSTR( "InvalidPattern" ), LogType.WARNING );
 						continue;
 					}
 

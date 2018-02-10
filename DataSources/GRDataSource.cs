@@ -82,12 +82,15 @@ namespace GR.DataSources
 				}
 
 				Config.Columns.Clear();
-				Config.Columns.AddRange( Table.Headers.Remap( ( x, i ) => new ColumnConfig()
-				{
-					Name = Table.CellProps[ i ].Property.Name,
-					Width = ( ( GridLength ) x.GetValue( Table ) ).Value,
-					Order = ( int ) Table.Sortings[ i ].GetValue( Table )
-				} ) );
+				Config.Columns.AddRange(
+					Table.Headers
+					.Take( Table.CellProps.Count() )
+					.Remap( ( x, i ) => new ColumnConfig()
+					{
+						Name = Table.CellProps[ i ].Property.Name,
+						Width = ( ( GridLength ) x.GetValue( Table ) ).Value,
+						Order = ( int ) Table.Sortings[ i ].GetValue( Table )
+					} ) );
 
 				await Settings.SaveChangesAsync();
 			}

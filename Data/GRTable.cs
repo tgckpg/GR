@@ -29,8 +29,6 @@ namespace GR.Data
 		public GridLength H08 { get; set; }
 		public GridLength H09 { get; set; }
 
-		public GridLength HSP { get; set; } = new GridLength( 0, GridUnitType.Star );
-
 		public int S00 => ColEnabled( 0 ) ? CellProps[ 0 ].Sorting : 0;
 		public int S01 => ColEnabled( 1 ) ? CellProps[ 1 ].Sorting : 0;
 		public int S02 => ColEnabled( 2 ) ? CellProps[ 2 ].Sorting : 0;
@@ -92,7 +90,8 @@ namespace GR.Data
 			}
 		}
 
-		public int ColIndex( Type PropertyOwner, string PropertyName ) => CellProps.FindIndex( x => x.Property.DeclaringType == PropertyOwner && x.Property.Name == PropertyName );
+		public int ColIndex( Type PropertyOwner, string PropertyName )
+			=> CellProps.FindIndex( x => x.Property.DeclaringType.IsAssignableFrom( PropertyOwner ) && x.Property.Name == PropertyName );
 
 		public bool ColEnabled( int ColIndex )
 		{

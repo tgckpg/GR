@@ -16,17 +16,15 @@ namespace GR.Model.ListItem
 {
 	using Book;
 	using Config;
+	using Interfaces;
 	using Resources;
 	using Settings;
-	using Storage;
 
-	class LocalBook : ActiveItem
+	class LocalBook : ActiveItem, IBookProcess
 	{
 		public static readonly string ID = typeof( LocalBook ).Name;
 
 		public static bool IsTrad = Properties.LANGUAGE_TRADITIONAL;
-
-		private static StringResources stx;
 
 		public StorageFile File { get { return ( StorageFile ) RawPayload; } }
 
@@ -38,27 +36,10 @@ namespace GR.Model.ListItem
 		public bool CanReprocess { get { return CanProcess && !Processing; } }
 		public bool ProcessFailed { get { return !( CanProcess || ProcessSuccess ); } }
 
-		public bool CanFav
-		{
-			get
-			{
-				if ( ProcessSuccess ) return true;
-				return IsFav;
-			}
-		}
-
-		public string FavContextMenu
-		{
-			get
-			{
-				if ( stx == null ) stx = new StringResources( "AppBar" );
-				return IsFav ? stx.Str( "FavOut" ) : stx.Str( "FavIn" );
-			}
-		}
+		public string Zone => ZoneId;
 
 		public string ZoneId { get; protected set; }
 		public string ZItemId { get; protected set; }
-		public bool IsFav { get; set; }
 
 		public LocalBook( StorageFile File )
 			: base( File.Name, File.Path, File )
@@ -167,24 +148,6 @@ namespace GR.Model.ListItem
 			{
 				Desc = MesgArgs.Content;
 			}
-		}
-
-		virtual public void ToggleFav()
-		{
-			BookStorage BS = new BookStorage();
-			if( BS.BookExist( ZItemId ) )
-			{
-				BS.RemoveBook( ZItemId );
-				IsFav = false;
-			}
-			else
-			{
-				BS.SaveBook( ZItemId, Name, "", "" );
-				IsFav = true;
-			}
-
-			BS.SaveBookStorage();
-			NotifyChanged( "IsFav", "FavContextMenu", "CanFav" );
 		}
 
 		virtual public void RemoveSource()

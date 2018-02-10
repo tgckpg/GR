@@ -40,7 +40,6 @@ namespace GR.Data
 		GridLength H07 { get; }
 		GridLength H08 { get; }
 		GridLength H09 { get; }
-		GridLength HSP { get; }
 
 		int S00 { get; }
 		int S01 { get; }

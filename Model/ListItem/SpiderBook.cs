@@ -41,7 +41,7 @@ namespace GR.Model.ListItem
 			get
 			{
 				if ( !Processed && CanProcess && string.IsNullOrEmpty( base.Desc ) )
-					base.Desc = new StringResources().Text( "PleaseClick" );
+					base.Desc = new StringResources().Text( "UnprocessedItem" );
 
 				return base.Desc;
 			}
@@ -144,10 +144,22 @@ namespace GR.Model.ListItem
 			await TestProcessed();
 		}
 
+		private void SLog( string Mesg, LogType LT )
+		{
+			Desc = Mesg;
+		}
+
+		private void SLog( Procedure P, string Mesg, LogType LT )
+		{
+			Desc = Mesg;
+		}
+
 		protected override async Task Run()
 		{
 			InitProcMan();
 			ProceduralSpider Spider = ProcMan.CreateSpider();
+			Spider.Log = SLog;
+			Spider.PLog = SLog;
 
 			string Payload = PSettings.Parameter( "METADATA" )?.GetValue( "payload" );
 			ProcConvoy Convoy = ProcParameter.RestoreParams( PSettings, string.IsNullOrEmpty( Payload ) ? null : Payload );
@@ -211,12 +223,15 @@ namespace GR.Model.ListItem
 
 					XParameter SParam = PSettings.Parameter( "ProcessState" );
 
-					if ( SParam != null
-						&& ( ProcessSuccess = SParam.GetBool( "Success" ) ) )
+					if ( SParam != null && ( ProcessSuccess = SParam.GetBool( "Success" ) ) )
 					{
 						BInst = new BookInstruction( ZoneId, ZItemId );
 						Name = BInst.Title;
-						Desc = BInst.LastUpdateDate;
+						Processed = Shared.BooksDb.Entry( BInst.Entry ).IsKeySet && Shared.BooksDb.Volumes.Any( x => x.Book == BInst.Entry );
+						if( Processed )
+						{
+							Desc = new StringResBg().Text( "RecordExist" );
+						}
 					}
 
 					CanProcess = true;
@@ -289,15 +304,15 @@ namespace GR.Model.ListItem
 		public async Task<SpiderBook> Clone()
 		{
 			XParameter Param = PSettings.Parameter( "Procedures" );
+
+			XRegistry NDef = new XRegistry( "<ProcSpider />", "", false );
 			Param.SetValue( new XKey( "Guid", Guid.NewGuid() ) );
-			PSettings.SetParameter( Param );
+			NDef.SetParameter( Param );
 
-			SpiderBook Book = await ImportFile( PSettings.ToString(), true );
-			Book.Name += " - Copy";
+			SpiderBook Bk = await ImportFile( NDef.ToString(), true );
+			Bk.Name = Name + " - Copy";
 
-			Param.SetValue( new XKey( "Guid", ZItemId ) );
-			PSettings.SetParameter( Param );
-			return Book;
+			return Bk;
 		}
 
 		public BookInstruction GetBook()

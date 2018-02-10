@@ -17,6 +17,12 @@ namespace GR.Data
 		public GRRow( GRTable<T> Table )
 		{
 			this.Table = Table;
+			Cell = DefaultCell;
+		}
+
+		private string DefaultCell( int i, object x )
+		{
+			return Table.CellProps[ i ].Value( x );
 		}
 
 		protected override string _Cell( int ColIndex )

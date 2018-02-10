@@ -7,12 +7,9 @@ using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.UI;
 
-using Net.Astropenguin.Helpers;
 using Net.Astropenguin.IO;
 using Net.Astropenguin.Loaders;
 using Net.Astropenguin.Logging;
-using Net.Astropenguin.Messaging;
-using Net.Astropenguin.UI.Icons;
 
 using libtaotu.Controls;
 using libtaotu.Models.Interfaces;
@@ -22,7 +19,8 @@ namespace GR.Taotu
 {
 	using Model.Book.Spider;
 
-	enum WListSub {
+	enum WListSub
+	{
 		Process = 1, Spider = 2
 	}
 
@@ -49,7 +47,7 @@ namespace GR.Taotu
 					BannerSrc = new Uri( value );
 					NotifyChanged( "BannerSrc" );
 				}
-				catch( Exception ) { }
+				catch ( Exception ) { }
 			}
 		}
 
@@ -122,9 +120,9 @@ namespace GR.Taotu
 			NotifyChanged( "HasBookSpider" );
 		}
 
-		public override async Task<ProcConvoy> Run( ProcConvoy Convoy )
+		public override async Task<ProcConvoy> Run( ICrawler Crawler, ProcConvoy Convoy )
 		{
-			Convoy = await base.Run( Convoy );
+			Convoy = await base.Run( Crawler, Convoy );
 
 			ProcConvoy UsableConvoy;
 			if ( !TryGetConvoy(
@@ -140,8 +138,8 @@ namespace GR.Taotu
 
 			// Search for the closest Instruction Set
 			ProcConvoy SpiderInst = ProcManager.TracePackage(
-				Convoy
-				, ( P, C ) => C.Payload is IEnumerable<BookInstruction>
+				Convoy,
+				( P, C ) => C.Payload is IEnumerable<BookInstruction>
 			);
 
 			if ( SpiderInst != null )
@@ -164,7 +162,7 @@ namespace GR.Taotu
 				foreach ( IStorageFile ISF in ISFs )
 				{
 					string Content = await ISF.ReadString();
-					await SearchBooks( SpItemList, PPass, KnownBook, Content );
+					await SearchBooks( Crawler, SpItemList, PPass, KnownBook, Content );
 				}
 			}
 			else if ( UsableConvoy.Payload is IEnumerable<string> )
@@ -173,7 +171,7 @@ namespace GR.Taotu
 
 				foreach ( string Content in Contents )
 				{
-					await SearchBooks( SpItemList, PPass, KnownBook, Content );
+					await SearchBooks( Crawler, SpItemList, PPass, KnownBook, Content );
 				}
 			}
 			else if ( UsableConvoy.Payload is IStorageFile )
@@ -181,17 +179,17 @@ namespace GR.Taotu
 				IStorageFile ISF = ( IStorageFile ) UsableConvoy.Payload;
 
 				string Content = await ISF.ReadString();
-				await SearchBooks( SpItemList, PPass, KnownBook, Content );
+				await SearchBooks( Crawler, SpItemList, PPass, KnownBook, Content );
 			}
 			else // string
 			{
-				await SearchBooks( SpItemList, PPass, KnownBook, ( string ) UsableConvoy.Payload );
+				await SearchBooks( Crawler, SpItemList, PPass, KnownBook, ( string ) UsableConvoy.Payload );
 			}
 
 			return new ProcConvoy( this, SpItemList );
 		}
 
-		private async Task SearchBooks( List<BookInstruction> ItemList, ProcPassThru PPass, ProcConvoy KnownBook, string Content )
+		private async Task SearchBooks( ICrawler Crawler, List<BookInstruction> ItemList, ProcPassThru PPass, ProcConvoy KnownBook, string Content )
 		{
 			ProcFind.RegItem RegParam = new ProcFind.RegItem( ItemPattern, ItemParam, true );
 
@@ -212,12 +210,12 @@ namespace GR.Taotu
 							.ToArray()
 					);
 
-					ProcConvoy ItemConvoy = await ItemProcs.CreateSpider().Crawl( new ProcConvoy( PPass, FParam ) );
+					ProcConvoy ItemConvoy = await ItemProcs.CreateSpider( Crawler ).Crawl( new ProcConvoy( PPass, FParam ) );
 
 					string Id = await GetId( ItemConvoy );
 					if ( string.IsNullOrEmpty( Id ) )
 					{
-						ProcManager.PanelMessage( this, ste.Str( "NoIdForBook" ), LogType.WARNING );
+						Crawler.PLog( this, ste.Str( "NoIdForBook" ), LogType.WARNING );
 						continue;
 					}
 
@@ -232,7 +230,7 @@ namespace GR.Taotu
 					}
 					else
 					{
-						ProcManager.PanelMessage( this, ste.Str( "NotABook" ), LogType.WARNING );
+						Crawler.PLog( this, ste.Str( "NotABook" ), LogType.WARNING );
 					}
 				}
 			}

@@ -56,14 +56,33 @@ namespace GR.Database.Contexts
 
 		private List<Book> UnsavedBooks = new List<Book>();
 
-		public Book QueryBook( int id )
+		public Book QueryBook( BookType Type, string ZoneId, string ZItemId )
 		{
-			Book Bk = Books.Find( id );
-			if ( Bk != null )
+			lock( this )
 			{
-				Entry( Bk ).Reference( b => b.Info ).Load();
+				return _QueryBook( Type, ZoneId, ZItemId );
 			}
-			return Bk;
+		}
+
+		public void Delete( BookType SType, string ZoneId, string ZItemId )
+		{
+			lock( this )
+			{
+				Book Bk = _QueryBook( SType, ZoneId, ZItemId );
+				if ( Bk != null )
+				{
+					Books.Remove( Bk );
+					SaveChanges();
+				}
+			}
+		}
+
+		public IEnumerable<Book> QueryBook( Func<Book, bool> QueryExp )
+		{
+			lock ( this )
+			{
+				return Books.Include( x => x.Info ).Where( QueryExp );
+			}
 		}
 
 		public Book GetBook( string ZoneId, string ZItemId, BookType SrcType )
@@ -74,7 +93,7 @@ namespace GR.Database.Contexts
 
 				if ( Bk == null )
 				{
-					Bk = Books.FirstOrDefault( b => b.ZoneId == ZoneId && b.ZItemId == ZItemId && b.Type == SrcType );
+					Bk = _QueryBook( SrcType, ZoneId, ZItemId );
 				}
 
 				if ( Bk == null )
@@ -90,10 +109,6 @@ namespace GR.Database.Contexts
 
 					UnsavedBooks.Add( Bk );
 				}
-				else
-				{
-					Entry( Bk ).Reference( b => b.Info ).Load();
-				}
 
 				return Bk;
 			}
@@ -103,6 +118,11 @@ namespace GR.Database.Contexts
 		{
 			lock ( this )
 				UnsavedBooks.Remove( Bk );
+		}
+
+		private Book _QueryBook( BookType Type, string ZoneId, string ZItemId )
+		{
+			return Books.Include( x => x.Info ).FirstOrDefault( x => x.ZoneId == ZoneId && x.ZItemId == ZItemId && x.Type == Type );
 		}
 
 		private void _SaveBook( Book Bk )
@@ -138,11 +158,6 @@ namespace GR.Database.Contexts
 
 				SaveChanges();
 			}
-		}
-
-		public IEnumerable<Book> QueryBooks( BookType SrcType )
-		{
-			return Books.Where( b => b.Type == SrcType );
 		}
 	}
 

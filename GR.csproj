@@ -137,6 +137,7 @@
     <Compile Include="Migrations\ZCache\ZCacheContextModelSnapshot.cs" />
     <Compile Include="Model\Book\BookItemExt.cs" />
     <Compile Include="Model\Book\BookDisplay.cs" />
+    <Compile Include="Model\Interfaces\IBookProcess.cs" />
     <Compile Include="Model\Interfaces\IIllusUpdate.cs" />
     <Compile Include="Model\Interfaces\IExtViewSource.cs" />
     <Compile Include="Model\ItemProcessor.cs" />
