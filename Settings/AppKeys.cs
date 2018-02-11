@@ -104,6 +104,7 @@
 			, PM_CHECK_TILES = "PinManager_Check_Tiles"
 
 			, SEARCH_AUTHOR = "search-author"
+			, OPEN_ZONE = "open-zone"
 			, OPEN_VIEWSOURCE = "open-view-source"
 
 			, EX_DEATHBLOW = "ExDeathblow"

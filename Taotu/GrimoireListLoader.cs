@@ -51,6 +51,8 @@ namespace GR.Taotu
 			}
 		}
 
+		public string ZoneName { get; set; }
+
 		protected override Color BgColor { get { return Colors.Crimson; } }
 
 		private ProcManager ItemProcs;
@@ -87,6 +89,7 @@ namespace GR.Taotu
 			ItemPattern = Param.GetValue( "ItemPattern" );
 			ItemParam = Param.GetValue( "ItemParam" );
 			BannerPath = Param.GetValue( "Banner" );
+			ZoneName = Param.GetValue( "ZoneName" );
 
 			ItemProcs = new ProcManager( Param.Parameter( "ItemProcs" ) );
 			BookSpider = new ProcManager( Param.Parameter( "BookSpider" ) );
@@ -100,6 +103,7 @@ namespace GR.Taotu
 				new XKey( "ItemPattern", ItemPattern )
 				, new XKey( "ItemParam", ItemParam )
 				, new XKey( "Banner", BannerPath )
+				, new XKey( "ZoneName", ZoneName )
 			} );
 
 			XParameter EProc = ItemProcs.ToXParam();

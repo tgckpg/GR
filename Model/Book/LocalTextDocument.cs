@@ -37,7 +37,7 @@ namespace GR.Model.Book
 
 				int l = lines.Length - 2;
 
-				MessageBus.SendUI( typeof( ListItem.LocalBook ), "Verifying ...", ZItemId );
+				MessageBus.Send( typeof( ListItem.LocalBook ), "Verifying ...", ZItemId );
 				// Filter unecessary line break and spaces
 				string s;
 				TDoc.Title = lines[ 1 ];
@@ -67,7 +67,7 @@ namespace GR.Model.Book
 					}
 				}
 
-				MessageBus.SendUI( typeof( ListItem.LocalBook ), "Analyzing ...", ZItemId );
+				MessageBus.Send( typeof( ListItem.LocalBook ), "Analyzing ...", ZItemId );
 				await TDoc.GuessVolTitle();
 
 				return TDoc;
@@ -85,7 +85,7 @@ namespace GR.Model.Book
 			SaveInfo();
 			foreach( TextEpisode Ep in Episodes )
 			{
-				MessageBus.SendUI( typeof( ListItem.LocalBook ), "Saving: " + Ep.Ch.Title, ZItemId );
+				MessageBus.Send( typeof( ListItem.LocalBook ), "Saving: " + Ep.Ch.Title, ZItemId );
 				await new ContentParser().ParseAsync( Ep.Content, Ep.Ch );
 			}
 

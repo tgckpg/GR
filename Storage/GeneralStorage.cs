@@ -202,6 +202,11 @@ namespace GR.Storage
 			return base.WriteStream( filename, S );
 		}
 
+		public async Task<bool> WriteFileAsync( string filename, IStorageFile ISF )
+		{
+			return WriteStream( filename, await ISF.OpenStreamForReadAsync() );
+		}
+
 		public void RemoveDir( string location )
 		{
 			if ( location[ location.Length - 1 ] != '/' ) location += '/';

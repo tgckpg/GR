@@ -11,7 +11,17 @@ namespace GR.Model.ListItem
 
 	public class TreeItem : ActiveData
 	{
-		public string ItemTitle { get; protected set; }
+		protected string _ItemTitle;
+		public string ItemTitle
+		{
+			get => _ItemTitle;
+			protected set
+			{
+				_ItemTitle = value;
+				NotifyChanged( "ItemTitle" );
+			}
+		}
+
 		public int TreeLevel
 		{
 			get
@@ -64,7 +74,7 @@ namespace GR.Model.ListItem
 
 		public TreeItem( string Name, int Level )
 		{
-			ItemTitle = Name;
+			_ItemTitle = Name;
 		}
 
 		public TreeItem( string Name ) : this( Name, 0 ) { }
