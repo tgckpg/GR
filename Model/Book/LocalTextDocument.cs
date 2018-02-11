@@ -22,7 +22,7 @@ namespace GR.Model.Book
 		public bool IsValid { get; private set; }
 
 		public LocalTextDocument( Book Bk ) : base( Bk ) { }
-		public LocalTextDocument( string id ) : base( "l", BookType.L, id ) { }
+		public LocalTextDocument( string id ) : base( "[Local]", BookType.L, id ) { }
 
 		private List<TextEpisode> Episodes;
 
@@ -96,9 +96,9 @@ namespace GR.Model.Book
 		{
 			Logger.Log( ID, "Guessing Volumes for: " + Title, LogType.DEBUG );
 
-			if( Entry.Volumes == null )
+			if ( Entry.Volumes == null )
 			{
-				await Resources.Shared.BooksDb.Entry( Entry ).Collection( x => x.Volumes.OrderBy( v => v.Index ) ).LoadAsync();
+				Entry.Volumes = await Resources.Shared.BooksDb.LoadCollection( Entry, x => x.Volumes, x => x.Index );
 			}
 
 			Entry.Volumes.Clear();

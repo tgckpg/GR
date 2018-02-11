@@ -133,13 +133,13 @@ namespace GR.Model.Book.Spider
 			Packed = true;
 		}
 
-		public void PackSavedVols( XRegistry Settings )
+		public async void PackSavedVols( XRegistry Settings )
 		{
 			if ( Packed != null ) return;
 
 			if ( Entry.Volumes == null )
 			{
-				Entry.Volumes = Shared.BooksDb.Entry( Entry ).Collection( x => x.Volumes ).Query().OrderBy( x => x.Index ).ToList();
+				Entry.Volumes = await Shared.BooksDb.LoadCollection( Entry, x => x.Volumes, x => x.Index );
 			}
 
 			if ( !Volumes.Any() )
@@ -154,7 +154,7 @@ namespace GR.Model.Book.Spider
 
 				if ( Vol.Chapters == null )
 				{
-					Vol.Chapters = Shared.BooksDb.Entry( Vol ).Collection( x => x.Chapters ).Query().OrderBy( x => x.Index ).ToList();
+					Vol.Chapters = await Shared.BooksDb.LoadCollection( Vol, x => x.Chapters, x => x.Index );
 				}
 
 				foreach ( Chapter Ch in Vol.Chapters )

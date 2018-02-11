@@ -16,6 +16,7 @@ namespace GR.Model.ListItem
 {
 	using Book;
 	using Config;
+	using GSystem;
 	using Interfaces;
 	using Resources;
 	using Settings;
@@ -33,7 +34,6 @@ namespace GR.Model.ListItem
 		public bool ProcessSuccess { get; protected set; }
 		public bool Processing { get; protected set; }
 
-		public bool CanReprocess { get { return CanProcess && !Processing; } }
 		public bool ProcessFailed { get { return !( CanProcess || ProcessSuccess ); } }
 
 		public string Zone => ZoneId;
@@ -41,25 +41,45 @@ namespace GR.Model.ListItem
 		public string ZoneId { get; protected set; }
 		public string ZItemId { get; protected set; }
 
+		private static StringResBg _stx;
+		private static StringResBg stx => _stx ?? ( _stx = new StringResBg( "AppResources", "LoadingMessage" ) );
+
 		public LocalBook( StorageFile File )
-			: base( File.Name, File.Path, File )
+			: base( File.Name, "", File.Path, "" )
 		{
 			Regex Reg = new Regex( "^(\\d+)" );
+
+			RawPayload = File;
+
+			ZoneId = "[Local]";
+			CanProcess = true;
+
+			Desc = stx.Text( "Ready" );
 
 			Match m = Reg.Match( File.Name );
 			if ( m.Groups[ 1 ].Success )
 			{
 				ZItemId = m.Groups[ 1 ].Value;
-				CanProcess = true;
 			}
 			else
 			{
-				Desc = "Invalid file name";
-				CanProcess = false;
+				ZItemId = Utils.Md5( File.Name );
 			}
 		}
 
 		public LocalBook() : base( null, null, null ) { }
+
+		public LocalBook( Database.Models.Book Entry )
+		{
+			Name = Entry.Title;
+
+			ZItemId = Entry.ZItemId;
+			ZoneId = Entry.ZoneId;
+
+			ProcessSuccess = true;
+			Processed = true;
+			CanProcess = false;
+		}
 
 		virtual protected async Task TestProcessed()
 		{
@@ -77,14 +97,6 @@ namespace GR.Model.ListItem
 					Desc = Doc.ZItemId;
 				}
 			} );
-		}
-
-		public static async Task<LocalBook> CreateAsync( string Id )
-		{
-			LocalBook Book = new LocalBook();
-			Book.ZItemId = Id;
-			await Book.TestProcessed();
-			return Book;
 		}
 
 		public async Task Process()
@@ -120,14 +132,25 @@ namespace GR.Model.ListItem
 			MessageBus.SendUI( GetType(), AppKeys.SP_PROCESS_COMP, this );
 		}
 
+		public void SetSource( StorageFile Source )
+		{
+			RawPayload = Source;
+			CanProcess = true;
+			Processed = false;
+
+			Desc = stx.Text( "Ready" );
+			Desc2 = Source.Path;
+		}
+
 		virtual protected async Task Run()
 		{
-			MessageBus.SendUI( typeof( LocalBook ), "Reading ...", ZItemId );
+			Desc = stx.Str( "ProgressIndicator_Message" );
+
 			byte[] b = await File.ReadAllBytes();
 
 			if ( await Shared.TC.ConfirmTranslate( ZItemId, File.Name ) )
 			{
-				MessageBus.SendUI( typeof( LocalBook ), "Translating ...", ZItemId );
+				MessageBus.Send( typeof( LocalBook ), "Translating ...", ZItemId );
 				await Task.Run( () => b = Shared.TC.Translate( b ) );
 			}
 
@@ -138,7 +161,7 @@ namespace GR.Model.ListItem
 
 			await L.Save();
 
-			Desc = L.ZItemId;
+			Desc = string.Format( "{0} Volumes, {1} Chapters", L.Volumes.Count(), L.Volumes.Sum( x => x.Chapters.Count() ) );
 		}
 
 		virtual protected void MessageBus_OnDelivery( Message MesgArgs )
@@ -152,14 +175,19 @@ namespace GR.Model.ListItem
 
 		virtual public void RemoveSource()
 		{
-			Shared.Storage.RemoveDir( FileLinks.ROOT_LOCAL_VOL + ZItemId );
+			Shared.BooksDb.Delete( Database.Models.BookType.L, ZoneId, ZItemId );
+
 			Processed = false;
 			ProcessSuccess = false;
-			CanProcess = File != null;
-
-			if( !CanProcess )
+			if ( File == null )
 			{
-				Desc = "Source is unavailable";
+				CanProcess = false;
+			}
+			else
+			{
+				CanProcess = true;
+				Name = File.Name;
+				Desc2 = File.Path;
 			}
 
 			NotifyChanged( "ProcessSuccess", "Processed", "CanProcess", "CanFav" );

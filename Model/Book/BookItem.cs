@@ -243,8 +243,6 @@ namespace GR.Model.Book
 				Book DbRecord = Shared.BooksDb.QueryBook( Type, ZoneId, ZItemId );
 				if ( DbRecord != null )
 				{
-					Shared.BooksDb.Entry( DbRecord ).Reference( x => x.Info ).Load();
-
 					DbRecord.Title = Entry.Title;
 					DbRecord.Description = Entry.Description;
 					DbRecord.Json_Meta = Entry.Json_Meta;

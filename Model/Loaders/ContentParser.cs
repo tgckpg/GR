@@ -32,7 +32,7 @@ namespace GR.Model.Loaders
 		{
 			if( C.Content == null )
 			{
-				Shared.BooksDb.Entry( C ).Reference( b => b.Content ).Load();
+				Shared.BooksDb.LoadRef( C, b => b.Content );
 			}
 
 			/** WARNING: DO NOT MODIFY THIS LOGIC AS IT WILL MESS WITH THE BOOK ANCHOR **/
@@ -78,7 +78,7 @@ namespace GR.Model.Loaders
 
 			if( C.Image == null )
 			{
-				Shared.BooksDb.Entry( C ).Reference( b => b.Image ).Load();
+				Shared.BooksDb.LoadRef( C, b => b.Image );
 			}
 
 			ChapterImage ills = C.Image ?? new ChapterImage();

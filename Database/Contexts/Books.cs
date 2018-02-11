@@ -6,10 +6,12 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
 using Net.Astropenguin.Logging;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace GR.Database.Contexts
 {
@@ -27,6 +29,8 @@ namespace GR.Database.Contexts
 		public ILoggerFactory GRLoggingFacility => new GRLoggerFactory();
 
 		public string FileLocation { get; private set; }
+
+		private object TransactionLock = new Object();
 
 		public BooksContext()
 		{
@@ -56,30 +60,19 @@ namespace GR.Database.Contexts
 
 		private List<Book> UnsavedBooks = new List<Book>();
 
-		public Book QueryBook( BookType Type, string ZoneId, string ZItemId )
-		{
-			lock( this )
-			{
-				return _QueryBook( Type, ZoneId, ZItemId );
-			}
-		}
-
 		public void Delete( BookType SType, string ZoneId, string ZItemId )
 		{
-			lock( this )
+			Book Bk = QueryBook( SType, ZoneId, ZItemId );
+			if ( Bk != null )
 			{
-				Book Bk = _QueryBook( SType, ZoneId, ZItemId );
-				if ( Bk != null )
-				{
-					Books.Remove( Bk );
-					SaveChanges();
-				}
+				Books.Remove( Bk );
+				SaveChanges();
 			}
 		}
 
 		public IEnumerable<Book> QueryBook( Func<Book, bool> QueryExp )
 		{
-			lock ( this )
+			lock ( TransactionLock )
 			{
 				return Books.Include( x => x.Info ).Where( QueryExp );
 			}
@@ -87,42 +80,74 @@ namespace GR.Database.Contexts
 
 		public Book GetBook( string ZoneId, string ZItemId, BookType SrcType )
 		{
-			lock ( this )
+			Book Bk;
+			lock ( UnsavedBooks )
 			{
-				Book Bk = UnsavedBooks.FirstOrDefault( b => b.ZoneId == ZoneId && b.ZItemId == ZItemId && b.Type == SrcType );
+				Bk = UnsavedBooks.FirstOrDefault( b => b.ZoneId == ZoneId && b.ZItemId == ZItemId && b.Type == SrcType );
+			}
 
-				if ( Bk == null )
+			if ( Bk == null )
+			{
+				Bk = QueryBook( SrcType, ZoneId, ZItemId );
+			}
+
+			if ( Bk == null )
+			{
+				Bk = new Book()
 				{
-					Bk = _QueryBook( SrcType, ZoneId, ZItemId );
-				}
+					Type = SrcType,
+					ZoneId = ZoneId,
+					ZItemId = ZItemId,
+					Title = "[Unknown]",
+					Info = new BookInfo()
+				};
 
-				if ( Bk == null )
+				lock ( UnsavedBooks )
 				{
-					Bk = new Book()
-					{
-						Type = SrcType,
-						ZoneId = ZoneId,
-						ZItemId = ZItemId,
-						Title = "[Unknown]",
-						Info = new BookInfo()
-					};
-
 					UnsavedBooks.Add( Bk );
 				}
-
-				return Bk;
 			}
+
+			return Bk;
 		}
 
 		public void RemoveUnsaved( Book Bk )
 		{
-			lock ( this )
+			lock ( UnsavedBooks )
+			{
 				UnsavedBooks.Remove( Bk );
+			}
 		}
 
-		private Book _QueryBook( BookType Type, string ZoneId, string ZItemId )
+		public Book QueryBook( BookType Type, string ZoneId, string ZItemId )
 		{
-			return Books.Include( x => x.Info ).FirstOrDefault( x => x.ZoneId == ZoneId && x.ZItemId == ZItemId && x.Type == Type );
+			lock ( TransactionLock )
+			{
+				return Books.Include( x => x.Info ).FirstOrDefault( x => x.ZoneId == ZoneId && x.ZItemId == ZItemId && x.Type == Type );
+			}
+		}
+
+		public void SaveBook( Book Bk )
+		{
+			lock ( UnsavedBooks )
+			{
+				_SaveBook( Bk );
+			}
+
+			SaveChanges();
+		}
+
+		public void SaveBooks( IEnumerable<Book> Items )
+		{
+			lock ( UnsavedBooks )
+			{
+				foreach ( Book Bk in Items )
+				{
+					_SaveBook( Bk );
+				}
+			}
+
+			SaveChanges();
 		}
 
 		private void _SaveBook( Book Bk )
@@ -138,27 +163,34 @@ namespace GR.Database.Contexts
 			}
 		}
 
-		public void SaveBook( Book Bk )
+		public void LoadRef<T, TProperty>( T obj, Expression<Func<T, TProperty>> Path )
+			where T: class
+			where TProperty : class
 		{
-			lock( this )
+			lock ( TransactionLock )
 			{
-				_SaveBook( Bk );
-				SaveChanges();
+				Entry( obj ).Reference( Path ).Load();
 			}
 		}
 
-		public void SaveBooks( IEnumerable<Book> Items )
+		public Task<List<TProperty>> LoadCollection<T, TProperty, TOrder>( T obj, Expression<Func<T, IEnumerable<TProperty>>> Path, Expression<Func<TProperty, TOrder>> OrderPath )
+			where T: class
+			where TProperty : class
 		{
-			lock ( this )
+			lock ( TransactionLock )
 			{
-				foreach( Book Bk in Items )
-				{
-					_SaveBook( Bk );
-				}
-
-				SaveChanges();
+				return Entry( obj ).Collection( Path ).Query().OrderBy( OrderPath ).ToListAsync();
 			}
 		}
+
+		public override int SaveChanges()
+		{
+			lock ( TransactionLock )
+			{
+				return base.SaveChanges();
+			}
+		}
+
 	}
 
 	class GRLogScope : IDisposable

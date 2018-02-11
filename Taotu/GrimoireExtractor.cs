@@ -291,7 +291,7 @@ namespace GR.Taotu
 
 				PType = Enum.GetValues( BINF )
 					.Cast<PropType>()
-					.FirstOrDefault( x => Enum.GetName(  BINF, x ) == SType );
+					.FirstOrDefault( x => Enum.GetName( BINF, x ) == SType );
 			}
 
 			public override XParameter ToXParam()

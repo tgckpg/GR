@@ -16,5 +16,6 @@ namespace GR.Model.Interfaces
 		string Zone { get; }
 		string Name { get; }
 		string Desc { get; }
+		string Desc2 { get; }
 	}
 }

@@ -75,15 +75,13 @@ namespace GR.Storage
 			await ClearTemp();
 		}
 
-		public async Task<IEnumerable<T>> GetLocalText<T>( Func<StorageFile, int, int, Task<T>> Initializer )
+		public async Task GetLocalText( Func<StorageFile, int, int, Task> Initializer )
 		{
 			try
 			{
 				IReadOnlyList<StorageFile> Files = await PickFolderForFiles();
 
-				if ( Files == null ) return new T[ 0 ];
-
-				List<T> s = new List<T>();
+				if ( Files == null ) return;
 
 				int l = Files.Count;
 				int i = 0;
@@ -91,22 +89,15 @@ namespace GR.Storage
 				{
 					if ( F.ContentType == "text/plain" )
 					{
-						s.Add( await Initializer( F, i++, l ) );
+						await Initializer( F, i++, l );
 					}
 					else
 					{
 						l--;
 					}
 				}
-
-				return s;
 			}
-			catch ( Exception )
-			{
-
-			}
-
-			return new T[ 0 ];
+			catch ( Exception ) { }
 		}
 
 		public string PicId( string name )
