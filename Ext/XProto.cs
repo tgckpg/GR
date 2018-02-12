@@ -24,8 +24,6 @@ namespace GR.Ext
 		public const string ServerSelector = "wenku8.GSystem.ServerSelector, wenku8-protocol";
 
 		public const string FavSection = "wenku8.Model.Section.FavSection, wenku8-protocol";
-		public const string NavListSection = "wenku8.Model.Section.NavListSection, wenku8-protocol";
-		public const string NavSelections = "wenku8.Model.Section.NavSelections, wenku8-protocol";
 		public const string Deathblow = "wenku8.Model.Loaders.Deathblow, wenku8-protocol";
 
 		public const string Member = "wenku8.Member, wenku8-protocol";
@@ -35,16 +33,11 @@ namespace GR.Ext
 		public const string AutoCache = "GR.Model.Loaders.AutoCache, wenku10";
 		public const string BookLoader = "GR.Model.Loaders.BookLoader, wenku10";
 		public const string TwitterAuthData = "GR.Model.Twitter.AuthData, wenku10";
-		public const string ListLoader = "wenku8.Model.Loaders.ListLoader, wenku8-protocol";
-		public const string StaffPicks = "wenku8.Model.Loaders.StaffPicks, wenku8-protocol";
 
 		public const string SHMember = "wenku10.SHHub.SHMember, wenku10";
 
-		public const string NavListSettings = "GR.Settings.Layout.NavList, wenku10";
 		public const string MainPageSettings = "GR.Settings.Layout.MainPage, wenku10";
 		public const string MainStage = "wenku10.MainStage, wenku10";
-
-		public const string CatListPage = "wenku10.Pages.WCateList, wenku10";
 
 		public const string BingService = "GR.AdvDM.BingService, GR";
 	}

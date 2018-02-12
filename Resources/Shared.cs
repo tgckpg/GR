@@ -28,7 +28,6 @@ namespace GR.Resources
 		public static GeneralStorage Storage;
 
 		// Books Cache used by loaders
-		public static BookPool BooksCache = new BookPool( 5 );
 		public static BookItem CurrentBook;
 
 		// The default settings by locale

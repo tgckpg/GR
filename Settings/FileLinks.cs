@@ -13,8 +13,6 @@ namespace GR.Settings
 		, LOCAL_BOOK_STORAGE = "LocalBookStorage.xml"
 		, THEME_SET = "ThemeSet.xml"
 		, LAYOUT_BOOKINFOVIEW = "Layout_BookInfoView.xml"
-		, LAYOUT_MAINPAGE = "Layout_MainPage.xml"
-		, LAYOUT_NAVPAGE = "Layout_NavLPage.xml"
 		, LAYOUT_CONTREADER = "Layout_ContentReader.xml"
 		, LAYOUT_STAFFPICKS = "Layout_StaffPicks.xml"
 		, READING_ANCHORS = "ReadingAnchors.xml"

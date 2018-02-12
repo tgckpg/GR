@@ -91,7 +91,7 @@ namespace GR.Model.Pages
 
 		public static BookItem GetBookEx( string Id )
 		{
-			BookItem B = Shared.BooksCache[ Id ] ?? X.Instance<BookItem>( XProto.BookItemEx, Id );
+			BookItem B = X.Call<BookItem>( XProto.BookItemEx, "GetItem", Id );
 			B.XSetProp( "Mode", X.Const<string>( XProto.WProtocols, "ACTION_BOOK_META" ) );
 
 			return B;

@@ -206,11 +206,8 @@
     <Compile Include="Ext\IAutoCache.cs" />
     <Compile Include="Ext\IBookLoader.cs" />
     <Compile Include="Ext\IFavSection.cs" />
-    <Compile Include="Ext\IListLoader.cs" />
     <Compile Include="Ext\IMainPageSettings.cs" />
-    <Compile Include="Ext\INavList.cs" />
     <Compile Include="Model\Interfaces\INavPage.cs" />
-    <Compile Include="Ext\INavSelections.cs" />
     <Compile Include="Ext\ISectionItem.cs" />
     <Compile Include="Ext\XProto.cs" />
     <Compile Include="Ext\IAppFlags.cs" />
@@ -219,10 +216,8 @@
     <Compile Include="Ext\X.cs" />
     <Compile Include="History.cs" />
     <Compile Include="Model\Book\BookItem.cs" />
-    <Compile Include="Model\Book\BookPool.cs" />
     <Compile Include="Model\Book\ChapterVModel.cs" />
     <Compile Include="Model\Book\EpisodeStepper.cs" />
-    <Compile Include="Model\Book\NonCollectedBook.cs" />
     <Compile Include="Model\Book\Spider\ConvoyInstructionSet.cs" />
     <Compile Include="Model\Book\Spider\BookInstruction.cs" />
     <Compile Include="Model\Book\Spider\EpInstruction.cs" />
