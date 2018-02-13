@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace GR.Model.Pages
 {
+	using Database.Models;
 	using Book;
 	using Book.Spider;
 	using Ext;
 	using ListItem;
 	using Resources;
-	using Settings;
 
 	sealed class ItemProcessor
 	{
@@ -53,13 +53,13 @@ namespace GR.Model.Pages
 			return null;
 		}
 
-		public static BookItem GetBookItem( Database.Models.Book Bk )
+		public static BookItem GetBookItem( Book Bk )
 		{
 			switch( Bk.Type )
 			{
-				case Database.Models.BookType.S:
+				case BookType.S:
 					return new BookInstruction( Bk );
-				case Database.Models.BookType.L:
+				case BookType.L:
 					return new LocalTextDocument( Bk );
 			}
 
@@ -67,9 +67,9 @@ namespace GR.Model.Pages
 			{
 				switch ( Bk.Type )
 				{
-					case Database.Models.BookType.W:
+					case BookType.W:
 						return X.Instance<BookItem>( XProto.BookItemEx, Bk );
-					case Database.Models.BookType.WD:
+					case BookType.W | BookType.L:
 						return X.Instance<BookItem>( XProto.DeathBook, Bk );
 				}
 			}
@@ -84,6 +84,19 @@ namespace GR.Model.Pages
 			if ( Cmd.Length == 2 && !string.IsNullOrEmpty( Cmd[ 1 ] ) )
 			{
 				return GetBookFromId( Cmd[ 1 ] );
+			}
+			else if ( Cmd.Length == 3 )
+			{
+				return Task.Run( () =>
+				{
+					BookType BType = ( BookType ) Enum.Parse( typeof( BookType ), Cmd[ 0 ] );
+					Book Bk = Shared.BooksDb.QueryBook( BType, Cmd[ 1 ], Cmd[ 2 ] );
+
+					if ( Bk == null )
+						return null;
+
+					return GetBookItem( Bk );
+				} );
 			}
 
 			return null;

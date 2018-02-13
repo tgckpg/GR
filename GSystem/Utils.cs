@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
-using Windows.UI.Popups;
 using Windows.Security.Cryptography;
 using Windows.Security.Cryptography.Core;
 using Windows.Storage;
@@ -11,8 +13,6 @@ using Windows.Storage.Streams;
 
 using Net.Astropenguin.Helpers;
 using Net.Astropenguin.Loaders;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace GR.GSystem
 {
@@ -145,6 +145,44 @@ namespace GR.GSystem
 			}
 			while ( value > 0 );
 			return new string( buffer );
+		}
+
+		private static int MimeSampleSize = 256;
+		private static string DefaultMimeType = "application/octet-stream";
+
+		[DllImport( "urlmon.dll", CharSet = CharSet.Unicode, ExactSpelling = true, SetLastError = false )]
+		static extern int FindMimeFromData(
+			IntPtr pBC,
+			[MarshalAs( UnmanagedType.LPWStr )] string pwzUrl,
+			[MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.I1, SizeParamIndex = 3)]
+			byte[] pBuffer,
+			int cbSize,
+			[MarshalAs( UnmanagedType.LPWStr )]  string pwzMimeProposed,
+			int dwMimeFlags,
+			out IntPtr ppwzMimeOut,
+			int dwReserved
+		);
+
+		public static string GetMimeFromBytes( byte[] data )
+		{
+			IntPtr mimeTypePointer = IntPtr.Zero;
+			try
+			{
+				FindMimeFromData( IntPtr.Zero, null, data, MimeSampleSize, null, 0, out mimeTypePointer, 0 );
+				var mime = Marshal.PtrToStringUni( mimeTypePointer );
+				return mime ?? DefaultMimeType;
+			}
+			catch ( Exception )
+			{
+				return DefaultMimeType;
+			}
+			finally
+			{
+				if ( mimeTypePointer != IntPtr.Zero )
+				{
+					Marshal.FreeCoTaskMem( mimeTypePointer );
+				}
+			}
 		}
 
 	}

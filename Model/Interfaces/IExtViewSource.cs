@@ -17,13 +17,17 @@ namespace GR.Model.Interfaces
 		abstract protected void SetTemplate();
 		abstract public void Unload();
 
-		public void Extend( Page P )
+		public void Initialize( Page P )
 		{
 			Page = P;
+			Extend( P );
+
 			P.Loaded += Page_Loaded;
 			P.Unloaded += Page_Unloaded;
 			_SetTemplate();
 		}
+
+		virtual protected void Extend( Page P ) { }
 
 		private void _SetTemplate()
 		{

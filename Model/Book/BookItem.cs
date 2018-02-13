@@ -334,11 +334,20 @@ namespace GR.Model.Book
 
 		public void SaveCover( byte[] Data )
 		{
+			string FileType = GSystem.Utils.GetMimeFromBytes( Data );
+			if ( !( FileType.Contains( "jpeg" )
+				|| FileType.Contains( "png" )
+				|| FileType.Contains( "gif" )
+				|| FileType.Contains( "bmp" ) ) )
+			{
+				Logger.Log( ID, "SaveCover: Invalid Data: " + FileType, LogType.WARNING );
+				return;
+			}
+
 			string ImageUid = GSystem.Utils.Md5( Data.AsBuffer() );
 
 			Entry.Meta[ AppKeys.BINF_COVER ] = ImageUid;
 			SaveInfo();
-
 			Shared.Storage.WriteBytes( CoverUrl, Data );
 
 			_Cover = null;

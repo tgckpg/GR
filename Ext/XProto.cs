@@ -14,7 +14,6 @@ namespace GR.Ext
 
 		public const string BookItemEx = "wenku8.Model.Book.BookItemEx, wenku8-protocol";
 		public const string DeathBook = "wenku8.Model.Book.DeathBook, wenku8-protocol";
-		public const string ItemProcessorEx = "wenku8.Model.ItemProcessorEx, wenku8-protocol";
 
 		public const string WRuntimeCache = "wenku8.AdvDM.WRuntimeCache, wenku8-protocol";
 		public const string WRequest = "wenku8.Settings.WRequest, wenku8-protocol";

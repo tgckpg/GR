@@ -12,19 +12,15 @@ namespace GR.Database.Models
 		/// <summary>
 		/// Book type is Spider
 		/// </summary>
-		S,
+		S = 1,
 		/// <summary>
 		/// Book type is Local
 		/// </summary>
-		L,
+		L = 2,
 		/// <summary>
 		/// Book type is Ex
 		/// </summary>
-		W,
-		/// <summary>
-		/// Book type is ExD
-		/// </summary>
-		WD
+		W = 4,
 	}
 
 	public enum LayoutMethod : byte { VerticalWriting = 1, RightToLeft = 2 }

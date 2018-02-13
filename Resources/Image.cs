@@ -100,11 +100,7 @@ namespace GR.Resources
 				{
 					BitmapEncoder encoder = await BitmapEncoder.CreateForTranscodingAsync( writeStream, decoder );
 
-					encoder.BitmapTransform.Bounds = new BitmapBounds()
-					{
-						X = 0, Y = 0
-						, Width = 150, Height = 150
-					};
+					encoder.BitmapTransform.Bounds = new BitmapBounds() { X = 0, Y = 0, Width = 150, Height = 150 };
 
 					double R = 150.0 / ( Width > Height ? Height : Width );
 					encoder.BitmapTransform.ScaledWidth = ( uint ) Math.Round( Width * R, 0 );

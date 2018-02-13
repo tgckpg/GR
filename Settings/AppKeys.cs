@@ -102,6 +102,7 @@
 			, HSC_DECRYPT_FAIL = "HSC_Decrypt_Fail"
 			, SP_PROCESS_COMP = "Spider_Process_Comp"
 			, PM_CHECK_TILES = "PinManager_Check_Tiles"
+			, PROMPT_LOGIN = "prompt-login"
 
 			, SEARCH_AUTHOR = "search-author"
 			, OPEN_ZONE = "open-zone"
