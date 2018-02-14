@@ -52,7 +52,7 @@ namespace GR.DataSources
 			set
 			{
 				_Search = value;
-				Reload();
+				Task.Run( () => Reload() );
 			}
 		}
 
