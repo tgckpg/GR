@@ -18,6 +18,11 @@ namespace GR.Storage
 		protected XRegistry Reg;
 		protected string aid;
 
+		public static XKey TimeKey
+		{
+			get { return new XKey( AppKeys.LBS_TIME, DateTime.Now.ToFileTimeUtc() ); }
+		}
+
 		public CustomAnchor( BookItem b )
 		{
 			Reg = new XRegistry( AppKeys.LBS_AXML, FileLinks.ROOT_ANCHORS + b.Id + ".xml" );
@@ -39,7 +44,7 @@ namespace GR.Storage
 				, new XKey( AppKeys.LBS_INDEX, index.ToString() )
 				, new XKey( AppKeys.LBS_COLOR, color )
 				, new XKey( AppKeys.LBS_DEL, false )
-				, BookStorage.TimeKey
+				, TimeKey
 			} );
 			Reg.Save();
 		}
@@ -66,7 +71,7 @@ namespace GR.Storage
 			P.ClearKeys();
 			P.SetValue( new XKey[] {
 				new XKey( AppKeys.LBS_DEL, true )
-				, BookStorage.TimeKey
+				, TimeKey
 			} );
 
 			Reg.SetParameter( P );
@@ -90,7 +95,7 @@ namespace GR.Storage
 		{
 			try
 			{
-				Reg.SetParameter( VOL_ANC, new XKey[] { new XKey( AppKeys.GLOBAL_CID, cid ), BookStorage.TimeKey } );
+				Reg.SetParameter( VOL_ANC, new XKey[] { new XKey( AppKeys.GLOBAL_CID, cid ), TimeKey } );
 			}
 			catch ( Exception ex )
 			{
@@ -106,7 +111,7 @@ namespace GR.Storage
 
 			try
 			{
-				Reg.SetParameter( Id, new XKey[] { new XKey( AppKeys.LBS_INDEX, index.ToString() ), BookStorage.TimeKey } );
+				Reg.SetParameter( Id, new XKey[] { new XKey( AppKeys.LBS_INDEX, index.ToString() ), TimeKey } );
 			}
 			catch ( Exception ex )
 			{

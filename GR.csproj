@@ -204,11 +204,7 @@
     <Compile Include="Effects\TextTransition.cs" />
     <Compile Include="Effects\TransitionDisplay.cs" />
     <Compile Include="Ext\IAutoCache.cs" />
-    <Compile Include="Ext\IBookLoader.cs" />
-    <Compile Include="Ext\IFavSection.cs" />
-    <Compile Include="Ext\IMainPageSettings.cs" />
     <Compile Include="Model\Interfaces\INavPage.cs" />
-    <Compile Include="Ext\ISectionItem.cs" />
     <Compile Include="Ext\XProto.cs" />
     <Compile Include="Ext\IAppFlags.cs" />
     <Compile Include="Ext\IMember.cs" />
@@ -292,7 +288,7 @@
     <Compile Include="Settings\Theme\ThemeSet.cs" />
     <Compile Include="Settings\Theme\ThemeTextBlock.cs" />
     <Compile Include="Storage\AnchorStorage.cs" />
-    <Compile Include="Storage\BookStorage.cs" />
+    <Compile Include="Deprecated\BookStorage.cs" />
     <Compile Include="Storage\GeneralStorage.cs" />
     <Compile Include="Storage\OneDriveSync.cs" />
     <Compile Include="Storage\PinManager.cs" />

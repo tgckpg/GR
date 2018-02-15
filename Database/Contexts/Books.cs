@@ -70,6 +70,12 @@ namespace GR.Database.Contexts
 			}
 		}
 
+		public void Delete( Book Entry )
+		{
+			Books.Remove( Entry );
+			SaveChanges();
+		}
+
 		public IEnumerable<Book> QueryBook( Func<Book, bool> QueryExp )
 		{
 			lock ( TransactionLock )

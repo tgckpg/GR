@@ -168,7 +168,7 @@ namespace GR.Settings.Theme
 				Colors.Add( new XKey( P.Key, ThemeManager.ColorString( P.Value ) ) );
 			}
 
-			Colors.Add( Storage.BookStorage.TimeKey );
+			Colors.Add( Storage.CustomAnchor.TimeKey );
 			Colors.Add( new XKey( AppKeys.LBS_DEL, false ) );
 			return Colors.ToArray();
 		}

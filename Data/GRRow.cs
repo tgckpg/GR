@@ -18,24 +18,22 @@ namespace GR.Data
 		{
 			this.Table = Table;
 			Cell = DefaultCell;
+			Font = DefaultFont;
 		}
 
-		private string DefaultCell( int i, object x )
-		{
-			return Table.CellProps[ i ].Value( x );
-		}
+		private string DefaultCell( int i, object x ) => Table.CellProps[ i ].Value( x );
+		private string DefaultFont( int i, object x ) => Table.CellProps[ i ].Font?.Invoke( x ) ?? "Segoe UI";
 
-		protected override string _Cell( int ColIndex )
-		{
-			return Table.ColEnabled( ColIndex ) ? base._Cell( ColIndex ) : "";
-		}
+		protected override string _Cell( int ColIndex ) => Table.ColEnabled( ColIndex ) ? base._Cell( ColIndex ) : "";
+		protected override string _Font( int ColIndex ) => Table.ColEnabled( ColIndex ) ? base._Font( ColIndex ) : "Segoe UI";
 
 		protected override void NotifyCellUpdate( object sender, PropertyChangedEventArgs e )
 		{
 			int Index = Table.ColIndex( sender.GetType(), e.PropertyName );
 			if( Table.ColEnabled( Index ) )
 			{
-				NotifyChanged( Cells[ Index ].Name );
+				string CellName = Cells[ Index ].Name;
+				NotifyChanged( CellName, CellName.Replace( 'C', 'F' ) );
 			}
 		}
 

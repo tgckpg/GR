@@ -4,7 +4,6 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
-using GR.Model.Book;
 
 namespace GR.Data
 {
@@ -15,6 +14,7 @@ namespace GR.Data
 
 		public string Value( object x ) => Value( ( T ) x );
 
+		public Func<object, string> Font { get; set; }
 		public Func<T, object> Path = x => x;
 		public string Value( T x ) => ( string ) Property.GetValue( Path( x ) );
 

@@ -222,6 +222,9 @@ namespace GR.Model.Book
 
 		virtual public void Update( BookItem B )
 		{
+			if ( this == B || B == null )
+				return;
+
 			Entry.Title = B.Title;
 			Entry.Description = B.Description;
 

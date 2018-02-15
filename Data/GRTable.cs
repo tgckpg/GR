@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -7,11 +8,11 @@ using System.Threading.Tasks;
 using Windows.UI.Xaml;
 
 using Net.Astropenguin.Linq;
-using GR.Database.Models;
-using System.ComponentModel;
 
 namespace GR.Data
 {
+	using Database.Models;
+
 	public class GRTable<T> : GRRowBase<T>, IGRTable
 	{
 		public readonly Type GRTableType = typeof( GRTable<T> );
@@ -86,7 +87,8 @@ namespace GR.Data
 			int Index = ColIndex( sender.GetType(), e.PropertyName );
 			if ( ColEnabled( Index ) )
 			{
-				NotifyChanged( Cells[ Index ].Name );
+				string CellName = Cells[ Index ].Name;
+				NotifyChanged( CellName, CellName.Replace( 'C', 'F' ) );
 			}
 		}
 

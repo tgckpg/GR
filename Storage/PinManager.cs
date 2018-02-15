@@ -33,7 +33,7 @@ namespace GR.Storage
 			{
 				LocalPins.SetValue( new XKey[] {
 					new XKey( AppKeys.PM_POLICY, ( int ) value )
-					, BookStorage.TimeKey
+					, CustomAnchor.TimeKey
 				} );
 				Save();
 			}
@@ -52,7 +52,7 @@ namespace GR.Storage
 				LocalPins = new XParameter( AppSettings.DeviceId );
 				LocalPins.SetValue( new XKey[] {
 					new XKey( AppKeys.GLOBAL_NAME, AppSettings.DeviceName )
-					, BookStorage.TimeKey
+					, CustomAnchor.TimeKey
 				} );
 			}
 		}
@@ -73,7 +73,7 @@ namespace GR.Storage
 			PRegistry.SetParameter( DeviceId, new XKey[]
 			{
 				new XKey( AppKeys.LBS_DEL, true )
-				, BookStorage.TimeKey
+				, CustomAnchor.TimeKey
 			} );
 
 			ActivateLocalPins();
@@ -88,7 +88,7 @@ namespace GR.Storage
 			{
 				new XKey( AppKeys.GLOBAL_NAME, Book.Title )
 				, new XKey( AppKeys.GLOBAL_RID, TileId )
-				, BookStorage.TimeKey
+				, CustomAnchor.TimeKey
 			} );
 
 			ActivateLocalPins();
@@ -107,7 +107,7 @@ namespace GR.Storage
 			PRegistry.SetParameter( DeviceId, new XKey[]
 			{
 				new XKey( AppKeys.LBS_DEL, true )
-				, BookStorage.TimeKey
+				, CustomAnchor.TimeKey
 			} );
 
 			LocalPins = PRegistry.Parameter( DeviceId );
@@ -180,7 +180,7 @@ namespace GR.Storage
 			LocalPins.SetValue( new XKey[] {
 				new XKey( AppKeys.LBS_DEL, false )
 				, new XKey( AppKeys.GLOBAL_NAME, AppSettings.DeviceName )
-				, BookStorage.TimeKey
+				, CustomAnchor.TimeKey
 			} );
 		}
 	}

@@ -25,6 +25,17 @@ namespace GR.Data
 		string C08 { get; }
 		string C09 { get; }
 
+		string F00 { get; }
+		string F01 { get; }
+		string F02 { get; }
+		string F03 { get; }
+		string F04 { get; }
+		string F05 { get; }
+		string F06 { get; }
+		string F07 { get; }
+		string F08 { get; }
+		string F09 { get; }
+
 		object CellData { get; }
 	}
 
@@ -78,6 +89,7 @@ namespace GR.Data
 		int Sorting { get; set; }
 		PropertyInfo Property { get; }
 
+		Func<object, string> Font { get; }
 		string Value( object x );
 	}
 

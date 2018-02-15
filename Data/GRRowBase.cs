@@ -14,6 +14,7 @@ namespace GR.Data
 	abstract public class GRRowBase<T> : ActiveData, IGRRowBase
 	{
 		public readonly Type BaseType = typeof( GRRowBase<T> );
+
 		public string C00 => _Cell( 0 );
 		public string C01 => _Cell( 1 );
 		public string C02 => _Cell( 2 );
@@ -24,6 +25,17 @@ namespace GR.Data
 		public string C07 => _Cell( 7 );
 		public string C08 => _Cell( 8 );
 		public string C09 => _Cell( 9 );
+
+		public string F00 => _Font( 0 );
+		public string F01 => _Font( 1 );
+		public string F02 => _Font( 2 );
+		public string F03 => _Font( 3 );
+		public string F04 => _Font( 4 );
+		public string F05 => _Font( 5 );
+		public string F06 => _Font( 6 );
+		public string F07 => _Font( 7 );
+		public string F08 => _Font( 8 );
+		public string F09 => _Font( 9 );
 
 		public object CellData => _Source;
 
@@ -50,6 +62,7 @@ namespace GR.Data
 		abstract protected void NotifyCellUpdate( object sender, PropertyChangedEventArgs e );
 
 		public Func<int, object, string> Cell = ( i, x ) => "";
+		public Func<int, object, string> Font = ( i, x ) => "Segoe UI";
 
 		private static IReadOnlyList<PropertyInfo> _CellProps;
 		public IReadOnlyList<PropertyInfo> Cells
@@ -85,6 +98,11 @@ namespace GR.Data
 			return Cell( ColIndex, Source );
 		}
 
+		virtual protected string _Font( int ColIndex )
+		{
+			return Font( ColIndex, Source );
+		}
+
 		virtual public void RefreshCols( int FromCol, int ToCol )
 		{
 			IEnumerable<string> _Cells = CellNames;
@@ -95,7 +113,7 @@ namespace GR.Data
 			if ( FromCol <= ToCol )
 				_Cells = _Cells.Take( ToCol - FromCol + 1 );
 
-			NotifyChanged( _Cells.ToArray() );
+			NotifyChanged( _Cells.Concat( _Cells.Remap( x => x.Replace( 'C', 'F' ) ) ).ToArray() );
 		}
 	}
 }

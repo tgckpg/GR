@@ -20,11 +20,6 @@ namespace GR.Storage
 
 		private const string LFileName = FileLinks.ROOT_SETTING + FileLinks.LOCAL_BOOK_STORAGE;
 
-		public static XKey TimeKey
-		{
-			get { return new XKey( AppKeys.LBS_TIME, DateTime.Now.ToFileTimeUtc() ); }
-		}
-
 		private XRegistry WBookStorage;
 
 		public BookStorage()
@@ -134,7 +129,7 @@ namespace GR.Storage
 							, new XKey( AppKeys.LBS_CH, LastChapter )
 							, new XKey( AppKeys.LBS_NEW, true )
 							, new XKey( AppKeys.LBS_DEL, false )
-							, TimeKey
+							, CustomAnchor.TimeKey
 						);
 
 						WBookStorage.SetParameter( p );
@@ -154,7 +149,7 @@ namespace GR.Storage
 					, new XKey( AppKeys.LBS_CH, LastChapter )
 					, new XKey( AppKeys.LBS_NEW, false )
 					, new XKey( AppKeys.LBS_DEL, false )
-					, TimeKey
+					, CustomAnchor.TimeKey
 				} );
 			}
 
@@ -228,7 +223,7 @@ namespace GR.Storage
 			if ( p != null )
 			{
 				p.SetValue( new XKey( key, value ) );
-				p.SetValue( TimeKey );
+				p.SetValue( CustomAnchor.TimeKey );
 				WBookStorage.SetParameter( p );
 			}
 		}
@@ -239,7 +234,7 @@ namespace GR.Storage
 			if ( p != null )
 			{
 				p.RemoveKey( key );
-				p.SetValue( TimeKey );
+				p.SetValue( CustomAnchor.TimeKey );
 				WBookStorage.SetParameter( p );
 			}
 		}
