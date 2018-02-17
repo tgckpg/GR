@@ -20,7 +20,7 @@ namespace GR.Model.ListItem.Sharers
 		public string Status => Item.Public ? stx.Text( "Public" ) : stx.Text( "Private" );
 
 		private static StringResBg _stx;
-		private StringResBg stx => _stx ?? ( _stx = new StringResBg( "AppResources" ) );
+		private static StringResBg stx => _stx ?? ( _stx = new StringResBg( "AppResources", "Book" ) );
 
 		public HSDisplay( HubScriptItem HSItem )
 		{
@@ -29,6 +29,19 @@ namespace GR.Model.ListItem.Sharers
 
 		public static string PropertyName( PropertyInfo Info )
 		{
+			switch ( Info.Name )
+			{
+				case "Author":
+					return stx.Text( "HS_Maintainer" );
+				case "Name":
+				case "Description":
+					return stx.Text( Info.Name );
+				case "Zone":
+					return stx.Text( "HS_Zone" );
+				case "Status":
+					return stx.Text( "Status", "Book" );
+			}
+
 			return Info.Name;
 		}
 	}

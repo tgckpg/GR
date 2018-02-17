@@ -12,8 +12,8 @@ using Net.Astropenguin.Linq;
 
 namespace GR.Model.Book
 {
+	using Data;
 	using Database.Models;
-	using GR.Data;
 
 	public class BookDisplay : ActiveData
 	{
@@ -22,9 +22,16 @@ namespace GR.Model.Book
 		public BookDisplay( Book Entry )
 		{
 			this.Entry = Entry;
+			_Zone = Entry.ZoneId;
 		}
 
-		public string Zone => Entry.ZoneId;
+		private string _Zone;
+		public string Zone
+		{
+			get { return _Zone; }
+			set { _Zone = value; NotifyChanged( "Zone" ); }
+		}
+
 		public string Intro => Entry.Info.LongDescription ?? Entry.Description;
 		public string LastAccess => Entry.LastAccess.ToString();
 

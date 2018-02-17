@@ -50,7 +50,7 @@ namespace GR.Database.Contexts
 			return Cache;
 		}
 
-		public void Write( string Id, byte[] Data )
+		public void Write( string Id, object Data )
 		{
 			DelayedWriter.Queue( () =>
 			{
@@ -62,7 +62,18 @@ namespace GR.Database.Contexts
 					Caches.Enqueue( Cache );
 				}
 
-				Cache.Data.BytesValue = Data;
+				if( Data is byte[] BytesData )
+				{
+					Cache.Data.BytesValue = BytesData;
+				}
+				else if( Data is string StringData )
+				{
+					Cache.Data.StringValue = StringData;
+				}
+				else
+				{
+					throw new InvalidOperationException( "Unsupported data" );
+				}
 
 				DelayedWriter.Queue( FlushCaches );
 			} );

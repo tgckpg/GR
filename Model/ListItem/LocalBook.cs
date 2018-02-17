@@ -36,7 +36,12 @@ namespace GR.Model.ListItem
 
 		public bool ProcessFailed { get { return !( CanProcess || ProcessSuccess ); } }
 
-		public string Zone => ZoneId;
+		private string _Zone;
+		public string Zone
+		{
+			get => _Zone ?? ZoneId;
+			set { _Zone = value; NotifyChanged( "Zone" ); }
+		}
 
 		public string ZoneId { get; protected set; }
 		public string ZItemId { get; protected set; }

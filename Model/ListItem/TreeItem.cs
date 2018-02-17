@@ -70,6 +70,12 @@ namespace GR.Model.ListItem
 			NotifyChanged( "Children" );
 		}
 
+		public void RemoveChild( TreeItem Item )
+		{
+			_RemoveChild( Item );
+			NotifyChanged( "Children" );
+		}
+
 		public TreeItem( string Name, int Level )
 		{
 			_ItemTitle = Name;
@@ -100,6 +106,15 @@ namespace GR.Model.ListItem
 			}
 
 			_Children.Add( x );
+		}
+
+		private void _RemoveChild( TreeItem x )
+		{
+			if ( _Children.Contains( x ) )
+			{
+				_Children.Remove( x );
+				x.Parent = null;
+			}
 		}
 	}
 
@@ -140,15 +155,18 @@ namespace GR.Model.ListItem
 				throw new InvalidOperationException( "Item not found" );
 
 			TreeItem[] OItems = this.Where( x => x != Item && x.Path.StartsWith( Item.Path ) ).ToArray();
+			int OLen = OItems.Length;
 
-			if ( OItems.Any() )
+			if ( OItems.Any() && OLen == Item.Children.Count() )
 			{
 				OItems.ExecEach( x => Remove( x ) );
 			}
 			else
 			{
 				ItemIndex++;
-				Item.Children.ExecEach( ( x, i ) => InsertItem( ItemIndex + i, x ) );
+				Item.Children
+					.Where( x => !OItems.Contains( x ) )
+					.ExecEach( ( x, i ) => InsertItem( ItemIndex + i + OLen, x ) );
 			}
 		}
 

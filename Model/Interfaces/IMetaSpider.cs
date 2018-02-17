@@ -9,6 +9,7 @@ namespace GR.Model.Interfaces
 	interface IMetaSpider
 	{
 		string Name { get; }
+		string ZoneId { get; }
 		string MetaLocation { get; }
 	}
 }
