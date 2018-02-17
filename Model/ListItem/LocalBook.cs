@@ -103,7 +103,7 @@ namespace GR.Model.ListItem
 		{
 			if ( !CanProcess || Processed || Processing ) return;
 			Processing = true;
-			NotifyChanged( "Processing", "CanReprocess" );
+			NotifyChanged( "Processing" );
 
 			MessageBus.OnDelivery += MessageBus_OnDelivery;
 			try
@@ -112,24 +112,29 @@ namespace GR.Model.ListItem
 				await Run();
 				ProcessSuccess = true;
 			}
+			catch ( OperationCanceledException ex )
+			{
+				Desc = ex.Message;
+				goto ProcessComplete;
+			}
 			catch ( Exception ex )
 			{
-				Logger.Log( ID, ex.Message, LogType.ERROR );
-				Name = ex.Message;
-				Desc = "ERROR";
+				Name = "ERROR";
+				Desc = ex.Message;
 				CanProcess = false;
 			}
 
-			MessageBus.OnDelivery -= MessageBus_OnDelivery;
 			Processed = true;
-			Processing = false;
-			NotifyChanged(
-				"CanProcess", "ProcessSuccess"
-				, "CanReprocess", "ProcessFailed"
-				, "Processed", "Processing", "CanFav"
-			);
-
 			MessageBus.SendUI( GetType(), AppKeys.SP_PROCESS_COMP, this );
+
+			ProcessComplete:
+			Processing = false;
+
+			MessageBus.OnDelivery -= MessageBus_OnDelivery;
+			NotifyChanged(
+				"CanProcess", "ProcessSuccess", "ProcessFailed"
+				, "Processed", "Processing"
+			);
 		}
 
 		public void SetSource( StorageFile Source )
@@ -190,7 +195,7 @@ namespace GR.Model.ListItem
 				Desc2 = File.Path;
 			}
 
-			NotifyChanged( "ProcessSuccess", "Processed", "CanProcess", "CanFav" );
+			NotifyChanged( "ProcessSuccess", "Processed", "CanProcess" );
 		}
 
 		virtual public Task Reload() { return Task.Delay( 0 ); }

@@ -26,7 +26,7 @@ namespace GR.Model.ListItem
 		{
 			get
 			{
-				if( Parent == null )
+				if ( Parent == null )
 				{
 					return 0;
 				}
@@ -50,13 +50,12 @@ namespace GR.Model.ListItem
 
 		public TreeItem Parent { get; protected set; }
 
-		private IList<TreeItem> _Children;
+		private IList<TreeItem> _Children = new TreeItem[ 0 ];
 		public IEnumerable<TreeItem> Children
 		{
 			get => _Children;
 			set
 			{
-				_Children = _Children ?? new List<TreeItem>();
 				foreach ( TreeItem x in value )
 				{
 					_AddChild( x );
@@ -67,7 +66,6 @@ namespace GR.Model.ListItem
 
 		public void AddChild( TreeItem Item )
 		{
-			_Children = _Children ?? new List<TreeItem>();
 			_AddChild( Item );
 			NotifyChanged( "Children" );
 		}
@@ -81,6 +79,9 @@ namespace GR.Model.ListItem
 
 		private void _AddChild( TreeItem x )
 		{
+			if ( !( _Children is List<TreeItem> ) )
+				_Children = new List<TreeItem>();
+
 			if ( x.Parent == null )
 			{
 				x.Parent = this;

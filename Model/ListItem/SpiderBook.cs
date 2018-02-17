@@ -182,6 +182,11 @@ namespace GR.Model.ListItem
 
 			Convoy = await Spider.Crawl( new ProcConvoy( PThru, BInst ) );
 
+			if ( Spider.LastException is OperationCanceledException )
+			{
+				throw Spider.LastException;
+			}
+
 			HasChakra = ProcManager.TracePackage( Convoy, ( D, C ) => D is ProcChakra ) != null;
 
 			ProcParameter.StoreParams( Convoy, PSettings );
@@ -238,9 +243,8 @@ namespace GR.Model.ListItem
 				}
 				catch ( Exception ex )
 				{
-					Logger.Log( ID, ex.Message );
-					Name = ex.Message;
-					Desc = "ERROR";
+					Name = "ERROR";
+					Desc = ex.Message;
 					CanProcess = false;
 					ProcessSuccess = false;
 				}
@@ -303,8 +307,14 @@ namespace GR.Model.ListItem
 
 		public async Task<SpiderBook> Clone()
 		{
-			XParameter Param = PSettings.Parameter( "Procedures" );
+			// Get the latest settings from original location
+			XRegistry OSettings = new XRegistry( "<ProcSpider />", PSettings.Location );
 
+			// We only need the "Procedures" node
+			// Which also truncates all runtime infomation store from previous session
+			XParameter Param = OSettings.Parameter( "Procedures" );
+
+			// Apply the new Guid to the script
 			XRegistry NDef = new XRegistry( "<ProcSpider />", "", false );
 			Param.SetValue( new XKey( "Guid", Guid.NewGuid() ) );
 			NDef.SetParameter( Param );
@@ -315,16 +325,11 @@ namespace GR.Model.ListItem
 			return Bk;
 		}
 
-		public BookInstruction GetBook()
-		{
-			return BInst;
-		}
+		public BookInstruction GetBook() => BInst;
 
 		override protected void MessageBus_OnDelivery( Message Mesg )
 		{
 			if ( !( Mesg.Payload is ProceduresPanel.PanelLog ) ) return;
-
-			// ProceduresPanel.PanelLog PLog = ( ProceduresPanel.PanelLog ) Mesg.Payload;
 			Desc = Mesg.Content;
 		}
 
