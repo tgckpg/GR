@@ -22,7 +22,7 @@ namespace GR.Model.Book
 		public bool IsValid { get; private set; }
 
 		public LocalTextDocument( Book Bk ) : base( Bk ) { }
-		public LocalTextDocument( string id ) : base( "[Local]", BookType.L, id ) { }
+		public LocalTextDocument( string id ) : base( AppKeys.ZLOCAL, BookType.L, id ) { }
 
 		private List<TextEpisode> Episodes;
 

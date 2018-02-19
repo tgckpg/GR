@@ -17,6 +17,7 @@ using libtaotu.Models.Procedure;
 namespace GR.Model.ListItem
 {
 	using Book.Spider;
+	using Database.Models;
 	using Interfaces;
 	using Resources;
 	using Settings;
@@ -85,7 +86,7 @@ namespace GR.Model.ListItem
 			Book.PSettings = new XRegistry( ProcSetting, null );
 
 			Book.InitProcMan();
-			Book.ZoneId = "[Local]";
+			Book.ZoneId = AppKeys.ZLOCAL;
 			Book.ZItemId = Book.ProcMan.GUID;
 
 			await Book.TestProcessed();
@@ -263,9 +264,11 @@ namespace GR.Model.ListItem
 			ProcMan.GUID = Id;
 			if ( ProcMan.GUID == Id )
 			{
-				string OldRoot = MetaRoot;
+				string OLocation = MetaLocation;
+				string OZoneId = ZoneId;
+				string OZItemId = ZItemId;
 
-				string OId = ZItemId;
+				ZoneId = AppKeys.ZLOCAL;
 				ZItemId = Id;
 
 				try
@@ -274,33 +277,23 @@ namespace GR.Model.ListItem
 					Param.SetValue( new XKey( "Guid", Id ) );
 					PSettings.SetParameter( Param );
 
-					// Begin Move location
+					// Move location
 					PSettings.Location = MetaLocation;
+					PSettings.Save();
+					Shared.Storage.DeleteFile( OLocation );
 
-					Shared.Storage.MoveDir( OldRoot, MetaRoot );
-					XParameter METADATA = PSettings.Parameter( "METADATA" );
-
-					if ( METADATA != null )
-					{
-						string Sid = METADATA.GetValue( "sid" );
-						if ( Sid != null )
-						{
-							METADATA.SetValue( new XKey( "payload", Sid ) );
-							METADATA.RemoveKey( "sid" );
-
-							PSettings.SetParameter( METADATA );
-						}
-					}
+					Book Entry = Shared.BooksDb.GetBook( OZoneId, OZItemId, BookType.S );
+					Entry.ZoneId = AppKeys.ZLOCAL;
+					Entry.ZItemId = Id;
+					Shared.BooksDb.SaveBook( Entry );
 
 					BInst = new BookInstruction( ZoneId, ZItemId );
-
-					PSettings.Save();
 				}
 				catch ( Exception )
 				{
 					BInst = null;
 					Processed = false;
-					Logger.Log( ID, string.Format( "Failed to move SVol: {0} => {1}", OldRoot, MetaRoot ), LogType.WARNING );
+					Logger.Log( ID, string.Format( "Failed to move SVol: {0} => {1}", OLocation, MetaLocation ), LogType.WARNING );
 				}
 			}
 		}

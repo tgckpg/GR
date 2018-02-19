@@ -24,15 +24,10 @@ namespace GR.GSystem
 
 		public ActionCenter()
 		{
-			MessageBus.OnDelivery += MessageBus_OnDelivery;
+			MessageBus.Subscribe( this, MessageBus_OnDelivery );
 		}
 
 		public static void Init() { Instance = new ActionCenter(); }
-
-		~ActionCenter()
-		{
-			MessageBus.OnDelivery -= MessageBus_OnDelivery;
-		}
 
 		public void ShowError( string Key )
 		{

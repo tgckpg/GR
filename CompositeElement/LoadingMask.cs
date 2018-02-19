@@ -51,12 +51,7 @@ namespace GR.CompositeElement
 			:base()
 		{
 			DefaultStyleKey = typeof( LoadingMask );
-			MessageBus.OnDelivery += MessageBus_OnDelivery;
-		}
-
-		~LoadingMask()
-		{
-			MessageBus.OnDelivery -= MessageBus_OnDelivery;
+			MessageBus.Subscribe( this, MessageBus_OnDelivery );
 		}
 
 		private static void TextChanged( DependencyObject d, DependencyPropertyChangedEventArgs e )

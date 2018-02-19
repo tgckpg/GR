@@ -110,6 +110,8 @@
 
 			, EX_DEATHBLOW = "ExDeathblow"
 
+			, ZLOCAL = "[Local]"
+
 			// Background Task
 			, BTASK_RETRY = "retry"
 			, BTASK_SPIDER = "spider"

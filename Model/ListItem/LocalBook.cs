@@ -56,7 +56,7 @@ namespace GR.Model.ListItem
 
 			RawPayload = File;
 
-			ZoneId = "[Local]";
+			ZoneId = AppKeys.ZLOCAL;
 			CanProcess = true;
 
 			Desc = stx.Text( "Ready" );
@@ -110,7 +110,7 @@ namespace GR.Model.ListItem
 			Processing = true;
 			NotifyChanged( "Processing" );
 
-			MessageBus.OnDelivery += MessageBus_OnDelivery;
+			MessageBus.Subscribe( this, MessageBus_OnDelivery );
 			try
 			{
 				ProcessSuccess = false;
@@ -135,7 +135,7 @@ namespace GR.Model.ListItem
 			ProcessComplete:
 			Processing = false;
 
-			MessageBus.OnDelivery -= MessageBus_OnDelivery;
+			MessageBus.Unsubscribe( this, MessageBus_OnDelivery );
 			NotifyChanged(
 				"CanProcess", "ProcessSuccess", "ProcessFailed"
 				, "Processed", "Processing"
