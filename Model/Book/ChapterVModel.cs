@@ -48,14 +48,13 @@ namespace GR.Model.Book
 
 			if ( Ch.Image != null )
 			{
-				int iIndex;
 				for ( int i = 0; i < l; i++ )
 				{
 					string Line = Lines[ i ];
 					Paragraph p;
 
 					if ( Line[ 0 ] == AppKeys.ANO_IMG
-						&& int.TryParse( Line.Substring( 1 ), out iIndex ) )
+						&& int.TryParse( Line.Substring( 1 ), out int iIndex ) )
 					{
 						p = new IllusPara( Ch.Image.Urls[ iIndex ] );
 					}

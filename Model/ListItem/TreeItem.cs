@@ -120,6 +120,8 @@ namespace GR.Model.ListItem
 
 	public class TreeList : ObservableCollection<TreeItem>
 	{
+		private TreeItem[] Source;
+
 		public TreeList( IList<TreeItem> TreeItems )
 			: base( TreeItems )
 		{
@@ -128,6 +130,50 @@ namespace GR.Model.ListItem
 		public void Toggle( TreeItem Item )
 		{
 			lock ( this ) _Toggle( Item );
+		}
+
+		public void Filter( string Name )
+		{
+			if ( Source == null )
+			{
+				Source = this.Where( x => x.Parent == null ).ToArray();
+			}
+
+			Clear();
+
+			if ( string.IsNullOrEmpty( Name ) && Source != null )
+			{
+				Source.ExecEach( x => Add( x ) );
+				Source = null;
+				return;
+			}
+
+			_Filter( Name, Source );
+		}
+
+		private bool _Filter( string Name, IEnumerable<TreeItem> Items )
+		{
+			bool AnyMatched = false;
+
+			if ( Items?.Any() == true )
+			{
+				foreach ( TreeItem Item in Items )
+				{
+					Add( Item );
+					bool ChildrenMatch = _Filter( Name, Item.Children );
+
+					if ( ChildrenMatch || Item.ItemTitle.Contains( Name ) )
+					{
+						AnyMatched = true;
+					}
+					else
+					{
+						Remove( Item );
+					}
+				}
+			}
+
+			return AnyMatched;
 		}
 
 		public void Open( TreeItem Item )
