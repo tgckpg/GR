@@ -11,7 +11,6 @@ using System.Text;
 using System.Threading.Tasks;
 
 using Net.Astropenguin.Logging;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace GR.Database.Contexts
 {
@@ -129,31 +128,30 @@ namespace GR.Database.Contexts
 		{
 			lock ( TransactionLock )
 			{
-				return Books.Include( x => x.Info ).FirstOrDefault( x => x.ZoneId == ZoneId && x.ZItemId == ZItemId && x.Type == Type );
+				return Books.Include( x => x.Info ).FirstOrDefault( x => x.ZoneId == ZoneId && x.ZItemId == ZItemId && 0 < ( x.Type & Type ) );
 			}
 		}
 
 		public void SaveBook( Book Bk )
 		{
-			lock ( UnsavedBooks )
+			lock ( TransactionLock )
 			{
 				_SaveBook( Bk );
+				base.SaveChanges();
 			}
-
-			SaveChanges();
 		}
 
 		public void SaveBooks( IEnumerable<Book> Items )
 		{
-			lock ( UnsavedBooks )
+			lock ( TransactionLock )
 			{
 				foreach ( Book Bk in Items )
 				{
 					_SaveBook( Bk );
 				}
-			}
 
-			SaveChanges();
+				base.SaveChanges();
+			}
 		}
 
 		private void _SaveBook( Book Bk )

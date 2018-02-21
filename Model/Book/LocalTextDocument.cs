@@ -15,22 +15,25 @@ namespace GR.Model.Book
 	using GSystem;
 	using Settings;
 
-	sealed class LocalTextDocument : BookItem
+	class LocalTextDocument : BookItem
 	{
 		new public static readonly string ID = typeof( LocalTextDocument ).Name;
 
 		public bool IsValid { get; private set; }
 
+		public LocalTextDocument( string ZoneId, BookType BType, string Id ) : base( ZoneId, BType, Id ) { }
 		public LocalTextDocument( Book Bk ) : base( Bk ) { }
 		public LocalTextDocument( string id ) : base( AppKeys.ZLOCAL, BookType.L, id ) { }
 
 		private List<TextEpisode> Episodes;
 
-		public async static Task<LocalTextDocument> ParseAsync( string ZItemId, string Doc )
+		public static Task<LocalTextDocument> ParseAsync( string Id, string Doc ) => ParseAsync( AppKeys.ZLOCAL, BookType.L, Id, Doc );
+
+		public async static Task<LocalTextDocument> ParseAsync( string ZoneId, BookType BType, string ZItemId, string Doc )
 		{
 			try
 			{
-				LocalTextDocument TDoc = new LocalTextDocument( ZItemId );
+				LocalTextDocument TDoc = new LocalTextDocument( ZoneId, BType, ZItemId );
 				TDoc.Episodes = new List<TextEpisode>();
 
 				string[] lines = Doc.Split( new char[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries );
@@ -42,7 +45,7 @@ namespace GR.Model.Book
 				string s;
 				TDoc.Title = lines[ 1 ];
 				TextEpisode Ep = null;
-				for( int i = 2; i < l;  i ++ )
+				for ( int i = 2; i < l; i++ )
 				{
 					s = lines[ i ];
 					if ( 3 < s.Length )
@@ -155,6 +158,8 @@ namespace GR.Model.Book
 
 				await Task.Delay( 100 );
 			}
+
+			Entry.Volumes.ExecEach( ( x, i ) => x.Index = i );
 		}
 
 		private Volume ProcessVolume( IEnumerable<TextEpisode> Chapters, int VSplice )

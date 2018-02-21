@@ -1,5 +1,6 @@
 ﻿namespace GR.Model.Book
 {
+	using Database.Models;
 	using Ext;
 	using Spider;
 
@@ -17,7 +18,7 @@
 
 		public static bool IsDeathblow( this BookItem Book )
 		{
-			return Book.XTest( XProto.DeathBook );
+			return Book.Entry.Type.HasFlag( BookType.L ) && Book.Entry.Type.HasFlag( BookType.W );
 		}
 
 		public static bool IsEx( this BookItem Book )

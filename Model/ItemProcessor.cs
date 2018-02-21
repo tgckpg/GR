@@ -40,14 +40,10 @@ namespace GR.Model.Pages
 			}
 			else if ( int.TryParse( Id, out int _Id ) )
 			{
-				// Order-aware
-				IDeathblow DeathBlow = await GetDeathblow( Id );
-				if ( DeathBlow != null ) return DeathBlow.GetBook();
+				if ( X.Exists ) return GetBookEx( Id );
 
 				LocalTextDocument Doc = new LocalTextDocument( Id );
 				if ( Doc.IsValid ) return Doc;
-
-				if ( X.Exists ) return GetBookEx( Id );
 			}
 
 			return null;
@@ -55,23 +51,17 @@ namespace GR.Model.Pages
 
 		public static BookItem GetBookItem( Book Bk )
 		{
+			if ( X.Exists && Bk.Type.HasFlag( BookType.W ) )
+			{
+				return X.Instance<BookItem>( XProto.BookItemEx, Bk );
+			}
+
 			switch( Bk.Type )
 			{
 				case BookType.S:
 					return new BookInstruction( Bk );
 				case BookType.L:
 					return new LocalTextDocument( Bk );
-			}
-
-			if ( X.Exists )
-			{
-				switch ( Bk.Type )
-				{
-					case BookType.W:
-						return X.Instance<BookItem>( XProto.BookItemEx, Bk );
-					case BookType.W | BookType.L:
-						return X.Instance<BookItem>( XProto.DeathBook, Bk );
-				}
 			}
 
 			return null;
@@ -108,21 +98,6 @@ namespace GR.Model.Pages
 			B.XSetProp( "Mode", X.Const<string>( XProto.WProtocols, "ACTION_BOOK_META" ) );
 
 			return B;
-		}
-
-		public static async Task<IDeathblow> GetDeathblow( string Id )
-		{
-			if ( X.Exists )
-			{
-				IDeathblow Deathblow = X.Instance<IDeathblow>( XProto.Deathblow, Id );
-				if ( Deathblow.Registered )
-				{
-					await ProcessLocal( Deathblow.GetParser() );
-					return Deathblow;
-				}
-			}
-
-			return null;
 		}
 
 	}

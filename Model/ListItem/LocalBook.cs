@@ -47,7 +47,7 @@ namespace GR.Model.ListItem
 		public string ZItemId { get; protected set; }
 
 		private static StringResBg _stx;
-		private static StringResBg stx => _stx ?? ( _stx = new StringResBg( "AppResources", "LoadingMessage" ) );
+		protected static StringResBg stx => _stx ?? ( _stx = new StringResBg( "AppResources", "LoadingMessage" ) );
 
 		public LocalBook( StorageFile File )
 			: base( File.Name, "", File.Path, "" )

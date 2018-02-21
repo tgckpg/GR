@@ -12,13 +12,8 @@ namespace GR.Ext
 	interface IDeathblow
 	{
 		string Id { get; }
-
-		bool Registered { get; }
 		bool Check( byte[] responseBytes );
 
 		LocalBook GetParser();
-		BookItem GetBook();
-
-		void Register();
 	}
 }
