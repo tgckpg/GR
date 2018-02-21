@@ -2,9 +2,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text;
 using System.Threading.Tasks;
-using Windows.Storage;
+using Windows.Security.Cryptography;
+using Windows.Security.Cryptography.Core;
 
 using libtaotu.Controls;
 using libtaotu.Models.Procedure;
@@ -39,7 +41,7 @@ namespace GR.Model.Book.Spider
 
 		public override bool NeedUpdate
 		{
-			get { return false; } // XXX: Check with TOC matching
+			get { return false; }
 			protected set => base.NeedUpdate = value;
 		}
 
@@ -109,6 +111,9 @@ namespace GR.Model.Book.Spider
 			VolInstruction Ownerless = new VolInstruction( -1, string.IsNullOrEmpty( Title ) ? "Vol 1" : Title );
 			VolInstruction VInst = Ownerless;
 
+			// We'll hash the TOC here. Which will be our identifier for the NeedUpdate variable
+			CryptographicHash Hasher = HashAlgorithmProvider.OpenAlgorithm( HashAlgorithmNames.Sha1 ).CreateHash();
+
 			foreach ( ConvoyInstructionSet Inst in Insts.Values )
 			{
 				Inst.SetConvoy( PPConvoy );
@@ -116,14 +121,18 @@ namespace GR.Model.Book.Spider
 				if ( Inst is VolInstruction )
 				{
 					VInst = Inst as VolInstruction;
+					Hasher.Append( Encoding.UTF8.GetBytes( VInst.Title ).AsBuffer() );
 					continue;
 				}
 
-				if ( Inst is EpInstruction )
+				if ( Inst is EpInstruction EInst )
 				{
-					VInst.PushInstruction( Inst as EpInstruction );
+					VInst.PushInstruction( EInst );
+					Hasher.Append( Encoding.UTF8.GetBytes( EInst.Title ).AsBuffer() );
 				}
 			}
+
+			Entry.Meta[ "TOCHash" ] = CryptographicBuffer.EncodeToHexString( Hasher.GetValueAndReset() );
 
 			if ( 0 < Ownerless.LastIndex )
 			{

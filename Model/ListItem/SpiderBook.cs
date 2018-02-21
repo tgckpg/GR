@@ -63,6 +63,8 @@ namespace GR.Model.ListItem
 
 		private SpiderBook() { }
 
+		public void MarkUnprocessed() { Processed = false; }
+
 		private void InitProcMan()
 		{
 			if ( ProcMan != null ) return;
