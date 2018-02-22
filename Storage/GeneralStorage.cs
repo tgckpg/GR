@@ -38,8 +38,6 @@ namespace GR.Storage
 				, FileLinks.ROOT_BANNER
 				// Illustration Cache
 				, FileLinks.ROOT_IMAGE
-				// Local Volumes
-				, FileLinks.ROOT_LOCAL_VOL
 				// Spider Volumes
 				, FileLinks.ROOT_SPIDER_VOL
 				// Comments, SpecialTopics, etc.
