@@ -53,6 +53,21 @@ namespace GR.Config
 			}
 		}
 
+
+		#region Migrations
+		public static bool MIGRATION_0000
+		{
+			get
+			{
+				return GetValue<bool>( Parameters.MIGRATION_0000 );
+			}
+			set
+			{
+				SetParameter( Parameters.MIGRATION_0000, value );
+			}
+		}
+		#endregion
+
 		#region Logging
 		public static bool ENABLE_SYSTEM_LOG
 		{

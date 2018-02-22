@@ -124,7 +124,6 @@
       <DependentUpon>20180204165922_Initial.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Books\BooksContextModelSnapshot.cs" />
-    <Compile Include="Migrations\MigrateGR.cs" />
     <Compile Include="Migrations\Settings\20180130041432_Initial.cs" />
     <Compile Include="Migrations\Settings\20180130041432_Initial.designer.cs">
       <DependentUpon>20180130041432_Initial.cs</DependentUpon>
@@ -203,10 +202,8 @@
     <Compile Include="Effects\P2DFlow\Spawners\Trail.cs" />
     <Compile Include="Effects\TextTransition.cs" />
     <Compile Include="Effects\TransitionDisplay.cs" />
-    <Compile Include="Ext\IAutoCache.cs" />
     <Compile Include="Model\Interfaces\INavPage.cs" />
     <Compile Include="Ext\XProto.cs" />
-    <Compile Include="Ext\IAppFlags.cs" />
     <Compile Include="Ext\IMember.cs" />
     <Compile Include="Ext\IRuntimeCache.cs" />
     <Compile Include="Ext\X.cs" />

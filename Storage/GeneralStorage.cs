@@ -32,18 +32,12 @@ namespace GR.Storage
 				// BackgroundTransfer and ShellTile Roots
 				FileLinks.ROOT_SHARED
 				, FileLinks.ROOT_BACKGROUNDSERVICE
-				// Main Cache folder
-				, FileLinks.ROOT_CACHE
 				// Cover Cache
 				, FileLinks.ROOT_COVER
 				// Banner Cache
 				, FileLinks.ROOT_BANNER
-				// intro Cache
-				, FileLinks.ROOT_INTRO
 				// Illustration Cache
 				, FileLinks.ROOT_IMAGE
-				// Volume Cache
-				, FileLinks.ROOT_VOLUME
 				// Local Volumes
 				, FileLinks.ROOT_LOCAL_VOL
 				// Spider Volumes
@@ -155,29 +149,14 @@ namespace GR.Storage
 			base.PurgeContents( Dir, RmRoot );
 		}
 
-		public void CLEAR_CACHE()
-		{
-			PurgeContents( FileLinks.ROOT_CACHE, false );
-		}
-
 		public void CLEAR_COVER()
 		{
 			PurgeContents( FileLinks.ROOT_COVER, false );
 		}
 
-		public void CLEAR_INTRO()
-		{
-			PurgeContents( FileLinks.ROOT_INTRO, false );
-		}
-
 		public void CLEAR_IMAGE()
 		{
 			PurgeContents( FileLinks.ROOT_IMAGE, false );
-		}
-
-		public void CLEAR_VOLUME()
-		{
-			PurgeContents( FileLinks.ROOT_VOLUME, false );
 		}
 		#endregion
 
@@ -297,20 +276,6 @@ namespace GR.Storage
 			return size;
 		}
 
-		public ulong IntroSize()
-		{
-			ulong size = 0;
-			CountSize( FileLinks.ROOT_INTRO, ref size );
-			return size;
-		}
-
-		public ulong CacheSize()
-		{
-			ulong size = 0;
-			CountSize( FileLinks.ROOT_CACHE, ref size );
-			return size;
-		}
-
 		public ulong ImageSize()
 		{
 			ulong size = 0;
@@ -322,14 +287,6 @@ namespace GR.Storage
 		{
 			ulong size = 0;
 			CountSizeRecursive( "./", ref size );
-			return size;
-		}
-
-		public ulong GetStaticContentsUsage()
-		{
-			ulong size = 0;
-			CountSizeRecursive( FileLinks.ROOT_VOLUME, ref size );
-			size += IntroSize();
 			return size;
 		}
 		#endregion

@@ -30,8 +30,6 @@ namespace GR.Settings
 		, LOG_BGTASK_UPDATE = "bgu.log"
 		, LOG_BGTASK_RETRY = "bgr.log"
 
-		, ROOT_CACHE = "Cache/"
-		, ROOT_INTRO = "intro/"
 		, ROOT_SHARED = "shared/"
 		, ROOT_TILE = "shared/ShellContent/"
 		, ROOT_COVER = "shared/ShellContent/Covers/"
@@ -39,7 +37,6 @@ namespace GR.Settings
 		, ROOT_READER_THUMBS = "shared/ShellContent/ReaderThumbs/"
 		, ROOT_BACKGROUNDSERVICE = "shared/transfers/"
 		, ROOT_IMAGE = "shared/transfers/Images/"
-		, ROOT_VOLUME = "shared/transfers/Volumes/"
 		, ROOT_LOCAL_VOL = "shared/transfers/LVolumes/"
 		, ROOT_SPIDER_VOL = "shared/transfers/SVolumes/"
 		, ROOT_ZSPIDER = "ZoneSpiders/"
@@ -50,10 +47,5 @@ namespace GR.Settings
 		, ROOT_ANCHORS = "Anchor/"
 		, ROOT_LOG = "log/"
 		;
-
-		public static string GetVolumeRoot( string id )
-		{
-			return ROOT_VOLUME + id + "/";
-		}
 	}
 }

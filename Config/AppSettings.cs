@@ -281,6 +281,9 @@ namespace GR.Config
 			if ( !TestKey( Parameters.FIRST_TIME_RUN ) )
 				Properties.FIRST_TIME_RUN = true;
 
+			if ( !TestKey( Parameters.MIGRATION_0000 ) )
+				Properties.MIGRATION_0000 = false;
+
 			if ( !TestKey( Parameters.INSTALLATION_INST ) )
 				Properties.INSTALLATION_INST = Guid.NewGuid().ToString();
 
