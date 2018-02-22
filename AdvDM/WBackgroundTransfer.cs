@@ -20,24 +20,10 @@ namespace GR.AdvDM
 		#region DThread Handlers
 		public delegate void DThreadCompleteHandler( DTheradCompleteArgs DArgs );
 		public delegate void DThreadProgressHandler( DThreadProgressArgs DArgs );
-		public delegate void DThreadUpdateHandler( DThreadUpdateArgs DArgs );
 
 		private event DThreadCompleteHandler DThreadComplete;
 		private event DThreadProgressHandler DThreadProgress;
-		private event DThreadUpdateHandler DThreadUpdate;
 
-		public event DThreadUpdateHandler OnThreadUpdate
-		{
-			add
-			{
-				DThreadUpdate -= value;
-				DThreadUpdate += value;
-			}
-			remove
-			{
-				DThreadUpdate -= value;
-			}
-		}
 		public event DThreadCompleteHandler OnThreadComplete
 		{
 			add
@@ -108,8 +94,7 @@ namespace GR.AdvDM
 
 				Logger.Log( ID, string.Format( "Completed: {0}, Status Code: {1}", Download.Guid, Response.StatusCode ), LogType.DEBUG );
 
-				if( DThreadComplete != null )
-					DThreadComplete( new DTheradCompleteArgs( saveLocation, Download.Guid ) );
+				DThreadComplete?.Invoke( new DTheradCompleteArgs( saveLocation, Download.Guid ) );
 			}
 			catch ( TaskCanceledException )
 			{
@@ -123,6 +108,7 @@ namespace GR.AdvDM
 
 		private void DownloadProgress( DownloadOperation obj )
 		{
+			DThreadProgress?.Invoke( new DThreadProgressArgs( null, obj.Progress.BytesReceived, obj.Progress.TotalBytesToReceive, obj.Guid ) );
 			if( obj.Progress.TotalBytesToReceive == 0 )
 			{
 				Logger.Log( ID, string.Format( "{0} Bytes Received", obj.Progress.BytesReceived ), LogType.INFO );
