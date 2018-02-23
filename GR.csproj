@@ -233,7 +233,6 @@
     <Compile Include="Model\ListItem\BookInfoItem.cs" />
     <Compile Include="Model\ListItem\BookmarkListItem.cs" />
     <Compile Include="Model\ListItem\Digest.cs" />
-    <Compile Include="Model\ListItem\FavItem.cs" />
     <Compile Include="Model\ListItem\PinRecord.cs" />
     <Compile Include="Model\ListItem\Sharers\Activity.cs" />
     <Compile Include="Model\ListItem\Sharers\GrantProcess.cs" />

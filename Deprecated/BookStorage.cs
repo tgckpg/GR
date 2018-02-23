@@ -6,13 +6,12 @@ using System.Reflection;
 using System.Threading.Tasks;
 
 using Net.Astropenguin.IO;
-using Net.Astropenguin.Loaders;
+using Net.Astropenguin.Linq;
 using Net.Astropenguin.Logging;
 
 namespace GR.Storage
 {
 	using Settings;
-	using Model.ListItem;
 
 	sealed class BookStorage
 	{
@@ -32,14 +31,8 @@ namespace GR.Storage
 			await OneDriveSync.Instance.SyncRegistry( WBookStorage );
 		}
 
-		internal T[] GetList<T>( Func<XParameter, bool> Filter = null )
+		internal string[][] GetList( Func<XParameter, bool> Filter = null )
 		{
-			Type t = typeof( T );
-			if ( !( t == typeof( FavItem ) || t.GetTypeInfo().IsSubclassOf( typeof( FavItem ) ) ) )
-			{
-				throw new InvalidCastException( "Cannot cast " + t.Name + " into FavItem" );
-			}
-
 			Func<XParameter, bool> NDel = x => !x.GetBool( AppKeys.LBS_DEL );
 			Func<XParameter, bool> XFilter = NDel;
 			if( Filter != null )
@@ -47,32 +40,24 @@ namespace GR.Storage
 				XFilter = x => NDel( x ) && Filter( x );
 			}
 
-			IEnumerable<XParameter> p = WBookStorage
+			XParameter[] p = WBookStorage
 				.Parameters()
 				.Where( XFilter )
 				.OrderBy( x => x.GetBool( AppKeys.LBS_NEW ) )
 				.ToArray();
 
-			StringResources Res = new StringResources( "Book" );
-
-			List<T> s = new List<T>();
-			foreach ( XParameter wp in p )
+			string[][] s = new string[ p.Length ][];
+			p.ExecEach( ( wp, i ) =>
 			{
-				T Item = ( T ) Activator.CreateInstance(
-					typeof( T )
+				string[] ss = new string[] {
+					wp.GetValue( AppKeys.GLOBAL_ID )
 					, wp.GetValue( AppKeys.GLOBAL_NAME )
 					, wp.GetValue( AppKeys.LBS_DATE )
 					, wp.GetValue( AppKeys.LBS_CH )
-					, wp.GetValue( AppKeys.GLOBAL_ID )
-					, wp.GetBool( AppKeys.LBS_WSYNC )
-					, wp.GetBool( AppKeys.LBS_AUM )
-					, wp.GetBool( AppKeys.LBS_NEW )
-				);
+				};
 
-				s.Add( Item );
-			}
-
-			s.Reverse();
+				s[ i ] = ss;
+			} );
 
 			return s.ToArray();
 		}
