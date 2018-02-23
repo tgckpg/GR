@@ -1,4 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Storage;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -34,6 +36,14 @@ namespace GR.Database
 			{
 				Context.Database.EnsureDeleted();
 				Context.Database.Migrate();
+			}
+		}
+
+		public static bool ContextExists( Type ContextType )
+		{
+			using ( DbContext Context = ( DbContext ) Activator.CreateInstance( ContextType ) )
+			{
+				return ( Context.GetService<IDatabaseCreator>() as RelationalDatabaseCreator ).Exists();
 			}
 		}
 	}

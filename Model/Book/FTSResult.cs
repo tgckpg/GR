@@ -11,7 +11,7 @@ namespace GR.Model.Book
 
 	sealed class FTSResult
 	{
-		private int RefId;
+		public int ChapterId { get; private set; }
 
 		public string Title { get; set; }
 		public string VolTitle { get; set; }
@@ -20,7 +20,7 @@ namespace GR.Model.Book
 
 		public FTSResult( int ChapterId, string Snippet )
 		{
-			RefId = ChapterId;
+			this.ChapterId = ChapterId;
 			Result = Snippet;
 
 			Chapter C = Shared.BooksDb.Chapters.Find( ChapterId );
