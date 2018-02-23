@@ -205,7 +205,14 @@ namespace GR.Database.Models
 		public int ChapterId { get; set; }
 		public Chapter Chapter { get; set; }
 
-		public string Text { get; set; }
+		[NotMapped]
+		public ZData Data { get; set; } = new ZData();
+
+		public byte[] RawData
+		{
+			get => Data.RawBytes;
+			set => Data.RawBytes = value;
+		}
 	}
 
 	public class ChapterImage

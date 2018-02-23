@@ -9,7 +9,7 @@ using GR.Database.Models;
 namespace GR.Migrations.Books
 {
     [DbContext(typeof(BooksContext))]
-    [Migration("20180204165922_Initial")]
+    [Migration("20180223065039_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -163,7 +163,7 @@ namespace GR.Migrations.Books
 
                     b.Property<int>("ChapterId");
 
-                    b.Property<string>("Text");
+                    b.Property<byte[]>("RawData");
 
                     b.HasKey("Id");
 

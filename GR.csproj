@@ -97,11 +97,13 @@
     <Compile Include="Converters\FuzzyTimeInterval.cs" />
     <Compile Include="Database\ContextManager.cs" />
     <Compile Include="Database\Contexts\Books.cs" />
+    <Compile Include="Database\Contexts\FTSData.cs" />
     <Compile Include="Database\Contexts\Settings.cs" />
     <Compile Include="Database\Contexts\ZCache.cs" />
     <Compile Include="Database\GRMigrationProviders.cs" />
     <Compile Include="Database\Models.cs" />
     <Compile Include="Database\Models\Book.cs" />
+    <Compile Include="Database\Models\FTSData.cs" />
     <Compile Include="Database\Models\GenericSettings.cs" />
     <Compile Include="Database\Models\GRTableConfig.cs" />
     <Compile Include="Database\Models\ZCache.cs" />
@@ -119,11 +121,16 @@
     <Compile Include="Data\Interfaces.cs" />
     <Compile Include="Effects\Stage\RandomStripe.cs" />
     <Compile Include="Ext\IDeathblow.cs" />
-    <Compile Include="Migrations\Books\20180204165922_Initial.cs" />
-    <Compile Include="Migrations\Books\20180204165922_Initial.designer.cs">
-      <DependentUpon>20180204165922_Initial.cs</DependentUpon>
+    <Compile Include="Migrations\Books\20180223065039_Initial.cs" />
+    <Compile Include="Migrations\Books\20180223065039_Initial.designer.cs">
+      <DependentUpon>20180223065039_Initial.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Books\BooksContextModelSnapshot.cs" />
+    <Compile Include="Migrations\FTSData\20180223054441_Initial.cs" />
+    <Compile Include="Migrations\FTSData\20180223054441_Initial.designer.cs">
+      <DependentUpon>20180223054441_Initial.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\FTSData\FTSDataContextModelSnapshot.cs" />
     <Compile Include="Migrations\Settings\20180130041432_Initial.cs" />
     <Compile Include="Migrations\Settings\20180130041432_Initial.designer.cs">
       <DependentUpon>20180130041432_Initial.cs</DependentUpon>
@@ -136,6 +143,7 @@
     <Compile Include="Migrations\ZCache\ZCacheContextModelSnapshot.cs" />
     <Compile Include="Model\Book\BookItemExt.cs" />
     <Compile Include="Model\Book\BookDisplay.cs" />
+    <Compile Include="Model\Book\FTSResult.cs" />
     <Compile Include="Model\Interfaces\IBookProcess.cs" />
     <Compile Include="Model\Interfaces\IIllusUpdate.cs" />
     <Compile Include="Model\Interfaces\IExtViewSource.cs" />

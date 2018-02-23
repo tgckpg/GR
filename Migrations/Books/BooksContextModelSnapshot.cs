@@ -162,7 +162,7 @@ namespace GR.Migrations.Books
 
                     b.Property<int>("ChapterId");
 
-                    b.Property<string>("Text");
+                    b.Property<byte[]>("RawData");
 
                     b.HasKey("Id");
 

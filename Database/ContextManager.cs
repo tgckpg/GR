@@ -27,5 +27,14 @@ namespace GR.Database
 				}
 			}
 		}
+
+		public static void CreateFTSContext()
+		{
+			using ( DbContext Context = new FTSDataContext() )
+			{
+				Context.Database.EnsureDeleted();
+				Context.Database.Migrate();
+			}
+		}
 	}
 }

@@ -14,7 +14,17 @@ namespace GR.Model.Text
 		public static bool DoSyntaxPatch = Properties.MISC_TEXT_PATCH_SYNTAX;
 		public static string PatchSyntax( string s )
 		{
-			if( DoSyntaxPatch )
+			if ( DoSyntaxPatch )
+			{
+				return Symbolic.PatchSyntax( s );
+			}
+
+			return s;
+		}
+
+		public static byte[] PatchSyntax( byte[] s )
+		{
+			if ( DoSyntaxPatch )
 			{
 				return Symbolic.PatchSyntax( s );
 			}

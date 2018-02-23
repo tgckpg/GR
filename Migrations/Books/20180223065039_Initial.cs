@@ -155,7 +155,7 @@ namespace GR.Migrations.Books
                     Id = table.Column<int>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     ChapterId = table.Column<int>(nullable: false),
-                    Text = table.Column<string>(nullable: true)
+                    RawData = table.Column<byte[]>(nullable: true)
                 },
                 constraints: table =>
                 {

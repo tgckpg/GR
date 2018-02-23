@@ -1,5 +1,4 @@
-﻿using GR.Database.Models;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.Extensions.Logging;
@@ -14,6 +13,8 @@ using Net.Astropenguin.Logging;
 
 namespace GR.Database.Contexts
 {
+	using GR.Database.Models;
+
 	class BooksContext : DbContext
 	{
 		public DbSet<Book> Books { get; set; }

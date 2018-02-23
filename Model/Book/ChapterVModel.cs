@@ -41,7 +41,7 @@ namespace GR.Model.Book
 		public Paragraph[] GetParagraphs()
 		{
 			ChapterContent Cont = Ch.Content;
-			string[] Lines = Cont.Text.Split( new char[] { '\n' }, StringSplitOptions.RemoveEmptyEntries );
+			string[] Lines = Cont.Data.StringValue.Split( new char[] { '\n' }, StringSplitOptions.RemoveEmptyEntries );
 
 			int l = Lines.Length;
 			Paragraph[] Paragraphs = new Paragraph[ Lines.Length ];
