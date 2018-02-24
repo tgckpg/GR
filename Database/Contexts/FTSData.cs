@@ -26,7 +26,7 @@ namespace GR.Database.Contexts
 		public IQueryable<FTSChapter> Search( string Query )
 		{
 			return FTSChapters.FromSql(
-				"SELECT ChapterId, snippet( \"FTSChapters\", 1, '__', '__', \"\", 8 ) AS \"Text\""
+				"SELECT ChapterId, snippet( \"FTSChapters\", 1, '__', '__', '', 8 ) AS \"Text\""
 				+ "FROM \"FTSChapters\" WHERE \"FTSChapters\" MATCH {0}"
 				, Query
 			);
