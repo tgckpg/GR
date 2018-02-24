@@ -118,8 +118,8 @@ namespace GR.Model.Book
 
 		private BitmapImage _Cover = null;
 
-		private string CoverUrl => FileLinks.ROOT_COVER + Entry.Meta[ AppKeys.BINF_COVER ];
-		public bool CoverExist => Entry.Meta.ContainsKey( AppKeys.BINF_COVER ) && Shared.Storage.FileExists( CoverUrl );
+		protected string CoverUrl => FileLinks.ROOT_COVER + ZoneId + "/" + ZItemId + ".cvr";
+		public bool CoverExist => Shared.Storage.FileExists( CoverUrl );
 		public Stream CoverStream() => Shared.Storage.GetStream( CoverUrl );
 		public ImageSource Cover => ( _Cover = _Cover ?? new BitmapImage() { UriSource = new Uri( "ms-appdata:///local/" + CoverUrl ) } );
 		// Since the path are always the same but the underlying
@@ -347,9 +347,6 @@ namespace GR.Model.Book
 				return;
 			}
 
-			string ImageUid = GSystem.Utils.Md5( Data.AsBuffer() );
-
-			Entry.Meta[ AppKeys.BINF_COVER ] = ImageUid;
 			SaveInfo();
 			Shared.Storage.WriteBytes( CoverUrl, Data );
 
@@ -360,8 +357,6 @@ namespace GR.Model.Book
 		public void ClearCover()
 		{
 			Shared.Storage.DeleteFile( CoverUrl );
-
-			Entry.Meta.Remove( AppKeys.BINF_COVER );
 			SaveInfo();
 
 			_Cover = null;

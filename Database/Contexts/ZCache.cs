@@ -75,7 +75,7 @@ namespace GR.Database.Contexts
 					throw new InvalidOperationException( "Unsupported data" );
 				}
 
-				DelayedWriter.Queue( FlushCaches );
+				FlushCaches();
 			} );
 		}
 

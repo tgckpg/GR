@@ -161,22 +161,38 @@ namespace GR.Storage
 		override public bool WriteString( string filename, string content )
 		{
 			Logger.Log( ID, string.Format( "WritingString: {0}", filename ), LogType.DEBUG );
-			createDirs( filename.Substring( 0, filename.LastIndexOf( '/' ) ) );
+			CreateDirs( filename.Substring( 0, filename.LastIndexOf( '/' ) ) );
 			return base.WriteString( filename, content );
 		}
 
 		override public bool WriteBytes( string filename, Byte[] b )
 		{
 			Logger.Log( ID, string.Format( "WriteBytes: {0}", filename ), LogType.DEBUG );
-			createDirs( filename.Substring( 0, filename.LastIndexOf( '/' ) ) );
+			CreateDirs( filename.Substring( 0, filename.LastIndexOf( '/' ) ) );
 			return base.WriteBytes( filename, b );
 		}
 
 		override public bool WriteStream( string filename, Stream S )
 		{
 			Logger.Log( ID, string.Format( "WriteStream: {0}", filename ), LogType.DEBUG );
-			createDirs( filename.Substring( 0, filename.LastIndexOf( '/' ) ) );
+			CreateDirs( filename.Substring( 0, filename.LastIndexOf( '/' ) ) );
 			return base.WriteStream( filename, S );
+		}
+
+		public void MoveDir( string From, string To )
+		{
+			UserStorage.MoveDirectory( From, To );
+			CachedFiles.RemoveWhere( x => x.StartsWith( From ) );
+		}
+
+		public void MoveFile( string From, string To )
+		{
+			Logger.Log( ID, string.Format( "Move: {0} -> {1}", From, To ), LogType.DEBUG );
+			CreateDirs( To.Substring( 0, To.LastIndexOf( '/' ) ) );
+			UserStorage.MoveFile( From, To );
+
+			CachedFiles.Remove( From );
+			CachedFiles.Add( To );
 		}
 
 		public async Task<bool> WriteFileAsync( string filename, IStorageFile ISF )
@@ -199,7 +215,7 @@ namespace GR.Storage
 				return await CreateImageFromLibrary( saveLocation );
 			}
 
-			createDirs( saveLocation.Substring( 0, saveLocation.LastIndexOf( '/' ) ) );
+			CreateDirs( saveLocation.Substring( 0, saveLocation.LastIndexOf( '/' ) ) );
 			return await CreateFileFromISOStorage( saveLocation );
 		}
 
