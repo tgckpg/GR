@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Linq;
-using GR.Database.Models;
-using GR.Settings;
+
 using Net.Astropenguin.DataModel;
 using Net.Astropenguin.Logging;
 
 namespace GR.Model.Book
 {
+	using Database.Models;
+
 	public sealed class EpisodeStepper : ActiveData
 	{
 		public static readonly string ID = typeof( EpisodeStepper ).Name;
@@ -25,7 +26,7 @@ namespace GR.Model.Book
 		{
 			int ChapterId = C.Id;
 
-			int i = Array.IndexOf( VInfo.vids, C.Volume.Meta[ AppKeys.GLOBAL_VID ] );
+			int i = Array.IndexOf( VInfo.vids, C.VolumeId );
 			if ( i == -1 ) return false;
 
 			VStepper = i;

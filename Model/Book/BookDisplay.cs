@@ -32,7 +32,7 @@ namespace GR.Model.Book
 			set { _Zone = value; NotifyChanged( "Zone" ); }
 		}
 
-		public string Intro => Entry.Info.LongDescription ?? Entry.Description;
+		public string Intro => Entry.Description ?? Entry.Info.LongDescription;
 		public string LastAccess => Entry.LastAccess.ToString();
 
 		public override bool Equals( object obj ) => Entry.Equals( ( obj as BookDisplay )?.Entry );

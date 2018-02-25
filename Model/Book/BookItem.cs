@@ -61,6 +61,7 @@ namespace GR.Model.Book
 		public Book Entry => _Entry ?? throw new InvalidOperationException( "_Entry is not initialized" );
 
 		public string GID => string.Format( "{0}.{1}.{2}", Entry.ZoneId, Entry.Type, Entry.ZItemId );
+		public string PathId => ZoneId + "/" + ZItemId;
 
 		public int Index { get; protected set; }
 
@@ -118,7 +119,7 @@ namespace GR.Model.Book
 
 		private BitmapImage _Cover = null;
 
-		protected string CoverUrl => FileLinks.ROOT_COVER + ZoneId + "/" + ZItemId + ".cvr";
+		protected string CoverUrl => FileLinks.ROOT_COVER + PathId + ".cvr";
 		public bool CoverExist => Shared.Storage.FileExists( CoverUrl );
 		public Stream CoverStream() => Shared.Storage.GetStream( CoverUrl );
 		public ImageSource Cover => ( _Cover = _Cover ?? new BitmapImage() { UriSource = new Uri( "ms-appdata:///local/" + CoverUrl ) } );

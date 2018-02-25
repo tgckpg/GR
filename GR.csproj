@@ -93,6 +93,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AdvDM\BingService.cs" />
+    <Compile Include="Converters\ObjectColorConverter.cs" />
     <Compile Include="Converters\HistoryThumbConverter.cs" />
     <Compile Include="Converters\FuzzyTimeInterval.cs" />
     <Compile Include="Database\ContextManager.cs" />

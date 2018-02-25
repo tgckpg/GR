@@ -6,6 +6,7 @@ namespace GR.Effects
 	static class Easings
 	{
 		public static EasingFunctionBase EaseInCubic = new CubicEase() { EasingMode = EasingMode.EaseIn };
+		public static EasingFunctionBase EaseOutQuintic = new QuinticEase() { EasingMode = EasingMode.EaseOut };
 
 		public static float OutQuintic( float t, float d )
 		{

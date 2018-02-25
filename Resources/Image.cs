@@ -76,7 +76,7 @@ namespace GR.Resources
 
 		internal async static Task<string> CreateTileImage( BookItem b )
 		{
-			string TilePath = FileLinks.ROOT_TILE + b.Id + ".tile";
+			string TilePath = FileLinks.ROOT_TILE + b.PathId + ".tile";
 			if ( Shared.Storage.FileExists( TilePath ) )
 				goto ReturnAppStoragePath;
 

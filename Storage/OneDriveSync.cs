@@ -146,12 +146,35 @@ namespace GR.Storage
 			return null;
 		}
 
-		public async Task SyncRegistry( XRegistry Reg, SyncMode Mode = SyncMode.WITH_DEL_FLAG )
+		public async Task RemoveFile( string Location )
+		{
+			if ( !Authenticated ) return;
+
+			try
+			{
+				await Client.Drive.Special.AppRoot
+					.ItemWithPath( Location )
+					.Request()
+					.DeleteAsync();
+
+				Logger.Log( ID, string.Format( "Removed file {0}", Location ), LogType.DEBUG );
+			}
+			catch ( ServiceException ex )
+			{
+				Logger.Log( ID, ex.Error.Message, LogType.WARNING );
+			}
+			catch ( SEHException ex )
+			{
+				Logger.Log( ID, ex.Message, LogType.ERROR );
+			}
+		}
+
+		public async Task SyncRegistry( XRegistry Reg, SyncMode Mode = SyncMode.WITH_DEL_FLAG, string PullFrom = null )
 		{
 			await Authenticate();
 
 			// OneDrive Handler
-			Item File = await PullFile( Reg.Location );
+			Item File = await PullFile( PullFrom ?? Reg.Location );
 			if ( File != null )
 			{
 				StreamReader SR = new StreamReader( File.Content );

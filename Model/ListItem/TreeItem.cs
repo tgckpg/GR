@@ -11,6 +11,8 @@ namespace GR.Model.ListItem
 
 	public class TreeItem : ActiveData
 	{
+		public TreeItem Self => this;
+
 		protected string _ItemTitle;
 		public string ItemTitle
 		{
@@ -201,7 +203,7 @@ namespace GR.Model.ListItem
 				throw new InvalidOperationException( "Item not found" );
 
 			TreeItem[] OItems = this.Where( x => x != Item && x.Path.StartsWith( Item.Path ) ).ToArray();
-			int OLen = OItems.Length;
+			int OLen = OItems.Where( x => x.Parent == Item ).Count();
 
 			if ( OItems.Any() && OLen == Item.Children.Count() )
 			{
