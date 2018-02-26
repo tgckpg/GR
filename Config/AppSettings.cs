@@ -89,9 +89,6 @@ namespace GR.Config
 			if ( !TestKey( Parameters.ENABLE_RSYSTEM_LOG ) )
 				Properties.ENABLE_RSYSTEM_LOG = false;
 
-			if ( !TestKey( Parameters.SMODE ) )
-				Properties.SMODE = 0;
-
 #if RELEASE || Beta
 			// Force disable logging
 			Properties.ENABLE_SYSTEM_LOG = false;
@@ -280,9 +277,6 @@ namespace GR.Config
 
 			if ( !TestKey( Parameters.FIRST_TIME_RUN ) )
 				Properties.FIRST_TIME_RUN = true;
-
-			if ( !TestKey( Parameters.MIGRATION_0000 ) )
-				Properties.MIGRATION_0000 = false;
 
 			if ( !TestKey( Parameters.INSTALLATION_INST ) )
 				Properties.INSTALLATION_INST = Guid.NewGuid().ToString();

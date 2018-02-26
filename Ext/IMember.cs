@@ -5,9 +5,9 @@ namespace GR.Ext
 {
 	enum MemberStatus
 	{
-		LOGGED_IN
-		, LOGGED_OUT
-		, RE_LOGIN_NEEDED
+		LOGGED_IN = 1
+		, LOGGED_OUT = 2
+		, RE_LOGIN_NEEDED = 4
 	}
 
 	interface IMember

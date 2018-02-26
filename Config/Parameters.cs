@@ -9,7 +9,6 @@ namespace GR.Config
 		public const string FIRST_TIME_RUN = "First_Time_Run";
 		public const string INSTALLATION_INST = "Installation_Instance";
 		public const string VERSION = "Version";
-		public const string SMODE = "SMode";
 		public const string LOG_LEVEL = "Log_Level";
 		public const string ENABLE_SYSTEM_LOG = "Enable_System_Log";
 		public const string ENABLE_RSYSTEM_LOG = "Enable_RSystem_Log";
@@ -91,8 +90,5 @@ namespace GR.Config
 		public const string MISC_TEXT_PATCH_SYNTAX = "Misc_Text_Patch_Syntax";
 		public const string MISC_CHUNK_SINGLE_VOL = "Misc_Chunk_Single_Volume";
 		public const string MISC_COGNITIVE_API_KEY = "Misc_Cognitive_Api_Key";
-
-		// Migrations
-		public const string MIGRATION_0000 = "Migration-0000";
 	}
 }
