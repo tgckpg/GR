@@ -254,18 +254,44 @@ namespace GR.GSystem
 			if ( id == null ) Equal = x => true;
 			else Equal = x => x == id;
 
+			InstMessage = "";
+
 			foreach ( ActiveItem Dict in Data )
 			{
 				if ( !Equal( Dict.Payload ) ) continue;
 
 				string bid = Dict.Payload;
 				IStorageFolder dir = await Shared.Storage.CreateDirFromISOStorage( FileLinks.ROOT_EBWIN + bid );
-				EBBook book = await EBBook.Parse( dir );
-				foreach ( EBSubbook subbook in book.Subbooks )
+				try
 				{
-					await subbook.OpenAsync();
-					Subbooks.Add( subbook );
+					EBBook book = await EBBook.Parse( dir );
+					foreach ( EBSubbook subbook in book.Subbooks )
+					{
+						await subbook.OpenAsync();
+						Subbooks.Add( subbook );
+					}
 				}
+				catch ( Exception ex )
+				{
+					EBErrorCode Code = EBException.LastError;
+					if ( Code != EBErrorCode.EB_SUCCESS )
+					{
+						InstMessage = Code.ToString();
+					}
+					else
+					{
+						InstMessage = ex.Message;
+					}
+
+					XParameter XParam = DictReg.Parameter( Dict.Payload );
+					XParam.SetValue( new XKey( "Corrupted", true ) );
+					DictReg.SetParameter( XParam );
+				}
+			}
+
+			if ( !string.IsNullOrEmpty( InstMessage ) )
+			{
+				DictReg.Save();
 			}
 
 			return ( __CachedDicts = new EBDictionary( Subbooks ) );
@@ -278,13 +304,7 @@ namespace GR.GSystem
 				.Where( x => !x.GetBool( "Corrupted" ) );
 
 			StringResources stx = new StringResources( "Settings" );
-			Data = Params.Remap(
-				( x ) => new ActiveItem(
-					x.GetValue( "Title" )
-					, x.GetValue( "Size" )
-					, x.Id
-				)
-			);
+			Data = Params.Select( x => new ActiveItem( x.GetValue( "Title" ), x.GetValue( "Size" ), x.Id ) );
 		}
 	}
 }

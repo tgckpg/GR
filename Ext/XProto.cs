@@ -16,8 +16,6 @@ namespace GR.Ext
 		public const string WRuntimeCache = "wenku8.AdvDM.WRuntimeCache, wenku8-protocol";
 		public const string WRequest = "wenku8.Settings.WRequest, wenku8-protocol";
 		public const string WProtocols = "wenku8.Settings.WProtocols, wenku8-protocol";
-		public const string WException = "wenku8.System.WException, wenku8-protocol";
-		public const string WCode = "wenku8.System.WCode, wenku8-protocol";
 		public const string ServerSelector = "wenku8.GSystem.ServerSelector, wenku8-protocol";
 
 		public const string Deathblow = "wenku8.Model.Loaders.Deathblow, wenku8-protocol";
@@ -29,6 +27,7 @@ namespace GR.Ext
 		public const string TwitterAuthData = "GR.Model.Twitter.AuthData, wenku10";
 
 		public const string SHMember = "wenku10.SHHub.SHMember, wenku10";
+		public const string ControlFrame = "wenku10.Pages.ControlFrame, wenku10";
 
 		public const string BingService = "GR.AdvDM.BingService, GR";
 	}
