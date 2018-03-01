@@ -142,7 +142,7 @@ namespace GR.Resources
 						}
 					}
 
-					string FileName = FileLinks.ROOT_TILE + Book.Id + string.Format( ".{0}x{1}.tile", ( int ) Width, ( int ) Height );
+					string FileName = FileLinks.ROOT_TILE + Book.PathId + string.Format( ".{0}x{1}.tile", ( int ) Width, ( int ) Height );
 					await RenderTarget.SaveAsync( Path.Combine( ApplicationData.Current.LocalFolder.Path, FileName ), CanvasBitmapFileFormat.Png );
 					return "ms-appdata:///local/" + FileName;
 				}

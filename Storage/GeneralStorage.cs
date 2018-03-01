@@ -23,10 +23,10 @@ namespace GR.Storage
 
 		public GeneralStorage()
 		{
-			Initialize();
+			var j = InitializeAsync();
 		}
 
-		public async void Initialize()
+		public async Task InitializeAsync()
 		{
 			string[] RootList = {
 				// BackgroundTransfer and ShellTile Roots
@@ -36,6 +36,8 @@ namespace GR.Storage
 				, FileLinks.ROOT_COVER
 				// Banner Cache
 				, FileLinks.ROOT_BANNER
+				// Tiles
+				, FileLinks.ROOT_TILE
 				// Illustration Cache
 				, FileLinks.ROOT_IMAGE
 				// Spider Volumes
@@ -181,6 +183,7 @@ namespace GR.Storage
 
 		public void MoveDir( string From, string To )
 		{
+			Logger.Log( ID, string.Format( "Move: {0} -> {1}", From, To ), LogType.DEBUG );
 			UserStorage.MoveDirectory( From, To );
 			CachedFiles.RemoveWhere( x => x.StartsWith( From ) );
 		}

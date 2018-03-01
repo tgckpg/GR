@@ -31,7 +31,7 @@ namespace GR.Settings
 		, LOG_BGTASK_RETRY = "bgr.log"
 
 		, ROOT_SHARED = "shared/"
-		, ROOT_TILE = "shared/ShellContent/"
+		, ROOT_TILE = "shared/ShellContent/Tiles/"
 		, ROOT_COVER = "shared/ShellContent/Covers/"
 		, ROOT_BANNER = "shared/ShellContent/Banners/"
 		, ROOT_READER_THUMBS = "shared/ShellContent/ReaderThumbs/"

@@ -16,9 +16,9 @@ namespace GR
 	{
 		public static readonly string ID = typeof( History ).Name;
 
-		public static Task CreateThumbnail( UIElement element, string BookId )
+		public static Task CreateThumbnail( UIElement element, string PathId )
 		{
-			return Image.CaptureScreen( FileLinks.ROOT_READER_THUMBS + BookId, element, 120, 90 );
+			return Image.CaptureScreen( FileLinks.ROOT_READER_THUMBS + PathId, element, 120, 90 );
 		}
 
 		public History()
@@ -42,7 +42,7 @@ namespace GR
 			public HistoryItem( Book Bk )
 				: base( Bk.Title, Bk.LastAccess?.ToLocalTime().ToString(), Bk )
 			{
-				Payload = Bk.Id.ToString();
+				Payload = Bk.ZoneId + "/" + Bk.ZItemId;
 			}
 		}
 

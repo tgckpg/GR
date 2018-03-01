@@ -11,6 +11,7 @@ using Net.Astropenguin.Logging;
 namespace GR.Storage
 {
 	using Model.Book;
+	using Resources;
 	using Settings;
 
 	class CustomAnchor : ActiveData
@@ -25,17 +26,18 @@ namespace GR.Storage
 
 		public CustomAnchor( BookItem b )
 		{
-			Reg = new XRegistry( AppKeys.LBS_AXML, FileLinks.ROOT_ANCHORS + b.PathId + ".xml" );
-			Reg.SetParameter( AppKeys.GLOBAL_META, new XKey( AppKeys.GLOBAL_NAME, b.Title ) );
-
 			if ( b.Type == Database.Models.BookType.S && b.ZoneId != AppKeys.ZLOCAL )
 			{
 				OPath = FileLinks.ROOT_ANCHORS + "Z" + b.PathId + ".xml";
 			}
 			else
 			{
-				OPath = FileLinks.ROOT_ANCHORS + b.ZItemId + ".xml" ;
+				OPath = FileLinks.ROOT_ANCHORS + b.ZItemId + ".xml";
 			}
+
+			string NPath = FileLinks.ROOT_ANCHORS + b.PathId + ".xml";
+			Reg = new XRegistry( AppKeys.LBS_AXML, NPath );
+			Reg.SetParameter( AppKeys.GLOBAL_META, new XKey( AppKeys.GLOBAL_NAME, b.Title ) );
 		}
 
 		virtual public async Task SyncSettings()
