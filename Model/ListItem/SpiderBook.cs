@@ -216,9 +216,9 @@ namespace GR.Model.ListItem
 			BInst.SaveInfo();
 		}
 
-		protected override async Task TestProcessed()
+		protected override Task TestProcessed()
 		{
-			await Task.Run( () =>
+			return Task.Run( () =>
 			{
 				try
 				{
@@ -235,7 +235,12 @@ namespace GR.Model.ListItem
 					{
 						BInst = new BookInstruction( ZoneId, ZItemId );
 						Name = BInst.Title;
-						Processed = Shared.BooksDb.Entry( BInst.Entry ).IsKeySet && Shared.BooksDb.Volumes.Any( x => x.Book == BInst.Entry );
+
+						Shared.BooksDb.LockAction( Db =>
+						{
+							Processed = Db.Entry( BInst.Entry ).IsKeySet && Db.Volumes.Any( x => x.Book == BInst.Entry );
+						} );
+
 						if( Processed )
 						{
 							Desc = new StringResBg().Text( "RecordExist" );

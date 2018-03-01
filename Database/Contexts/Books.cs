@@ -76,11 +76,35 @@ namespace GR.Database.Contexts
 			SaveChanges();
 		}
 
+		public Book QueryBook( int Id )
+		{
+			lock ( TransactionLock )
+			{
+				return Books.Find( Id );
+			}
+		}
+
+		public void LockAction( Action<BooksContext> Operation )
+		{
+			lock ( TransactionLock )
+			{
+				Operation( this );
+			}
+		}
+
 		public IEnumerable<Book> QueryBook( Func<Book, bool> QueryExp )
 		{
 			lock ( TransactionLock )
 			{
 				return Books.Include( x => x.Info ).Where( QueryExp );
+			}
+		}
+
+		public ChapterImage[] GetBookImages( int BookId )
+		{
+			lock ( TransactionLock )
+			{
+				return ChapterImages.Where( c => !string.IsNullOrEmpty( c.Json_Urls ) && Chapters.Where( x => x.BookId == BookId ).Select( x => x.Id ).Contains( c.ChapterId ) ).ToArray();
 			}
 		}
 
@@ -178,13 +202,23 @@ namespace GR.Database.Contexts
 			}
 		}
 
-		public Task<List<TProperty>> LoadCollection<T, TProperty, TOrder>( T obj, Expression<Func<T, IEnumerable<TProperty>>> Path, Expression<Func<TProperty, TOrder>> OrderPath )
+		public Task<List<TProperty>> LoadCollectionAsync<T, TProperty, TOrder>( T obj, Expression<Func<T, IEnumerable<TProperty>>> Path, Expression<Func<TProperty, TOrder>> OrderPath )
 			where T: class
 			where TProperty : class
 		{
 			lock ( TransactionLock )
 			{
 				return Entry( obj ).Collection( Path ).Query().OrderBy( OrderPath ).ToListAsync();
+			}
+		}
+
+		public List<TProperty> LoadCollection<T, TProperty, TOrder>( T obj, Expression<Func<T, IEnumerable<TProperty>>> Path, Expression<Func<TProperty, TOrder>> OrderPath )
+			where T: class
+			where TProperty : class
+		{
+			lock ( TransactionLock )
+			{
+				return Entry( obj ).Collection( Path ).Query().OrderBy( OrderPath ).ToList();
 			}
 		}
 

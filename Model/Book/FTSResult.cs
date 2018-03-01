@@ -31,13 +31,16 @@ namespace GR.Model.Book
 			this.ChapterId = ChapterId;
 			Result = Snippet;
 
-			Chapter C = Shared.BooksDb.Chapters.Find( ChapterId );
-			if ( C != null )
+			Shared.BooksDb.LockAction( Db =>
 			{
-				EpTitle = C.Title;
-				VolTitle = Shared.BooksDb.Volumes.Where( x => x.Id == C.VolumeId ).Select( x => x.Title ).FirstOrDefault();
-				Title = Shared.BooksDb.Books.Where( x => x.Id == C.BookId ).Select( x => x.Title ).FirstOrDefault();
-			}
+				Chapter C = Db.Chapters.Find( ChapterId );
+				if ( C != null )
+				{
+					EpTitle = C.Title;
+					VolTitle = Db.Volumes.Where( x => x.Id == C.VolumeId ).Select( x => x.Title ).FirstOrDefault();
+					Title = Db.Books.Where( x => x.Id == C.BookId ).Select( x => x.Title ).FirstOrDefault();
+				}
+			} );
 		}
 	}
 }

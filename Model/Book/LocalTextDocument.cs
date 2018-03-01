@@ -101,7 +101,7 @@ namespace GR.Model.Book
 
 			if ( Entry.Volumes == null )
 			{
-				Entry.Volumes = await Resources.Shared.BooksDb.LoadCollection( Entry, x => x.Volumes, x => x.Index );
+				Entry.Volumes = await Resources.Shared.BooksDb.LoadCollectionAsync( Entry, x => x.Volumes, x => x.Index );
 			}
 
 			Entry.Volumes.Clear();

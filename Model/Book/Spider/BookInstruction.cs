@@ -148,7 +148,7 @@ namespace GR.Model.Book.Spider
 
 			if ( Entry.Volumes == null )
 			{
-				Entry.Volumes = await Shared.BooksDb.LoadCollection( Entry, x => x.Volumes, x => x.Index );
+				Entry.Volumes = await Shared.BooksDb.LoadCollectionAsync( Entry, x => x.Volumes, x => x.Index );
 			}
 
 			if ( !Volumes.Any() )
@@ -163,7 +163,7 @@ namespace GR.Model.Book.Spider
 
 				if ( Vol.Chapters == null )
 				{
-					Vol.Chapters = await Shared.BooksDb.LoadCollection( Vol, x => x.Chapters, x => x.Index );
+					Vol.Chapters = await Shared.BooksDb.LoadCollectionAsync( Vol, x => x.Chapters, x => x.Index );
 				}
 
 				foreach ( Chapter Ch in Vol.Chapters )
