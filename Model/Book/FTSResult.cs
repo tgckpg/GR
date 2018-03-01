@@ -31,7 +31,7 @@ namespace GR.Model.Book
 			this.ChapterId = ChapterId;
 			Result = Snippet;
 
-			Shared.BooksDb.LockAction( Db =>
+			Shared.BooksDb.SafeRun( Db =>
 			{
 				Chapter C = Db.Chapters.Find( ChapterId );
 				if ( C != null )

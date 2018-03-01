@@ -13,6 +13,7 @@ using Net.Astropenguin.Logging;
 namespace GR.Database.Contexts
 {
 	using Models;
+	using Settings;
 
 	class FTSDataContext : DbContext
 	{
@@ -20,7 +21,7 @@ namespace GR.Database.Contexts
 
 		protected override void OnConfiguring( DbContextOptionsBuilder optionsBuilder )
 		{
-			optionsBuilder.UseSqlite( "Data Source=ftsdata.db" );
+			optionsBuilder.UseSqlite( "Data Source=" + FileLinks.DB_FTS_DATA );
 		}
 
 		public IQueryable<FTSChapter> Search( string Query )

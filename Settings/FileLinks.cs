@@ -30,6 +30,12 @@ namespace GR.Settings
 		, LOG_BGTASK_UPDATE = "bgu.log"
 		, LOG_BGTASK_RETRY = "bgr.log"
 
+		// Databases
+		, DB_FTS_DATA = "ftsdata.db"
+		, DB_BOOKS = "books.db"
+		, DB_SETTINGS = "settings.db"
+		, DB_ZCACHE = "caches.db"
+
 		, ROOT_SHARED = "shared/"
 		, ROOT_TILE = "shared/ShellContent/Tiles/"
 		, ROOT_COVER = "shared/ShellContent/Covers/"

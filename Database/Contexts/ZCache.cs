@@ -13,6 +13,7 @@ using Net.Astropenguin.Logging;
 namespace GR.Database.Contexts
 {
 	using Models;
+	using Settings;
 
 	class ZCacheContext : DbContext
 	{
@@ -20,12 +21,12 @@ namespace GR.Database.Contexts
 
 		protected override void OnConfiguring( DbContextOptionsBuilder optionsBuilder )
 		{
-			optionsBuilder.UseSqlite( "Data Source=caches.db" );
+			optionsBuilder.UseSqlite( "Data Source=" + FileLinks.DB_ZCACHE );
 			optionsBuilder.ReplaceService<IMigrationsSqlGenerator, GRMigrationsSqlGenerator>();
 			optionsBuilder.ReplaceService<IMigrationsAnnotationProvider, GRMigrationsAnnotationProvider>();
 		}
 
-		private volatile object TransationLock = new Object();
+		private volatile object TransactionLock = new Object();
 
 		private volatile object FlushLock = new Object();
 		private volatile bool Flushing = false;
@@ -141,9 +142,23 @@ namespace GR.Database.Contexts
 			Flushing = false;
 		}
 
+		public void Reset()
+		{
+			lock ( FlushLock )
+			{
+				while ( Caches.TryDequeue( out ZCache NOP ) ) ;
+				lock ( TransactionLock )
+				{
+					Database.ExecuteSqlCommand( "DELETE FROM \"KeyStore\"" );
+					Database.ExecuteSqlCommand( "VACUUM;" );
+				}
+				SaveChanges();
+			}
+		}
+
 		public override TEntity Find<TEntity>( params object[] keyValues )
 		{
-			lock ( TransationLock )
+			lock ( TransactionLock )
 			{
 				return base.Find<TEntity>( keyValues );
 			}
@@ -151,7 +166,7 @@ namespace GR.Database.Contexts
 
 		public override int SaveChanges()
 		{
-			lock ( TransationLock )
+			lock ( TransactionLock )
 			{
 				return base.SaveChanges();
 			}

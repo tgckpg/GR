@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 namespace GR.Database.Contexts
 {
 	using Models;
+	using Settings;
 
 	class SettingsContext: DbContext
 	{
@@ -19,7 +20,7 @@ namespace GR.Database.Contexts
 
 		protected override void OnConfiguring( DbContextOptionsBuilder optionsBuilder )
 		{
-			optionsBuilder.UseSqlite( "Data Source=settings.db" );
+			optionsBuilder.UseSqlite( "Data Source=" + FileLinks.DB_SETTINGS );
 			optionsBuilder.ReplaceService<IMigrationsSqlGenerator, GRMigrationsSqlGenerator>();
 			optionsBuilder.ReplaceService<IMigrationsAnnotationProvider, GRMigrationsAnnotationProvider>();
 		}

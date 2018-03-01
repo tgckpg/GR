@@ -27,13 +27,13 @@ namespace GR
 
 		public HistoryItem[] GetListItems()
 		{
-			IQueryable<Book> Books = Shared.BooksDb.Books.Where( x => x.LastAccess != null ).OrderByDescending( x => x.LastAccess );
+			IQueryable<Book> Books = Shared.BooksDb.SafeRun( Db => Db.Books.Where( x => x.LastAccess != null ).OrderByDescending( x => x.LastAccess ) );
 			return Books.Remap( x => new HistoryItem( x ) );
 		}
 
 		public void Clear()
 		{
-			Shared.BooksDb.Books.Where( x => x.LastAccess != null ).ExecEach( x => { x.LastAccess = null; } );
+			Shared.BooksDb.SafeRun( Db => Db.Books.Where( x => x.LastAccess != null ).ExecEach( x => { x.LastAccess = null; } ) );
 			Shared.BooksDb.SaveChanges();
 		}
 

@@ -236,10 +236,7 @@ namespace GR.Model.ListItem
 						BInst = new BookInstruction( ZoneId, ZItemId );
 						Name = BInst.Title;
 
-						Shared.BooksDb.LockAction( Db =>
-						{
-							Processed = Db.Entry( BInst.Entry ).IsKeySet && Db.Volumes.Any( x => x.Book == BInst.Entry );
-						} );
+						Processed = Shared.BooksDb.SafeRun( Db => Db.Entry( BInst.Entry ).IsKeySet && Db.Volumes.Any( x => x.Book == BInst.Entry ) );
 
 						if( Processed )
 						{

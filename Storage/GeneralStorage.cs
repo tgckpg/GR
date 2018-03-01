@@ -285,29 +285,6 @@ namespace GR.Storage
 			return DeleteFile( FileLinks.ROOT_IMAGE + id );
 		}
 
-		#region Get Sizes
-		public ulong CoverSize()
-		{
-			ulong size = 0;
-			CountSize( FileLinks.ROOT_COVER, ref size );
-			return size;
-		}
-
-		public ulong ImageSize()
-		{
-			ulong size = 0;
-			CountSize( FileLinks.ROOT_IMAGE, ref size );
-			return size;
-		}
-
-		public ulong GetTotalUsage()
-		{
-			ulong size = 0;
-			CountSizeRecursive( "./", ref size );
-			return size;
-		}
-		#endregion
-
 		public void CacheFileStatus()
 		{
 			var j = Task.Run( () =>

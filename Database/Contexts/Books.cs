@@ -13,7 +13,8 @@ using Net.Astropenguin.Logging;
 
 namespace GR.Database.Contexts
 {
-	using GR.Database.Models;
+	using Models;
+	using Settings;
 
 	class BooksContext : DbContext
 	{
@@ -34,7 +35,7 @@ namespace GR.Database.Contexts
 
 		public BooksContext()
 		{
-			FileLocation = "books.db";
+			FileLocation = FileLinks.DB_BOOKS;
 		}
 
 		public BooksContext( string FileName )
@@ -84,11 +85,19 @@ namespace GR.Database.Contexts
 			}
 		}
 
-		public void LockAction( Action<BooksContext> Operation )
+		public void SafeRun( Action<BooksContext> Operation )
 		{
 			lock ( TransactionLock )
 			{
 				Operation( this );
+			}
+		}
+
+		public T SafeRun<T>( Func<BooksContext, T> Operation )
+		{
+			lock ( TransactionLock )
+			{
+				return Operation( this );
 			}
 		}
 

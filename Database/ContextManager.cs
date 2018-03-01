@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 namespace GR.Database
 {
 	using Contexts;
+	using Resources;
 
 	class ContextManager
 	{
@@ -37,6 +38,22 @@ namespace GR.Database
 				Context.Database.EnsureDeleted();
 				Context.Database.Migrate();
 			}
+		}
+
+		public static void RemoveFTSContext()
+		{
+			using ( DbContext Context = new FTSDataContext() )
+			{
+				Context.Database.EnsureDeleted();
+			}
+		}
+
+		public static void ClearBookTexts()
+		{
+			Shared.BooksDb.SafeRun( Db => Db.Volumes.RemoveRange( Db.Volumes.ToList() ) );
+			Shared.BooksDb.SaveChanges();
+			Shared.BooksDb.SafeRun( Db => Db.Database.ExecuteSqlCommand( "VACUUM;" ) );
+			Shared.BooksDb.SaveChanges();
 		}
 
 		public static bool ContextExists( Type ContextType )
