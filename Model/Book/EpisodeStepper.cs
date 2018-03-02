@@ -181,7 +181,13 @@ namespace GR.Model.Book
 				NotifyChanged( "Chapter" );
 				return true;
 			}
-			if ( !VolAvailable( --VStepper ) ) return false;
+
+			if ( !VolAvailable( --VStepper ) )
+			{
+				EStepper = 0;
+				VStepper = 0;
+				return false;
+			}
 
 			EStepper = VInfo.cids[ VStepper ].Length - 1;
 
