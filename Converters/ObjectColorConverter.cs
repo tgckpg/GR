@@ -18,6 +18,8 @@ namespace GR.Converters
 		public Brush F3 { get; set; }
 		public Brush F4 { get; set; }
 
+		public Brush BF { get; set; }
+
 		public Brush[] Brushes => new Brush[] { F0, F1, F2, F3, F4 };
 
 		public object Convert( object value, Type targetType, object parameter, string language )
@@ -25,10 +27,20 @@ namespace GR.Converters
 			TreeItem Item = ( TreeItem ) value;
 			Random R = new Random( Utils.Md5Int( Item.ItemTitle ) + 1 );
 
-			SolidColorBrush CFill = ( SolidColorBrush ) Brushes[ R.Next( Brushes.Length ) ];
+			SolidColorBrush CFill;
+			if ( Item.IsActive )
+			{
+				CFill = ( SolidColorBrush ) Brushes[ R.Next( Brushes.Length ) ];
+			}
+			else
+			{
+				CFill = ( SolidColorBrush ) BF;
+			}
+
 			ColorItem C = new ColorItem( "NaN", CFill.Color );
 
-			C.L /= ( Item.TreeLevel + 1 );
+			C.L = C.L - C.L / ( 10 - Item.TreeLevel );
+			C.S = Item.IsActive ? 100 : 0;
 
 			return new SolidColorBrush( C.TColor );
 		}

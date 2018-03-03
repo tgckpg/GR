@@ -9,9 +9,9 @@ namespace GR.Model.Interfaces
 	interface INavPage
 	{
 		// Used for Re-entering page
-		void SoftOpen();
+		void SoftOpen( bool NavForward );
 
 		// Used for Page navigated out
-		void SoftClose();
+		void SoftClose( bool NavForward );
 	}
 }

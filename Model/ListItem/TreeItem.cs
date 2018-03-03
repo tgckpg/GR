@@ -20,7 +20,7 @@ namespace GR.Model.ListItem
 			protected set
 			{
 				_ItemTitle = value;
-				NotifyChanged( "ItemTitle" );
+				NotifyChanged( "ItemTitle", "Self" );
 			}
 		}
 
@@ -62,20 +62,31 @@ namespace GR.Model.ListItem
 				{
 					_AddChild( x );
 				}
-				NotifyChanged( "Children" );
+				NotifyChanged( "Children", "Self" );
+			}
+		}
+
+		protected bool _IsActive;
+		public bool IsActive
+		{
+			get => _IsActive;
+			set
+			{
+				_IsActive = value;
+				NotifyChanged( "IsActive", "Self" );
 			}
 		}
 
 		public void AddChild( TreeItem Item )
 		{
 			_AddChild( Item );
-			NotifyChanged( "Children" );
+			NotifyChanged( "Children", "Self" );
 		}
 
 		public void RemoveChild( TreeItem Item )
 		{
 			_RemoveChild( Item );
-			NotifyChanged( "Children" );
+			NotifyChanged( "Children", "Self" );
 		}
 
 		public TreeItem( string Name, int Level )
