@@ -5,9 +5,8 @@ using Windows.UI.Xaml.Media;
 
 namespace GR.Converters
 {
-	using Effects;
-	using GR.Model.ListItem;
 	using GSystem;
+	using Model.ListItem;
 	using Settings.Theme;
 
 	sealed public class ObjectColorConverter : IValueConverter

@@ -3,28 +3,25 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Media.Imaging;
-
-using Net.Astropenguin.Helpers;
-
 namespace GR.Model.ListItem
 {
-	using GR.Settings;
+	using Database.Models;
+	using Model.Book;
 	using Resources;
+	using Settings;
 
 	class BookBannerItem : ActiveItem
 	{
-		public int BookId;
+		public BookItem BkItem { get; private set; }
 
-		private string BannerUrl => FileLinks.ROOT_BANNER + BookId;
+		private string BannerUrl => FileLinks.ROOT_BANNER + BkItem.ZItemId;
 		public bool BannerExist => Shared.Storage.FileExists( BannerUrl );
 		public Uri UriSource => new Uri( "ms-appdata:///local/" + BannerUrl );
 
-		public BookBannerItem( int BookId, string Title, string Intro, string Date )
-			: base( Title, Date, Intro, BookId.ToString() )
+		public BookBannerItem( BookItem Bk, string Title, string Intro, string Date )
+			: base( Title, Date, Intro, Bk.ZItemId )
 		{
-			this.BookId = BookId;
+			BkItem = Bk;
 		}
 
 		public void SaveBanner( byte[] Data )

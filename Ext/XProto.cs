@@ -24,6 +24,7 @@ namespace GR.Ext
 		public const string MemberInfo = "wenku8.Settings.MemberInfo, wenku8-protocol";
 
 		public const string BookDisplayPageExt = "GR.PageExtensions.BookDisplayPageExt, wenku10";
+		public const string HighlightsHomePageExt = "GR.PageExtensions.HighlightsHomePageExt, wenku10";
 		public const string TwitterAuthData = "GR.Model.Twitter.AuthData, wenku10";
 
 		public const string SHMember = "wenku10.SHHub.SHMember, wenku10";
