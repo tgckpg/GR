@@ -7,9 +7,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using Net.Astropenguin.Helpers;
-using Net.Astropenguin.Logging;
-
 namespace GR.Database.Contexts
 {
 	using Models;

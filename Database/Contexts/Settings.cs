@@ -17,6 +17,7 @@ namespace GR.Database.Contexts
 		public DbSet<Theme> Theme { get; set; }
 		public DbSet<GRSystem> System { get; set; }
 		public DbSet<GRTableConfig> TableConfigs { get; set; }
+		public DbSet<GRWidgetConfig> WidgetConfigs { get; set; }
 
 		protected override void OnConfiguring( DbContextOptionsBuilder optionsBuilder )
 		{

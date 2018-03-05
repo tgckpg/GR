@@ -9,7 +9,7 @@ using GR.Database.Models;
 namespace GR.Migrations.Settings
 {
     [DbContext(typeof(SettingsContext))]
-    [Migration("20180130041432_Initial")]
+    [Migration("20180305115811_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -59,6 +59,18 @@ namespace GR.Migrations.Settings
                     b.HasKey("Id");
 
                     b.ToTable("TableConfigs");
+                });
+
+            modelBuilder.Entity("GR.Database.Models.GRWidgetConfig", b =>
+                {
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Json_Conf");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("WidgetConfigs");
                 });
 
             modelBuilder.Entity("GR.Database.Models.Theme", b =>

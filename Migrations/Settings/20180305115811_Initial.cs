@@ -51,6 +51,18 @@ namespace GR.Migrations.Settings
                 });
 
             migrationBuilder.CreateTable(
+                name: "WidgetConfigs",
+                columns: table => new
+                {
+                    Id = table.Column<string>(nullable: false),
+                    Json_Conf = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_WidgetConfigs", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Theme",
                 columns: table => new
                 {
@@ -76,6 +88,9 @@ namespace GR.Migrations.Settings
 
             migrationBuilder.DropTable(
                 name: "TableConfigs");
+
+            migrationBuilder.DropTable(
+                name: "WidgetConfigs");
 
             migrationBuilder.DropTable(
                 name: "Theme");

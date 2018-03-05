@@ -25,6 +25,20 @@ namespace GR.Database.Models
 		}
 	}
 
+	public class GRWidgetConfig
+	{
+		[Key]
+		public string Id { get; set; }
+
+		[NotMapped]
+		public WidgetConfig Conf { get; set; } = new WidgetConfig();
+		public string Json_Conf
+		{
+			get => Conf.Data.Stringify();
+			set => Conf.Parse( value );
+		}
+	}
+
 	public class ColumnConfig : DbJsonInstance
 	{
 		public string Name { get; set; }
@@ -54,4 +68,38 @@ namespace GR.Database.Models
 		}
 	}
 
+	public class WidgetConfig : DbJsonInstance
+	{
+		public string Name { get; set; }
+		public string Template { get; set; }
+		public bool Enable { get; set; }
+		public string Query { get; set; }
+
+		public override IJsonValue Data
+		{
+			get
+			{
+				JsonObject obj = new JsonObject();
+				obj[ "name" ] = JsonValue.CreateStringValue( Name );
+				obj[ "template" ] = JsonValue.CreateStringValue( Template );
+				obj[ "query" ] = JsonValue.CreateStringValue( Name );
+				obj[ "enable" ] = JsonValue.CreateBooleanValue( Enable );
+				return obj;
+			}
+		}
+
+		public WidgetConfig() : base( null ) { }
+		public WidgetConfig( IJsonValue Data ) : base( Data ) => Parse( Data );
+
+		public void Parse( string Data ) => Parse( JsonObject.Parse( Data ) );
+		public void Parse( IJsonValue Data )
+		{
+			JsonObject Obj = Data.GetObject();
+			Name = Obj.GetNamedString( "name" );
+			Enable = Obj.GetNamedBoolean( "enable" );
+			Template = Obj.GetNamedString( "template" );
+			Query = Obj.GetNamedString( "query" );
+		}
+
+	}
 }

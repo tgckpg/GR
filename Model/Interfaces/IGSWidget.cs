@@ -6,7 +6,10 @@ using System.Threading.Tasks;
 
 namespace GR.Model.Interfaces
 {
+	using Database.Models;
+
 	interface IGSWidget
 	{
+		WidgetConfig DefaultWidgetConfig();
 	}
 }

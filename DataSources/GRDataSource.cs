@@ -68,7 +68,7 @@ namespace GR.DataSources
 
 		abstract public string ColumnName( IGRCell CellProp );
 
-		abstract protected string ConfigId { get; }
+		abstract public string ConfigId { get; }
 		abstract protected ColumnConfig[] DefaultColumns { get; }
 
 		virtual public async Task SaveConfig()

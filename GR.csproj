@@ -133,9 +133,9 @@
       <DependentUpon>20180223054441_Initial.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\FTSData\FTSDataContextModelSnapshot.cs" />
-    <Compile Include="Migrations\Settings\20180130041432_Initial.cs" />
-    <Compile Include="Migrations\Settings\20180130041432_Initial.designer.cs">
-      <DependentUpon>20180130041432_Initial.cs</DependentUpon>
+    <Compile Include="Migrations\Settings\20180305115811_Initial.cs" />
+    <Compile Include="Migrations\Settings\20180305115811_Initial.designer.cs">
+      <DependentUpon>20180305115811_Initial.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Settings\SettingsContextModelSnapshot.cs" />
     <Compile Include="Migrations\ZCache\20180207051946_Initial.cs" />

@@ -60,6 +60,18 @@ namespace GR.Migrations.Settings
                     b.ToTable("TableConfigs");
                 });
 
+            modelBuilder.Entity("GR.Database.Models.GRWidgetConfig", b =>
+                {
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Json_Conf");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("WidgetConfigs");
+                });
+
             modelBuilder.Entity("GR.Database.Models.Theme", b =>
                 {
                     b.Property<string>("Key")
