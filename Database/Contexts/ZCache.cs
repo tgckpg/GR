@@ -12,10 +12,11 @@ using Net.Astropenguin.Logging;
 
 namespace GR.Database.Contexts
 {
+	using Model.Interfaces;
 	using Models;
 	using Settings;
 
-	class ZCacheContext : DbContext
+	class ZCacheContext : DbContext, ISafeContext
 	{
 		public DbSet<ZCache> KeyStore { get; set; }
 
@@ -96,7 +97,7 @@ namespace GR.Database.Contexts
 
 			List<ZCache> Untrack = new List<ZCache>();
 
-			ZCache[] DetachedCaches = Caches.Where( x => Entry( x ).State == EntityState.Detached ).ToArray();
+			ZCache[] DetachedCaches = SafeRun( () => Caches.Where( x => Entry( x ).State == EntityState.Detached ).ToArray() );
 
 			foreach ( ZCache Cache in DetachedCaches )
 			{
@@ -170,5 +171,12 @@ namespace GR.Database.Contexts
 			}
 		}
 
+		public T SafeRun<T>( Func<T> Operation )
+		{
+			lock( TransactionLock )
+			{
+				return Operation();
+			}
+		}
 	}
 }

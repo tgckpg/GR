@@ -71,6 +71,7 @@ namespace GR.Database.Models
 	public class WidgetConfig : DbJsonInstance
 	{
 		public string Name { get; set; }
+		public string TargetType { get; set; }
 		public string Template { get; set; }
 		public bool Enable { get; set; }
 		public string Query { get; set; }
@@ -81,6 +82,7 @@ namespace GR.Database.Models
 			{
 				JsonObject obj = new JsonObject();
 				obj[ "name" ] = JsonValue.CreateStringValue( Name );
+				obj[ "target_type" ] = JsonValue.CreateStringValue( TargetType );
 				obj[ "template" ] = JsonValue.CreateStringValue( Template );
 				obj[ "query" ] = JsonValue.CreateStringValue( Name );
 				obj[ "enable" ] = JsonValue.CreateBooleanValue( Enable );
@@ -98,6 +100,7 @@ namespace GR.Database.Models
 			Name = Obj.GetNamedString( "name" );
 			Enable = Obj.GetNamedBoolean( "enable" );
 			Template = Obj.GetNamedString( "template" );
+			TargetType = Obj.GetNamedString( "target_type" );
 			Query = Obj.GetNamedString( "query" );
 		}
 
