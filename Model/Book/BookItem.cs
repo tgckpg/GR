@@ -204,7 +204,8 @@ namespace GR.Model.Book
 		{
 			if ( Shared.BooksDb.Entry( Bk ).State == Microsoft.EntityFrameworkCore.EntityState.Detached )
 			{
-				if ( Bk.Id == 0 ) throw new InvalidOperationException( "Only tracked Entry is allowed" );
+				if ( !Shared.BooksDb.SafeEntry( Bk ) )
+					throw new InvalidOperationException( "Unsafe entry is not allowed" );
 			}
 
 			_Entry = Bk;

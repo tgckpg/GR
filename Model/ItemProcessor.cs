@@ -53,7 +53,7 @@ namespace GR.Model.Pages
 		{
 			if ( X.Exists && Bk.Type.HasFlag( BookType.W ) )
 			{
-				return X.Instance<BookItem>( XProto.BookItemEx, Bk );
+				return X.Call<BookItem>( XProto.BookItemEx, "Create", Bk );
 			}
 
 			switch( Bk.Type )

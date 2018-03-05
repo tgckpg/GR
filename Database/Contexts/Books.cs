@@ -14,9 +14,10 @@ using Net.Astropenguin.Logging;
 namespace GR.Database.Contexts
 {
 	using Models;
+	using Model.Interfaces;
 	using Settings;
 
-	class BooksContext : DbContext
+	class BooksContext : DbContext, ISafeContext
 	{
 		public DbSet<Book> Books { get; set; }
 		public DbSet<BookInfo> BookInfo { get; set; }
@@ -77,6 +78,14 @@ namespace GR.Database.Contexts
 			SaveChanges();
 		}
 
+		public bool SafeEntry( Book Entry )
+		{
+			lock( UnsavedBooks )
+			{
+				return Entry.Id != 0 || UnsavedBooks.Contains( Entry );
+			}
+		}
+
 		public Book QueryBook( int Id )
 		{
 			lock ( TransactionLock )
@@ -90,6 +99,14 @@ namespace GR.Database.Contexts
 			lock ( TransactionLock )
 			{
 				Operation( this );
+			}
+		}
+
+		public T SafeRun<T>( Func<T> Operation )
+		{
+			lock( TransactionLock )
+			{
+				return Operation();
 			}
 		}
 
@@ -238,7 +255,6 @@ namespace GR.Database.Contexts
 				return base.SaveChanges();
 			}
 		}
-
 	}
 
 	class GRLogScope : IDisposable

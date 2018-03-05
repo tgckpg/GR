@@ -1,4 +1,4 @@
-﻿using GR.Database.Models;
+﻿using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
@@ -8,6 +8,7 @@ using Net.Astropenguin.Linq;
 
 namespace GR
 {
+	using Database.Models;
 	using Model.ListItem;
 	using Resources;
 	using Settings;
@@ -21,14 +22,19 @@ namespace GR
 			return Image.CaptureScreen( FileLinks.ROOT_READER_THUMBS + PathId, element, 120, 90 );
 		}
 
-		public History()
-		{
-		}
+		public History() { }
 
 		public HistoryItem[] GetListItems()
 		{
-			IQueryable<Book> Books = Shared.BooksDb.SafeRun( Db => Db.Books.Where( x => x.LastAccess != null ).OrderByDescending( x => x.LastAccess ) );
-			return Books.Remap( x => new HistoryItem( x ) );
+			return Shared.BooksDb.SafeRun(
+				Db => Db.Books
+				.Include( x => x.Info )
+				.Where( x => x.LastAccess != null )
+				.OrderByDescending( x => x.LastAccess )
+				.Take( 15 )
+				.Select( x => new HistoryItem( x ) )
+				.ToArray()
+			);
 		}
 
 		public void Clear()
@@ -42,7 +48,7 @@ namespace GR
 			public HistoryItem( Book Bk )
 				: base( Bk.Title, Bk.LastAccess?.ToLocalTime().ToString(), Bk )
 			{
-				Payload = Bk.ZoneId + "/" + Bk.ZItemId;
+				Payload = FileLinks.ROOT_READER_THUMBS + Bk.ZoneId + "/" + Bk.ZItemId;
 			}
 		}
 
