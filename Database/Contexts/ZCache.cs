@@ -96,12 +96,10 @@ namespace GR.Database.Contexts
 
 			List<ZCache> Untrack = new List<ZCache>();
 
-			foreach ( ZCache Cache in Caches )
-			{
-				// Tracked entries are handled by EF Core
-				if ( Entry( Cache ).State != EntityState.Detached )
-					continue;
+			ZCache[] DetachedCaches = Caches.Where( x => Entry( x ).State == EntityState.Detached ).ToArray();
 
+			foreach ( ZCache Cache in DetachedCaches )
+			{
 				ZCache DbCache = KeyStore.Find( Cache.Key );
 				if ( DbCache == null )
 				{

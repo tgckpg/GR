@@ -349,7 +349,6 @@ namespace GR.Model.Book
 				return;
 			}
 
-			SaveInfo();
 			Shared.Storage.WriteBytes( CoverUrl, Data );
 
 			_Cover = null;
@@ -359,7 +358,6 @@ namespace GR.Model.Book
 		public void ClearCover()
 		{
 			Shared.Storage.DeleteFile( CoverUrl );
-			SaveInfo();
 
 			_Cover = null;
 			NotifyChanged( "Cover", "CoverExist", "CoverSourcePath" );
