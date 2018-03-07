@@ -14,12 +14,17 @@ namespace GR.Database.Schema
 	public class DbList : List<string>
 	{
 		public string Error { get; private set; }
+		public bool RemoveEmptyEntries = true;
 		public string Data
 		{
 			get
 			{
+				IEnumerable<string> Q = this;
+				if ( RemoveEmptyEntries )
+					Q = Q.Where( x => !string.IsNullOrEmpty( x?.Trim() ) );
+
 				JsonArray Arr = new JsonArray();
-				this.ExecEach( x => Arr.Add( JsonValue.CreateStringValue( x ) ) );
+				Q.ExecEach( x => Arr.Add( JsonValue.CreateStringValue( x ) ) );
 				return Arr.Stringify();
 			}
 			set
@@ -28,7 +33,12 @@ namespace GR.Database.Schema
 				{
 					Error = null;
 					Clear();
-					JsonArray.Parse( value ).GetArray().ExecEach( x => Add( x.GetString() ) );
+					IEnumerable<string> Q = JsonArray.Parse( value ).GetArray().Select( x => x.GetString() );
+
+					if ( RemoveEmptyEntries )
+						Q = Q.Where( x => !string.IsNullOrEmpty( x?.Trim() ) );
+
+					AddRange( Q );
 				}
 				catch ( Exception ex )
 				{
