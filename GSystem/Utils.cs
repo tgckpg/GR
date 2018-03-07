@@ -13,6 +13,7 @@ using Windows.Storage.Streams;
 
 using Net.Astropenguin.Helpers;
 using Net.Astropenguin.Loaders;
+using System.Text;
 
 namespace GR.GSystem
 {
@@ -147,42 +148,32 @@ namespace GR.GSystem
 			return new string( buffer );
 		}
 
-		private static int MimeSampleSize = 256;
 		private static string DefaultMimeType = "application/octet-stream";
 
-		[DllImport( "urlmon.dll", CharSet = CharSet.Unicode, ExactSpelling = true, SetLastError = false )]
-		static extern int FindMimeFromData(
-			IntPtr pBC,
-			[MarshalAs( UnmanagedType.LPWStr )] string pwzUrl,
-			[MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.I1, SizeParamIndex = 3)]
-			byte[] pBuffer,
-			int cbSize,
-			[MarshalAs( UnmanagedType.LPWStr )]  string pwzMimeProposed,
-			int dwMimeFlags,
-			out IntPtr ppwzMimeOut,
-			int dwReserved
-		);
+		private static readonly byte[] BOM_BMP = Encoding.ASCII.GetBytes( "BM" );
+		private static readonly byte[] BOM_GIF = Encoding.ASCII.GetBytes( "GIF" );
+		private static readonly byte[] BOM_PNG = new byte[] { 137, 80, 78, 71 };
+		private static readonly byte[] BOM_JPG = new byte[] { 255, 216, 255, 224 };
+		private static readonly byte[] BOM_JPG2 = new byte[] { 255, 216, 255, 225 };
 
-		public static string GetMimeFromBytes( byte[] data )
+		public static string GetMimeFromBytes( byte[] buffer )
 		{
-			IntPtr mimeTypePointer = IntPtr.Zero;
-			try
-			{
-				FindMimeFromData( IntPtr.Zero, null, data, MimeSampleSize, null, 0, out mimeTypePointer, 0 );
-				var mime = Marshal.PtrToStringUni( mimeTypePointer );
-				return mime ?? DefaultMimeType;
-			}
-			catch ( Exception )
-			{
-				return DefaultMimeType;
-			}
-			finally
-			{
-				if ( mimeTypePointer != IntPtr.Zero )
-				{
-					Marshal.FreeCoTaskMem( mimeTypePointer );
-				}
-			}
+			if ( BOM_BMP.SequenceEqual( buffer.Take( BOM_BMP.Length ) ) )
+				return "image/bmp";
+
+			if ( BOM_GIF.SequenceEqual( buffer.Take( BOM_GIF.Length ) ) )
+				return "image/gif";
+
+			if ( BOM_PNG.SequenceEqual( buffer.Take( BOM_PNG.Length ) ) )
+				return "image/png";
+
+			if ( BOM_JPG.SequenceEqual( buffer.Take( BOM_JPG.Length ) ) )
+				return "image/jpeg";
+
+			if ( BOM_JPG2.SequenceEqual( buffer.Take( BOM_JPG2.Length ) ) )
+				return "image/pjpeg";
+
+			return DefaultMimeType;
 		}
 
 	}
