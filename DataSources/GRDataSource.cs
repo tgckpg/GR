@@ -53,7 +53,11 @@ namespace GR.DataSources
 			{
 				_Search = value;
 				NotifyChanged( "Search" );
-				Task.Run( () => Reload() );
+
+				if ( Table != null )
+				{
+					Task.Run( () => Reload() );
+				}
 			}
 		}
 

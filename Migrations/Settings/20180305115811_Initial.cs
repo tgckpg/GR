@@ -54,7 +54,7 @@ namespace GR.Migrations.Settings
                 name: "WidgetConfigs",
                 columns: table => new
                 {
-                    Id = table.Column<string>(nullable: false),
+                    Id = table.Column<int>(nullable: false),
                     Json_Conf = table.Column<string>(nullable: true)
                 },
                 constraints: table =>

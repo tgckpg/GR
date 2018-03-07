@@ -41,5 +41,12 @@ namespace GR.DataSources
 		virtual public GRDataSource DataSource => _DataSource ?? ( _DataSource = ( GRDataSource ) Activator.CreateInstance( DataSourceType ) );
 
 		virtual public Action<IGRRow> ItemAction { get; set; }
+
+		virtual public GRViewSource Clone()
+		{
+			GRViewSource VS = ( GRViewSource ) MemberwiseClone();
+			VS._DataSource = null;
+			return VS;
+		}
 	}
 }

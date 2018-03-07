@@ -62,7 +62,7 @@ namespace GR.Migrations.Settings
 
             modelBuilder.Entity("GR.Database.Models.GRWidgetConfig", b =>
                 {
-                    b.Property<string>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("Json_Conf");

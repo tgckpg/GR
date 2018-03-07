@@ -28,7 +28,7 @@ namespace GR.Database.Models
 	public class GRWidgetConfig
 	{
 		[Key]
-		public string Id { get; set; }
+		public int Id { get; set; }
 
 		[NotMapped]
 		public WidgetConfig Conf { get; set; } = new WidgetConfig();
@@ -81,10 +81,10 @@ namespace GR.Database.Models
 			get
 			{
 				JsonObject obj = new JsonObject();
-				obj[ "name" ] = JsonValue.CreateStringValue( Name );
+				obj[ "name" ] = JsonValue.CreateStringValue( Name ?? "" );
 				obj[ "target_type" ] = JsonValue.CreateStringValue( TargetType );
 				obj[ "template" ] = JsonValue.CreateStringValue( Template );
-				obj[ "query" ] = JsonValue.CreateStringValue( Name );
+				obj[ "query" ] = JsonValue.CreateStringValue( Query ?? "" );
 				obj[ "enable" ] = JsonValue.CreateBooleanValue( Enable );
 				return obj;
 			}
