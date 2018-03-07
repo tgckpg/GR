@@ -16,10 +16,16 @@ namespace GR.Database.Models
 		[AutoNow( SqliteTriggers.INSERT | SqliteTriggers.UPDATE )]
 		public DateTime DateModified { get; set; }
 
-		public bool GetBool( string Key, bool Default = false )
+		public bool GetBool( bool Default = false )
 		{
 			if ( Value == null ) return Default;
 			return ( Value == "1" );
+		}
+
+		public void SetBool( bool v )
+		{
+			Type = GSDataType.BOOL;
+			Value = v ? "1" : "0";
 		}
 	}
 }

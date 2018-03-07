@@ -137,17 +137,25 @@ namespace GR.CompositeElement
 			else Label1 = Label;
 		}
 
+		private double TriggerX = 50;
+		private double CumulativeX = 0;
+
 		private void VEManiStart( object sender, ManipulationStartedRoutedEventArgs e )
 		{
 			Mani = true;
+			CumulativeX = 0;
 			CGTransform.SetValue( TranslateTransform.XProperty, CGTransform.GetValue( TranslateTransform.XProperty ) );
 			ContentRestore.Stop();
 		}
 
 		private void VEZoomBack( object sender, ManipulationDeltaRoutedEventArgs e )
 		{
-			CGTransform.X += e.Delta.Translation.X;
-			ZoomTrigger += e.Delta.Translation.X;
+			CumulativeX += e.Delta.Translation.X;
+			if ( TriggerX < Math.Abs( CumulativeX ) )
+			{
+				CGTransform.X += e.Delta.Translation.X;
+				ZoomTrigger += e.Delta.Translation.X;
+			}
 		}
 
 		private void VEManipulationEndX( object sender, ManipulationCompletedRoutedEventArgs e )
