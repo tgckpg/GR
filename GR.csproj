@@ -1,0 +1,406 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{02AC68C5-6868-4EFD-8622-0FB49A5DE0C1}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>GR</RootNamespace>
+    <AssemblyName>GR</AssemblyName>
+    <DefaultLanguage>en-US</DefaultLanguage>
+    <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
+    <TargetPlatformVersion>10.0.15063.0</TargetPlatformVersion>
+    <TargetPlatformMinVersion>10.0.14393.0</TargetPlatformMinVersion>
+    <MinimumVisualStudioVersion>14</MinimumVisualStudioVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{A5A43C5B-DE2A-4C0C-9213-0A381AF9435A};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <PlatformTarget>x86</PlatformTarget>
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <Optimize>true</Optimize>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|ARM'">
+    <PlatformTarget>ARM</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\ARM\Debug\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;NETFX_CORE;WINDOWS_UWP;ARM</DefineConstants>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>ARM</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|ARM'">
+    <PlatformTarget>ARM</PlatformTarget>
+    <OutputPath>bin\ARM\Release\</OutputPath>
+    <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP;ARM</DefineConstants>
+    <Optimize>true</Optimize>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>ARM</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <PlatformTarget>x64</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <PlatformTarget>x64</PlatformTarget>
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <Optimize>true</Optimize>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <ItemGroup>
+    <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
+    <None Include="GR.pfx" />
+    <None Include="project.json" />
+    <None Include="Shaders\CompileShardes.cmd" />
+    <Content Include="Shaders\Dissolve.bin" />
+    <Content Include="Shaders\Ripples.bin" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AdvDM\BingService.cs" />
+    <Compile Include="Converters\ObjectColorConverter.cs" />
+    <Compile Include="Converters\LocalImageConverter.cs" />
+    <Compile Include="Converters\FuzzyTimeInterval.cs" />
+    <Compile Include="Database\ContextManager.cs" />
+    <Compile Include="Database\Contexts\Books.cs" />
+    <Compile Include="Database\Contexts\FTSData.cs" />
+    <Compile Include="Database\Contexts\Settings.cs" />
+    <Compile Include="Database\Contexts\ZCache.cs" />
+    <Compile Include="Database\GRMigrationProviders.cs" />
+    <Compile Include="Database\Models.cs" />
+    <Compile Include="Database\Models\Book.cs" />
+    <Compile Include="Database\Models\FTSData.cs" />
+    <Compile Include="Database\Models\GenericSettings.cs" />
+    <Compile Include="Database\Models\GRTableConfig.cs" />
+    <Compile Include="Database\Models\ZCache.cs" />
+    <Compile Include="Database\Schema\AutoNow.cs" />
+    <Compile Include="Database\Schema\DbDictionary.cs" />
+    <Compile Include="Database\Schema\DbJsonInstance.cs" />
+    <Compile Include="Database\Schema\DbList.cs" />
+    <Compile Include="Database\Schema\DbHashSet.cs" />
+    <Compile Include="Database\Schema\ModelExt.cs" />
+    <Compile Include="Database\Schema\ZData.cs" />
+    <Compile Include="DataSources\GRDataSource.cs" />
+    <Compile Include="DataSources\GRHighlights.cs" />
+    <Compile Include="DataSources\GRViewSource.cs" />
+    <Compile Include="Data\GRCell.cs" />
+    <Compile Include="Data\GRColumn.cs" />
+    <Compile Include="Data\Interfaces.cs" />
+    <Compile Include="Effects\Stage\RandomStripe.cs" />
+    <Compile Include="Ext\IDeathblow.cs" />
+    <Compile Include="Migrations\Books\20180223065039_Initial.cs" />
+    <Compile Include="Migrations\Books\20180223065039_Initial.designer.cs">
+      <DependentUpon>20180223065039_Initial.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Books\BooksContextModelSnapshot.cs" />
+    <Compile Include="Migrations\FTSData\20180223054441_Initial.cs" />
+    <Compile Include="Migrations\FTSData\20180223054441_Initial.designer.cs">
+      <DependentUpon>20180223054441_Initial.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\FTSData\FTSDataContextModelSnapshot.cs" />
+    <Compile Include="Migrations\Settings\20180305115811_Initial.cs" />
+    <Compile Include="Migrations\Settings\20180305115811_Initial.designer.cs">
+      <DependentUpon>20180305115811_Initial.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Settings\SettingsContextModelSnapshot.cs" />
+    <Compile Include="Migrations\ZCache\20180207051946_Initial.cs" />
+    <Compile Include="Migrations\ZCache\20180207051946_Initial.designer.cs">
+      <DependentUpon>20180207051946_Initial.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\ZCache\ZCacheContextModelSnapshot.cs" />
+    <Compile Include="Model\Book\BookItemExt.cs" />
+    <Compile Include="Model\Book\BookDisplay.cs" />
+    <Compile Include="Model\Book\FTSResult.cs" />
+    <Compile Include="Model\Interfaces\IBackStackInterceptor.cs" />
+    <Compile Include="Model\Interfaces\IBookProcess.cs" />
+    <Compile Include="Model\Interfaces\IGSWidget.cs" />
+    <Compile Include="Model\Interfaces\IIllusUpdate.cs" />
+    <Compile Include="Model\Interfaces\IExtViewSource.cs" />
+    <Compile Include="Model\Interfaces\ISafeContext.cs" />
+    <Compile Include="Model\ItemProcessor.cs" />
+    <Compile Include="Model\ListItem\Sharers\HSDisplay.cs" />
+    <Compile Include="Model\Loaders\QueryLoader.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="AdvDM\PostData.cs" />
+    <Compile Include="AdvDM\RuntimeCache.cs" />
+    <Compile Include="AdvDM\WBackgroundTransfer.cs" />
+    <Compile Include="AdvDM\WCacheMode.cs" />
+    <Compile Include="AdvDM\SHttpRequest.cs" />
+    <Compile Include="AdvDM\WHttpRequest.cs" />
+    <Compile Include="CompositeElement\AttachedCopyAction.cs" />
+    <Compile Include="CompositeElement\AppBarButtonEx.cs" />
+    <Compile Include="CompositeElement\SecondaryIconButton.cs" />
+    <Compile Include="CompositeElement\SecretSwipeButton.cs" />
+    <Compile Include="CompositeElement\SplashRipple.cs" />
+    <Compile Include="CompositeElement\LoadingMask.cs" />
+    <Compile Include="CompositeElement\ButtonOperation.cs" />
+    <Compile Include="CompositeElement\PassiveSplitView.cs" />
+    <Compile Include="CompositeElement\TitleStepper.cs" />
+    <Compile Include="CompositeElement\QClock.cs" />
+    <Compile Include="CompositeElement\StarCanvas.cs" />
+    <Compile Include="CompositeElement\StateBubble.cs" />
+    <Compile Include="CompositeElement\UIAliases.cs" />
+    <Compile Include="CompositeElement\VariableGridView.cs" />
+    <Compile Include="Config\AppSettings.cs" />
+    <Compile Include="Config\Parameters.cs" />
+    <Compile Include="Config\Properties.cs" />
+    <Compile Include="Converters\SHRequestTemplateSelector.cs" />
+    <Compile Include="Converters\NumberSimplifier.cs" />
+    <Compile Include="Converters\BookInfoConverter.cs" />
+    <Compile Include="Converters\ContentStyleConverter.cs" />
+    <Compile Include="Converters\PanePosConverter.cs" />
+    <Compile Include="Converters\ParallaxConverter.cs" />
+    <Compile Include="Converters\HSCTemplateSelector.cs" />
+    <Compile Include="Converters\TransStateConverter.cs" />
+    <Compile Include="Converters\TreeMarginConverter.cs" />
+    <Compile Include="Converters\VDisplayConverter.cs" />
+    <Compile Include="Effects\Easings.cs" />
+    <Compile Include="Effects\Ext.cs" />
+    <Compile Include="Effects\P2DFlow\ForceFields\Vortex.cs" />
+    <Compile Include="Effects\SimpleStory.cs" />
+    <Compile Include="Effects\TextureLoader.cs" />
+    <Compile Include="Effects\NTimer.cs" />
+    <Compile Include="Effects\P2DFlow\Ext.cs" />
+    <Compile Include="Effects\P2DFlow\ForceFields\GenericForce.cs" />
+    <Compile Include="Effects\P2DFlow\ForceFields\GlobalForceField.cs" />
+    <Compile Include="Effects\P2DFlow\ForceFields\IForceField.cs" />
+    <Compile Include="Effects\P2DFlow\ForceFields\Thrust.cs" />
+    <Compile Include="Effects\P2DFlow\ForceFields\Wind.cs" />
+    <Compile Include="Effects\P2DFlow\IWireFrame.cs" />
+    <Compile Include="Effects\P2DFlow\Particle.cs" />
+    <Compile Include="Effects\P2DFlow\PFSimulator.cs" />
+    <Compile Include="Effects\P2DFlow\PFTrait.cs" />
+    <Compile Include="Effects\P2DFlow\Reapers\Age.cs" />
+    <Compile Include="Effects\P2DFlow\Reapers\Boundary.cs" />
+    <Compile Include="Effects\P2DFlow\Reapers\IReaper.cs" />
+    <Compile Include="Effects\P2DFlow\Spawners\ExplosionParticle.cs" />
+    <Compile Include="Effects\P2DFlow\Spawners\ISpawner.cs" />
+    <Compile Include="Effects\P2DFlow\Spawners\LinearSpawner.cs" />
+    <Compile Include="Effects\P2DFlow\Spawners\PointerSpawner.cs" />
+    <Compile Include="Effects\P2DFlow\Spawners\Trail.cs" />
+    <Compile Include="Effects\TextTransition.cs" />
+    <Compile Include="Effects\TransitionDisplay.cs" />
+    <Compile Include="Model\Interfaces\INavPage.cs" />
+    <Compile Include="Ext\XProto.cs" />
+    <Compile Include="Ext\IMember.cs" />
+    <Compile Include="Ext\IRuntimeCache.cs" />
+    <Compile Include="Ext\X.cs" />
+    <Compile Include="History.cs" />
+    <Compile Include="Model\Book\BookItem.cs" />
+    <Compile Include="Model\Book\ChapterVModel.cs" />
+    <Compile Include="Model\Book\EpisodeStepper.cs" />
+    <Compile Include="Model\Book\Spider\ConvoyInstructionSet.cs" />
+    <Compile Include="Model\Book\Spider\BookInstruction.cs" />
+    <Compile Include="Model\Book\Spider\EpInstruction.cs" />
+    <Compile Include="Model\Book\Spider\VolInstruction.cs" />
+    <Compile Include="Model\Book\VirtualVolume.cs" />
+    <Compile Include="Model\Book\VolumesInfo.cs" />
+    <Compile Include="Model\Comments\Comment.cs" />
+    <Compile Include="Model\Comments\Review.cs" />
+    <Compile Include="Model\Interfaces\ISHActivity.cs" />
+    <Compile Include="Model\Interfaces\IAnimaPage.cs" />
+    <Compile Include="Model\Interfaces\ICmdControls.cs" />
+    <Compile Include="Model\Interfaces\IInstructionSet.cs" />
+    <Compile Include="Model\Interfaces\IMetaSpider.cs" />
+    <Compile Include="Model\Interfaces\IRoamable.cs" />
+    <Compile Include="Model\Interfaces\ISearchableSection.cs" />
+    <Compile Include="Model\Interfaces\ISpanable.cs" />
+    <Compile Include="Model\Interfaces\IStar.cs" />
+    <Compile Include="Model\ListItem\ActionItem.cs" />
+    <Compile Include="Model\ListItem\ActiveItem.cs" />
+    <Compile Include="Model\ListItem\BookInfoItem.cs" />
+    <Compile Include="Model\ListItem\BookmarkListItem.cs" />
+    <Compile Include="Model\ListItem\Digest.cs" />
+    <Compile Include="Model\ListItem\PinRecord.cs" />
+    <Compile Include="Model\ListItem\Sharers\Activity.cs" />
+    <Compile Include="Model\ListItem\Sharers\GrantProcess.cs" />
+    <Compile Include="Model\ListItem\Sharers\HubScirptStatus.cs" />
+    <Compile Include="Model\Comments\HSComment.cs" />
+    <Compile Include="Model\ListItem\Sharers\HubScriptItem.cs" />
+    <Compile Include="Model\ListItem\ImageThumb.cs" />
+    <Compile Include="Model\ListItem\Sharers\InboxMessage.cs" />
+    <Compile Include="Model\ListItem\LocalBook.cs" />
+    <Compile Include="Model\ListItem\NameValue.cs" />
+    <Compile Include="Model\ListItem\NewsItem.cs" />
+    <Compile Include="Model\ListItem\PaneNavButton.cs" />
+    <Compile Include="Model\ListItem\Press.cs" />
+    <Compile Include="Model\ListItem\Sharers\SHGrant.cs" />
+    <Compile Include="Model\ListItem\Sharers\SHRequest.cs" />
+    <Compile Include="Model\ListItem\SpiderBook.cs" />
+    <Compile Include="Model\ListItem\SubtleUpdateItem.cs" />
+    <Compile Include="Model\ListItem\TOCItem.cs" />
+    <Compile Include="Model\ListItem\Topic.cs" />
+    <Compile Include="Model\ListItem\TreeItem.cs" />
+    <Compile Include="Model\Loaders\ContentParser.cs" />
+    <Compile Include="Model\REST\BingImageSearch.cs" />
+    <Compile Include="Model\REST\JsonStatus.cs" />
+    <Compile Include="Model\REST\SharersRequest.cs" />
+    <Compile Include="Model\SearchableContext.cs" />
+    <Compile Include="Model\Text\Ext.cs" />
+    <Compile Include="Model\Text\IllusPara.cs" />
+    <Compile Include="Model\Text\LogLine.cs" />
+    <Compile Include="Model\Text\Manipulation.cs" />
+    <Compile Include="Model\Text\Paragraph.cs" />
+    <Compile Include="Model\Topics\Announcements.cs" />
+    <Compile Include="Model\Topics\Feed.cs" />
+    <Compile Include="Model\Topics\Special.cs" />
+    <Compile Include="Model\Book\LocalTextDocument.cs" />
+    <Compile Include="Model\TradChinese.cs" />
+    <Compile Include="Resources\Image.cs" />
+    <Compile Include="Resources\LayoutResources.cs" />
+    <Compile Include="Resources\LayoutSettings.cs" />
+    <Compile Include="Resources\LocaleDefaults.cs" />
+    <Compile Include="Resources\SegoeMDL2.cs" />
+    <Compile Include="Resources\Shared.cs" />
+    <Compile Include="SelfCencorship.cs" />
+    <Compile Include="Settings\AppKeys.cs" />
+    <Compile Include="Settings\AppLinks.cs" />
+    <Compile Include="Settings\FileLinks.cs" />
+    <Compile Include="Settings\Theme\ColorItem.cs" />
+    <Compile Include="Settings\Theme\ColorPickerSection.cs" />
+    <Compile Include="Settings\Theme\Palette.cs" />
+    <Compile Include="Settings\Theme\ThemeSet.cs" />
+    <Compile Include="Settings\Theme\ThemeTextBlock.cs" />
+    <Compile Include="Storage\AnchorStorage.cs" />
+    <Compile Include="Deprecated\BookStorage.cs" />
+    <Compile Include="Storage\GeneralStorage.cs" />
+    <Compile Include="Storage\OneDriveSync.cs" />
+    <Compile Include="Storage\PinManager.cs" />
+    <Compile Include="GSystem\ActionCenter.cs" />
+    <Compile Include="Model\EBDictionary.cs" />
+    <Compile Include="GSystem\BackStackManager.cs" />
+    <Compile Include="GSystem\CryptAES.cs" />
+    <Compile Include="GSystem\CryptRSA.cs" />
+    <Compile Include="GSystem\EBDictManager.cs" />
+    <Compile Include="GSystem\AuthManager.cs" />
+    <Compile Include="GSystem\LogControl.cs" />
+    <Compile Include="GSystem\CredentialVault.cs" />
+    <Compile Include="GSystem\ThemeManager.cs" />
+    <Compile Include="GSystem\Utils.cs" />
+    <Compile Include="GSystem\ViewControl.cs" />
+    <Compile Include="Ext\IMemberInfo.cs" />
+    <Compile Include="Data\GRRow.cs" />
+    <Compile Include="Data\GRRowBase.cs" />
+    <Compile Include="Data\GRTable.cs" />
+    <Compile Include="Taotu\GrimoireExtractor.cs" />
+    <Compile Include="Taotu\GrimoireListLoader.cs" />
+    <Compile Include="Taotu\GrimoireMarker.cs" />
+    <Compile Include="Taotu\TongWenTang.cs" />
+    <EmbeddedResource Include="Properties\GR.rd.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Shaders\Dissolve.hlsl" />
+    <Content Include="Shaders\Ripples.hlsl" />
+    <Content Include="Resources\badwords.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="Themes\AppBarButtonEx.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\SplashRipple.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Generic.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\LoadingMask.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\PassiveSplitView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\TitleStepper.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\QClock.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\libeburc\libeburc.vcxproj">
+      <Project>{cc217642-f7f5-4bdb-b4a2-ed6628466212}</Project>
+      <Name>libeburc</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\libpenguin\Net.Astropenguin\Net.Astropenguin.csproj">
+      <Project>{5a6b4589-8c63-40d5-946f-759a9282a176}</Project>
+      <Name>Net.Astropenguin</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\libtaotu\libtaotu.csproj">
+      <Project>{119b84b1-d42b-460c-8f72-4fae1e2614f1}</Project>
+      <Name>libtaotu</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\libtranslate\libtranslate.vcxproj">
+      <Project>{6c187966-ffb6-4022-b80a-c966d099f14c}</Project>
+      <Name>libtranslate</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
+  </ItemGroup>
+  <ItemGroup />
+  <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
+    <VisualStudioVersion>14.0</VisualStudioVersion>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>GR.pfx</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
+  <PropertyGroup>
+    <DelaySign>false</DelaySign>
+  </PropertyGroup>
+  <Import Project="$(MSBuildExtensionsPath)\Microsoft\WindowsXaml\v$(VisualStudioVersion)\Microsoft.Windows.UI.Xaml.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
