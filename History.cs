@@ -32,9 +32,8 @@ namespace GR
 				.Where( x => x.LastAccess != null )
 				.OrderByDescending( x => x.LastAccess )
 				.Take( 15 )
-				.Select( x => new HistoryItem( x ) )
 				.ToArray()
-			);
+			).Select( x => new HistoryItem( x ) ).ToArray();
 		}
 
 		public void Clear()
