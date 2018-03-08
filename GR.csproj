@@ -124,6 +124,7 @@
     <Compile Include="Data\Interfaces.cs" />
     <Compile Include="Effects\Stage\RandomStripe.cs" />
     <Compile Include="Ext\IDeathblow.cs" />
+    <Compile Include="GSystem\PageExtOperations.cs" />
     <Compile Include="Migrations\Books\20180223065039_Initial.cs" />
     <Compile Include="Migrations\Books\20180223065039_Initial.designer.cs">
       <DependentUpon>20180223065039_Initial.cs</DependentUpon>

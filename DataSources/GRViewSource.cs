@@ -11,28 +11,6 @@ namespace GR.DataSources
 
 	public class GRViewSource : TreeItem
 	{
-		private bool _IsLoading;
-		public bool IsLoading
-		{
-			get => _IsLoading;
-			set
-			{
-				_IsLoading = value;
-				NotifyChanged( "IsLoading" );
-			}
-		}
-
-		private string _Message;
-		public string Message
-		{
-			get => _Message;
-			set
-			{
-				_Message = value;
-				NotifyChanged( "Message" );
-			}
-		}
-
 		public GRViewSource( string Name ) : base( Name ) { }
 
 		public Type DataSourceType { get; set; }
