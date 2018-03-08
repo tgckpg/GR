@@ -14,6 +14,8 @@ namespace GR.CompositeElement
 
 	static class UIAliases
 	{
+		public static bool v4 = Windows.Foundation.Metadata.ApiInformation.IsApiContractPresent( "Windows.Foundation.UniversalApiContract", 4, 0 );
+
 		public static SolidColorBrush ContextColor = new SolidColorBrush( LayoutSettings.RelativeMajorBackgroundColor );
 
 		public static AppBarButton CreateAppBarBtn( Symbol Symbol, string Label )
@@ -77,6 +79,11 @@ namespace GR.CompositeElement
 			MsgBox.Commands.Add( new UICommand( SecondaryText ) );
 
 			return MsgBox;
+		}
+
+		public static CompatMenuFlyoutItem CreateMenuFlyoutItem( string Label, SymbolIcon Icon )
+		{
+			return new CompatMenuFlyoutItem() { Text = Label, Icon2 = Icon };
 		}
 
 		public static MessageDialog CreateDialog( string Mesg )
