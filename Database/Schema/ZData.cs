@@ -26,6 +26,9 @@ namespace GR.Database.Schema
 
 		private byte[] Inflate()
 		{
+			if ( RawBytes == null )
+				return new byte[ 0 ];
+
 			using ( MemoryStream s = new MemoryStream( RawBytes ) )
 			using ( DeflateStream ZStream = new DeflateStream( s, CompressionMode.Decompress ) )
 			using ( MemoryStream DataOut = new MemoryStream() )
