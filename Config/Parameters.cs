@@ -7,6 +7,7 @@ namespace GR.Config
 		//// Appearance
 		// Global
 		public const string FIRST_TIME_RUN = "First_Time_Run";
+		public const string RESTORE_MODE = "Restore_Mode";
 		public const string INSTALLATION_INST = "Installation_Instance";
 		public const string VERSION = "Version";
 		public const string LOG_LEVEL = "Log_Level";

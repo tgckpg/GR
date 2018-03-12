@@ -17,6 +17,18 @@ namespace GR.Config
 			}
 		}
 
+		public static bool RESTORE_MODE
+		{
+			get
+			{
+				return GetValue<bool>( Parameters.RESTORE_MODE );
+			}
+			set
+			{
+				SetParameter( Parameters.RESTORE_MODE, value );
+			}
+		}
+
 		public static string INSTALLATION_INST
 		{
 			get
