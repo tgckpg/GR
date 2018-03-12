@@ -11,13 +11,12 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Shapes;
 
-using Net.Astropenguin.Logging;
+using Net.Astropenguin.UI;
 
 namespace GR.CompositeElement
 {
 	using Effects;
 	using Model.Book;
-	using Net.Astropenguin.UI;
 
 	[TemplatePart( Name = PrevTitleName, Type = typeof( FrameworkElement ) )]
 	[TemplatePart( Name = CurrTitleName, Type = typeof( FrameworkElement ) )]

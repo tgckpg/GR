@@ -175,7 +175,6 @@
     <Compile Include="CompositeElement\TitleStepper.cs" />
     <Compile Include="CompositeElement\QClock.cs" />
     <Compile Include="CompositeElement\StarCanvas.cs" />
-    <Compile Include="CompositeElement\StateBubble.cs" />
     <Compile Include="CompositeElement\UIAliases.cs" />
     <Compile Include="CompositeElement\VariableGridView.cs" />
     <Compile Include="Config\AppSettings.cs" />
