@@ -102,73 +102,6 @@ namespace GR.Config
 
 			//// Local Book shelf
 
-			//// Appearance section
-
-			// Content Reader
-			if ( !TestKey( Parameters.CONTENTREADER_AUTOBOOKMARK ) )
-				Properties.CONTENTREADER_AUTOBOOKMARK = true;
-			// Rememeber to adjust the optimal BlockHeight when changing this value
-			if ( !TestKey( Parameters.APPEARANCE_CONTENTREADER_FONTSIZE ) )
-				Properties.APPEARANCE_CONTENTREADER_FONTSIZE = 20;
-			// This value should be tested across different device, otherwise leave it to 0
-			if ( !TestKey( Parameters.APPEARANCE_CONTENTREADER_BLOCKHEIGHT ) )
-				Properties.APPEARANCE_CONTENTREADER_BLOCKHEIGHT = 21.7;
-			if ( !TestKey( Parameters.APPEARANCE_CONTENTREADER_FONTWEIGHT ) )
-				Properties.APPEARANCE_CONTENTREADER_FONTWEIGHT = Windows.UI.Text.FontWeights.Normal;
-			if ( !TestKey( Parameters.APPEARANCE_CONTENTREADER_EMBED_ILLUS ) )
-				Properties.APPEARANCE_CONTENTREADER_EMBED_ILLUS = false;
-			if ( !TestKey( Parameters.APPEARANCE_CONTENTREADER_LEFTCONTEXT ) )
-				Properties.APPEARANCE_CONTENTREADER_LEFTCONTEXT = true;
-			if ( !TestKey( Parameters.APPEARANCE_CONTENTREADER_LINEHEIGHT ) )
-				Properties.APPEARANCE_CONTENTREADER_LINEHEIGHT = 5;
-			if ( !TestKey( Parameters.APPEARANCE_CONTENTREADER_NAVBG ) )
-				Properties.APPEARANCE_CONTENTREADER_NAVBG = Properties.APPEARENCE_THEME_MAJOR_COLOR;
-			if ( !TestKey( Parameters.APPEARANCE_CONTENTREADER_ASSISTBG ) )
-				Properties.APPEARANCE_CONTENTREADER_ASSISTBG = Colors.Black;
-			if ( !TestKey( Parameters.APPEARANCE_CONTENTREADER_PARAGRAPHSPACING ) )
-				Properties.APPEARANCE_CONTENTREADER_PARAGRAPHSPACING = 32;
-			if ( !TestKey( Parameters.APPEARANCE_CONTENTREADER_BACKGROUND ) )
-				Properties.APPEARANCE_CONTENTREADER_BACKGROUND = Colors.White;
-			if ( !TestKey( Parameters.APPEARANCE_CONTENTREADER_SCROLLBAR ) )
-				Properties.APPEARANCE_CONTENTREADER_SCROLLBAR = Color.FromArgb( 0x3C, 0xFF, 0xFF, 0xFF );
-			if ( !TestKey( Parameters.APPEARANCE_CONTENTREADER_FONTCOLOR ) )
-				Properties.APPEARANCE_CONTENTREADER_FONTCOLOR = Color.FromArgb( 0xE5, 0, 0, 0 );
-			if ( !TestKey( Parameters.APPEARANCE_CONTENTREADER_HIDEAPPBAR ) )
-				Properties.APPEARANCE_CONTENTREADER_HIDEAPPBAR = true;
-			if ( !TestKey( Parameters.APPEARANCE_CONTENTREADER_HIDEHEADER ) )
-				Properties.APPEARANCE_CONTENTREADER_HIDEHEADER = true;
-			if ( !TestKey( Parameters.APPEARANCE_CONTENTREADER_ENABLEREADINGANCHOR ) )
-				Properties.APPEARANCE_CONTENTREADER_ENABLEREADINGANCHOR = true;
-			if ( !TestKey( Parameters.APPEARANCE_CONTENTREADER_ENABLEDOUBLETAP ) )
-				Properties.APPEARANCE_CONTENTREADER_ENABLEDOUBLETAP = false;
-			if ( !TestKey( Parameters.APPEARANCE_CONTENTREADER_ENABLETAPBRUSH ) )
-				Properties.APPEARANCE_CONTENTREADER_ENABLETAPBRUSH = true;
-			if ( !TestKey( Parameters.APPEARANCE_CONTENTREADER_TAPBRUSHCOLOR ) )
-				Properties.APPEARANCE_CONTENTREADER_TAPBRUSHCOLOR = Color.FromArgb( 0xFF, 0x3F, 0xA9, 0xF5 );
-
-			// Clock
-			if ( !TestKey( Parameters.APPEARANCE_CONTENTREADER_CLOCK_ARCOLOR ) )
-				Properties.APPEARANCE_CONTENTREADER_CLOCK_ARCOLOR = Color.FromArgb( 0x50, 0xFF, 0xFF, 0xFF );
-			if ( !TestKey( Parameters.APPEARANCE_CONTENTREADER_CLOCK_HHCOLOR ) )
-				Properties.APPEARANCE_CONTENTREADER_CLOCK_HHCOLOR = Color.FromArgb( 0x78, 0xEE, 0xEB, 0xAA );
-			if ( !TestKey( Parameters.APPEARANCE_CONTENTREADER_CLOCK_MHCOLOR ) )
-				Properties.APPEARANCE_CONTENTREADER_CLOCK_MHCOLOR = Color.FromArgb( 0x50, 0xFF, 0xFF, 0xFF );
-			if ( !TestKey( Parameters.APPEARANCE_CONTENTREADER_CLOCK_SCOLOR ) )
-				Properties.APPEARANCE_CONTENTREADER_CLOCK_SCOLOR = Color.FromArgb( 0x3C, 0xFF, 0xFF, 0xFF );
-
-			// EpisodeStepper
-			if ( !TestKey( Parameters.APPEARANCE_CONTENTREADER_ES_DCOLOR ) )
-				Properties.APPEARANCE_CONTENTREADER_ES_DCOLOR = Color.FromArgb( 0xC7, 0xFF, 0xFF, 0xFF );
-			if ( !TestKey( Parameters.APPEARANCE_CONTENTREADER_ES_SCOLOR ) )
-				Properties.APPEARANCE_CONTENTREADER_ES_SCOLOR = Color.FromArgb( 0xFF, 0xFF, 0xFF, 0xFF );
-			if ( !TestKey( Parameters.APPEARANCE_CONTENTREADER_ES_BG ) )
-				Properties.APPEARANCE_CONTENTREADER_ES_BG = Color.FromArgb( 0x70, 0x00, 0x00, 0x00 );
-
-
-			// Themes, default Light Theme
-			if ( !TestKey( Parameters.APPEARENCE_THEME_PRESET_INDEX ) )
-				Properties.APPEARENCE_THEME_PRESET_INDEX = 1;
-
 			//// Data section
 
 			// Connection
@@ -280,9 +213,6 @@ namespace GR.Config
 
 			if ( !TestKey( Parameters.INSTALLATION_INST ) )
 				Properties.INSTALLATION_INST = Guid.NewGuid().ToString();
-
-			if ( !TestKey( Parameters.CONTENTREADER_USEINERTIA ) )
-				Properties.CONTENTREADER_USEINERTIA = Shared.LocaleDefaults.Get<bool>( "ContentReader.UseInertia" );
 
 			// Cognitive API
 			if ( !TestKey( Parameters.MISC_COGNITIVE_API_KEY ) )

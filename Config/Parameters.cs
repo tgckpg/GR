@@ -15,38 +15,8 @@ namespace GR.Config
 		public const string ENABLE_RSYSTEM_LOG = "Enable_RSystem_Log";
 		public const string ENABLE_SERVER_SEL = "Enable_Server_Selector";
 		public const string RSYSTEM_LOG_ADDRESS = "RSystem_Log_Address";
-		// ContentReader
-		public const string CONTENTREADER_AUTOBOOKMARK = "ContentReader_Autobookmark";
-		public const string CONTENTREADER_USEINERTIA = "ContentReader_UseInertia";
-		public const string CONTENTREADER_SESSION_START = "ContentReader_Session_Start";
-		public const string APPEARANCE_CONTENTREADER_FONTSIZE = "Appearance_ContentReader_FontSize";
-		public const string APPEARANCE_CONTENTREADER_LEFTCONTEXT = "Appearance_ContentReader_LeftContext";
-		public const string APPEARANCE_CONTENTREADER_EMBED_ILLUS = "Appearance_ContentReader_EmbedIllus";
-		public const string APPEARANCE_CONTENTREADER_LINEHEIGHT = "Appearance_ContentReader_LineHeight";
-		public const string APPEARANCE_CONTENTREADER_PARAGRAPHSPACING = "Appearance_ContentReader_ParagraphSpacing";
-		public const string APPEARANCE_CONTENTREADER_BLOCKHEIGHT = "Appearance_ContentReader_BlockHeight";
-		public const string APPEARANCE_CONTENTREADER_FONTCOLOR = "Appearance_ContentReader_FontColor";
-		public const string APPEARANCE_CONTENTREADER_CLOCK_ARCOLOR = "Appearance_ContentReader_Clock_Arc_Hand_Color";
-		public const string APPEARANCE_CONTENTREADER_CLOCK_HHCOLOR = "Appearance_ContentReader_Clock_Hour_Hand_Color";
-		public const string APPEARANCE_CONTENTREADER_CLOCK_MHCOLOR = "Appearance_ContentReader_Clock_Minute_Hand_Color";
-		public const string APPEARANCE_CONTENTREADER_CLOCK_SCOLOR = "Appearance_ContentReader_Clock_Scales_Color";
-		public const string APPEARANCE_CONTENTREADER_ES_DCOLOR = "Appearance_ContentReader_EpStepper_DateColor";
-		public const string APPEARANCE_CONTENTREADER_ES_SCOLOR = "Appearance_ContentReader_EpStepper_StepperColor";
-		public const string APPEARANCE_CONTENTREADER_ES_BG = "Appearance_ContentReader_EpStepper_Background";
-		public const string APPEARANCE_CONTENTREADER_ASSISTBG = "Appearance_ContentReader_AssistBg";
-		public const string APPEARANCE_CONTENTREADER_NAVBG = "Appearance_ContentReader_NavBg";
-		public const string APPEARANCE_CONTENTREADER_FONTWEIGHT = "Appearance_ContentReader_FontWeight";
-		public const string APPEARANCE_CONTENTREADER_BACKGROUND = "Appearance_ContentReader_Background";
-		public const string APPEARANCE_CONTENTREADER_SCROLLBAR = "Appearance_ContentReader_ScrollBar";
-		public const string APPEARANCE_CONTENTREADER_HIDEHEADER = "Appearance_ContentReader_HideHeader";
-		public const string APPEARANCE_CONTENTREADER_HIDEAPPBAR = "Appearance_ContentReader_HideAppBar";
-		public const string APPEARANCE_CONTENTREADER_ENABLEREADINGANCHOR = "Appearance_ContentReader_EnableReadingAnchor";
-		public const string APPEARANCE_CONTENTREADER_ENABLEDOUBLETAP = "Appearance_ContentReader_EnableDoubleTap";
-		public const string APPEARANCE_CONTENTREADER_ENABLETAPBRUSH = "Appearance_ContentReader_EnableTapBrush";
-		public const string APPEARANCE_CONTENTREADER_TAPBRUSHCOLOR = "Appearance_ContentReader_TapBrushColor";
 
 		// Theme Color
-		public const string APPEARENCE_THEME_PRESET_INDEX = "Appearance_Theme_Preset_Index";
 		public const string APPEARENCE_THEME_TEXT_COLOR_RELATIVE_TO_BACKGROUND = "Appearance_Theme_Text_Color_Relative_To_Background";
 		public const string APPEARENCE_THEME_TEXT_COLOR_RELATIVE_TO_MAJOR = "Appearance_Theme_Text_Color_Relative_To_Major";
 		public const string APPEARENCE_THEME_SUBTLE_TEXT_COLOR = "Appearance_Theme_Subtle_Text_Color";

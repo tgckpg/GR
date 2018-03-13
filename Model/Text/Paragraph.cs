@@ -10,28 +10,30 @@ using Net.Astropenguin.DataModel;
 namespace GR.Model.Text
 {
 	using Config;
+	using Net.Astropenguin.Messaging;
 
-	public class Paragraph : ActiveData, IDisposable
+	public class Paragraph : ActiveData
 	{
 		private const int HORZ_SPC = 5;
 		// So many paragrahs, it will be dumb for new-ing all of them
 		private static bool Horizontal = false;
-		private static double Fts = Properties.APPEARANCE_CONTENTREADER_FONTSIZE;
-		private static double ls = Properties.APPEARANCE_CONTENTREADER_LINEHEIGHT;
-		private static FontWeight fw = Properties.APPEARANCE_CONTENTREADER_FONTWEIGHT;
-		private static Thickness ps = new Thickness( Properties.APPEARANCE_CONTENTREADER_PARAGRAPHSPACING, 0, Properties.APPEARANCE_CONTENTREADER_PARAGRAPHSPACING, 0 );
-		private static SolidColorBrush cr = new SolidColorBrush( Properties.APPEARANCE_CONTENTREADER_FONTCOLOR );
+		private static double Fts = GRConfig.ContentReader.FontSize;
+		private static double ls = GRConfig.ContentReader.LineHeight;
+		private static FontWeight fw = GRConfig.ContentReader.FontWeight;
+		private static double _ps = GRConfig.ContentReader.ParagraphSpacing;
+		private static Thickness ps = new Thickness( _ps, 0, _ps, 0 );
+		private static SolidColorBrush cr = new SolidColorBrush( GRConfig.ContentReader.FontColor );
 		private static SolidColorBrush ab = new SolidColorBrush( new Windows.UI.Color() { A = 0 } );
 
 		// Non reusable properties 
 		private string s;
-		// Overidde properties
+		// Override properties
 		// Dynamic anchor colors
 		private SolidColorBrush abo;
 		// Tint Color
 		private SolidColorBrush cro;
 
-		public string Text { get { return s; } }
+		public string Text => s;
 
 		public double LineHeight
 		{
@@ -59,15 +61,15 @@ namespace GR.Model.Text
 			set { ps = value; NotifyChanged( "ParagraphSpacing" ); }
 		}
 
-		public SolidColorBrush FontColor { get { return cro == null ? cr : cro; } set { cro = value; NotifyChanged( "FontColor" ); } }
-		public SolidColorBrush AnchorColor { get { return abo == null ? ab : abo; } set { abo = value; NotifyChanged( "AnchorColor" ); } }
+		public SolidColorBrush FontColor { get { return cro ?? cr; } set { cro = value; NotifyChanged( "FontColor" ); } }
+		public SolidColorBrush AnchorColor { get { return abo ?? ab; } set { abo = value; NotifyChanged( "AnchorColor" ); } }
 
 		public static void SetHorizontal( bool IsHorz )
 		{
 			Horizontal = IsHorz;
 			ps = Horizontal
-				? new Thickness( Properties.APPEARANCE_CONTENTREADER_PARAGRAPHSPACING, 0, Properties.APPEARANCE_CONTENTREADER_PARAGRAPHSPACING, 0 )
-				: new Thickness( HORZ_SPC, Properties.APPEARANCE_CONTENTREADER_PARAGRAPHSPACING, HORZ_SPC, Properties.APPEARANCE_CONTENTREADER_PARAGRAPHSPACING )
+				? new Thickness( _ps, 0, _ps, 0 )
+				: new Thickness( HORZ_SPC, _ps, HORZ_SPC, _ps )
 				;
 		}
 
@@ -79,47 +81,39 @@ namespace GR.Model.Text
 				;
 		}
 
-		void AppPropertyChanged( object sender, PropertyChangedEventArgs e )
+		private void GRConfigChanged( Message Mesg )
 		{
-			switch ( e.PropertyName )
+			if ( Mesg.TargetType == typeof( Config.Scopes.ContentReader ) )
 			{
-				case Parameters.APPEARANCE_CONTENTREADER_FONTSIZE:
-					FontSize = Properties.APPEARANCE_CONTENTREADER_FONTSIZE;
-					break;
-				case Parameters.APPEARANCE_CONTENTREADER_LINEHEIGHT:
-					LineHeight = Properties.APPEARANCE_CONTENTREADER_LINEHEIGHT;
-					break;
-				case Parameters.APPEARANCE_CONTENTREADER_PARAGRAPHSPACING:
-					SetHorizontal( Horizontal );
-					NotifyChanged( "ParagraphSpacing" );
-					break;
-				case Parameters.APPEARANCE_CONTENTREADER_FONTWEIGHT:
-					FontWeight = Properties.APPEARANCE_CONTENTREADER_FONTWEIGHT;
-					break;
-				case Parameters.APPEARANCE_CONTENTREADER_FONTCOLOR:
-					cr.Color = Properties.APPEARANCE_CONTENTREADER_FONTCOLOR;
-					cro = null;
-					NotifyChanged( "FontColor" );
-					break;
+				switch ( Mesg.Content )
+				{
+					case "FontSize":
+						FontSize = ( double ) Mesg.Payload;
+						break;
+					case "LineHeight":
+						LineHeight = ( double ) Mesg.Payload;
+						break;
+					case "ParagraphSpacing":
+						_ps = ( double ) Mesg.Payload;
+						SetHorizontal( Horizontal );
+						NotifyChanged( "ParagraphSpacing" );
+						break;
+					case "FontWeight":
+						FontWeight = new FontWeight() { Weight = ( ushort ) Mesg.Payload };
+						break;
+					case "FontColor":
+						cr.Color = ( Windows.UI.Color ) Mesg.Payload;
+						cro = null;
+						NotifyChanged( "FontColor" );
+						break;
+				}
 			}
 		}
 
 		public Paragraph( string Text )
 		{
 			s = Text;
-			AppSettings.PropertyChanged += AppPropertyChanged;
+			GRConfig.ConfigChanged.AddHandler( this, GRConfigChanged );
 		}
-
-		virtual public void Dispose()
-		{
-			try
-			{
-				AppSettings.PropertyChanged -= AppPropertyChanged;
-			}
-			catch ( Exception ) { }
-		}
-
-		~Paragraph() { Dispose(); }
-		
 	}
 }

@@ -94,6 +94,10 @@
   <ItemGroup>
     <Compile Include="AdvDM\BingService.cs" />
     <Compile Include="CompositeElement\CompatMenuFlyoutItem.cs" />
+    <Compile Include="Config\Scopes\ScopedConfig.cs" />
+    <Compile Include="Config\Scopes\ContentReader.cs" />
+    <Compile Include="Config\Scopes\Theme.cs" />
+    <Compile Include="Config\GRConfig.cs" />
     <Compile Include="Converters\ObjectColorConverter.cs" />
     <Compile Include="Converters\LocalImageConverter.cs" />
     <Compile Include="Converters\FuzzyTimeInterval.cs" />

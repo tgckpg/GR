@@ -31,8 +31,8 @@ namespace GR.Model.Text
 			private set { _Illus = value; }
 		}
 
-		private static bool _EmbedIllus = Properties.APPEARANCE_CONTENTREADER_EMBED_ILLUS;
-		public bool EmbedIllus { get { return _EmbedIllus; } }
+		private static bool _EmbedIllus = GRConfig.ContentReader.EmbedIllus;
+		public bool EmbedIllus => _EmbedIllus;
 
 		public IllusPara( string Illus )
 			: base( SegoeMDL2.Photo2 )
@@ -46,12 +46,5 @@ namespace GR.Model.Text
 			NotifyChanged( "Illus" );
 		}
 
-		public override void Dispose()
-		{
-			base.Dispose();
-			ImgThumb = null;
-			Illus = null;
-			NotifyChanged( "Illus" );
-		}
 	}
 }
