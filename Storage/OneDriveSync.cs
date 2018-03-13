@@ -50,7 +50,7 @@ namespace GR.Storage
 
 		public async Task Authenticate()
 		{
-			if ( !Properties.ENABLE_ONEDRIVE ) return;
+			if ( !GRConfig.System.EnableOneDrive ) return;
 
 			if ( Authenticated ) return;
 

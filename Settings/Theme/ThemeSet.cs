@@ -10,7 +10,7 @@ using Net.Astropenguin.IO;
 
 namespace GR.Settings.Theme
 {
-	using Model.Interfaces;
+	using Config;
 	using GSystem;
 
 	class ThemeSet : ActiveData, INamable
@@ -41,25 +41,25 @@ namespace GR.Settings.Theme
 			}
 		}
 		public static Dictionary<string, string> ParamMap = new Dictionary<string, string> {
-			{ "a", "APPEARENCE_THEME_MAJOR_COLOR" },
-			{ "b", "APPEARENCE_THEME_MINOR_COLOR" },
-			{ "c", "APPEARENCE_THEME_MAJOR_BACKGROUND_COLOR" },
-			{ "d", "APPEARENCE_THEME_MINOR_BACKGROUND_COLOR" },
-			{ "e", "APPEARENCE_THEME_TEXT_COLOR_RELATIVE_TO_BACKGROUND" },
-			{ "f", "APPEARENCE_THEME_TEXT_COLOR_RELATIVE_TO_MAJOR" },
-			{ "g", "APPEARENCE_THEME_SUBTLE_TEXT_COLOR" },
-			{ "h", "APPEARENCE_THEME_VERTICAL_RIBBON_COLOR" },
-			{ "i", "APPEARENCE_THEME_HORIZONTAL_RIBBON_COLOR" },
-			{ "j", "APPEARENCE_THEME_RELATIVE_SHADES_COLOR" },
-			{ "k", "APPEARENCE_THEME_SHADES_10" },
-			{ "l", "APPEARENCE_THEME_SHADES_20" },
-			{ "m", "APPEARENCE_THEME_SHADES_30" },
-			{ "n", "APPEARENCE_THEME_SHADES_40" },
-			{ "o", "APPEARENCE_THEME_SHADES_50" },
-			{ "p", "APPEARENCE_THEME_SHADES_60" },
-			{ "q", "APPEARENCE_THEME_SHADES_70" },
-			{ "r", "APPEARENCE_THEME_SHADES_80" },
-			{ "s", "APPEARENCE_THEME_SHADES_90" },
+			{ "a", "ColorMajor" },
+			{ "b", "ColorMinor" },
+			{ "c", "BgColorMajor" },
+			{ "d", "BgColorMinor" },
+			{ "e", "RelColorMajorBackground" },
+			{ "f", "RelColorMajor" },
+			{ "g", "SubtleColor" },
+			{ "h", "RibbonColorVert" },
+			{ "i", "RibbonColorHorz" },
+			{ "j", "RelColorShades" },
+			{ "k", "Shades10" },
+			{ "l", "Shades20" },
+			{ "m", "Shades30" },
+			{ "n", "Shades40" },
+			{ "o", "Shades50" },
+			{ "p", "Shades60" },
+			{ "q", "Shades70" },
+			{ "r", "Shades80" },
+			{ "s", "Shades90" },
 		};
 
 		public string Name
@@ -152,11 +152,11 @@ namespace GR.Settings.Theme
 
 		public void Apply()
 		{
-			Type P = typeof( Config.Properties );
+			Type P = typeof( Config.Scopes.Theme );
 			foreach( KeyValuePair<string, Color> C in ColorDefs )
 			{
 				PropertyInfo PInfo = P.GetProperty( ParamMap[ C.Key ] );
-				PInfo.SetValue( null, C.Value );
+				PInfo.SetValue( GRConfig.Theme, C.Value );
 			}
 		}
 
@@ -173,7 +173,5 @@ namespace GR.Settings.Theme
 			return Colors.ToArray();
 		}
 
-
 	}
-
 }

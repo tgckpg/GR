@@ -5,6 +5,7 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.UI;
 using Windows.UI.Xaml.Media;
 
 namespace GR.Model.ListItem
@@ -22,16 +23,10 @@ namespace GR.Model.ListItem
 
 		public DateTime TimeStamp { get; private set; }
 
-		public Windows.UI.Color FG
-		{
-			get
-			{
-				return IsNew
-					? Properties.APPEARENCE_THEME_MAJOR_COLOR
-					: Properties.APPEARENCE_THEME_TEXT_COLOR_RELATIVE_TO_BACKGROUND
-					;
-			}
-		}
+		private static Color _Accent = GRConfig.Theme.ColorMajor;
+		private static Color _Normal = GRConfig.Theme.RelColorMajorBackground;
+
+		public Color FG => IsNew ? _Accent : _Normal;
 
 		public NewsItem( string Title, string Desc, string Link, string Guid, string DateStamp )
 			: base( Title, Desc, Guid )

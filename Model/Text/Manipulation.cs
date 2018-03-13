@@ -11,7 +11,7 @@ namespace GR.Model.Text
 	using Config;
 	class Manipulation
 	{
-		public static bool DoSyntaxPatch = Properties.MISC_TEXT_PATCH_SYNTAX;
+		public static bool DoSyntaxPatch = GRConfig.System.PatchSyntax;
 		public static string PatchSyntax( string s )
 		{
 			if ( DoSyntaxPatch )

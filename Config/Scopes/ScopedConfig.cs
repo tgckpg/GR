@@ -23,7 +23,7 @@ namespace GR.Config.Scopes
 		{
 			object Val = GetValue<object>( Key, ( object ) null );
 			if ( Val == null )
-				return ( T ) DefaultValue();
+				return ( T ) DefaultValue?.Invoke();
 
 			return ( T ) Val;
 		}

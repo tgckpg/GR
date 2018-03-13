@@ -7,7 +7,7 @@ namespace GR.Model.ListItem
 
 	class SubtleUpdateItem : ActiveItem
 	{
-		private Color sc = Properties.APPEARENCE_THEME_SUBTLE_TEXT_COLOR;
+		private Color sc = GRConfig.Theme.SubtleColor;
 
 		protected bool iNew = false;
 		public bool IsNew { get { return iNew; } }
@@ -30,11 +30,11 @@ namespace GR.Model.ListItem
 		{
 			if ( iNew = val )
 			{
-				SubtleColor = Properties.APPEARENCE_THEME_MAJOR_COLOR;
+				SubtleColor = GRConfig.Theme.ColorMajor;
 			}
 			else
 			{
-				SubtleColor = Properties.APPEARENCE_THEME_SUBTLE_TEXT_COLOR;
+				SubtleColor = GRConfig.Theme.SubtleColor;
 			}
 		}
 

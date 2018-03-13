@@ -94,6 +94,7 @@
   <ItemGroup>
     <Compile Include="AdvDM\BingService.cs" />
     <Compile Include="CompositeElement\CompatMenuFlyoutItem.cs" />
+    <Compile Include="Config\Scopes\GRSystem.cs" />
     <Compile Include="Config\Scopes\ScopedConfig.cs" />
     <Compile Include="Config\Scopes\ContentReader.cs" />
     <Compile Include="Config\Scopes\Theme.cs" />

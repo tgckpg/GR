@@ -11,9 +11,10 @@ namespace GR.Config
 {
 	class GRConfig
 	{
-		public static Scopes.Theme Theme => new Scopes.Theme();
-		public static Scopes.ContentReader ContentReader => new Scopes.ContentReader();
-
 		public static Messenger ConfigChanged = new Messenger();
+
+		public static Scopes.Theme Theme => new Scopes.Theme();
+		public static Scopes.GRSystem System => new Scopes.GRSystem();
+		public static Scopes.ContentReader ContentReader => new Scopes.ContentReader();
 	}
 }

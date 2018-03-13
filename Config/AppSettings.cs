@@ -180,9 +180,6 @@ namespace GR.Config
 			}
 
 			//// Account section
-			if ( !TestKey( Parameters.ENABLE_ONEDRIVE ) )
-				Properties.ENABLE_ONEDRIVE = false;
-
 			if ( !TestKey( Parameters.ENABLE_SERVER_SEL ) )
 				Properties.ENABLE_SERVER_SEL = false;
 
@@ -202,12 +199,6 @@ namespace GR.Config
 			}
 
 			// Misc
-			if ( !TestKey( Parameters.MISC_TEXT_PATCH_SYNTAX ) )
-				Properties.MISC_TEXT_PATCH_SYNTAX = true;
-
-			if ( !TestKey( Parameters.MISC_CHUNK_SINGLE_VOL ) )
-				Properties.MISC_CHUNK_SINGLE_VOL = true;
-
 			if ( !TestKey( Parameters.FIRST_TIME_RUN ) )
 				Properties.FIRST_TIME_RUN = true;
 

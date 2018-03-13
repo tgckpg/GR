@@ -88,7 +88,7 @@ namespace GR.Config.Scopes
 
 		public Color ScrollBarColor
 		{
-			get => GetValue<Color>( "ScrollBarColor", () => Color.FromArgb( 0x3C, 0xFF, 0xFF, 0xFF ) );
+			get => GetValue<Color>( "ScrollBarColor", Color.FromArgb( 0x3C, 0xFF, 0xFF, 0xFF ) );
 			set => SetValue( "ScrollBarColor", value );
 		}
 
@@ -106,13 +106,13 @@ namespace GR.Config.Scopes
 
 		public Color FontColor
 		{
-			get => GetValue<Color>( "FontColor", () => Color.FromArgb( 0xE5, 0, 0, 0 ) );
+			get => GetValue<Color>( "FontColor", Color.FromArgb( 0xE5, 0, 0, 0 ) );
 			set => SetValue( "FontColor", value );
 		}
 
 		public Color TapBrushColor
 		{
-			get => GetValue<Color>( "TapBrushColor", () => Color.FromArgb( 0xFF, 0x3F, 0xA9, 0xF5 ) );
+			get => GetValue<Color>( "TapBrushColor", Color.FromArgb( 0xFF, 0x3F, 0xA9, 0xF5 ) );
 			set => SetValue( "TapBrushColor", value );
 		}
 
@@ -122,25 +122,25 @@ namespace GR.Config.Scopes
 
 			public Color ARColor
 			{
-				get => GetValue<Color>( "ARColor", () => Color.FromArgb( 0x50, 0xFF, 0xFF, 0xFF ) );
+				get => GetValue<Color>( "ARColor", Color.FromArgb( 0x50, 0xFF, 0xFF, 0xFF ) );
 				set => SetValue( "HHColor", value );
 			}
 
 			public Color HHColor
 			{
-				get => GetValue<Color>( "HHColor", () => Color.FromArgb( 0x78, 0xEE, 0xEB, 0xAA ) );
+				get => GetValue<Color>( "HHColor", Color.FromArgb( 0x78, 0xEE, 0xEB, 0xAA ) );
 				set => SetValue( "HHColor", value );
 			}
 
 			public Color MHColor
 			{
-				get => GetValue<Color>( "MHColor", () => Color.FromArgb( 0x50, 0xFF, 0xFF, 0xFF ) );
+				get => GetValue<Color>( "MHColor", Color.FromArgb( 0x50, 0xFF, 0xFF, 0xFF ) );
 				set => SetValue( "MHColor", value );
 			}
 
 			public Color SColor
 			{
-				get => GetValue<Color>( "SColor", () => Color.FromArgb( 0x3C, 0xFF, 0xFF, 0xFF ) );
+				get => GetValue<Color>( "SColor", Color.FromArgb( 0x3C, 0xFF, 0xFF, 0xFF ) );
 				set => SetValue( "SColor", value );
 			}
 		}
@@ -151,19 +151,19 @@ namespace GR.Config.Scopes
 
 			public Color SColor
 			{
-				get => GetValue<Color>( "SColor", () => Color.FromArgb( 0xFF, 0xFF, 0xFF, 0xFF ) );
+				get => GetValue<Color>( "SColor", Color.FromArgb( 0xFF, 0xFF, 0xFF, 0xFF ) );
 				set => SetValue( "SColor", value );
 			}
 
 			public Color DColor
 			{
-				get => GetValue<Color>( "DColor", () => Color.FromArgb( 0xC7, 0xFF, 0xFF, 0xFF ) );
+				get => GetValue<Color>( "DColor", Color.FromArgb( 0xC7, 0xFF, 0xFF, 0xFF ) );
 				set => SetValue( "DColor", value );
 			}
 
 			public Color BackgroundColor
 			{
-				get => GetValue<Color>( "BackgroundColor", () => Color.FromArgb( 0x70, 0x00, 0x00, 0x00 ) );
+				get => GetValue<Color>( "BackgroundColor", Color.FromArgb( 0x70, 0x00, 0x00, 0x00 ) );
 				set => SetValue( "BackgroundColor", value );
 			}
 		}

@@ -40,27 +40,27 @@ namespace GR.Resources
 		public LayoutSettings()
 		{
 			// Color Theme Settings
-			MajorColor = Properties.APPEARENCE_THEME_MAJOR_COLOR;
-			MinorColor = Properties.APPEARENCE_THEME_MINOR_COLOR;
-			MajorBackgroundColor = Properties.APPEARENCE_THEME_MAJOR_BACKGROUND_COLOR;
-			MinorBackgroundColor = Properties.APPEARENCE_THEME_MINOR_BACKGROUND_COLOR;
-			RelativeMajorBackgroundColor = Properties.APPEARENCE_THEME_TEXT_COLOR_RELATIVE_TO_BACKGROUND;
-			RelativeMajorColor = Properties.APPEARENCE_THEME_TEXT_COLOR_RELATIVE_TO_MAJOR;
-			SubtleColor = Properties.APPEARENCE_THEME_SUBTLE_TEXT_COLOR;
-			VerticalRibbonColor = Properties.APPEARENCE_THEME_VERTICAL_RIBBON_COLOR;
-			HorizontalRibbonColor = Properties.APPEARENCE_THEME_HORIZONTAL_RIBBON_COLOR;
+			MajorColor = GRConfig.Theme.ColorMajor;
+			MinorColor = GRConfig.Theme.ColorMinor;
+			MajorBackgroundColor = GRConfig.Theme.BgColorMajor;
+			MinorBackgroundColor = GRConfig.Theme.BgColorMinor;
+			RelativeMajorBackgroundColor = GRConfig.Theme.RelColorMajorBackground;
+			RelativeMajorColor = GRConfig.Theme.RelColorMajor;
+			SubtleColor = GRConfig.Theme.SubtleColor;
+			VerticalRibbonColor = GRConfig.Theme.RibbonColorVert;
+			HorizontalRibbonColor = GRConfig.Theme.RibbonColorHorz;
 
-			Shades10 = Properties.APPEARENCE_THEME_SHADES_10;
-			Shades20 = Properties.APPEARENCE_THEME_SHADES_20;
-			Shades30 = Properties.APPEARENCE_THEME_SHADES_30;
-			Shades40 = Properties.APPEARENCE_THEME_SHADES_40;
-			Shades50 = Properties.APPEARENCE_THEME_SHADES_50;
-			Shades60 = Properties.APPEARENCE_THEME_SHADES_60;
-			Shades70 = Properties.APPEARENCE_THEME_SHADES_70;
-			Shades80 = Properties.APPEARENCE_THEME_SHADES_80;
-			Shades90 = Properties.APPEARENCE_THEME_SHADES_90;
+			Shades10 = GRConfig.Theme.Shades10;
+			Shades20 = GRConfig.Theme.Shades20;
+			Shades30 = GRConfig.Theme.Shades30;
+			Shades40 = GRConfig.Theme.Shades40;
+			Shades50 = GRConfig.Theme.Shades50;
+			Shades60 = GRConfig.Theme.Shades60;
+			Shades70 = GRConfig.Theme.Shades70;
+			Shades80 = GRConfig.Theme.Shades80;
+			Shades90 = GRConfig.Theme.Shades90;
 
-			RelativeShadesBrush = Properties.APPEARENCE_THEME_RELATIVE_SHADES_COLOR;
+			RelativeShadesBrush = GRConfig.Theme.RelColorShades;
 		}
 
 	}
