@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 namespace GR.Database
 {
 	using Contexts;
+	using Model.Interfaces;
 	using Resources;
 
 	class ContextManager
@@ -19,6 +20,8 @@ namespace GR.Database
 			, typeof( BooksContext )
 			, typeof( ZCacheContext )
 		};
+
+		public static List<Func<IMigrationOp, Task>> MigrationOps = new List<Func<IMigrationOp, Task>>();
 
 		public static void Migrate()
 		{

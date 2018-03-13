@@ -20,7 +20,7 @@ namespace GR.GSystem
 
 		public static ThemeSet DefaultDark()
 		{
-			StringResources stx = new StringResources( "Settings" );
+			StringResources stx = new StringResBg( "Settings" );
 			return new ThemeSet(
 				stx.Text( "Appearance_Theme_Dark" ) + " ( " + stx.Text( "Appearance_Theme_System" ) + " ) "
 				, false
@@ -39,7 +39,7 @@ namespace GR.GSystem
 
 		public static ThemeSet DefaultLight()
 		{
-			StringResources stx = new StringResources( "Settings" );
+			StringResources stx = new StringResBg( "Settings" );
 			return new ThemeSet(
 				stx.Text( "Appearance_Theme_Light" ) + " ( " + stx.Text( "Appearance_Theme_System" ) + ", " + stx.Text( "Appearance_Theme_Default" ) + " ) "
 				, false

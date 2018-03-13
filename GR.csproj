@@ -158,6 +158,7 @@
     <Compile Include="Model\Interfaces\IGSWidget.cs" />
     <Compile Include="Model\Interfaces\IIllusUpdate.cs" />
     <Compile Include="Model\Interfaces\IExtViewSource.cs" />
+    <Compile Include="Model\Interfaces\IMigrationOp.cs" />
     <Compile Include="Model\Interfaces\ISafeContext.cs" />
     <Compile Include="Model\ItemProcessor.cs" />
     <Compile Include="Model\ListItem\Sharers\HSDisplay.cs" />
