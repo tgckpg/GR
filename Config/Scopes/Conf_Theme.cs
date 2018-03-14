@@ -7,7 +7,7 @@ using Windows.UI;
 
 namespace GR.Config.Scopes
 {
-	class Theme : ScopedConfig<Database.Models.Theme>
+	class Conf_Theme : ScopedConfig<Database.Models.Theme>
 	{
 		public Color RelColorMajorBackground
 		{

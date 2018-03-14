@@ -83,7 +83,7 @@ namespace GR.Model.Text
 
 		private void GRConfigChanged( Message Mesg )
 		{
-			if ( Mesg.TargetType == typeof( Config.Scopes.ContentReader ) )
+			if ( Mesg.TargetType == typeof( Config.Scopes.Conf_ContentReader ) )
 			{
 				switch ( Mesg.Content )
 				{

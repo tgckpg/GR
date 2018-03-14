@@ -9,9 +9,10 @@ using GR.Database.Models;
 namespace GR.Migrations.Settings
 {
     [DbContext(typeof(SettingsContext))]
-    partial class SettingsContextModelSnapshot : ModelSnapshot
+    [Migration("20180314045056_Tbl_BookInfoView")]
+    partial class Tbl_BookInfoView
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.5");

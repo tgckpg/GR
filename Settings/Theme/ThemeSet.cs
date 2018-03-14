@@ -152,7 +152,7 @@ namespace GR.Settings.Theme
 
 		public void Apply()
 		{
-			Type P = typeof( Config.Scopes.Theme );
+			Type P = typeof( Config.Scopes.Conf_Theme );
 			foreach( KeyValuePair<string, Color> C in ColorDefs )
 			{
 				PropertyInfo PInfo = P.GetProperty( ParamMap[ C.Key ] );

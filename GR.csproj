@@ -94,10 +94,12 @@
   <ItemGroup>
     <Compile Include="AdvDM\BingService.cs" />
     <Compile Include="CompositeElement\CompatMenuFlyoutItem.cs" />
-    <Compile Include="Config\Scopes\GRSystem.cs" />
+    <Compile Include="Config\Scopes\Conf_BookInfoView.cs" />
+    <Compile Include="Config\Scopes\Conf_System.cs" />
+    <Compile Include="Config\Scopes\IConf_BgContext.cs" />
     <Compile Include="Config\Scopes\ScopedConfig.cs" />
-    <Compile Include="Config\Scopes\ContentReader.cs" />
-    <Compile Include="Config\Scopes\Theme.cs" />
+    <Compile Include="Config\Scopes\Conf_ContentReader.cs" />
+    <Compile Include="Config\Scopes\Conf_Theme.cs" />
     <Compile Include="Config\GRConfig.cs" />
     <Compile Include="Converters\ObjectColorConverter.cs" />
     <Compile Include="Converters\LocalImageConverter.cs" />
@@ -143,6 +145,10 @@
     <Compile Include="Migrations\Settings\20180305115811_Initial.cs" />
     <Compile Include="Migrations\Settings\20180305115811_Initial.designer.cs">
       <DependentUpon>20180305115811_Initial.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Settings\20180314045056_Tbl_BookInfoView.cs" />
+    <Compile Include="Migrations\Settings\20180314045056_Tbl_BookInfoView.designer.cs">
+      <DependentUpon>20180314045056_Tbl_BookInfoView.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Settings\SettingsContextModelSnapshot.cs" />
     <Compile Include="Migrations\ZCache\20180207051946_Initial.cs" />

@@ -15,6 +15,7 @@ namespace GR.Database.Contexts
 	{
 		public DbSet<ContentReader> ContentReader { get; set; }
 		public DbSet<Theme> Theme { get; set; }
+		public DbSet<BookInfoView> BookInfoView { get; set; }
 		public DbSet<GRSystem> System { get; set; }
 		public DbSet<GRTableConfig> TableConfigs { get; set; }
 		public DbSet<GRWidgetConfig> WidgetConfigs { get; set; }

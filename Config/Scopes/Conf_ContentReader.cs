@@ -9,10 +9,11 @@ namespace GR.Config.Scopes
 {
 	using Resources;
 
-	class ContentReader : ScopedConfig<Database.Models.ContentReader>
+	class Conf_ContentReader : ScopedConfig<Database.Models.ContentReader>
 	{
 		public Conf_Clock Clock => new Conf_Clock();
 		public Conf_EpStepper EpStepper => new Conf_EpStepper();
+		public Conf_BgContext BgContext => new Conf_BgContext();
 
 		public bool UseInertia
 		{
@@ -42,6 +43,18 @@ namespace GR.Config.Scopes
 		{
 			get => GetValue<bool>( "EmbedIllus", false );
 			set => SetValue( "EmbedIllus", value );
+		}
+
+		public bool IsHorizontal
+		{
+			get => GetValue<bool>( "IsHorizontal", () => Shared.LocaleDefaults.Get<bool>( "ContentReader.IsHorizontal" ) );
+			set => SetValue( "IsHorizontal", value );
+		}
+
+		public bool IsRightToLeft
+		{
+			get => GetValue<bool>( "IsRightToLeft", () => Shared.LocaleDefaults.Get<bool>( "ContentReader.IsRightToLeft" ) );
+			set => SetValue( "IsRightToLeft", value );
 		}
 
 		public bool LeftContext
@@ -165,6 +178,28 @@ namespace GR.Config.Scopes
 			{
 				get => GetValue<Color>( "BackgroundColor", Color.FromArgb( 0x70, 0x00, 0x00, 0x00 ) );
 				set => SetValue( "BackgroundColor", value );
+			}
+		}
+
+		public class Conf_BgContext : ScopedConfig<Database.Models.ContentReader>, IConf_BgContext
+		{
+			protected override string ScopeId => "BgContext";
+
+			public string BgType
+			{
+				get => GetValue<string>( "BgType", null );
+				set => SetValue( "BgType", value );
+			}
+
+			public string BgValue
+			{
+				get
+				{
+					if ( BgType == "System" )
+						return "ms-appx:///Assets/Samples/BgContentReader.jpg";
+					return GetValue<string>( "BgValue", null );
+				}
+				set => SetValue( "BgValue", value );
 			}
 		}
 

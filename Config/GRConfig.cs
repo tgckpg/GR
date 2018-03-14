@@ -13,8 +13,9 @@ namespace GR.Config
 	{
 		public static Messenger ConfigChanged = new Messenger();
 
-		public static Scopes.Theme Theme => new Scopes.Theme();
-		public static Scopes.GRSystem System => new Scopes.GRSystem();
-		public static Scopes.ContentReader ContentReader => new Scopes.ContentReader();
+		public static Scopes.Conf_Theme Theme => new Scopes.Conf_Theme();
+		public static Scopes.Conf_System System => new Scopes.Conf_System();
+		public static Scopes.Conf_BookInfoView BookInfoView => new Scopes.Conf_BookInfoView();
+		public static Scopes.Conf_ContentReader ContentReader => new Scopes.Conf_ContentReader();
 	}
 }

@@ -50,7 +50,10 @@ namespace GR.Database.Models
 		public void SetValue( object Val )
 		{
 			if ( Val == null )
+			{
+				Value = null;
 				return;
+			}
 
 			if ( Val is string || Type == GSDataType.STRING )
 			{

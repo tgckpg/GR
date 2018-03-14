@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace GR.Config.Scopes
 {
-	class GRSystem : ScopedConfig<Database.Models.GRSystem>
+	class Conf_System : ScopedConfig<Database.Models.GRSystem>
 	{
 		public bool EnableOneDrive
 		{
@@ -24,6 +24,12 @@ namespace GR.Config.Scopes
 		{
 			get => GetValue<bool>( "PatchSyntax", true );
 			set => SetValue( "PatchSyntax", value );
+		}
+
+		public bool TwitterConfirmed
+		{
+			get => GetValue<bool>( "TwitterConfirmed", false );
+			set => SetValue( "TwitterConfirmed", value );
 		}
 
 	}
