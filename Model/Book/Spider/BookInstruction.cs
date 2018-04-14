@@ -12,6 +12,7 @@ using libtaotu.Controls;
 using libtaotu.Models.Procedure;
 
 using Net.Astropenguin.IO;
+using Net.Astropenguin.Helpers;
 
 namespace GR.Model.Book.Spider
 {
@@ -24,6 +25,9 @@ namespace GR.Model.Book.Spider
 	{
 		private ProcManager BSReference;
 		public XParameter BookSpiderDef => BSReference?.ToXParam( GID );
+
+		// Operation locks
+		public static AsyncLocks<string, bool> OpLocks = new AsyncLocks<string, bool>();
 
 		private SortedDictionary<int, ConvoyInstructionSet> Insts = new SortedDictionary<int, ConvoyInstructionSet>();
 
