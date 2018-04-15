@@ -40,7 +40,7 @@ namespace GR.Settings.Theme
 
 		public void Shades( int Val )
 		{
-			ShadeItem = ColorSet.GetColor( "APPEARENCE_THEME_SHADES_" + Val );
+			ShadeItem = ColorSet.GetColor( "Shades" + Val );
 			NotifyChanged( "Shaded" );
 		}
 
