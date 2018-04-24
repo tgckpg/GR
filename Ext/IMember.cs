@@ -1,31 +1,20 @@
-﻿using System.Threading.Tasks;
+﻿using System.ComponentModel;
+using System.Threading.Tasks;
 using Windows.Foundation;
 
 namespace GR.Ext
 {
-	enum MemberStatus
+	interface IMember : INotifyPropertyChanged
 	{
-		LOGGED_IN = 1
-		, LOGGED_OUT = 2
-		, RE_LOGIN_NEEDED = 4
-	}
-
-	interface IMember
-	{
-		MemberStatus Status { get; set; }
-
-		bool IsLoggedIn { get; }
-		bool WillLogin { get; }
 		bool CanRegister { get; }
+		bool IsLoggedIn { get; }
 
-		string CurrentAccount { get; }
-		string CurrentPassword { get; }
 		string ServerMessage { get; }
 
-		event TypedEventHandler<object, MemberStatus> OnStatusChanged;
-
 		Task<bool> Register();
+		Task<bool> Authenticate();
+		Task<bool> Authenticate( string Account, string Password, bool Remember );
+
 		void Logout();
-		void Login( string Name, string Passwd, bool Remember = false );
 	}
 }

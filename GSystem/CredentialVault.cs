@@ -8,6 +8,7 @@ using Windows.Security.Cryptography.DataProtection;
 using Windows.Storage.Streams;
 
 using Net.Astropenguin.IO;
+using Net.Astropenguin.Logging;
 
 namespace GR.GSystem
 {
@@ -36,12 +37,20 @@ namespace GR.GSystem
 		public async Task SetInfo( XParameter Param )
 		{
 			if ( Param == null ) return;
-			DataProtectionProvider DPP = new DataProtectionProvider();
 
-			IBuffer DecBuff = await DPP.UnprotectAsync( CryptographicBuffer.DecodeFromBase64String( Param.GetValue( "v" ) ) );
-			string[] Info = CryptographicBuffer.ConvertBinaryToString( BinaryStringEncoding.Utf8, DecBuff ).Split( '\n' );
-			Account = Info[ 0 ].Replace( "\\n", "\n" );
-			Password = Info[ 1 ].Replace( "\\n", "\n" );
+			try
+			{
+				DataProtectionProvider DPP = new DataProtectionProvider();
+				IBuffer DecBuff = await DPP.UnprotectAsync( CryptographicBuffer.DecodeFromBase64String( Param.GetValue( "v" ) ) );
+
+				string[] Info = CryptographicBuffer.ConvertBinaryToString( BinaryStringEncoding.Utf8, DecBuff ).Split( '\n' );
+				Account = Info[ 0 ].Replace( "\\n", "\n" );
+				Password = Info[ 1 ].Replace( "\\n", "\n" );
+			}
+			catch ( Exception ex )
+			{
+				Logger.Log( "LoginInfo", ex.Message, LogType.WARNING );
+			}
 		}
 	}
 
