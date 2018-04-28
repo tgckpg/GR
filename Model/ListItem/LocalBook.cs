@@ -158,12 +158,13 @@ namespace GR.Model.ListItem
 
 			byte[] b = await File.ReadAllBytes();
 
-			if ( await Shared.TC.ConfirmTranslate( ZItemId, File.Name ) )
+			if ( await Shared.Conv.ConfirmTranslate( ZItemId, File.Name ) )
 			{
 				MessageBus.Send( typeof( LocalBook ), "Translating ...", ZItemId );
-				await Task.Run( () => b = Shared.TC.Translate( b ) );
+				await Task.Run( () => b = Shared.Conv.Chinese.Translate( b ) );
 			}
 
+			MessageBus.Send( typeof( LocalBook ), "Parsing ...", ZItemId );
 			LocalTextDocument L = await LocalTextDocument.ParseAsync( ZItemId, Encoding.UTF8.GetString( b ) );
 
 			Name = L.Title;

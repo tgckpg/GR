@@ -20,14 +20,12 @@ namespace GR.Ext
 
 		public const string Deathblow = "wenku8.Model.Loaders.Deathblow, wenku8-protocol";
 
-		public const string Member = "wenku8.Member, wenku8-protocol";
-		public const string MemberInfo = "wenku8.Settings.MemberInfo, wenku8-protocol";
+		public const string SHMember = "wenku10.SHHub.SHMember, wenku10";
 
 		public const string BookDisplayPageExt = "GR.PageExtensions.BookDisplayPageExt, wenku10";
 		public const string HighlightsHomePageExt = "GR.PageExtensions.HighlightsHomePageExt, wenku10";
 		public const string TwitterAuthData = "GR.Model.Twitter.AuthData, wenku10";
 
-		public const string SHMember = "wenku10.SHHub.SHMember, wenku10";
 		public const string ControlFrame = "wenku10.Pages.ControlFrame, wenku10";
 
 		public const string BingService = "GR.AdvDM.BingService, GR";

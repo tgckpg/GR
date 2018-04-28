@@ -17,10 +17,10 @@ namespace GR.Resources
 {
 	using CompositeElement;
 	using Database.Contexts;
-	using GR.Model.ListItem;
-	using Model;
 	using Model.Book;
+	using Model.ListItem;
 	using Model.REST;
+	using Model.Text;
 	using Storage;
 
 	static class Shared
@@ -37,7 +37,7 @@ namespace GR.Resources
 
 		private static StringResources LoadMesgRes;
 
-		public static TradChinese TC;
+		public static TranslationAPI Conv;
 
 		private static BooksContext _Books;
 		public static BooksContext BooksDb => _Books ?? ( _Books = new BooksContext() );

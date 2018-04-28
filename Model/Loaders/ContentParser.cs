@@ -61,7 +61,7 @@ namespace GR.Model.Loaders
 				if ( C.Content == null )
 					C.Content = new ChapterContent();
 
-				C.Content.Data.BytesValue = Manipulation.PatchSyntax( Encoding.UTF8.GetBytes( content ) );
+				C.Content.Data.BytesValue = Shared.Conv.Custom.Translate( Encoding.UTF8.GetBytes( content ) );
 				Shared.BooksDb.SaveChanges();
 			}
 			catch ( Exception ex )

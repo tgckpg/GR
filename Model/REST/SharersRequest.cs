@@ -12,7 +12,7 @@ namespace GR.Model.REST
 
 	sealed class SharersRequest
 	{
-		public Uri Server { get; private set; }
+		public Uri Server { get; set; }
 		public string Ver { get; private set; }
 		public string[] Compat { get; private set; }
 
@@ -24,14 +24,12 @@ namespace GR.Model.REST
 			, HS_NO_VOLDATA = -2
 		}
 
-		public SharersRequest( string Version, string[] VersionCompat )
+		public SharersRequest( string ServiceUri, string Version, string[] VersionCompat )
 		{
 			Ver = Version;
 			Compat = VersionCompat;
-			UpdateServer();
+			Server = new Uri( ServiceUri );
 		}
-
-		public void UpdateServer() { Server = new Uri( Properties.SERVER_OSD_URI ); }
 
 		public enum SHTarget : byte { SCRIPT = 1, COMMENT = 2, KEY = 4, TOKEN = 8 }
 

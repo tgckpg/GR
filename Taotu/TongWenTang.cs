@@ -32,15 +32,15 @@ namespace GR.Taotu
 
 		public override async Task<ProcConvoy> Run( ICrawler Crawler, ProcConvoy Convoy )
 		{
-			if ( !Shared.TC.DoTranslate ) return Convoy;
+			if ( !Shared.Conv.DoTraditional ) return Convoy;
 
 			// Book Instruction Translate
 			if ( Convoy.Dispatcher is GrimoireExtractor && Convoy.Payload is BookInstruction )
 			{
 				BookInstruction Book = ( BookInstruction ) Convoy.Payload;
 
-				Book.Entry.EachProperty<string>( Shared.TC.Translate );
-				Book.Entry.Info.EachProperty<string>( Shared.TC.Translate );
+				Book.Entry.EachProperty<string>( Shared.Conv.Chinese.Translate );
+				Book.Entry.Info.EachProperty<string>( Shared.Conv.Chinese.Translate );
 
 				return Convoy;
 			}
@@ -62,28 +62,28 @@ namespace GR.Taotu
 				foreach ( IStorageFile ISF in ( ( IEnumerable<IStorageFile> ) UsableConvoy.Payload ) )
 				{
 					byte[] b = await ISF.ReadAllBytes();
-					await ISF.WriteBytes( Shared.TC.Translate( b ) );
+					await ISF.WriteBytes( Shared.Conv.Chinese.Translate( b ) );
 				}
 			}
 			else if ( UsableConvoy.Payload is IStorageFile )
 			{
 				IStorageFile ISF = ( IStorageFile ) UsableConvoy.Payload;
 				byte[] b = await ISF.ReadAllBytes();
-				await ISF.WriteBytes( Shared.TC.Translate( b ) );
+				await ISF.WriteBytes( Shared.Conv.Chinese.Translate( b ) );
 			}
 			else if ( UsableConvoy.Payload is IEnumerable<string> )
 			{
 				List<string> Contents = new List<string>();
 				foreach ( string Content in ( ( IEnumerable<string> ) UsableConvoy.Payload ) )
 				{
-					Contents.Add( Shared.TC.Translate( Content ) );
+					Contents.Add( Shared.Conv.Chinese.Translate( Content ) );
 				}
 
 				return new ProcConvoy( this, Contents );
 			}
 			else if ( UsableConvoy.Payload is string )
 			{
-				return new ProcConvoy( this, Shared.TC.Translate( ( string ) UsableConvoy.Payload ) );
+				return new ProcConvoy( this, Shared.Conv.Chinese.Translate( ( string ) UsableConvoy.Payload ) );
 			}
 
 			return Convoy;

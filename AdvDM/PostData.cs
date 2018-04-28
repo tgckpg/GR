@@ -11,6 +11,8 @@ namespace GR.AdvDM
 	{
 		public string Id;
 
+		public Stream DataStream { get; private set; }
+
 		public string CacheName { get; private set; }
 		public string LogStamp { get; private set; }
 
@@ -23,17 +25,14 @@ namespace GR.AdvDM
 					return StringData;
 				}
 
-				using ( StreamReader SR = new StreamReader( StreamData ) )
+				using ( StreamReader SR = new StreamReader( DataStream ) )
 				{
 					return SR.ReadToEnd();
 				}
 			}
 		}
 
-		public Stream DataStream { get { return StreamData; } }
-
 		private string StringData;
-		private Stream StreamData;
 
 		public PostData( string Name, string Id, string Data )
 			:this( Id, Data )
@@ -52,7 +51,7 @@ namespace GR.AdvDM
 			this.Id = Id;
 			LogStamp = Id;
 
-			CacheName = GR.GSystem.Utils.Md5( Id );
+			CacheName = GSystem.Utils.Md5( Id );
 			StringData = Data;
 
 #if DEBUG
@@ -65,8 +64,8 @@ namespace GR.AdvDM
 			this.Id = Id;
 			LogStamp = Id;
 
-			CacheName = GR.GSystem.Utils.Md5( Id );
-			StreamData = Data;
+			CacheName = GSystem.Utils.Md5( Id );
+			DataStream = Data;
 		}
 	}
 }

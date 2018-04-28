@@ -169,6 +169,7 @@
     <Compile Include="Model\ItemProcessor.cs" />
     <Compile Include="Model\ListItem\Sharers\HSDisplay.cs" />
     <Compile Include="Model\Loaders\QueryLoader.cs" />
+    <Compile Include="Model\Loaders\TRTable.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="AdvDM\PostData.cs" />
     <Compile Include="AdvDM\RuntimeCache.cs" />
@@ -287,13 +288,12 @@
     <Compile Include="Model\Text\Ext.cs" />
     <Compile Include="Model\Text\IllusPara.cs" />
     <Compile Include="Model\Text\LogLine.cs" />
-    <Compile Include="Model\Text\Manipulation.cs" />
     <Compile Include="Model\Text\Paragraph.cs" />
     <Compile Include="Model\Topics\Announcements.cs" />
     <Compile Include="Model\Topics\Feed.cs" />
     <Compile Include="Model\Topics\Special.cs" />
     <Compile Include="Model\Book\LocalTextDocument.cs" />
-    <Compile Include="Model\TradChinese.cs" />
+    <Compile Include="Model\Text\Translator.cs" />
     <Compile Include="Resources\Image.cs" />
     <Compile Include="Resources\LayoutResources.cs" />
     <Compile Include="Resources\LayoutSettings.cs" />

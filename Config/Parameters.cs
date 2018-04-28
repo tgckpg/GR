@@ -30,7 +30,6 @@ namespace GR.Config
 		// Protocol
 		public const string SERVER_MIN_RANK = "ServerMinimumRank";
 		public const string SERVER_MAX_PING = "ServerMaximumPing";
-		public const string SERVER_OSD_URI = "ServerOnlineScriptDirUri";
 
 		// Misc
 		public const string MISC_COGNITIVE_API_KEY = "Misc_Cognitive_Api_Key";
