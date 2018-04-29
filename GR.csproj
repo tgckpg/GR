@@ -168,6 +168,7 @@
     <Compile Include="Model\Interfaces\ISafeContext.cs" />
     <Compile Include="Model\ItemProcessor.cs" />
     <Compile Include="Model\ListItem\Sharers\HSDisplay.cs" />
+    <Compile Include="Model\Loaders\LargeList.cs" />
     <Compile Include="Model\Loaders\QueryLoader.cs" />
     <Compile Include="Model\Loaders\TRTable.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
