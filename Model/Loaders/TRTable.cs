@@ -26,6 +26,14 @@ namespace GR.Model.Loaders
 				return Shared.Storage.GetBytes( Local );
 			}
 
+			byte[] Data = await Download( Type );
+
+			var j = Task.Run( () => Shared.Storage.WriteBytes( Local, Data ) );
+			return Data;
+		}
+
+		public Task<byte[]> Download( string Type )
+		{
 			TaskCompletionSource<byte[]> Bytes = new TaskCompletionSource<byte[]>();
 
 			RCache.POST(
@@ -43,10 +51,8 @@ namespace GR.Model.Loaders
 				, false
 			);
 
-			byte[] Data = await Bytes.Task;
-			var j = Task.Run( () => Shared.Storage.WriteBytes( Local, Data ) );
-
-			return Data;
+			return Bytes.Task;
 		}
+
 	}
 }
