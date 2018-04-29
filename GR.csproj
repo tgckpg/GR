@@ -327,7 +327,6 @@
     <Compile Include="GSystem\ThemeManager.cs" />
     <Compile Include="GSystem\Utils.cs" />
     <Compile Include="GSystem\ViewControl.cs" />
-    <Compile Include="Ext\IMemberInfo.cs" />
     <Compile Include="Data\GRRow.cs" />
     <Compile Include="Data\GRRowBase.cs" />
     <Compile Include="Data\GRTable.cs" />

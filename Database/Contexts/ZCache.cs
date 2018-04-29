@@ -93,7 +93,7 @@ namespace GR.Database.Contexts
 
 			BeginFlush:
 			int l = Caches.Count();
-			Logger.Log( "ZCache", "Flushing caches: " + l, LogType.DEBUG );
+			Logger.Log( "ZCache", $"Flushing caches: {l} new", LogType.DEBUG );
 
 			List<ZCache> Untrack = new List<ZCache>();
 
