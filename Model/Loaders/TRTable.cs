@@ -4,9 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using Net.Astropenguin.Logging;
-
-
 namespace GR.Model.Loaders
 {
 	using AdvDM;
@@ -16,6 +13,8 @@ namespace GR.Model.Loaders
 	class TRTable
 	{
 		RuntimeCache RCache = new RuntimeCache();
+
+		public bool Validate( string Type ) => Shared.Storage.FileExists( FileLinks.ROOT_WTEXT + "tr-" + Type );
 
 		public async Task<byte[]> Get( string Type )
 		{
@@ -27,8 +26,11 @@ namespace GR.Model.Loaders
 			}
 
 			byte[] Data = await Download( Type );
+			if ( Data.Any() )
+			{
+				var j = Task.Run( () => Shared.Storage.WriteBytes( Local, Data ) );
+			}
 
-			var j = Task.Run( () => Shared.Storage.WriteBytes( Local, Data ) );
 			return Data;
 		}
 
@@ -39,15 +41,8 @@ namespace GR.Model.Loaders
 			RCache.POST(
 				Shared.ShRequest.Server
 				, new PostData( Type, "action=tr-table&type=" + Type )
-				, ( e, id ) =>
-				{
-					Bytes.TrySetResult( e.ResponseBytes );
-				}
-				, ( c, Id, ex ) =>
-				{
-					Bytes.TrySetResult( new byte[ 0 ] );
-					Logger.Log( "TRTable", "Cannot get table" + Type, LogType.WARNING );
-				}
+				, ( e, id ) => Bytes.TrySetResult( e.ResponseBytes )
+				, ( c, Id, ex ) => Bytes.TrySetResult( new byte[ 0 ] )
 				, false
 			);
 

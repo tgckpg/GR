@@ -30,14 +30,18 @@ namespace GR.Config.Scopes
 
 		protected T GetValue<T>( string Key, object DefaultValue )
 		{
-			using ( var Context = new SettingsContext() )
+			try
 			{
-				TEntity Entity = Context.Find<TEntity>( ConfigKey( Key ) );
-				if ( Entity != null )
+				using ( var Context = new SettingsContext() )
 				{
-					return ( T ) Entity.GetValue();
+					TEntity Entity = Context.Find<TEntity>( ConfigKey( Key ) );
+					if ( Entity != null )
+					{
+						return ( T ) Entity.GetValue();
+					}
 				}
 			}
+			catch ( Exception ) { }
 
 			return ( T ) DefaultValue;
 		}

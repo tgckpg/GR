@@ -29,15 +29,14 @@ namespace GR.Model.Text
 		// For each session we swap in the translator with customized phases
 		public static libtranslate.Translator Translator { get; set; }
 
-		// Non reusable properties 
-		private string s;
 		// Override properties
 		// Dynamic anchor colors
 		private SolidColorBrush abo;
 		// Tint Color
 		private SolidColorBrush cro;
 
-		public string Text => Translator.Translate( s );
+		public string Text;
+		public string Display => Translator.Translate( Text );
 
 		public double LineHeight
 		{
@@ -116,7 +115,7 @@ namespace GR.Model.Text
 
 		public Paragraph( string Text )
 		{
-			s = Text;
+			this.Text = Text;
 			GRConfig.ConfigChanged.AddHandler( this, GRConfigChanged );
 		}
 	}
