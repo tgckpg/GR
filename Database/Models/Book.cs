@@ -55,6 +55,8 @@ namespace GR.Database.Models
 		[Required]
 		public BookInfo Info { get; set; }
 
+		public List<CustomConv> ConvPhases { get; set; }
+
 		[NotMapped]
 		public DbDictionary Meta { get; set; } = new DbDictionary();
 		public string Json_Meta
@@ -66,7 +68,7 @@ namespace GR.Database.Models
 		public List<Volume> Volumes { get; set; }
 	}
 
-	public class Anchor
+	public class CustomConv
 	{
 		[Key]
 		public int Id { get; set; }
@@ -74,21 +76,8 @@ namespace GR.Database.Models
 		public int BookId { get; set; }
 		public Book Book { get; set; }
 
-		public AnchorType Type { get; set; }
-
-		public string Ref0 { get; set; }
-		public string Ref1 { get; set; }
-		public string Ref2 { get; set; }
-
-		[NotMapped]
-		public DbDictionary Meta { get; set; } = new DbDictionary();
-		public string Json_Meta
-		{
-			get => Meta.Data;
-			set => Meta.Data = value;
-		}
-
-		public int Index { get; set; } 
+		public int Phase { get; set; }
+		public byte[] Table { get; set; }
 	}
 
 	public class BookInfo

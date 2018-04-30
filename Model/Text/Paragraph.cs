@@ -6,11 +6,11 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media;
 
 using Net.Astropenguin.DataModel;
+using Net.Astropenguin.Messaging;
 
 namespace GR.Model.Text
 {
 	using Config;
-	using Net.Astropenguin.Messaging;
 
 	public class Paragraph : ActiveData
 	{
@@ -25,6 +25,10 @@ namespace GR.Model.Text
 		private static SolidColorBrush cr = new SolidColorBrush( GRConfig.ContentReader.FontColor );
 		private static SolidColorBrush ab = new SolidColorBrush( new Windows.UI.Color() { A = 0 } );
 
+		// Assuming there is only one active ReaderView session
+		// For each session we swap in the translator with customized phases
+		public static libtranslate.Translator Translator { get; set; }
+
 		// Non reusable properties 
 		private string s;
 		// Override properties
@@ -33,7 +37,7 @@ namespace GR.Model.Text
 		// Tint Color
 		private SolidColorBrush cro;
 
-		public string Text => s;
+		public string Text => Translator.Translate( s );
 
 		public double LineHeight
 		{

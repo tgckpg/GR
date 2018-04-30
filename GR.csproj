@@ -104,6 +104,7 @@
     <Compile Include="Converters\ObjectColorConverter.cs" />
     <Compile Include="Converters\LocalImageConverter.cs" />
     <Compile Include="Converters\FuzzyTimeInterval.cs" />
+    <Compile Include="Converters\CustomPhaseConverter.cs" />
     <Compile Include="Database\ContextManager.cs" />
     <Compile Include="Database\Contexts\Books.cs" />
     <Compile Include="Database\Contexts\FTSData.cs" />
@@ -135,6 +136,10 @@
     <Compile Include="Migrations\Books\20180223065039_Initial.cs" />
     <Compile Include="Migrations\Books\20180223065039_Initial.designer.cs">
       <DependentUpon>20180223065039_Initial.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Books\20180429152855_CustomConv.cs" />
+    <Compile Include="Migrations\Books\20180429152855_CustomConv.designer.cs">
+      <DependentUpon>20180429152855_CustomConv.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Books\BooksContextModelSnapshot.cs" />
     <Compile Include="Migrations\FTSData\20180223054441_Initial.cs" />

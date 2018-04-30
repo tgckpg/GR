@@ -202,7 +202,7 @@ namespace GR.Model.Book
 
 		protected BookItem( Book Bk )
 		{
-			if ( Shared.BooksDb.Entry( Bk ).State == Microsoft.EntityFrameworkCore.EntityState.Detached )
+			if ( Shared.BooksDb.SafeRun( x => x.Entry( Bk ).State == Microsoft.EntityFrameworkCore.EntityState.Detached ) )
 			{
 				if ( !Shared.BooksDb.SafeEntry( Bk ) )
 					throw new InvalidOperationException( "Unsafe entry is not allowed" );

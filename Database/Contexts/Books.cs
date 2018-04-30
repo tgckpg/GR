@@ -25,8 +25,7 @@ namespace GR.Database.Contexts
 		public DbSet<Chapter> Chapters { get; set; }
 		public DbSet<ChapterImage> ChapterImages { get; set; }
 		public DbSet<ChapterContent> ChapterContents { get; set; }
-
-		public DbSet<Anchor> Anrchors { get; set; }
+		public DbSet<CustomConv> CustomConvs { get; set; }
 
 		public ILoggerFactory GRLoggingFacility => new GRLoggerFactory();
 
