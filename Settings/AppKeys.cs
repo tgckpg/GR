@@ -117,6 +117,7 @@
 			, BTASK_SPIDER = "spider"
 
 			, SYS_2ND_TILE_LAUNCH = "LaunchSecondaryTile"
+			, SYS_FILE_LAUNCH = "LaunchFile"
 			, SYS_EXCEPTION = "exception"
 			, SYS_MESSAGE = "mesg"
 

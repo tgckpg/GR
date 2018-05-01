@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
+using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.Security.Cryptography;
 
 namespace GR.Database.Schema
 {
@@ -53,5 +55,7 @@ namespace GR.Database.Schema
 			}
 		}
 
+		public string GetBase64Raw() => CryptographicBuffer.EncodeToBase64String( RawBytes.AsBuffer() );
+		public void SetBase64Raw( string Data ) => RawBytes = CryptographicBuffer.DecodeFromBase64String( Data ).ToArray();
 	}
 }
