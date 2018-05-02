@@ -58,8 +58,11 @@ namespace GR.Model.ListItem
 		private BookInstruction BInst;
 		public XRegistry PSettings { get; private set; }
 
-		public string MetaRoot => FileLinks.ROOT_SPIDER_VOL + ZoneId + "/";
-		public string MetaLocation => MetaRoot + ZItemId + ".xml";
+		public string MetaRoot => GetMetaRoot( ZoneId );
+		public string MetaLocation => GetMetaLocation( ZoneId, ZItemId );
+
+		public static string GetMetaRoot( string ZoneId ) => FileLinks.ROOT_SPIDER_VOL + ZoneId + "/";
+		public static string GetMetaLocation( string ZoneId, string ZItemId ) => GetMetaRoot( ZoneId ) + ZItemId + ".xml";
 
 		private SpiderBook() { }
 

@@ -53,7 +53,11 @@ namespace GR.Database
 
 		public static void ClearBookTexts()
 		{
-			Shared.BooksDb.SafeRun( Db => Db.Volumes.RemoveRange( Db.Volumes.ToList() ) );
+			Shared.BooksDb.SafeRun( Db =>
+			{
+				Db.Volumes.RemoveRange( Db.Volumes.ToList() );
+				Db.Books.ForEachAsync( x => x.Meta.Clear() );
+			} );
 			Shared.BooksDb.SaveChanges();
 			Shared.BooksDb.SafeRun( Db => Db.Database.ExecuteSqlCommand( "VACUUM;" ) );
 			Shared.BooksDb.SaveChanges();

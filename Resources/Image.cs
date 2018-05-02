@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Graphics.Canvas;
+﻿using Microsoft.Graphics.Canvas;
 using Microsoft.Graphics.Canvas.Brushes;
 using Microsoft.Graphics.Canvas.Geometry;
 using Microsoft.Graphics.Canvas.Text;
@@ -24,13 +23,8 @@ using Net.Astropenguin.Logging;
 
 namespace GR.Resources
 {
-	using Database.Contexts;
-	using Database.Schema;
 	using Model.Book;
-	using Model.ListItem;
 	using Settings;
-	using System.Collections.Generic;
-	using System.Linq;
 
 	static class Image
 	{
@@ -246,120 +240,26 @@ namespace GR.Resources
 			}
 		}
 
-		public static async Task WriteXRBK( BookItem Bk, IStorageFile BkFile )
+		public async static Task WriteCoverStream( BookItem Bk, Stream s )
 		{
-			using ( Stream s = await BkFile.OpenStreamForWriteAsync() )
+			if ( Bk.CoverExist )
 			{
-				if ( Bk.CoverExist )
+				BitmapEncoder Enc;
+				Enc = await BitmapEncoder.CreateAsync( BitmapEncoder.JpegEncoderId, s.AsRandomAccessStream() );
+				using ( Stream ss = Bk.CoverStream() )
 				{
-					BitmapEncoder Enc;
-					Enc = await BitmapEncoder.CreateAsync( BitmapEncoder.JpegEncoderId, s.AsRandomAccessStream() );
-					using ( Stream ss = Bk.CoverStream() )
-					{
-						BitmapDecoder Dec = await BitmapDecoder.CreateAsync( ss.AsRandomAccessStream() );
-						BitmapFrame ssFrame = await Dec.GetFrameAsync( 0 );
-						Enc.SetPixelData(
-							ssFrame.BitmapPixelFormat
-							, ssFrame.BitmapAlphaMode
-							, ssFrame.PixelWidth, ssFrame.PixelHeight
-							, ssFrame.DpiX, ssFrame.DpiY
-							, ( await ssFrame.GetPixelDataAsync() ).DetachPixelData() );
-					}
-
-					await Enc.FlushAsync();
+					BitmapDecoder Dec = await BitmapDecoder.CreateAsync( ss.AsRandomAccessStream() );
+					BitmapFrame ssFrame = await Dec.GetFrameAsync( 0 );
+					Enc.SetPixelData(
+						ssFrame.BitmapPixelFormat
+						, ssFrame.BitmapAlphaMode
+						, ssFrame.PixelWidth, ssFrame.PixelHeight
+						, ssFrame.DpiX, ssFrame.DpiY
+						, ( await ssFrame.GetPixelDataAsync() ).DetachPixelData() );
 				}
 
-				IStorageFile DataFile = await AppStorage.MkTemp( "bkdata" );
-
-				using ( BooksContext BkContext = new BooksContext( DataFile.Path ) )
-				{
-					BkContext.Database.Migrate();
-
-					List<Database.Models.Chapter> Chapters = await Shared.BooksDb.SafeRun( x => x.Chapters.Where( c => c.Book == Bk.Entry ).ToListAsync() );
-					Chapters.ForEach( x => BkContext.Add( x ) );
-
-					List<Database.Models.ChapterContent> ChapterContents = await Shared.BooksDb.SafeRun( x => x.ChapterContents.Where( c => Chapters.Contains( c.Chapter ) ).ToListAsync() );
-					ChapterContents.ForEach( x => BkContext.Add( x ) );
-
-					List<Database.Models.ChapterImage> ChapterImages = await Shared.BooksDb.SafeRun( x => x.ChapterImages.Where( c => Chapters.Contains( c.Chapter ) ).ToListAsync() );
-					ChapterImages.ForEach( x => BkContext.Add( x ) );
-
-					List<Database.Models.Volume> Volumes = await Shared.BooksDb.SafeRun( x => x.Volumes.Where( c => c.Book == Bk.Entry ).ToListAsync() );
-					Volumes.ForEach( x => BkContext.Add( x ) );
-
-					List<Database.Models.CustomConv> CustomConvs = await Shared.BooksDb.SafeRun( x => x.CustomConvs.Where( c => c.Book == Bk.Entry ).ToListAsync() );
-					CustomConvs.ForEach( x => BkContext.Add( x ) );
-
-					if ( Bk is Model.Book.Spider.BookInstruction Inst )
-					{
-						string SpiderDef = Model.ListItem.SpiderBook.GetSettings( Inst.ZoneId, Inst.ZItemId )?.ToString();
-
-						if( SpiderDef != null )
-						{
-							Bk.Entry.Meta[ "SpiderDef" ] = new ZData { StringValue = SpiderDef }.GetBase64Raw();
-						}
-					}
-
-					BkContext.Add( Bk.Entry );
-					BkContext.SaveChanges();
-
-					Bk.Entry.Meta.Remove( "SpiderDef" );
-				}
-
-				ZData Data = new ZData { BytesValue = await DataFile.ReadAllBytes() };
-				await DataFile.DeleteAsync();
-
-				s.Seek( 0, SeekOrigin.End );
-
-				BinaryWriter Writer = new BinaryWriter( s );
-				Writer.Write( Data.RawBytes );
-				Writer.Write( Data.RawBytes.Length );
-				Writer.Write( "XRBK".ToCharArray() );
-				Writer.Flush();
+				await Enc.FlushAsync();
 			}
-		}
-
-		public static async Task ReadXRBK( IStorageFile ISF )
-		{
-			if ( ISF == null )
-				return;
-
-			using ( Stream s = await ISF.OpenStreamForReadAsync() )
-			{
-				s.Seek( -8, SeekOrigin.End );
-				BinaryReader Reader = new BinaryReader( s );
-
-				int DataSize = Reader.ReadInt32();
-				string RBOM = new string( Reader.ReadChars( 4 ) );
-
-				if ( RBOM != "XRBK" )
-					return;
-
-				s.Seek( -DataSize - 8, SeekOrigin.End );
-
-				ZData Data = new ZData() { RawBytes = new byte[ DataSize ] };
-				await s.ReadAsync( Data.RawBytes, 0, DataSize );
-
-				IStorageFile DataFile = await AppStorage.MkTemp( "bkdata" );
-				await DataFile.WriteBytes( Data.BytesValue );
-
-				using ( BooksContext BkContext = new BooksContext( DataFile.Path ) )
-				{
-					Database.Models.Book Entry = BkContext.Books.FirstOrDefault();
-					if ( Entry == null )
-						return;
-
-					if ( Entry.Meta.TryGetValue( "SpiderDef", out string SpDef ) )
-					{
-						Data.SetBase64Raw( SpDef );
-						SpiderBook SBook = await SpiderBook.CreateSAsync( Entry.ZoneId, Entry.ZItemId, null );
-						XRegistry XReg = new XRegistry( Data.StringValue, SBook.MetaLocation );
-
-						System.Diagnostics.Debugger.Break();
-					}
-				}
-			}
-
 		}
 
 	}
