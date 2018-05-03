@@ -7,10 +7,12 @@ using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Activation;
+using Windows.UI.Popups;
 using Windows.Storage;
 
 using Net.Astropenguin.Helpers;
 using Net.Astropenguin.IO;
+using Net.Astropenguin.Loaders;
 
 namespace GR.Model.Pages
 {
@@ -23,9 +25,7 @@ namespace GR.Model.Pages
 	using Ext;
 	using GSystem;
 	using ListItem;
-	using Net.Astropenguin.Loaders;
 	using Resources;
-	using Windows.UI.Popups;
 
 	sealed class ItemProcessor
 	{
@@ -261,7 +261,7 @@ namespace GR.Model.Pages
 					{
 						StringResources stx = StringResources.Load( "Message" );
 						MessageDialog Dialog = UIAliases.CreateDialog(
-							"This book exists in Database, replace the contents?"
+							stx.Str( "ConfirmReplace" )
 							, () => ConfirmReplace = true
 							, stx.Str( "Yes" ), stx.Str( "No" )
 						);
