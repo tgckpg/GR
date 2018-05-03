@@ -170,24 +170,19 @@ namespace GR.Model.Pages
 			}
 		}
 
-		public static async Task<BookItem> OpenXRBK( object Args )
+		public static bool RequestOpenXRBK( object Args, out IStorageFile ISF )
 		{
-			IStorageFile ISF = Args as IStorageFile;
+			ISF = Args as IStorageFile;
 
 			if ( ISF == null && Args is FileActivatedEventArgs FileArgs )
 			{
 				ISF = FileArgs.Files.First() as IStorageFile;
 			}
 
-			if ( ISF != null )
-			{
-				return await Task.Run( () => _ImportXRBK( ISF ) );
-			}
-
-			return null;
+			return ISF != null;
 		}
 
-		private static async Task<BookItem> _ImportXRBK( IStorageFile ISF )
+		public static async Task<BookItem> OpenXRBK( IStorageFile ISF )
 		{
 			using ( Stream s = await ISF.OpenStreamForReadAsync() )
 			{
@@ -228,9 +223,9 @@ namespace GR.Model.Pages
 							?? Shared.BooksDb.GetBook( RemoteEntry.ZoneId, RemoteEntry.ZItemId, RemoteEntry.Type )
 							;
 
-						await _ImportEntry( DataId, RemoteContext, RemoteEntry, LocalEntry );
+						bool Imported = await _ImportEntry( DataId, RemoteContext, RemoteEntry, LocalEntry );
 
-						if ( LocalEntry.Type.HasFlag( BookType.S ) && RemoteEntry.Meta.TryGetValue( "SpiderDef", out string SpDef ) )
+						if ( Imported && LocalEntry.Type.HasFlag( BookType.S ) && RemoteEntry.Meta.TryGetValue( "SpiderDef", out string SpDef ) )
 						{
 							Data.SetBase64Raw( SpDef );
 							XRegistry XReg = new XRegistry( Data.StringValue, SpiderBook.GetMetaLocation( LocalEntry.ZoneId, LocalEntry.ZItemId ) );
@@ -247,7 +242,7 @@ namespace GR.Model.Pages
 			}
 		}
 
-		private static async Task _ImportEntry( string DataId, BooksContext RemoteContext, Book RemoteEntry, Book LocalEntry )
+		private static async Task<bool> _ImportEntry( string DataId, BooksContext RemoteContext, Book RemoteEntry, Book LocalEntry )
 		{
 			// Check to see if a local copy already exsits
 			if ( Shared.BooksDb.SafeRun( x => x.Entry( LocalEntry ).State != EntityState.Detached ) )
@@ -255,7 +250,7 @@ namespace GR.Model.Pages
 				// Content of this book has already been imported
 				if ( LocalEntry.Meta.TryGetValue( "DataId", out string LocalDataId ) && DataId == LocalDataId )
 				{
-					return;
+					return false;
 				}
 				else
 				{
@@ -284,7 +279,7 @@ namespace GR.Model.Pages
 							Shared.BooksDb.SaveBook( LocalEntry );
 						}
 
-						return;
+						return false;
 					}
 				}
 			}
@@ -320,6 +315,8 @@ namespace GR.Model.Pages
 			LocalEntry.Meta[ "DataId" ] = DataId;
 
 			Shared.BooksDb.SaveBook( LocalEntry );
+
+			return true;
 		}
 
 	}
