@@ -38,8 +38,8 @@ namespace GR.Model.Book
 	{
 		public static readonly string ID = typeof( BookItem ).Name;
 
-		private static StringResBg _Res;
-		protected static StringResBg Res => _Res ?? ( _Res = new StringResBg( "Book" ) );
+		private static StringResources _Res;
+		protected static StringResources Res => _Res ?? ( _Res = StringResources.Load( "Book" ) );
 
 		public static string PropertyName( PropType InfoType ) => Res.Text( InfoType.ToString() );
 		public static string PropertyName( PropertyInfo Property )

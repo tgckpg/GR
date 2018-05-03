@@ -19,7 +19,7 @@ namespace GR.Converters
 			{
 				string Size = m.Groups[ 1 ].Value.Replace( ",", "" );
 
-				StringResources stx = new StringResources( "Numbers" );
+				StringResources stx = StringResources.Load( "Numbers" );
 				string Sim = "";
 
 				int l = 24;

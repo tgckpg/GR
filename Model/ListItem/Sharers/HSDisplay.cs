@@ -19,8 +19,8 @@ namespace GR.Model.ListItem.Sharers
 		public string Zone => string.Join( ", ", Item.Zone );
 		public string Status => Item.Public ? stx.Text( "Public" ) : stx.Text( "Private" );
 
-		private static StringResBg _stx;
-		private static StringResBg stx => _stx ?? ( _stx = new StringResBg( "AppResources", "Book" ) );
+		private static StringResources _stx;
+		private static StringResources stx => _stx ?? ( _stx = StringResources.Load( "AppResources", "Book" ) );
 
 		public HSDisplay( HubScriptItem HSItem )
 		{

@@ -39,7 +39,7 @@ namespace GR
 
 			if ( Alert == null ) return true;
 
-			StringResources stx = new StringResources( "Message" );
+			StringResources stx = StringResources.Load( "Message" );
 			await Popups.ShowDialog( UIAliases.CreateDialog( stx.Str( "Cencorship" ) ) );
 
 			return false;

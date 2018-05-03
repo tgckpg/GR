@@ -33,7 +33,7 @@ namespace GR.GSystem
 		{
 			Worker.UIInvoke( () =>
 			{
-				StringResources stx = new StringResources( "Error" );
+				StringResources stx = StringResources.Load( "Error" );
 				var j = Popups.ShowDialog( UIAliases.CreateDialog( stx.Str( Key ) ) );
 			} );
 		}

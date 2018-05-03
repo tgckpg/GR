@@ -99,7 +99,7 @@ namespace GR.Model
 
 			if ( ( NumResults = Results.Count() ) == 0 )
 			{
-				StringResources stx = new StringResources( "AppResources" );
+				StringResources stx = StringResources.Load( "AppResources" );
 				Results.Add( new ActiveItem( stx.Text( "Search_Example" ), null, null ) );
 			}
 

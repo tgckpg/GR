@@ -50,7 +50,7 @@ namespace GR.CompositeElement
 		{
 			MenuFlyout Menu = new MenuFlyout();
 			MenuFlyoutItem CopyAction = new MenuFlyoutItem();
-			StringResources stx = new StringResources( "ContextMenu" );
+			StringResources stx = StringResources.Load( "ContextMenu" );
 			CopyAction.Text = stx.Text( "Copy" );
 
 			CopyAction.Click += ( s, e ) =>

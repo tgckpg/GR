@@ -244,7 +244,7 @@ namespace GR.Model.ListItem.Sharers
 
 			Worker.UIInvoke( () =>
 			{
-				StringResources stx = new StringResources();
+				StringResources stx = StringResources.Load();
 				Title = stx.Text( "ProcessGrantsFailed" );
 			} );
 		}

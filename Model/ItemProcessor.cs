@@ -259,7 +259,7 @@ namespace GR.Model.Pages
 
 					await Worker.RunUITaskAsync( () =>
 					{
-						StringResources stx = new StringResources( "Message" );
+						StringResources stx = StringResources.Load( "Message" );
 						MessageDialog Dialog = UIAliases.CreateDialog(
 							"This book exists in Database, replace the contents?"
 							, () => ConfirmReplace = true

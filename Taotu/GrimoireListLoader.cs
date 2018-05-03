@@ -200,7 +200,7 @@ namespace GR.Taotu
 			if ( !RegParam.Validate() ) return;
 
 			MatchCollection matches = RegParam.RegExObj.Matches( Content );
-			StringResBg ste = new StringResBg( "Error" );
+			StringResources ste = StringResources.Load( "Error" );
 
 			foreach ( Match match in matches )
 			{

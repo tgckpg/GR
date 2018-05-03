@@ -16,7 +16,7 @@ namespace GR.Converters
 
 		public FuzzyTimeInterval()
 		{
-			stx = new StringResources( "DateTimeUnits" );
+			stx = StringResources.Load( "DateTimeUnits" );
 			LabelMin = stx.Str( "FT_Minute" );
 			LabelHour = stx.Str( "FT_Hour" );
 			LabelDay = stx.Str( "FT_Day" );

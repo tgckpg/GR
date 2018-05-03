@@ -29,7 +29,7 @@ namespace GR.Model.ListItem
 			get
 			{
 				if ( !Processed && CanProcess && string.IsNullOrEmpty( base.Name ) )
-					base.Name = new StringResources().Text( "BookSpider" );
+					base.Name = StringResources.Load().Text( "BookSpider" );
 
 				return base.Name;
 			}
@@ -42,7 +42,7 @@ namespace GR.Model.ListItem
 			get
 			{
 				if ( !Processed && CanProcess && string.IsNullOrEmpty( base.Desc ) )
-					base.Desc = new StringResources().Text( "UnprocessedItem" );
+					base.Desc = StringResources.Load().Text( "UnprocessedItem" );
 
 				return base.Desc;
 			}
@@ -243,7 +243,7 @@ namespace GR.Model.ListItem
 
 						if( Processed )
 						{
-							Desc = new StringResBg().Text( "RecordExist" );
+							Desc = StringResources.Load().Text( "RecordExist" );
 						}
 					}
 

@@ -127,7 +127,7 @@ namespace GR.GSystem
 				Loading = true;
 				EBBook Book = await EBBook.Parse( IFolder );
 
-				StringResources stx = new StringResources( "Settings" );
+				StringResources stx = StringResources.Load( "Settings" );
 				string size = Utils.AutoByteUnit( await Shared.Storage.CountSizeRecursive( SrcFolder ) );
 				string fmt = "{0}: {1}";
 				string Message = string.Format( fmt, stx.Text( "EBWin_DiscType" ), EBInfo.DiskType( Book ) )
@@ -195,7 +195,7 @@ namespace GR.GSystem
 			Installing = true;
 			Loading = true;
 
-			StringResources stx = new StringResources( "Settings" );
+			StringResources stx = StringResources.Load( "Settings" );
 
 			try
 			{
@@ -303,7 +303,7 @@ namespace GR.GSystem
 				.Parameters( "Title" )
 				.Where( x => !x.GetBool( "Corrupted" ) );
 
-			StringResources stx = new StringResources( "Settings" );
+			StringResources stx = StringResources.Load( "Settings" );
 			Data = Params.Select( x => new ActiveItem( x.GetValue( "Title" ), x.GetValue( "Size" ), x.Id ) );
 		}
 	}

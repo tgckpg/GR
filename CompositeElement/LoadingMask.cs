@@ -116,7 +116,7 @@ namespace GR.CompositeElement
 
 		private void TipMask_Loaded( object sender, RoutedEventArgs e )
 		{
-			StringResources stx = new StringResources( "Tips" );
+			StringResources stx = StringResources.Load( "Tips" );
 			EveryMessage = new List<string>();
 			for( int i = 0; i < L; i ++ )
 			{

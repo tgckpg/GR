@@ -91,7 +91,7 @@ namespace GR.Taotu
 
 		public override Task Edit()
 		{
-			StringResources stx = new StringResources( "Message" );
+			StringResources stx = StringResources.Load( "Message" );
 			return Popups.ShowDialog( UIAliases.CreateDialog( stx.Str( "ProcNoOptions" ) ) );
 		}
 	}

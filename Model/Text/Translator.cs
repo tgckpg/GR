@@ -69,7 +69,7 @@ namespace GR.Model.Text
 
 			bool Confirmed = false;
 
-			StringResources stx = new StringResources( "Message" );
+			StringResources stx = StringResources.Load( "Message" );
 
 			await Popups.ShowDialog( UIAliases.CreateDialog(
 				stx.Str( "TranslateTC" )

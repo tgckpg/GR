@@ -51,7 +51,7 @@ namespace GR.Resources
 		{
 			Worker.UIInvoke( () =>
 			{
-				if ( LoadMesgRes == null ) LoadMesgRes = new StringResources( "LoadingMessage" );
+				if ( LoadMesgRes == null ) LoadMesgRes = StringResources.Load( "LoadingMessage" );
 				string mesg = LoadMesgRes.Str( MESG_ID );
 
 				mesg = string.IsNullOrEmpty( mesg ) ? MESG_ID : mesg;
