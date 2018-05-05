@@ -21,6 +21,12 @@ namespace GR.Config.Scopes
 			set => SetValue( "UseInertia", value );
 		}
 
+		public bool UseAccelerScroll
+		{
+			get => GetValue<bool>( "UseAccelerScroll", false );
+			set => SetValue( "UseAccelerScroll", value );
+		}
+
 		public bool AutoBookmark
 		{
 			get => GetValue<bool>( "AutoBookmark", true );
