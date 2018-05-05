@@ -208,10 +208,28 @@ namespace GR.Config.Scopes
 		{
 			protected override string ScopeId => "AccelerScroll";
 
+			public bool Asked
+			{
+				get => GetValue<bool>( "Asked", false );
+				set => SetValue( "Asked", value );
+			}
+
 			public bool Enable
 			{
 				get => GetValue<bool>( "Enable", false );
 				set => SetValue( "Enable", value );
+			}
+
+			public float AccelerMultiplier
+			{
+				get => GetValue<float>( "AccelerMultiplier", 0.5f );
+				set => SetValue( "AccelerMultiplier", value );
+			}
+
+			public float TerminalVelocity
+			{
+				get => GetValue<float>( "TerminalVelocity", 30.0f );
+				set => SetValue( "TerminalVelocity", value );
 			}
 
 			public float StopRange

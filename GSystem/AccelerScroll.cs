@@ -25,6 +25,8 @@ namespace GR.GSystem
 
 		public bool Available => Meter != null;
 
+		public float AccelerMultiplier;
+		public float TerminalVelocity;
 		public float StopRange;
 
 		private float _X;
