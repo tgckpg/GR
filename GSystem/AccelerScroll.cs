@@ -9,6 +9,7 @@ using Windows.Devices.Sensors;
 using Net.Astropenguin.DataModel;
 using Net.Astropenguin.Helpers;
 using Net.Astropenguin.Logging;
+using GR.Config;
 
 namespace GR.GSystem
 {
@@ -23,7 +24,9 @@ namespace GR.GSystem
 		private bool ReadingStarted = false;
 		public Action<float> Delta;
 
-		public float StartX = 0.2f;
+		public bool Available => Meter != null;
+
+		public float StopRange;
 
 		private float _X;
 		public float X
@@ -35,7 +38,7 @@ namespace GR.GSystem
 
 				if ( Delta != null )
 				{
-					Worker.UIInvoke( () => Delta( 25.0f * _X ) );
+					Delta( _X );
 					NotifyChanged( "X" );
 				}
 			}
@@ -44,16 +47,19 @@ namespace GR.GSystem
 		public AccelerScroll()
 		{
 			Meter = Accelerometer.GetDefault( AccelerometerReadingType.Standard );
+			if( Meter == null )
+			{
+				return;
+			}
+
 			Meter.ReportInterval = 20;
-
 			DispRequest = new DisplayRequest();
-
 			ReleaseActive();
 		}
 
 		public void StartReading()
 		{
-			if ( ReadingStarted )
+			if ( Meter == null || ReadingStarted )
 				return;
 
 			ReadingStarted = true;
@@ -63,6 +69,9 @@ namespace GR.GSystem
 
 		public void StopReading()
 		{
+			if ( Meter == null )
+				return;
+
 			ReleaseActive();
 
 			Meter.ReadingChanged -= Meter_ReadingChanged;
@@ -72,7 +81,7 @@ namespace GR.GSystem
 		private void Meter_ReadingChanged( Accelerometer sender, AccelerometerReadingChangedEventArgs args )
 		{
 			_X = ( float ) args.Reading.AccelerationX;
-			if ( StartX < Math.Abs( _X ) )
+			if ( StopRange < Math.Abs( _X ) )
 			{
 				X = _X;
 				RequestActive();

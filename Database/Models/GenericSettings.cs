@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace GR.Database.Models
 {
-	enum GSDataType { UNKNOWN, BOOL, USHORT, INT, UINT, DOUBLE, STRING, COLOR }
+	enum GSDataType { UNKNOWN, BOOL, USHORT, INT, UINT, DOUBLE, STRING, COLOR, FLOAT }
 
 	abstract class GenericSettings
 	{
@@ -37,6 +37,10 @@ namespace GR.Database.Models
 				case GSDataType.DOUBLE:
 					if ( double.TryParse( Value, out double dValue ) )
 						return dValue;
+					break;
+				case GSDataType.FLOAT:
+					if ( float.TryParse( Value, out float fValue ) )
+						return fValue;
 					break;
 				case GSDataType.STRING:
 					return Value;
@@ -78,6 +82,11 @@ namespace GR.Database.Models
 			else if ( Val is uint || Type == GSDataType.UINT )
 			{
 				Type = GSDataType.UINT;
+				Value = Val.ToString();
+			}
+			else if ( Val is float || Type == GSDataType.FLOAT )
+			{
+				Type = GSDataType.FLOAT;
 				Value = Val.ToString();
 			}
 			else if ( Val is double || Type == GSDataType.DOUBLE )

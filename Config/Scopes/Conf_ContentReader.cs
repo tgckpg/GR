@@ -14,17 +14,12 @@ namespace GR.Config.Scopes
 		public Conf_Clock Clock => new Conf_Clock();
 		public Conf_EpStepper EpStepper => new Conf_EpStepper();
 		public Conf_BgContext BgContext => new Conf_BgContext();
+		public Conf_AccelerScroll AccelerScroll => new Conf_AccelerScroll();
 
 		public bool UseInertia
 		{
 			get => GetValue<bool>( "UseInertia", () => Shared.LocaleDefaults.Get<bool>( "ContentReader.UseInertia" ) );
 			set => SetValue( "UseInertia", value );
-		}
-
-		public bool UseAccelerScroll
-		{
-			get => GetValue<bool>( "UseAccelerScroll", false );
-			set => SetValue( "UseAccelerScroll", value );
 		}
 
 		public bool AutoBookmark
@@ -206,6 +201,23 @@ namespace GR.Config.Scopes
 					return GetValue<string>( "BgValue", null );
 				}
 				set => SetValue( "BgValue", value );
+			}
+		}
+
+		public class Conf_AccelerScroll : ScopedConfig<Database.Models.ContentReader>
+		{
+			protected override string ScopeId => "AccelerScroll";
+
+			public bool Enable
+			{
+				get => GetValue<bool>( "Enable", false );
+				set => SetValue( "Enable", value );
+			}
+
+			public float StopRange
+			{
+				get => GetValue<float>( "StopRange", 0.2f );
+				set => SetValue( "StopRange", value );
 			}
 		}
 
