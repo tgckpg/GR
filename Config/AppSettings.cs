@@ -200,7 +200,7 @@ namespace GR.Config
 			if ( !TestKey( Parameters.MISC_COGNITIVE_API_KEY ) )
 				Properties.MISC_COGNITIVE_API_KEY = "";
 
-			BingService.SetApiKey( Properties.MISC_COGNITIVE_API_KEY );
+			BingService.API_KEY = Properties.MISC_COGNITIVE_API_KEY;
 
 			GSystem.LogControl.SetFilter( Properties.LOG_LEVEL );
 			Logger.Log( ID, "Initilizated", LogType.INFO );

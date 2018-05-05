@@ -32,5 +32,10 @@ namespace GR.Config.Scopes
 			set => SetValue( "TwitterConfirmed", value );
 		}
 
+		public string GCustomSearchAPI
+		{
+			get => GetValue<string>( "GCustomSearchAPI", null );
+			set => SetValue( "GoogleCustomSearch", value );
+		}
 	}
 }

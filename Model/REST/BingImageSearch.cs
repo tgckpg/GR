@@ -88,5 +88,4 @@ namespace GR.Model.REST
 		}
 
 	}
-
 }

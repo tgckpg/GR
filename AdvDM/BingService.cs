@@ -12,13 +12,14 @@ using Net.Astropenguin.Loaders;
 namespace GR.AdvDM
 {
 	using Model.Book;
+	using Model.Interfaces;
 	using Model.REST;
 	using Settings;
 
-	sealed class BingService
+	sealed class BingService : IImageService
 	{
 		public static string SYS_API_KEY { get; set; }
-		public static string API_KEY { get; private set; }
+		public static string API_KEY { get; set; }
 
 		public string DefaultKeyword { get { return Book.Title + " " + Book.Info.Author; } }
 
@@ -27,7 +28,7 @@ namespace GR.AdvDM
 
 		private BookItem Book;
 
-		public static void SetApiKey( string Key )
+		public void SetApiKey( string Key )
 		{
 			API_KEY = string.IsNullOrEmpty( Key ) ? SYS_API_KEY : Key;
 		}

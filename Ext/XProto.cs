@@ -29,5 +29,6 @@ namespace GR.Ext
 		public const string ControlFrame = "wenku10.Pages.ControlFrame, wenku10";
 
 		public const string BingService = "GR.AdvDM.BingService, GR";
+		public const string GoogleImageSearch = "GR.Model.REST.GoogleImageSearch, GR";
 	}
 }
