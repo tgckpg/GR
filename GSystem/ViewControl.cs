@@ -12,6 +12,9 @@ namespace GR.GSystem
 	sealed class ViewControl : ActiveData
 	{
 		private ApplicationView Instance;
+
+		public ApplicationViewOrientation Orientation => Instance.Orientation;
+
 		public bool IsFullScreen
 		{
 			get
@@ -32,11 +35,6 @@ namespace GR.GSystem
 				}
 				NotifyChanged( "IsFullScreen" );
 			}
-		}
-
-		public ApplicationViewOrientation Orientation
-		{
-			get { return Instance.Orientation; }
 		}
 
 		public ViewControl()

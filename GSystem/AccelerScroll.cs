@@ -3,14 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Windows.System.Display;
+using Windows.Graphics.Display;
 using Windows.Devices.Sensors;
+using Windows.System.Display;
 
 using Net.Astropenguin.Helpers;
 
 namespace GR.GSystem
 {
 	using Effects;
+	using Windows.UI.ViewManagement;
 
 	public class AccelerScroll
 	{
@@ -41,8 +43,15 @@ namespace GR.GSystem
 			if( Meter == null ) return;
 
 			Meter.ReportInterval = 20;
+
 			DispRequest = new DisplayRequest();
 			ReleaseActive();
+		}
+
+		public void UpdateOrientation( DisplayOrientations Ori )
+		{
+			if ( Meter == null ) return;
+			Meter.ReadingTransform = Ori;
 		}
 
 		public void StartCallibrate()
