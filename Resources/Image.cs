@@ -262,5 +262,11 @@ namespace GR.Resources
 			}
 		}
 
+		public async static Task<(double, double)> GetImageSize( Stream S )
+		{
+			BitmapDecoder Dec = await BitmapDecoder.CreateAsync( S.AsRandomAccessStream() );
+			return (Dec.PixelWidth, Dec.PixelHeight);
+		}
+
 	}
 }

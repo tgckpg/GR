@@ -54,7 +54,7 @@ namespace GR.Database.Contexts
 
 		public void Write( string Id, object Data )
 		{
-			DelayedWriter.Queue( () =>
+			DelayedWriter.DelayQueue( () =>
 			{
 				ZCache Cache = Caches.FirstOrDefault( x => x.Key == Id ) ?? KeyStore.Find( Id );
 

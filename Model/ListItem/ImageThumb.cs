@@ -20,30 +20,37 @@ namespace GR.Model.ListItem
 	{
 		public static readonly string ID = typeof( ImageThumb ).Name;
 
-		private uint Width = 0;
-		private uint Height = 0;
+		public uint Width { get; private set; }
+		public uint Height { get; private set; }
 
-		private string _Location;
-		public string Location
-		{
-			get { return _Location; }
-			private set { _Location = value; }
-		}
+		public double FullWidth { get; private set; }
+		public double FullHeight { get; private set; }
 
-		private ImageSource Img;
+		public string Location { get; private set; }
 
 		public string Reference;
 
+		private ImageSource _ImgSrc;
 		public ImageSource ImgSrc
+		{
+			get => _ImgSrc;
+			set
+			{
+				_ImgSrc = value;
+				NotifyChanged( "ImgSrc", "IsDownloadNeeded", "FullSizeImage" );
+			}
+		}
+
+		public ImageSource FullSizeImage
 		{
 			get
 			{
-				return Img;
-			}
-			set
-			{
-				Img = value;
-				NotifyChanged( "ImgSrc", "IsDownloadNeeded" );
+				if ( ImgSrc == null )
+					return null;
+
+				BitmapImage Bmp = new BitmapImage();
+				Bmp.SetSourceFromUrl( Location );
+				return Bmp;
 			}
 		}
 
@@ -57,10 +64,10 @@ namespace GR.Model.ListItem
 
 		public ImageThumb( string Location, uint? Width, uint? Height )
 		{
-			if( Width != null ) this.Width = ( uint ) Width;
-			if( Height != null ) this.Height = ( uint ) Height;
+			if ( Width != null ) this.Width = ( uint ) Width;
+			if ( Height != null ) this.Height = ( uint ) Height;
 
-			if( this.Width == 0 && this.Height == 0 )
+			if ( this.Width == 0 && this.Height == 0 )
 			{
 				throw new ArgumentNullException( "You must at least set one of the Width / Height" );
 			}
@@ -74,11 +81,11 @@ namespace GR.Model.ListItem
 
 			BitmapImage b = new BitmapImage();
 
-			if( Library = await Shared.Storage.TryGetImage( Location ) )
+			if ( Library = await Shared.Storage.TryGetImage( Location ) )
 			{
 				await SetBitmap( b, Library.Out.AsRandomAccessStream() );
 			}
-			else if( Shared.Storage.FileExists( Location ) )
+			else if ( Shared.Storage.FileExists( Location ) )
 			{
 				await SetBitmap( b, Shared.Storage.GetStream( Location ).AsRandomAccessStream() );
 			}
@@ -110,19 +117,13 @@ namespace GR.Model.ListItem
 
 			BitmapImage b = new BitmapImage();
 
-			if( Library = await Shared.Storage.TryGetImage( Location ) )
+			if ( Library = await Shared.Storage.TryGetImage( Location ) )
 			{
-				if( 0 < Width ) b.DecodePixelWidth = ( int ) Width;
-				if( 0 < Height ) b.DecodePixelHeight = ( int ) Height;
-
-				await SetBitmap( b, Library.Out.AsRandomAccessStream() );
+				await SetImgSrc( b, Library.Out );
 			}
-			else if( Shared.Storage.FileExists( Location ) )
+			else if ( Shared.Storage.FileExists( Location ) )
 			{
-				if( 0 < Width ) b.DecodePixelWidth = ( int ) Width;
-				if( 0 < Height ) b.DecodePixelHeight = ( int ) Height;
-
-				await SetBitmap( b, Shared.Storage.GetStream( Location ).AsRandomAccessStream() );
+				await SetImgSrc( b, Shared.Storage.GetStream( Location ) );
 			}
 			else
 			{
@@ -130,6 +131,19 @@ namespace GR.Model.ListItem
 			}
 
 			ImgSrc = b;
+		}
+
+		private async Task SetImgSrc( BitmapImage b, Stream s )
+		{
+			using ( s )
+			{
+				(FullWidth, FullHeight) = await Image.GetImageSize( s);
+				s.Seek( 0, SeekOrigin.Begin );
+
+				if ( 0 < Width ) b.DecodePixelWidth = ( int ) Width;
+				if ( 0 < Height ) b.DecodePixelHeight = ( int ) Height;
+				await SetBitmap( b, s.AsRandomAccessStream() );
+			}
 		}
 	}
 }

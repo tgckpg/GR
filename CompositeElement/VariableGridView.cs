@@ -52,7 +52,7 @@ namespace GR.CompositeElement
 		protected override void OnApplyTemplate()
 		{
 			base.OnApplyTemplate();
-			RefSV = this.ChildAt<ScrollViewer>( 1 );
+			RefSV = this.Child_0<ScrollViewer>( 1 );
 
 			RefSV.ViewChanged += RefSV_ViewChanged;
 		}
