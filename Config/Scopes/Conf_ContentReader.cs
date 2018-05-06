@@ -232,10 +232,16 @@ namespace GR.Config.Scopes
 				set => SetValue( "TerminalVelocity", value );
 			}
 
-			public float StopRange
+			public float BrakeOffset
 			{
-				get => GetValue<float>( "StopRange", 0.2f );
-				set => SetValue( "StopRange", value );
+				get => GetValue<float>( "BrakeOffset", 0.0f );
+				set => SetValue( "BrakeOffset", value );
+			}
+
+			public float Brake
+			{
+				get => GetValue<float>( "Brake", 0.2f );
+				set => SetValue( "Brake", value );
 			}
 		}
 

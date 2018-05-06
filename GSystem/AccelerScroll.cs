@@ -27,9 +27,11 @@ namespace GR.GSystem
 
 		public float AccelerMultiplier;
 		public float TerminalVelocity;
-		public float StopRange;
+		public float BrakeOffset;
+		public float Brake;
 
 		private float _X;
+		private float HitBound;
 
 		private Queue<float> SRSamples = new Queue<float>();
 
@@ -53,6 +55,7 @@ namespace GR.GSystem
 
 		public void EndCallibration()
 		{
+			UpdateHitBound();
 			if ( Meter == null ) return;
 
 			Meter.ReadingChanged -= Meter_CallibrateChanged;
@@ -61,6 +64,8 @@ namespace GR.GSystem
 
 		public void StartReading()
 		{
+			UpdateHitBound();
+
 			if ( Meter == null || ReadingStarted )
 				return;
 
@@ -89,9 +94,14 @@ namespace GR.GSystem
 		private void Meter_ReadingChanged( Accelerometer sender, AccelerometerReadingChangedEventArgs args )
 		{
 			Easings.ParamTween( ref _X, ( float ) args.Reading.AccelerationX, 0.90f, 0.10f );
-			if ( StopRange < Math.Abs( _X ) )
+
+			float PosX = 0.5f * ( 1 + _X );
+
+			bool InRange = ( PosX < HitBound || HitBound + Brake < PosX );
+
+			if ( InRange )
 			{
-				Delta?.Invoke( _X );
+				Delta?.Invoke( _X - BrakeOffset );
 				RequestActive();
 			}
 			else
@@ -117,6 +127,11 @@ namespace GR.GSystem
 				StateActive = false;
 				Worker.UIInvoke( DispRequest.RequestRelease );
 			}
+		}
+
+		private void UpdateHitBound()
+		{
+			HitBound = ( BrakeOffset + 1 ) * ( 0.5f * ( 1 - Brake ) );
 		}
 
 	}
