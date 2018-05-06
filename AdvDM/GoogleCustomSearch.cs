@@ -47,8 +47,9 @@ namespace GR.AdvDM
 			return Keyword;
 		}
 
-		public string GetSearchQuery()
+		public async Task<string> GetSearchQuery()
 		{
+			await GetImage();
 			return CurrentItem?.ContextLink;
 		}
 

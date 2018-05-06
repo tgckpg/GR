@@ -37,5 +37,12 @@ namespace GR.Config.Scopes
 			get => GetValue<string>( "GCustomSearchAPI", null );
 			set => SetValue( "GoogleCustomSearch", value );
 		}
+
+		public string BingImageAPI
+		{
+			get => GetValue<string>( "BingImageAPI", null );
+			set => SetValue( "BingImageAPI", value );
+		}
+
 	}
 }

@@ -11,111 +11,82 @@ using Net.Astropenguin.Loaders;
 
 namespace GR.AdvDM
 {
+	using Config;
 	using Model.Book;
 	using Model.Interfaces;
 	using Model.REST;
-	using Settings;
 
 	sealed class BingService : IImageService
 	{
-		public static string SYS_API_KEY { get; set; }
 		public static string API_KEY { get; set; }
 
-		public string DefaultKeyword { get { return Book.Title + " " + Book.Info.Author; } }
-
-		private XRegistry ServiceReg;
-		private XParameter ServParam;
+		public string DefaultKeyword => Book.Title + " " + Book.Info.Author;
 
 		private BookItem Book;
-
-		public void SetApiKey( string Key )
-		{
-			API_KEY = string.IsNullOrEmpty( Key ) ? SYS_API_KEY : Key;
-		}
 
 		public BingService( BookItem Book )
 		{
 			this.Book = Book;
-
-			ServiceReg = new XRegistry( "<bing />", FileLinks.ROOT_SETTING + FileLinks.BING_SERVICE );
-
-			ServParam = ServiceReg.Parameter( Book.GID );
-
-			if ( ServParam == null )
-			{
-				ServParam = new XParameter( Book.GID );
-				ServParam.SetValue( new XKey( "keyword", DefaultKeyword ) );
-				ServParam.SetValue( new XKey( "offset", 0 ) );
-
-				ServiceReg.SetParameter( ServParam );
-				ServiceReg.Save();
-			}
 		}
 
 		public async Task<string> GetImage( bool FullSize = false )
 		{
-			int offset = ServParam.GetSaveInt( "offset" );
-			XParameter ImgParam = ServParam.Parameter( offset.ToString() );
+			BingImageSearch BReq = new BingImageSearch( GetKeyword() );
 
-			string ImgUrl = ImgParam?.GetValue( "url" );
-
-			if ( string.IsNullOrEmpty( ImgUrl ) )
+			if ( !( Book.Entry.Meta.TryGetValue( "ImageSearch:offset", out string sOffset ) && int.TryParse( sOffset, out int Offset ) ) )
 			{
-				BingImageSearch BReq = new BingImageSearch( ServParam.GetValue( "keyword" ) );
-
-				ImgUrl = await ( FullSize ? BReq.GetFullImage( offset ) : BReq.GetImage( offset ) );
-
-				ImgParam = new XParameter( offset.ToString() );
-				ImgParam.SetValue( new XKey( "url", ImgUrl ) );
-
-				SetResultUrl( ImgParam, BReq.ResultObj );
+				Offset = 0;
 			}
 
+			string ImgUrl = await ( FullSize ? BReq.GetFullImage( Offset ) : BReq.GetImage( Offset ) );
 			return ImgUrl;
+		}
+
+		public Task<string> GetSearchQuery()
+		{
+			Func<string> _Null = () => null;
+			return Task.Run( _Null );
+		}
+
+		public string GetKeyword()
+		{
+			if ( !Book.Entry.Meta.TryGetValue( "ImageSearch", out string Keyword ) )
+			{
+				Keyword = DefaultKeyword;
+			}
+
+			return Keyword;
 		}
 
 		public void SetKeyword( string Keyword )
 		{
-			ServParam.SetValue( new XKey( "keyword", Keyword ) );
-			ServParam.SetValue( new XKey( "offset", 0 ) );
-			ServParam.ClearParams();
-
-			ServiceReg.SetParameter( ServParam );
-			ServiceReg.Save();
+			Book.Entry.Meta[ "ImageSearch" ] = Keyword;
+			Book.SaveInfo();
 		}
 
 		public void SetOffset( int Value )
 		{
-			int offset = ServParam.GetSaveInt( "offset" );
+			if ( Book.Entry.Meta.TryGetValue( "ImageSearch:offset", out string sOffset ) && int.TryParse( sOffset, out int Offset ) )
+			{
+				Offset = Offset + Value;
+			}
+			else
+			{
+				Offset = 0;
+			}
 
-			if ( Value == 0 ) offset = 0;
-			else offset += Value;
+			if ( Offset < 0 ) Offset = 0;
 
-			ServParam.SetValue( new XKey( "offset", offset ) );
-			ServiceReg.SetParameter( ServParam );
-			ServiceReg.Save();
+			Book.Entry.Meta[ "ImageSearch:offset" ] = Offset.ToString();
 		}
 
-		public string GetSearchQuery()
+		public bool Exists() => false;
+
+		public void SetApiKey( string Key )
 		{
-			XParameter ImgParam = ServParam.Parameter( ServParam.GetValue( "offset" ) );
-			return ImgParam?.GetValue( "browser" );
+			GRConfig.System.BingImageAPI = Key;
+			API_KEY = Key;
 		}
-		public string GetKeyword() { return ServParam.GetValue( "keyword" ); }
-		public bool Exists() { return ServParam.GetParameters().FirstOrDefault() != null; }
-
-		private void SetResultUrl( XParameter ImgParam, JsonObject Obj )
-		{
-			if ( Obj == null ) return;
-
-			ImgParam.SetValue( new XKey( "browser", Obj.GetNamedString( "webSearchUrl" ) ) );
-
-			ServParam.SetParameter( ImgParam );
-			ServiceReg.SetParameter( ServParam );
-
-			ServiceReg.Save();
-		}
-
 	}
 
 	sealed class BingHttpRequest : HttpRequest

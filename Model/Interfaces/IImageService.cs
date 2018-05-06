@@ -10,12 +10,12 @@ namespace GR.Model.Interfaces
 	{
 		string DefaultKeyword { get; }
 		Task<string> GetImage( bool FullSize = false );
+		Task<string> GetSearchQuery();
 
 		void SetApiKey( string ApiKey );
 		void SetKeyword( string Keyword );
 		void SetOffset( int Value );
 
-		string GetSearchQuery();
 		string GetKeyword();
 
 		bool Exists();

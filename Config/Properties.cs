@@ -103,11 +103,5 @@ namespace GR.Config
 			set => SetParameter( Parameters.LANGUAGE_TRADITIONAL, value );
 		}
 
-		public static string MISC_COGNITIVE_API_KEY
-		{
-			get => GetValue<string>( Parameters.MISC_COGNITIVE_API_KEY );
-			set => SetParameter( Parameters.MISC_COGNITIVE_API_KEY, value );
-		}
-
 	}
 }
