@@ -4,6 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using Net.Astropenguin.Helpers;
+using Net.Astropenguin.Logging;
+
 namespace GR.Model.Loaders
 {
 	using AdvDM;
@@ -12,7 +15,8 @@ namespace GR.Model.Loaders
 
 	class TRTable
 	{
-		RuntimeCache RCache = new RuntimeCache();
+		RuntimeCache _RCache;
+		RuntimeCache RCache => _RCache ?? ( _RCache = new RuntimeCache() );
 
 		public bool Validate( string Type ) => Shared.Storage.FileExists( FileLinks.ROOT_WTEXT + "tr-" + Type );
 
@@ -38,13 +42,27 @@ namespace GR.Model.Loaders
 		{
 			TaskCompletionSource<byte[]> Bytes = new TaskCompletionSource<byte[]>();
 
-			RCache.POST(
-				Shared.ShRequest.Server
-				, new PostData( Type, "action=tr-table&type=" + Type )
-				, ( e, id ) => Bytes.TrySetResult( e.ResponseBytes )
-				, ( c, Id, ex ) => Bytes.TrySetResult( new byte[ 0 ] )
-				, false
-			);
+			if ( Shared.ShRequest == null )
+			{
+				// Since ShRequest instance is unavailable here
+				// We do not download the tables on background tasks
+				if ( !Worker.BackgroundOnly )
+				{
+					Logger.Log( "TRTable", "ShRequest is null!", LogType.WARNING );
+				}
+
+				Bytes.TrySetResult( new byte[ 0 ] );
+			}
+			else
+			{
+				RCache.POST(
+					Shared.ShRequest.Server
+					, new PostData( Type, "action=tr-table&type=" + Type )
+					, ( e, id ) => Bytes.TrySetResult( e.ResponseBytes )
+					, ( c, Id, ex ) => Bytes.TrySetResult( new byte[ 0 ] )
+					, false
+				);
+			}
 
 			return Bytes.Task;
 		}
