@@ -34,7 +34,7 @@ namespace GR.CompositeElement
 			set
 			{
 				base.State = value;
-				Closed = ( value == ControlState.Foreatii );
+				Closed = ( value == ControlState.Closed );
 			}
 		}
 
@@ -147,14 +147,14 @@ namespace GR.CompositeElement
 		private async Task MaskOpen()
 		{
 			Closed = false;
-			State = ControlState.Reovia;
+			State = ControlState.Active;
 			await Task.Delay( 1000 );
 		}
 
 		private void MaskClose()
 		{
 			Closed = true;
-			State = ControlState.Foreatii;
+			State = ControlState.Closed;
 		}
 
 		internal async void HandleForward( Frame F, Action p )

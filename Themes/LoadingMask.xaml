@@ -27,8 +27,8 @@
                         <VisualStateManager.VisualStateGroups>
                             <VisualStateGroup x:Name="ControlStates">
                                 <VisualStateGroup.Transitions>
-                                    <VisualTransition x:Name="ForeatiiToReovia" 
-                                                          From="Foreatii" To="Reovia"
+                                    <VisualTransition x:Name="ClosedToActive" 
+                                                          From="Closed" To="Active"
                                                           GeneratedDuration="0:0:0.5">
                                         <Storyboard>
                                             <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="Opacity" Storyboard.TargetName="ControlContext">
@@ -40,8 +40,8 @@
                                             </ObjectAnimationUsingKeyFrames>
                                         </Storyboard>
                                     </VisualTransition>
-                                    <VisualTransition x:Name="ReoviaToForeatii" 
-                                                          From="Reovia" To="Foreatii"
+                                    <VisualTransition x:Name="ActiveToClosed" 
+                                                          From="Active" To="Closed"
                                                           GeneratedDuration="0:0:0.5">
                                         <Storyboard>
                                             <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="Opacity" Storyboard.TargetName="ControlContext">
@@ -55,7 +55,7 @@
                                     </VisualTransition>
                                 </VisualStateGroup.Transitions>
                                 <VisualStateGroup.States>
-                                    <VisualState x:Name="Reovia">
+                                    <VisualState x:Name="Active">
                                         <Storyboard>
                                             <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ControlContext" Storyboard.TargetProperty="(FrameworkElement.Visibility)">
                                                 <DiscreteObjectKeyFrame KeyTime="0" Value="Visible" />
@@ -65,7 +65,7 @@
                                                                          Duration="0" To="1" />
                                         </Storyboard>
                                     </VisualState>
-                                    <VisualState x:Name="Foreatii">
+                                    <VisualState x:Name="Closed">
                                         <Storyboard>
                                             <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ControlContext" Storyboard.TargetProperty="(FrameworkElement.Visibility)">
                                                 <DiscreteObjectKeyFrame KeyTime="1" Value="Collapsed" />
@@ -119,8 +119,8 @@
                         <VisualStateManager.VisualStateGroups>
                             <VisualStateGroup x:Name="ControlStates">
                                 <VisualStateGroup.Transitions>
-                                    <VisualTransition x:Name="ForeatiiToReovia" 
-                                                          From="Foreatii" To="Reovia"
+                                    <VisualTransition x:Name="ClosedToActive" 
+                                                          From="Closed" To="Active"
                                                           GeneratedDuration="0:0:0.5">
                                         <Storyboard>
                                             <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="Opacity" Storyboard.TargetName="ControlContext">
@@ -132,8 +132,8 @@
                                             </ObjectAnimationUsingKeyFrames>
                                         </Storyboard>
                                     </VisualTransition>
-                                    <VisualTransition x:Name="ReoviaToForeatii" 
-                                                          From="Reovia" To="Foreatii"
+                                    <VisualTransition x:Name="ActiveToClosed" 
+                                                          From="Active" To="Closed"
                                                           GeneratedDuration="0:0:0.5">
                                         <Storyboard>
                                             <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="Opacity" Storyboard.TargetName="ControlContext">
@@ -147,7 +147,7 @@
                                     </VisualTransition>
                                 </VisualStateGroup.Transitions>
                                 <VisualStateGroup.States>
-                                    <VisualState x:Name="Reovia">
+                                    <VisualState x:Name="Active">
                                         <Storyboard>
                                             <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ControlContext" Storyboard.TargetProperty="(FrameworkElement.Visibility)">
                                                 <DiscreteObjectKeyFrame KeyTime="0" Value="Visible" />
@@ -157,7 +157,7 @@
                                                                          Duration="0" To="1" />
                                         </Storyboard>
                                     </VisualState>
-                                    <VisualState x:Name="Foreatii">
+                                    <VisualState x:Name="Closed">
                                         <Storyboard>
                                             <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ControlContext" Storyboard.TargetProperty="(FrameworkElement.Visibility)">
                                                 <DiscreteObjectKeyFrame KeyTime="1" Value="Collapsed" />
