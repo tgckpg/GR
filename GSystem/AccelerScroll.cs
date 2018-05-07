@@ -45,7 +45,7 @@ namespace GR.GSystem
 			Meter = Accelerometer.GetDefault( AccelerometerReadingType.Standard );
 			if( Meter == null ) return;
 
-			Meter.ReportInterval = 20;
+			Meter.ReportInterval = 1000;
 
 			DispRequest = new DisplayRequest();
 			ReleaseActive();
@@ -99,13 +99,15 @@ namespace GR.GSystem
 		private void Meter_CallibrateChanged( Accelerometer sender, AccelerometerReadingChangedEventArgs args )
 		{
 			// Stabilize the value
-			Easings.ParamTween( ref _X, ( float ) args.Reading.AccelerationX, 0.90f, 0.10f );
-			Delta( _X );
+			// Easings.ParamTween( ref _X, ( float ) args.Reading.AccelerationX, 0.90f, 0.10f );
+			// Delta( _X );
+			Delta( _X = ( float ) args.Reading.AccelerationX );
 		}
 
 		private void Meter_ReadingChanged( Accelerometer sender, AccelerometerReadingChangedEventArgs args )
 		{
-			Easings.ParamTween( ref _X, ( float ) args.Reading.AccelerationX, 0.90f, 0.10f );
+			// Easings.ParamTween( ref _X, ( float ) args.Reading.AccelerationX, 0.90f, 0.10f );
+			_X = ( float ) args.Reading.AccelerationX;
 
 			float PosX = 0.5f * ( 1 + _X );
 
