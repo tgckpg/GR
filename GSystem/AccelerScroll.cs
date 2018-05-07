@@ -31,6 +31,7 @@ namespace GR.GSystem
 		public float TerminalVelocity;
 		public float BrakeOffset;
 		public float Brake;
+		public float BrakingForce;
 
 		public bool ForceBrake = false;
 		public bool ProgramBrake = false;

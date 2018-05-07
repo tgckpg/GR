@@ -238,6 +238,12 @@ namespace GR.Config.Scopes
 				set => SetValue( "BrakeOffset", value );
 			}
 
+			public float BrakingForce
+			{
+				get => GetValue<float>( "BrakingForce", 0.3f );
+				set => SetValue( "BrakingForce", value );
+			}
+
 			public float Brake
 			{
 				get => GetValue<float>( "Brake", 0.2f );
