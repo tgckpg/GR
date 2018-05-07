@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,7 +12,6 @@ using Net.Astropenguin.Logging;
 namespace GR.Storage
 {
 	using Model.Book;
-	using Resources;
 	using Settings;
 
 	class CustomAnchor : ActiveData
@@ -96,11 +96,14 @@ namespace GR.Storage
 		public static readonly string ID = typeof( AutoAnchor ).Name;
 
 		private string VOL_ANC;
+		private ConcurrentDictionary<string, int> DelayedWrite;
+		private volatile bool WritePending;
 
 		public AutoAnchor( BookItem b )
 			: base( b )
 		{
 			VOL_ANC = ( b.IsDeathblow() ? "ALT.D." : "" ) + AppKeys.LBS_CH;
+			DelayedWrite = new ConcurrentDictionary<string, int>();
 		}
 
 		public void SaveAutoVolAnc( string cid )
@@ -117,8 +120,21 @@ namespace GR.Storage
 			Reg.Save();
 		}
 
-		public void SaveAutoChAnc( string cid, int index )
+		public async void SaveAutoChAnc( string cid, int index )
 		{
+			DelayedWrite[ cid ] = index;
+
+			if ( WritePending )
+				return;
+
+			WritePending = true;
+			await Task.Delay( 5000 );
+
+			if ( !DelayedWrite.TryRemove( cid, out index ) )
+			{
+				return;
+			}
+
 			string Id = "CAnc:" + cid;
 
 			try
@@ -131,6 +147,7 @@ namespace GR.Storage
 			}
 
 			Reg.Save();
+			WritePending = false;
 		}
 
 		public string GetAutoVolAnc()
