@@ -33,6 +33,7 @@ namespace GR.GSystem
 		public float Brake;
 
 		public bool ForceBrake = false;
+		public bool ProgramBrake = false;
 
 		private float _X;
 		private float HitBound;
