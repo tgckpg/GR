@@ -17,7 +17,7 @@ namespace GR.GSystem
 	public class AccelerScroll
 	{
 		// Display Requests are accumulative, so we need static bool store the state
-		private static bool StateActive = false;
+		public static bool StateActive { get; private set; } = false;
 
 		private Accelerometer Meter;
 		private DisplayRequest DispRequest;
@@ -31,6 +31,8 @@ namespace GR.GSystem
 		public float TerminalVelocity;
 		public float BrakeOffset;
 		public float Brake;
+
+		public bool ForceBrake = false;
 
 		private float _X;
 		private float HitBound;
