@@ -26,6 +26,7 @@ namespace GR.GSystem
 		public Action<float> Delta;
 
 		public bool Available => Meter != null;
+		public bool TrackAutoAnchor = false;
 
 		public float AccelerMultiplier;
 		public float TerminalVelocity;

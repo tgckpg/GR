@@ -220,6 +220,12 @@ namespace GR.Config.Scopes
 				set => SetValue( "Enable", value );
 			}
 
+			public bool TrackAutoAnchor
+			{
+				get => GetValue<bool>( "TrackAutoAnchor", true );
+				set => SetValue( "TrackAutoAnchor", value );
+			}
+
 			public float AccelerMultiplier
 			{
 				get => GetValue<float>( "AccelerMultiplier", 0.5f );
