@@ -30,7 +30,7 @@ namespace GR.Model.Loaders
 		/// <param name="illspath"> Illustraction Location </param>
 		private void Parse( string e, Chapter C )
 		{
-			if( C.Content == null )
+			if ( C.Content == null )
 			{
 				Shared.BooksDb.LoadRef( C, b => b.Content );
 			}
@@ -61,7 +61,10 @@ namespace GR.Model.Loaders
 				if ( C.Content == null )
 					C.Content = new ChapterContent();
 
-				C.Content.Data.BytesValue = Shared.Conv.Custom.Translate( Encoding.UTF8.GetBytes( content ) );
+				if ( !string.IsNullOrEmpty( content ) )
+				{
+					C.Content.Data.BytesValue = Shared.Conv.Custom.Translate( Encoding.UTF8.GetBytes( content ) );
+				}
 				Shared.BooksDb.SaveChanges();
 			}
 			catch ( Exception ex )
