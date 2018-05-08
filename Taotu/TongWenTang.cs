@@ -39,8 +39,8 @@ namespace GR.Taotu
 			{
 				BookInstruction Book = ( BookInstruction ) Convoy.Payload;
 
-				Book.Entry.EachProperty<string>( Shared.Conv.Chinese.Translate );
-				Book.Entry.Info.EachProperty<string>( Shared.Conv.Chinese.Translate );
+				Book.Entry.EachProperty<string>( _Translate );
+				Book.Entry.Info.EachProperty<string>( _Translate );
 
 				return Convoy;
 			}
@@ -76,17 +76,24 @@ namespace GR.Taotu
 				List<string> Contents = new List<string>();
 				foreach ( string Content in ( ( IEnumerable<string> ) UsableConvoy.Payload ) )
 				{
-					Contents.Add( Shared.Conv.Chinese.Translate( Content ) );
+					Contents.Add( _Translate( Content ) );
 				}
 
 				return new ProcConvoy( this, Contents );
 			}
 			else if ( UsableConvoy.Payload is string )
 			{
-				return new ProcConvoy( this, Shared.Conv.Chinese.Translate( ( string ) UsableConvoy.Payload ) );
+				return new ProcConvoy( this, _Translate( ( string ) UsableConvoy.Payload ) );
 			}
 
 			return Convoy;
+		}
+
+		private string _Translate( string s )
+		{
+			if ( s == null )
+				return s;
+			return Shared.Conv.Chinese.Translate( s );
 		}
 
 		public override Task Edit()

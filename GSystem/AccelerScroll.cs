@@ -8,6 +8,7 @@ using Windows.Devices.Sensors;
 using Windows.System.Display;
 
 using Net.Astropenguin.Helpers;
+using Net.Astropenguin.Logging;
 
 namespace GR.GSystem
 {
@@ -16,6 +17,8 @@ namespace GR.GSystem
 
 	public class AccelerScroll
 	{
+		private static readonly string ID = typeof( AccelerScroll ).Name; 
+
 		// Display Requests are accumulative, so we need static bool store the state
 		public static bool StateActive { get; private set; } = false;
 
@@ -61,6 +64,7 @@ namespace GR.GSystem
 
 		public void StartCallibrate()
 		{
+			Logger.Log( ID, "Start callibration", LogType.DEBUG );
 			if ( Meter == null ) return;
 
 			Meter.ReadingChanged -= Meter_ReadingChanged;
@@ -70,6 +74,7 @@ namespace GR.GSystem
 		public void EndCallibration()
 		{
 			UpdateHitBound();
+			Logger.Log( ID, "End callibration", LogType.DEBUG );
 			if ( Meter == null ) return;
 
 			Meter.ReadingChanged -= Meter_CallibrateChanged;
