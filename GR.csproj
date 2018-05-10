@@ -175,6 +175,7 @@
     <Compile Include="Model\Interfaces\IImageService.cs" />
     <Compile Include="Model\Interfaces\IMigrationOp.cs" />
     <Compile Include="Model\Interfaces\ISafeContext.cs" />
+    <Compile Include="Model\Interfaces\IHelpContext.cs" />
     <Compile Include="Model\ItemProcessor.cs" />
     <Compile Include="Model\ListItem\Sharers\HSDisplay.cs" />
     <Compile Include="Model\Loaders\LargeList.cs" />
