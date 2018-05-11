@@ -29,5 +29,4 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 [assembly: InternalsVisibleTo("wenku10")]
-[assembly: InternalsVisibleTo("wenku8-protocol")]
 [assembly: InternalsVisibleTo("Tasks")]
