@@ -17,8 +17,12 @@ namespace GR.Ext
 
 		public static void Init()
 		{
-			object o = Instance<object>( XProto.Init ) != null;
-			Exists = o != null;
+			try
+			{
+				object o = Instance<object>( XProto.Init ) != null;
+				Exists = o != null;
+			}
+			catch ( DllNotFoundException ) { }
 		}
 
 		public static T Instance<T>( string Name, params object[] args )
@@ -57,9 +61,7 @@ namespace GR.Ext
 			if ( Resolved.ContainsKey( Name ) ) return Resolved[ Name ];
 
 			SType t = SType.GetType( Name );
-			if ( t == null ) throw new DllNotFoundException( "Extension dll is not present" );
-
-			Resolved[ Name ] = t;
+			Resolved[ Name ] = t ?? throw new DllNotFoundException( "Extension dll is not present" );
 			return t;
 		}
 
