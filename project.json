@@ -1,10 +1,13 @@
 ﻿{
   "dependencies": {
-    "Microsoft.NETCore.UniversalWindowsPlatform": "5.4.0",
+    "Microsoft.EntityFrameworkCore": "1.1.5",
+    "Microsoft.EntityFrameworkCore.Sqlite": "1.1.5",
+    "Microsoft.EntityFrameworkCore.Tools": "1.1.5",
+    "Microsoft.NETCore.UniversalWindowsPlatform": "5.4.2",
     "Microsoft.OneDriveSDK": "2.0.7",
     "Microsoft.OneDriveSDK.Authentication": "1.0.10",
     "System.ValueTuple": "4.4.0",
-    "Win2D.uwp": "1.21.0"
+    "Win2D.uwp": "1.22.0"
   },
   "frameworks": {
     "uap10.0.14393": {}

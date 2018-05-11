@@ -1,9 +1,9 @@
 <ResourceDictionary
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:c="using:wenku8.CompositeElement"
+    xmlns:c="using:GR.CompositeElement"
     xmlns:p="using:Net.Astropenguin.UI"
-    xmlns:Converters="using:wenku8.Converters">
+    xmlns:Converters="using:GR.Converters">
 
     <Style TargetType="c:TitleStepper">
         <Setter Property="Template">
