@@ -14,8 +14,6 @@ namespace GR.CompositeElement
 
 	static class UIAliases
 	{
-		public static bool v4 = Windows.Foundation.Metadata.ApiInformation.IsApiContractPresent( "Windows.Foundation.UniversalApiContract", 4, 0 );
-
 		public static SolidColorBrush ContextColor = new SolidColorBrush( LayoutSettings.RelativeMajorBackgroundColor );
 
 		public static AppBarButton CreateAppBarBtn( Symbol Symbol, string Label )

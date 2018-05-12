@@ -11,6 +11,12 @@ namespace GR.Config
 			set => SetParameter( Parameters.FIRST_TIME_RUN, value );
 		}
 
+		public static bool CONSOLE_MODE
+		{
+			get => GetValue<bool>( Parameters.CONSOLE_MODE );
+			set => SetParameter( Parameters.CONSOLE_MODE, value );
+		}
+
 		public static bool RESTORE_MODE
 		{
 			get => GetValue<bool>( Parameters.RESTORE_MODE );

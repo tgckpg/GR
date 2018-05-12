@@ -112,6 +112,8 @@
     <Compile Include="Database\Contexts\FTSData.cs" />
     <Compile Include="Database\Contexts\Settings.cs" />
     <Compile Include="Database\Contexts\ZCache.cs" />
+    <Compile Include="Database\DirectSQL\Command.cs" />
+    <Compile Include="Database\DirectSQL\ResultDisplayData.cs" />
     <Compile Include="Database\GRMigrationProviders.cs" />
     <Compile Include="Database\Models.cs" />
     <Compile Include="Database\Models\Book.cs" />
