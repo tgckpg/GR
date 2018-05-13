@@ -97,5 +97,10 @@ namespace GR.Config
 			set => SetParameter( Parameters.LANGUAGE_TRADITIONAL, value );
 		}
 
+		public static string LAST_ERROR
+		{
+			get => GetValue<string>( Parameters.LAST_ERROR );
+			set => SetParameter( Parameters.LAST_ERROR, value );
+		}
 	}
 }

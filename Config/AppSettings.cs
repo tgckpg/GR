@@ -11,7 +11,6 @@ using Net.Astropenguin.Logging;
 
 namespace GR.Config
 {
-	using AdvDM;
 	using Resources;
 
 	class AppSettings
@@ -99,8 +98,6 @@ namespace GR.Config
 				Properties.LOG_LEVEL = "INFO";
 			if ( !TestKey( Parameters.RSYSTEM_LOG_ADDRESS ) )
 				Properties.RSYSTEM_LOG_ADDRESS = "127.0.0.1";
-
-			//// Local Book shelf
 
 			//// Data section
 

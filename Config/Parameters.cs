@@ -27,5 +27,7 @@ namespace GR.Config
 		// Protocol
 		public const string SERVER_MIN_RANK = "ServerMinimumRank";
 		public const string SERVER_MAX_PING = "ServerMaximumPing";
+
+		public const string LAST_ERROR = "LastError";
 	}
 }
