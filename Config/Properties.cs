@@ -29,12 +29,6 @@ namespace GR.Config
 			set => SetParameter( Parameters.INSTALLATION_INST, value );
 		}
 
-		public static string VERSION
-		{
-			get => GetValue<string>( Parameters.VERSION );
-			set => SetParameter( Parameters.VERSION, value );
-		}
-
 		public static bool ENABLE_SYSTEM_LOG
 		{
 			get => GetValue<bool>( Parameters.ENABLE_SYSTEM_LOG );
@@ -89,12 +83,6 @@ namespace GR.Config
 		{
 			get => GetValue<int>( Parameters.SERVER_MAX_PING );
 			set => SetParameter( Parameters.SERVER_MAX_PING, value );
-		}
-
-		public static string REVIEWS_SIGN
-		{
-			get => GetValue<string>( Parameters.REVIEWS_SIGN );
-			set => SetParameter( Parameters.REVIEWS_SIGN, value );
 		}
 
 		public static string LANGUAGE

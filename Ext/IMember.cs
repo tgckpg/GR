@@ -15,6 +15,9 @@ namespace GR.Ext
 		Task<bool> Authenticate();
 		Task<bool> Authenticate( string Account, string Password, bool Remember );
 
+		Task<T> GetUserProp<T>( string Key );
+		Task SetUserProp<T>( string Key, T Value );
+
 		void Logout();
 	}
 }

@@ -103,6 +103,7 @@
 			, SP_PROCESS_COMP = "Spider_Process_Comp"
 			, PM_CHECK_TILES = "PinManager_Check_Tiles"
 			, PROMPT_LOGIN = "prompt-login"
+			, ACQUIRE_SIG = "acquire-sig"
 
 			, SEARCH_AUTHOR = "search-author"
 			, OPEN_ZONE = "open-zone"
