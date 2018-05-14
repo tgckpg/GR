@@ -31,8 +31,6 @@ namespace GR.Database.DirectSQL
 
 	sealed class ResultDisplayData : GRDataSource
 	{
-		public const int MAX_COLS = 10;
-
 		public override IGRTable Table => DataTable;
 
 		public override string ConfigId => "ResultDisplayData";
@@ -63,12 +61,12 @@ namespace GR.Database.DirectSQL
 			PropertyInfo[] DRStrings = DR.GetProperties().Where( p => p.PropertyType == StrType ).ToArray();
 
 			CellProps = new IGRCell[ Headers.Length ];
-			SelectedCols = new ColumnConfig[ Math.Min( Headers.Length, MAX_COLS ) ];
+			SelectedCols = new ColumnConfig[ Math.Min( Headers.Length, GRTable<ResultData>.MAX_COLS ) ];
 
 			Headers.ExecEach( ( x, i ) =>
 			{
 				PropertyInfo PInfo = DRStrings[ i ];
-				if ( i < MAX_COLS )
+				if ( i < GRTable<ResultData>.MAX_COLS )
 				{
 					SelectedCols[ i ] = new ColumnConfig() { Name = PInfo.Name, Width = 200 };
 				}

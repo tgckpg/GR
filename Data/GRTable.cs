@@ -13,9 +13,13 @@ namespace GR.Data
 {
 	using Database.Models;
 
+	public class ToManyColumnsException : InvalidOperationException { }
+
 	public class GRTable<T> : GRRowBase<T>, IGRTable
 	{
 		public readonly Type GRTableType = typeof( GRTable<T> );
+
+		public const int MAX_COLS = 10;
 
 		public double DefaultGL = 200;
 
@@ -202,6 +206,11 @@ namespace GR.Data
 					CellEnabled = Enabled;
 				}
 			} );
+
+			if( MAX_COLS <= ActiveCols && !CellEnabled )
+			{
+				throw new ToManyColumnsException();
+			}
 
 			if ( CellEnabled )
 			{
