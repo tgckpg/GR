@@ -148,16 +148,19 @@ namespace GR.Data
 			RefreshCols( FromCol, ToCol );
 		}
 
-		public void ResizeCol( int ColIndex, double Delta )
+		public bool ResizeCol( int ColIndex, double Delta )
 		{
 			PropertyInfo Header = Headers[ ColIndex ];
 			GridLength GL = ( GridLength ) Header.GetValue( this );
 
 			double k = GL.Value + Delta;
-			if ( k < 100 ) k = 100;
+			bool LBound = k < 100;
+			if ( LBound ) k = 100;
 
 			Header.SetValue( this, new GridLength( k, GL.GridUnitType ) );
 			NotifyChanged( Header.Name );
+
+			return !LBound;
 		}
 
 		public void Configure( GRTableConfig Config )

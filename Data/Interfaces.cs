@@ -74,7 +74,7 @@ namespace GR.Data
 		int ColIndex( Type PropertyOwner, string PropertyName );
 
 		void SetCol( int FromCol, int ToCol, bool Enable );
-		void ResizeCol( int ColIndex, double x );
+		bool ResizeCol( int ColIndex, double x );
 		void MoveColumn( int FromCol, int ToCol );
 	}
 
