@@ -11,6 +11,12 @@ namespace GR.Config
 			set => SetParameter( Parameters.FIRST_TIME_RUN, value );
 		}
 
+		public static bool CONSOLE_MODE
+		{
+			get => GetValue<bool>( Parameters.CONSOLE_MODE );
+			set => SetParameter( Parameters.CONSOLE_MODE, value );
+		}
+
 		public static bool RESTORE_MODE
 		{
 			get => GetValue<bool>( Parameters.RESTORE_MODE );
@@ -21,12 +27,6 @@ namespace GR.Config
 		{
 			get => GetValue<string>( Parameters.INSTALLATION_INST );
 			set => SetParameter( Parameters.INSTALLATION_INST, value );
-		}
-
-		public static string VERSION
-		{
-			get => GetValue<string>( Parameters.VERSION );
-			set => SetParameter( Parameters.VERSION, value );
 		}
 
 		public static bool ENABLE_SYSTEM_LOG
@@ -85,12 +85,6 @@ namespace GR.Config
 			set => SetParameter( Parameters.SERVER_MAX_PING, value );
 		}
 
-		public static string REVIEWS_SIGN
-		{
-			get => GetValue<string>( Parameters.REVIEWS_SIGN );
-			set => SetParameter( Parameters.REVIEWS_SIGN, value );
-		}
-
 		public static string LANGUAGE
 		{
 			get => GetValue<string>( Parameters.LANGUAGE );
@@ -103,5 +97,10 @@ namespace GR.Config
 			set => SetParameter( Parameters.LANGUAGE_TRADITIONAL, value );
 		}
 
+		public static string LAST_ERROR
+		{
+			get => GetValue<string>( Parameters.LAST_ERROR );
+			set => SetParameter( Parameters.LAST_ERROR, value );
+		}
 	}
 }

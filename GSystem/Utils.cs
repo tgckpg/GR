@@ -4,16 +4,17 @@ using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Text;
 using System.Threading.Tasks;
+using Windows.ApplicationModel.Core;
+using Windows.Foundation.Metadata;
 using Windows.Security.Cryptography;
 using Windows.Security.Cryptography.Core;
 using Windows.Storage;
 using Windows.Storage.FileProperties;
 using Windows.Storage.Streams;
 
-using Net.Astropenguin.Helpers;
 using Net.Astropenguin.Loaders;
-using System.Text;
 
 namespace GR.GSystem
 {
@@ -174,6 +175,25 @@ namespace GR.GSystem
 				return "image/pjpeg";
 
 			return DefaultMimeType;
+		}
+
+		public static bool APIv4 = ApiInformation.IsApiContractPresent( "Windows.Foundation.UniversalApiContract", 4, 0 );
+		public static bool APIv5 = ApiInformation.IsApiContractPresent( "Windows.Foundation.UniversalApiContract", 5, 0 );
+
+		public static async Task RestartOrExit( string LaunchArgs = "-restart" )
+		{
+			if ( APIv5 )
+			{
+				AppRestartFailureReason Reason = await CoreApplication.RequestRestartAsync( LaunchArgs );
+				if ( Reason == AppRestartFailureReason.NotInForeground || Reason == AppRestartFailureReason.Other )
+				{
+					CoreApplication.Exit();
+				}
+			}
+			else
+			{
+				CoreApplication.Exit();
+			}
 		}
 
 	}

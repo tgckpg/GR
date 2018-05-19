@@ -123,7 +123,7 @@ namespace GR.Model.ListItem
 			}
 			else if ( Shared.Storage.FileExists( Location ) )
 			{
-				await SetImgSrc( b, Shared.Storage.GetStream( Location ) );
+				FileAvailable = await SetImgSrc( b, Shared.Storage.GetStream( Location ) );
 			}
 			else
 			{
@@ -133,16 +133,24 @@ namespace GR.Model.ListItem
 			ImgSrc = b;
 		}
 
-		private async Task SetImgSrc( BitmapImage b, Stream s )
+		private async Task<bool> SetImgSrc( BitmapImage b, Stream s )
 		{
 			using ( s )
 			{
-				(FullWidth, FullHeight) = await Image.GetImageSize( s);
-				s.Seek( 0, SeekOrigin.Begin );
+				try
+				{
+					(FullWidth, FullHeight) = await Image.GetImageSize( s );
+					s.Seek( 0, SeekOrigin.Begin );
 
-				if ( 0 < Width ) b.DecodePixelWidth = ( int ) Width;
-				if ( 0 < Height ) b.DecodePixelHeight = ( int ) Height;
-				await SetBitmap( b, s.AsRandomAccessStream() );
+					if ( 0 < Width ) b.DecodePixelWidth = ( int ) Width;
+					if ( 0 < Height ) b.DecodePixelHeight = ( int ) Height;
+					await SetBitmap( b, s.AsRandomAccessStream() );
+					return true;
+				}
+				catch ( Exception )
+				{
+					return false;
+				}
 			}
 		}
 	}

@@ -8,6 +8,8 @@ using Windows.UI.Xaml.Controls;
 
 namespace GR.CompositeElement
 {
+	using GSystem;
+
 	sealed class CompatMenuFlyoutItem : MenuFlyoutItem
 	{
 		public static readonly DependencyProperty Icon2Property = DependencyProperty.Register(
@@ -16,8 +18,8 @@ namespace GR.CompositeElement
 
 		public IconElement Icon2
 		{
-			get { return ( IconElement ) ( UIAliases.v4 ? GetValue( IconProperty ) : GetValue( Icon2Property ) ); }
-			set { SetValue( UIAliases.v4 ? IconProperty : Icon2Property, value ); }
+			get { return ( IconElement ) ( Utils.APIv4 ? GetValue( IconProperty ) : GetValue( Icon2Property ) ); }
+			set { SetValue( Utils.APIv4 ? IconProperty : Icon2Property, value ); }
 		}
 
 		private ContentPresenter Icon2Presenter;
@@ -25,7 +27,7 @@ namespace GR.CompositeElement
 		public CompatMenuFlyoutItem()
 			: base()
 		{
-			if ( !UIAliases.v4 )
+			if ( !Utils.APIv4 )
 			{
 				DefaultStyleKey = typeof( CompatMenuFlyoutItem );
 			}
@@ -35,7 +37,7 @@ namespace GR.CompositeElement
 
 		private void UpdateIcon()
 		{
-			if ( UIAliases.v4 )
+			if ( Utils.APIv4 )
 			{
 				Icon = Icon2;
 			}
@@ -49,7 +51,7 @@ namespace GR.CompositeElement
 		{
 			base.OnApplyTemplate();
 
-			if ( !UIAliases.v4 )
+			if ( !Utils.APIv4 )
 			{
 				Icon2Presenter = ( ContentPresenter ) GetTemplateChild( "Icon2" );
 				if ( Icon2 != null )

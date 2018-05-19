@@ -43,14 +43,12 @@ namespace GR.GSystem
 		private float _X;
 		private float HitBound;
 
-		private Queue<float> SRSamples = new Queue<float>();
-
 		public AccelerScroll()
 		{
 			Meter = Accelerometer.GetDefault( AccelerometerReadingType.Standard );
 			if( Meter == null ) return;
 
-			Meter.ReportInterval = 1000;
+			Meter.ReportInterval = 300;
 
 			DispRequest = new DisplayRequest();
 			ReleaseActive();

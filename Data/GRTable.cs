@@ -13,9 +13,13 @@ namespace GR.Data
 {
 	using Database.Models;
 
+	public class ToManyColumnsException : InvalidOperationException { }
+
 	public class GRTable<T> : GRRowBase<T>, IGRTable
 	{
 		public readonly Type GRTableType = typeof( GRTable<T> );
+
+		public const int MAX_COLS = 10;
 
 		public double DefaultGL = 200;
 
@@ -144,16 +148,19 @@ namespace GR.Data
 			RefreshCols( FromCol, ToCol );
 		}
 
-		public void ResizeCol( int ColIndex, double Delta )
+		public bool ResizeCol( int ColIndex, double Delta )
 		{
 			PropertyInfo Header = Headers[ ColIndex ];
 			GridLength GL = ( GridLength ) Header.GetValue( this );
 
 			double k = GL.Value + Delta;
-			if ( k < 100 ) k = 100;
+			bool LBound = k < 100;
+			if ( LBound ) k = 100;
 
 			Header.SetValue( this, new GridLength( k, GL.GridUnitType ) );
 			NotifyChanged( Header.Name );
+
+			return !LBound;
 		}
 
 		public void Configure( GRTableConfig Config )
@@ -202,6 +209,11 @@ namespace GR.Data
 					CellEnabled = Enabled;
 				}
 			} );
+
+			if( MAX_COLS <= ActiveCols && !CellEnabled )
+			{
+				throw new ToManyColumnsException();
+			}
 
 			if ( CellEnabled )
 			{

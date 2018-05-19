@@ -20,10 +20,7 @@ namespace GR.AdvDM
 			{
 				if ( IsOffline = value )
 				{
-					if ( OfflineEnabled != null )
-					{
-						OfflineEnabled();
-					}
+					OfflineEnabled?.Invoke();
 				}
 			}
 			get
