@@ -16,6 +16,7 @@ using Net.Astropenguin.Logging;
 
 namespace GR.Model.Book
 {
+	using Config;
 	using Database.Models;
 	using ListItem;
 	using Net.Astropenguin.Linq;
@@ -214,6 +215,19 @@ namespace GR.Model.Book
 		protected BookItem( string ZoneId, BookType SrcType, string ItemId )
 		{
 			_Entry = Shared.BooksDb.GetBook( ZoneId, ItemId, SrcType );
+
+			if ( Entry.Id == 0 )
+			{
+				if ( GRConfig.ContentReader.IsHorizontal )
+				{
+					Entry.TextLayout = LayoutMethod.VerticalWriting;
+				}
+
+				if ( GRConfig.ContentReader.IsRightToLeft )
+				{
+					Entry.TextLayout = Entry.TextLayout | LayoutMethod.RightToLeft;
+				}
+			}
 		}
 
 		public void IntroError( string Msg )
