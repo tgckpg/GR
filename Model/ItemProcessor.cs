@@ -103,7 +103,7 @@ namespace GR.Model.Pages
 				} );
 			}
 
-			return null;
+			return Task.FromResult<BookItem>( null );
 		}
 
 		public static BookItem GetBookEx( string Id )

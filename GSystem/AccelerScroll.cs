@@ -12,9 +12,6 @@ using Net.Astropenguin.Logging;
 
 namespace GR.GSystem
 {
-	using Effects;
-	using Windows.UI.ViewManagement;
-
 	public class AccelerScroll
 	{
 		private static readonly string ID = typeof( AccelerScroll ).Name; 
