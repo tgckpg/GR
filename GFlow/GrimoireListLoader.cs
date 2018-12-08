@@ -246,22 +246,17 @@ namespace GR.GFlow
 
 			if ( Convoy == null ) return null;
 
-			if ( Convoy.Payload is IEnumerable<IStorageFile> ISFs )
+			switch ( Convoy.Payload )
 			{
-				return await ISFs.FirstOrDefault()?.ReadString();
+				case IEnumerable<IStorageFile> ISFs:
+					return await ISFs.FirstOrDefault()?.ReadString();
+				case IEnumerable<string> Contents:
+					return Contents.FirstOrDefault();
+				case IStorageFile ISF:
+					return await ISF.ReadString();
 			}
-			else if ( Convoy.Payload is IEnumerable<string> Contents )
-			{
-				return Contents.FirstOrDefault();
-			}
-			else if ( Convoy.Payload is IStorageFile ISF )
-			{
-				return await ISF.ReadString();
-			}
-			else // string
-			{
-				return ( string ) Convoy.Payload;
-			}
+
+			return ( string ) Convoy.Payload;
 		}
 
 		private class LLNode : IProcessNode

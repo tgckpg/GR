@@ -190,14 +190,17 @@ namespace GR.Model.Book
 
 		public string PlainTextInfo => string.Join(
 			"\n"
-			, $"{PropertyName( PropType.Title )}: {Title}"
-			, $"Cover: {Info.CoverSrcUrl}"
-			, Author, Press
-			, TotalHitCount, DailyHitCount, PushCount, FavCount, Length
-			, LastUpdateDate
-			, PostingDate, LatestSection, StatusLong
-			, string.Join( "\n", Others )
-			, PropertyName( PropType.Intro ) + ": " + Intro
+			, new string[]
+			{
+				$"{PropertyName( PropType.Title )}: {Title}"
+				, $"Cover: {Info.CoverSrcUrl}"
+				, Author, Press
+				, TotalHitCount, DailyHitCount, PushCount, FavCount, Length
+				, LastUpdateDate
+				, PostingDate, LatestSection, StatusLong
+				, string.Join( "\n", Others )
+				, PropertyName( PropType.Intro ) + ": " + Intro
+			}.Where( x => !string.IsNullOrEmpty( x ) )
 		);
 
 		protected BookItem( Book Bk )
