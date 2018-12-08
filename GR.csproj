@@ -343,10 +343,10 @@
     <Compile Include="Data\GRRow.cs" />
     <Compile Include="Data\GRRowBase.cs" />
     <Compile Include="Data\GRTable.cs" />
-    <Compile Include="Taotu\GrimoireExtractor.cs" />
-    <Compile Include="Taotu\GrimoireListLoader.cs" />
-    <Compile Include="Taotu\GrimoireMarker.cs" />
-    <Compile Include="Taotu\TongWenTang.cs" />
+    <Compile Include="GFlow\GrimoireExtractor.cs" />
+    <Compile Include="GFlow\GrimoireListLoader.cs" />
+    <Compile Include="GFlow\GrimoireMarker.cs" />
+    <Compile Include="GFlow\TongWenTang.cs" />
     <EmbeddedResource Include="Properties\GR.rd.xml" />
   </ItemGroup>
   <ItemGroup>

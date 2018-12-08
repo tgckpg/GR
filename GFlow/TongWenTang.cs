@@ -19,13 +19,16 @@ using GFlow.Models.Procedure;
 namespace GR.GFlow
 {
 	using Database.Schema;
-	using CompositeElement;
 	using Model.Book.Spider;
 	using Resources;
 
 	sealed class TongWenTang : Procedure
 	{
-		public TongWenTang() : base( ProcType.GENERIC ) { }
+		public TongWenTang()
+			: base( ProcType.GENERIC )
+		{
+			RawName = "TRANSLATE";
+		}
 
 		public override async Task<ProcConvoy> Run( ICrawler Crawler, ProcConvoy Convoy )
 		{

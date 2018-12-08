@@ -8,6 +8,7 @@ using Windows.Storage;
 using Windows.UI;
 
 using Net.Astropenguin.IO;
+using Net.Astropenguin.Loaders;
 using Net.Astropenguin.Logging;
 
 using GFlow.Controls;
@@ -18,7 +19,6 @@ namespace GR.GFlow
 {
 	using Model.Book.Spider;
 	using Model.Interfaces;
-	using Net.Astropenguin.Loaders;
 
 	class GrimoireMarker : Procedure, IProcessList
 	{

@@ -122,7 +122,7 @@
 			, SYS_EXCEPTION = "exception"
 			, SYS_MESSAGE = "mesg"
 
-			, UA = "Grimoire Reaper/{0} ( Windows; taotu engine; UAP ) wenku10 by Astropenguin"
+			, UA = "Grimoire Reaper/{0} ( Windows; GFlow engine; UAP ) wenku10 by Astropenguin"
 			;
 
 		public const char ANO_IMG = '\ufff9';
