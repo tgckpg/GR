@@ -4,8 +4,8 @@ using System.Threading.Tasks;
 
 using Net.Astropenguin.IO;
 
-using libtaotu.Controls;
-using libtaotu.Models.Procedure;
+using GFlow.Controls;
+using GFlow.Models.Procedure;
 
 
 namespace GR.Model.Book.Spider
@@ -89,9 +89,5 @@ namespace GR.Model.Book.Spider
 			ProcId = Id;
 		}
 
-		public override Task Edit()
-		{
-			throw new NotSupportedException();
-		}
 	}
 }

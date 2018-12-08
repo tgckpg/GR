@@ -10,22 +10,19 @@ using Windows.UI;
 using Net.Astropenguin.IO;
 using Net.Astropenguin.Logging;
 
-using libtaotu.Controls;
-using libtaotu.Models.Interfaces;
-using libtaotu.Models.Procedure;
+using GFlow.Controls;
+using GFlow.Models.Interfaces;
+using GFlow.Models.Procedure;
 
-namespace GR.Taotu
+namespace GR.GFlow
 {
 	using Model.Book.Spider;
 	using Model.Interfaces;
+	using Net.Astropenguin.Loaders;
 
-	enum WMarkerSub { Volume = 1, Chapter = 2 }
-
-	abstract class GrimoireMarker : Procedure, ISubProcedure
+	class GrimoireMarker : Procedure, IProcessList
 	{
 		public static readonly string ID = typeof( GrimoireMarker ).Name;
-
-		public WMarkerSub? SubEdit { get; set; }
 
 		public string VolPattern { get; set; }
 		public string VolTitle { get; set; }
@@ -56,27 +53,31 @@ namespace GR.Taotu
 		public bool HasVolProcs { get { return VolProcs.HasProcedures; } }
 		public bool HasEpProcs { get { return EpProcs.HasProcedures; } }
 
-		protected override Color BgColor { get { return Colors.DarkGreen; } }
-
-		private ProcManager VolProcs;
-		private ProcManager EpProcs;
-
-		public ProcManager SubProcedures
+		private ProcManager VolProcs
 		{
-			get { return SubEdit == WMarkerSub.Chapter ?  EpProcs : VolProcs; }
-			set { throw new InvalidOperationException(); }
+			get => ProcessNodes[ 0 ].SubProcedures;
+			set => ProcessNodes[ 0 ].SubProcedures = value;
 		}
+		private ProcManager EpProcs
+		{
+			get => ProcessNodes[ 1 ].SubProcedures;
+			set => ProcessNodes[ 1 ].SubProcedures = value;
+		}
+
+		internal static Type GRPropertyPage;
+		public override Type PropertyPage => GRPropertyPage;
+
+		public IList<IProcessNode> ProcessNodes { get; private set; }
 
 		public GrimoireMarker()
-			:base( ProcType.MARK )
+			: base( ProcType.MARK )
 		{
-			VolProcs = new ProcManager();
-			EpProcs = new ProcManager();
-		}
-
-		public void SubEditComplete()
-		{
-			SubEdit = null;
+			StringResources stx = StringResources.Load( "Book" );
+			ProcessNodes = new MarkerNode[]
+			{
+				new MarkerNode(){ Key = stx.Text( "VolumeMapping" ) }
+				, new MarkerNode(){ Key = stx.Text( "ChapterMapping" ) }
+			};
 		}
 
 		public void SetProp( string PropName, string Val )
@@ -294,5 +295,12 @@ namespace GR.Taotu
 
 			return new ProcConvoy( this, SpTOC );
 		}
+
+		private class MarkerNode : IProcessNode
+		{
+			public string Key { get; set; }
+			public ProcManager SubProcedures { get; set; } = new ProcManager();
+		}
+
 	}
 }

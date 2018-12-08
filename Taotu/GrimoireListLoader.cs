@@ -11,24 +11,20 @@ using Net.Astropenguin.IO;
 using Net.Astropenguin.Loaders;
 using Net.Astropenguin.Logging;
 
-using libtaotu.Controls;
-using libtaotu.Models.Interfaces;
-using libtaotu.Models.Procedure;
+using GFlow.Controls;
+using GFlow.Models.Interfaces;
+using GFlow.Models.Procedure;
 
-namespace GR.Taotu
+namespace GR.GFlow
 {
 	using Model.Book.Spider;
 
-	enum WListSub
-	{
-		Process = 1, Spider = 2
-	}
-
-	abstract class GrimoireListLoader : Procedure, ISubProcedure
+	class GrimoireListLoader : Procedure, IProcessList
 	{
 		public static readonly string ID = typeof( GrimoireListLoader ).Name;
 
-		public WListSub? SubEdit { get; set; }
+		internal static Type GRPropertyPage;
+		public override Type PropertyPage => GRPropertyPage;
 
 		public string ItemPattern { get; set; }
 		public string ItemParam { get; set; }
@@ -53,25 +49,30 @@ namespace GR.Taotu
 
 		public string ZoneName { get; set; }
 
-		protected override Color BgColor { get { return Colors.Crimson; } }
-
-		private ProcManager ItemProcs;
-		private ProcManager BookSpider;
-
-		public ProcManager SubProcedures
+		private ProcManager ItemProcs
 		{
-			get { return SubEdit == WListSub.Process ? ItemProcs : BookSpider; }
-			set { throw new InvalidOperationException(); }
+			get => ProcessNodes[ 0 ].SubProcedures;
+			set => ProcessNodes[ 0 ].SubProcedures = value;
 		}
+
+		private ProcManager BookSpider
+		{
+			get => ProcessNodes[ 1 ].SubProcedures;
+			set => ProcessNodes[ 1 ].SubProcedures = value;
+		}
+
+		public IList<IProcessNode> ProcessNodes { get; private set; }
 
 		public GrimoireListLoader()
 			: base( ProcType.LIST )
 		{
-			ItemProcs = new ProcManager();
-			BookSpider = new ProcManager();
+			StringResources stx = StringResources.Load( "AppResources", "/GFlow/Resources" );
+			ProcessNodes = new LLNode[]
+			{
+				new LLNode() { Key = stx.Text( "SubProcs", "/GFlow/Resources" ) }
+				, new LLNode() { Key = stx.Text( "BookSpider" ) }
+			};
 		}
-
-		public void SubEditComplete() { SubEdit = null; }
 
 		public void SetProp( string PropName, string Val )
 		{
@@ -128,9 +129,8 @@ namespace GR.Taotu
 		{
 			Convoy = await base.Run( Crawler, Convoy );
 
-			ProcConvoy UsableConvoy;
 			if ( !TryGetConvoy(
-				out UsableConvoy
+				out ProcConvoy UsableConvoy
 				, ( P, C ) =>
 					C.Payload is IEnumerable<IStorageFile>
 					|| C.Payload is IEnumerable<string>
@@ -159,29 +159,23 @@ namespace GR.Taotu
 			ProcPassThru PPass = new ProcPassThru( new ProcConvoy( this, SpItemList ) );
 			ProcConvoy KnownBook = ProcManager.TracePackage( Convoy, ( P, C ) => C.Payload is BookInstruction );
 
-			if ( UsableConvoy.Payload is IEnumerable<IStorageFile> )
+			if ( UsableConvoy.Payload is IEnumerable<IStorageFile> ISFs )
 			{
-				IEnumerable<IStorageFile> ISFs = ( IEnumerable<IStorageFile> ) UsableConvoy.Payload;
-
 				foreach ( IStorageFile ISF in ISFs )
 				{
 					string Content = await ISF.ReadString();
 					await SearchBooks( Crawler, SpItemList, PPass, KnownBook, Content );
 				}
 			}
-			else if ( UsableConvoy.Payload is IEnumerable<string> )
+			else if ( UsableConvoy.Payload is IEnumerable<string> Contents )
 			{
-				IEnumerable<string> Contents = ( IEnumerable<string> ) UsableConvoy.Payload;
-
 				foreach ( string Content in Contents )
 				{
 					await SearchBooks( Crawler, SpItemList, PPass, KnownBook, Content );
 				}
 			}
-			else if ( UsableConvoy.Payload is IStorageFile )
+			else if ( UsableConvoy.Payload is IStorageFile ISF )
 			{
-				IStorageFile ISF = ( IStorageFile ) UsableConvoy.Payload;
-
 				string Content = await ISF.ReadString();
 				await SearchBooks( Crawler, SpItemList, PPass, KnownBook, Content );
 			}
@@ -252,25 +246,28 @@ namespace GR.Taotu
 
 			if ( Convoy == null ) return null;
 
-			if ( Convoy.Payload is IEnumerable<IStorageFile> )
+			if ( Convoy.Payload is IEnumerable<IStorageFile> ISFs )
 			{
-				IEnumerable<IStorageFile> ISFs = ( IEnumerable<IStorageFile> ) Convoy.Payload;
 				return await ISFs.FirstOrDefault()?.ReadString();
 			}
-			else if ( Convoy.Payload is IEnumerable<string> )
+			else if ( Convoy.Payload is IEnumerable<string> Contents )
 			{
-				IEnumerable<string> Contents = ( IEnumerable<string> ) Convoy.Payload;
 				return Contents.FirstOrDefault();
 			}
-			else if ( Convoy.Payload is IStorageFile )
+			else if ( Convoy.Payload is IStorageFile ISF )
 			{
-				IStorageFile ISF = ( IStorageFile ) Convoy.Payload;
 				return await ISF.ReadString();
 			}
 			else // string
 			{
 				return ( string ) Convoy.Payload;
 			}
+		}
+
+		private class LLNode : IProcessNode
+		{
+			public string Key { get; set; }
+			public ProcManager SubProcedures { get; set; } = new ProcManager();
 		}
 
 	}

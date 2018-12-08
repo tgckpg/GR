@@ -14,39 +14,34 @@ using Net.Astropenguin.Helpers;
 using Net.Astropenguin.IO;
 using Net.Astropenguin.Logging;
 
-using libtaotu.Controls;
-using libtaotu.Crawler;
-using libtaotu.Models.Interfaces;
-using libtaotu.Models.Procedure;
+using GFlow.Controls;
+using GFlow.Crawler;
+using GFlow.Models.Interfaces;
+using GFlow.Models.Procedure;
 
-namespace GR.Taotu
+namespace GR.GFlow
 {
 	using Model.Book;
 	using Model.Book.Spider;
 	using Settings;
 
-	abstract class GrimoireExtractor : Procedure, ISubProcedure
+	class GrimoireExtractor : Procedure, IProcessList 
 	{
-		public ObservableCollection<PropExt> PropDefs { get; set; }
 		public string TargetUrl { get; internal set; }
 		public bool Incoming { get; internal set; }
 
-		public static IEnumerable<GenericData<PropType>> PossibleTypes { get; set; }
-		public PropExt SubEdit { get; set; }
+		private static IEnumerable<GenericData<PropType>> _PossibleTypes;
+		public static IEnumerable<GenericData<PropType>> PossibleTypes => _PossibleTypes ?? ( _PossibleTypes = GenericData<PropType>.Convert( Enum.GetValues( typeof( PropType ) ) ) );
 
-		public ProcManager SubProcedures
-		{
-			get { return SubEdit.SubProc; } 
-			set { throw new InvalidOperationException(); }
-		}
+		internal static Type GRPropertyPage;
+		public override Type PropertyPage => GRPropertyPage;
 
-		protected override Color BgColor { get { return Color.FromArgb( 255, 60, 60, 60 ); } }
+		public IList<IProcessNode> ProcessNodes { get; set; }
 
 		public GrimoireExtractor()
 			: base( ProcType.EXTRACT )
 		{
-			PossibleTypes = GenericData<PropType>.Convert( Enum.GetValues( typeof( PropType ) ) );
-			PropDefs = new ObservableCollection<PropExt>();
+			ProcessNodes = new ObservableCollection<IProcessNode>();
 		}
 
 		public override async Task<ProcConvoy> Run( ICrawler Crawler, ProcConvoy Convoy )
@@ -141,17 +136,17 @@ namespace GR.Taotu
 
 		private async Task ExtractProps( ICrawler Crawler, BookItem Inst, string Content )
 		{
-			foreach( PropExt Extr in PropDefs )
+			foreach( PropExt Extr in ProcessNodes )
 			{
 				if ( !Extr.Enabled ) continue;
 
 				string PropValue = MatchSingle( Extr, Content );
 
-				if ( Extr.SubProc.HasProcedures )
+				if ( Extr.SubProcedures.HasProcedures )
 				{
 					Crawler.PLog( this, Res.RSTR( "SubProcRun" ), LogType.INFO );
 					ProcPassThru PPass = new ProcPassThru( new ProcConvoy( this, Inst ) );
-					ProcConvoy SubConvoy = await Extr.SubProc.CreateSpider( Crawler ).Crawl( new ProcConvoy( PPass, PropValue ) );
+					ProcConvoy SubConvoy = await Extr.SubProcedures.CreateSpider( Crawler ).Crawl( new ProcConvoy( PPass, PropValue ) );
 
 					// Process ReceivedConvoy
 					if ( SubConvoy.Payload is string )
@@ -209,7 +204,7 @@ namespace GR.Taotu
 			XParameter[] ExtParams = Param.Parameters( "i" );
 			foreach ( XParameter ExtParam in ExtParams )
 			{
-				PropDefs.Add( new PropExt( ExtParam ) );
+				ProcessNodes.Add( new PropExt( ExtParam ) );
 			}
 		}
 
@@ -223,7 +218,7 @@ namespace GR.Taotu
 			} );
 
 			int i = 0;
-			foreach( PropExt Extr in PropDefs )
+			foreach( PropExt Extr in ProcessNodes )
 			{
 				XParameter ExtParam = Extr.ToXParam();
 				ExtParam.Id += i;
@@ -235,17 +230,16 @@ namespace GR.Taotu
 			return Param;
 		}
 
-		public void SubEditComplete()
-		{
-			SubEdit = null;
-		}
-
-		public class PropExt : ProcFind.RegItem
+		public class PropExt : ProcFind.RegItem, IProcessNode, INamable
 		{
 			public static readonly Type BINF = typeof( PropType );
 
-			public ProcManager SubProc { get; set; }
-			public bool HasSubProcs { get { return SubProc.HasProcedures; } }
+			public string Name { get => Key; set => throw new InvalidOperationException(); }
+
+			public string Key => BookItem.PropertyName( PType );
+			public ProcManager SubProcedures { get; set; } = new ProcManager();
+
+			public bool HasSubProcs => SubProcedures.HasProcedures;
 
 			public override bool Enabled
 			{
@@ -262,21 +256,13 @@ namespace GR.Taotu
 				set { base.Enabled = value; }
 			}
 
-			public GenericData<PropType> SelectedType 
-			{
-				get
-				{
-					return Types.First( x => x.Data == PType );
-				}
-			}
-
-			public IEnumerable<GenericData<PropType>> Types { get { return PossibleTypes; } }
+			public IEnumerable<GenericData<PropType>> Types => PossibleTypes;
+			public GenericData<PropType> SelectedType => Types.First( x => x.Data == PType );
 			public PropType PType { get; set; }
 
 			public PropExt( PropType PType = PropType.Others )
 			{
 				this.PType = PType;
-				this.SubProc = new ProcManager();
 				Enabled = true;
 			}
 
@@ -284,10 +270,9 @@ namespace GR.Taotu
 				: base( Param )
 			{
 				string SType = Param.GetValue( "Type" );
-				this.SubProc = new ProcManager();
 
 				XParameter Sub = Param.Parameter( "SubProc" );
-				if ( Sub != null ) SubProc.ReadParam( Sub );
+				if ( Sub != null ) SubProcedures.ReadParam( Sub );
 
 				PType = Enum.GetValues( BINF )
 					.Cast<PropType>()
@@ -299,7 +284,7 @@ namespace GR.Taotu
 				XParameter Param =  base.ToXParam();
 				Param.SetValue( new XKey( "Type", PType ) );
 
-				XParameter SubParam = SubProc.ToXParam();
+				XParameter SubParam = SubProcedures.ToXParam();
 				SubParam.Id = "SubProc";
 				Param.SetParameter( SubParam );
 

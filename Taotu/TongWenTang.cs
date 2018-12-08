@@ -12,11 +12,11 @@ using Net.Astropenguin.IO;
 using Net.Astropenguin.Helpers;
 using Net.Astropenguin.UI.Icons;
 
-using libtaotu.Controls;
-using libtaotu.Models.Interfaces;
-using libtaotu.Models.Procedure;
+using GFlow.Controls;
+using GFlow.Models.Interfaces;
+using GFlow.Models.Procedure;
 
-namespace GR.Taotu
+namespace GR.GFlow
 {
 	using Database.Schema;
 	using CompositeElement;
@@ -25,10 +25,7 @@ namespace GR.Taotu
 
 	sealed class TongWenTang : Procedure
 	{
-		protected override IconBase Icon { get { return new IconInfo() { AutoScale = true }; } }
-		protected override Color BgColor { get { return Colors.Gray; } }
-
-		public TongWenTang() : base( ProcType.TRANSLATE ) { }
+		public TongWenTang() : base( ProcType.GENERIC ) { }
 
 		public override async Task<ProcConvoy> Run( ICrawler Crawler, ProcConvoy Convoy )
 		{
@@ -96,10 +93,5 @@ namespace GR.Taotu
 			return Shared.Conv.Chinese.Translate( s );
 		}
 
-		public override Task Edit()
-		{
-			StringResources stx = StringResources.Load( "Message" );
-			return Popups.ShowDialog( UIAliases.CreateDialog( stx.Str( "ProcNoOptions" ) ) );
-		}
 	}
 }

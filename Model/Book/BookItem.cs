@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
 using System.Xml.Linq;
@@ -10,7 +11,7 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
 
 using Net.Astropenguin.DataModel;
-using Net.Astropenguin.Helpers;
+using Net.Astropenguin.Linq;
 using Net.Astropenguin.Loaders;
 using Net.Astropenguin.Logging;
 
@@ -19,10 +20,8 @@ namespace GR.Model.Book
 	using Config;
 	using Database.Models;
 	using ListItem;
-	using Net.Astropenguin.Linq;
 	using Resources;
 	using Settings;
-	using System.Reflection;
 
 	enum PropType
 	{

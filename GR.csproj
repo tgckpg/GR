@@ -393,9 +393,9 @@
       <Project>{5a6b4589-8c63-40d5-946f-759a9282a176}</Project>
       <Name>Net.Astropenguin</Name>
     </ProjectReference>
-    <ProjectReference Include="..\libtaotu\libtaotu.csproj">
+    <ProjectReference Include="..\GFlow\GFlow.csproj">
       <Project>{119b84b1-d42b-460c-8f72-4fae1e2614f1}</Project>
-      <Name>libtaotu</Name>
+      <Name>GFlow</Name>
     </ProjectReference>
     <ProjectReference Include="..\libtranslate\libtranslate.vcxproj">
       <Project>{6c187966-ffb6-4022-b80a-c966d099f14c}</Project>

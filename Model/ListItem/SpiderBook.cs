@@ -9,10 +9,10 @@ using Net.Astropenguin.Loaders;
 using Net.Astropenguin.Logging;
 using Net.Astropenguin.Messaging;
 
-using libtaotu.Pages;
-using libtaotu.Controls;
-using libtaotu.Crawler;
-using libtaotu.Models.Procedure;
+using GFlow.Pages;
+using GFlow.Controls;
+using GFlow.Crawler;
+using GFlow.Models.Procedure;
 
 namespace GR.Model.ListItem
 {
@@ -329,7 +329,7 @@ namespace GR.Model.ListItem
 
 		override protected void MessageBus_OnDelivery( Message Mesg )
 		{
-			if ( !( Mesg.Payload is ProceduresPanel.PanelLog ) ) return;
+			if ( !( Mesg.Payload is PanelLog ) ) return;
 			Desc = Mesg.Content;
 		}
 
