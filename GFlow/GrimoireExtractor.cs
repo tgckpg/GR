@@ -15,7 +15,6 @@ using Net.Astropenguin.IO;
 using Net.Astropenguin.Logging;
 
 using GFlow.Controls;
-using GFlow.Crawler;
 using GFlow.Models.Interfaces;
 using GFlow.Models.Procedure;
 
@@ -65,9 +64,9 @@ namespace GR.GFlow
 			{
 				Crawler.PLog( this, Res.RSTR( "IncomingCheck" ), LogType.INFO );
 
-				if ( UsableConvoy.Payload is IEnumerable<IStorageFile> )
+				if ( UsableConvoy.Payload is IEnumerable<IStorageFile> ISFs )
 				{
-					ISF = ( UsableConvoy.Payload as IEnumerable<IStorageFile> ).FirstOrDefault();
+					ISF = ISFs.FirstOrDefault();
 				}
 				else if ( UsableConvoy.Payload is IStorageFile )
 				{
@@ -76,13 +75,13 @@ namespace GR.GFlow
 
 				if ( Incoming )
 				{
-					if ( UsableConvoy.Payload is IEnumerable<string> )
+					if ( UsableConvoy.Payload is IEnumerable<string> Texts )
 					{
-						LoadUrl = ( UsableConvoy.Payload as IEnumerable<string> ).FirstOrDefault();
+						LoadUrl = Texts.FirstOrDefault();
 					}
-					else if ( UsableConvoy.Payload is string )
+					else if ( UsableConvoy.Payload is string Text )
 					{
-						LoadUrl = ( string ) UsableConvoy.Payload;
+						LoadUrl = Text;
 					}
 
 					if ( ISF == null && string.IsNullOrEmpty( LoadUrl ) )
@@ -98,13 +97,13 @@ namespace GR.GFlow
 				}
 				else // Incomings are Content
 				{
-					if ( UsableConvoy.Payload is IEnumerable<string> )
+					if ( UsableConvoy.Payload is IEnumerable<string> Texts )
 					{
-						Content = string.Join( "\n", ( IEnumerable<string> ) UsableConvoy.Payload );
+						Content = string.Join( "\n", Texts );
 					}
-					else if ( UsableConvoy.Payload is string )
+					else if ( UsableConvoy.Payload is string Text )
 					{
-						Content = ( string ) UsableConvoy.Payload;
+						Content = Text;
 					}
 				}
 			}
@@ -151,12 +150,12 @@ namespace GR.GFlow
 					// Process ReceivedConvoy
 					if ( SubConvoy.Payload is string )
 						PropValue = ( string ) SubConvoy.Payload;
-					else if ( SubConvoy.Payload is IEnumerable<string> )
-						PropValue = string.Join( "\n", ( IEnumerable<string> ) SubConvoy.Payload );
-					else if ( SubConvoy.Payload is IStorageFile )
-						PropValue = await ( ( IStorageFile ) SubConvoy.Payload ).ReadString();
-					else if ( SubConvoy.Payload is IEnumerable<IStorageFile> )
-						PropValue = await ( ( IEnumerable<IStorageFile> ) SubConvoy.Payload ).First().ReadString();
+					else if ( SubConvoy.Payload is IEnumerable<string> Texts )
+						PropValue = string.Join( "\n", Texts );
+					else if ( SubConvoy.Payload is IStorageFile ISF )
+						PropValue = await ISF.ReadString();
+					else if ( SubConvoy.Payload is IEnumerable<IStorageFile> ISFs )
+						PropValue = await ISFs.First().ReadString();
 					else continue;
 				}
 

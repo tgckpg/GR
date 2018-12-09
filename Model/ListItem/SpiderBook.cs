@@ -9,7 +9,6 @@ using Net.Astropenguin.Loaders;
 using Net.Astropenguin.Logging;
 using Net.Astropenguin.Messaging;
 
-using GFlow.Pages;
 using GFlow.Controls;
 using GFlow.Crawler;
 using GFlow.Models.Procedure;
@@ -66,7 +65,7 @@ namespace GR.Model.ListItem
 
 		private SpiderBook() { }
 
-		public void MarkUnprocessed() { Processed = false; }
+		public void MarkUnprocessed() => Processed = false;
 
 		private void InitProcMan()
 		{
@@ -115,6 +114,7 @@ namespace GR.Model.ListItem
 			return new XRegistry( "<ProcSpider />", Book.MetaLocation );
 		}
 
+		public static Task<SpiderBook> CreateSAsync( string ZItemId ) => CreateSAsync( null, ZItemId, null );
 		public static async Task<SpiderBook> CreateSAsync( string ZoneId, string ZItemId, XParameter SpiderDef )
 		{
 			SpiderBook Book = new SpiderBook
@@ -137,8 +137,6 @@ namespace GR.Model.ListItem
 			return Book;
 		}
 
-		public static Task<SpiderBook> CreateSAsync( string ZItemId ) => CreateSAsync( null, ZItemId, null );
-
 		public override async Task Reload()
 		{
 			ProcMan = null;
@@ -148,16 +146,6 @@ namespace GR.Model.ListItem
 			BInst?.ClearCover();
 
 			await TestProcessed();
-		}
-
-		private void SLog( string Mesg, LogType LT )
-		{
-			Desc = Mesg;
-		}
-
-		private void SLog( Procedure P, string Mesg, LogType LT )
-		{
-			Desc = Mesg;
 		}
 
 		protected override async Task Run()
@@ -259,10 +247,7 @@ namespace GR.Model.ListItem
 			} );
 		}
 
-		public ProcConvoy GetPPConvoy()
-		{
-			return ProcParameter.RestoreParams( PSettings, null );
-		}
+		public ProcConvoy GetPPConvoy() => ProcParameter.RestoreParams( PSettings, null );
 
 		public void AssignId( string Id )
 		{
@@ -346,5 +331,8 @@ namespace GR.Model.ListItem
 
 			Desc = "Script is unavailable";
 		}
+
+		private void SLog( string Mesg, LogType LT ) => Desc = Mesg;
+		private void SLog( Procedure P, string Mesg, LogType LT ) => Desc = Mesg;
 	}
 }

@@ -6,11 +6,9 @@ using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.UI;
 
-using Net.Astropenguin.Loaders;
-using Net.Astropenguin.Logging;
 using Net.Astropenguin.IO;
-using Net.Astropenguin.Helpers;
-using Net.Astropenguin.UI.Icons;
+using Net.Astropenguin.Linq;
+using Net.Astropenguin.Logging;
 
 using GFlow.Controls;
 using GFlow.Models.Interfaces;
@@ -55,35 +53,24 @@ namespace GR.GFlow
 					|| C.Payload is string
 			);
 
-			if ( UsableConvoy == null ) return Convoy;
+			if ( UsableConvoy == null )
+				return Convoy;
 
-			if ( UsableConvoy.Payload is IEnumerable<IStorageFile> )
+			switch ( UsableConvoy.Payload )
 			{
-				foreach ( IStorageFile ISF in ( ( IEnumerable<IStorageFile> ) UsableConvoy.Payload ) )
-				{
-					byte[] b = await ISF.ReadAllBytes();
-					await ISF.WriteBytes( Shared.Conv.Chinese.Translate( b ) );
-				}
-			}
-			else if ( UsableConvoy.Payload is IStorageFile )
-			{
-				IStorageFile ISF = ( IStorageFile ) UsableConvoy.Payload;
-				byte[] b = await ISF.ReadAllBytes();
-				await ISF.WriteBytes( Shared.Conv.Chinese.Translate( b ) );
-			}
-			else if ( UsableConvoy.Payload is IEnumerable<string> )
-			{
-				List<string> Contents = new List<string>();
-				foreach ( string Content in ( ( IEnumerable<string> ) UsableConvoy.Payload ) )
-				{
-					Contents.Add( _Translate( Content ) );
-				}
-
-				return new ProcConvoy( this, Contents );
-			}
-			else if ( UsableConvoy.Payload is string )
-			{
-				return new ProcConvoy( this, _Translate( ( string ) UsableConvoy.Payload ) );
+				case IEnumerable<IStorageFile> ISFs:
+					foreach ( IStorageFile ISF in ISFs )
+					{
+						await ISF.WriteBytes( Shared.Conv.Chinese.Translate( await ISF.ReadAllBytes() ) );
+					}
+					break;
+				case IStorageFile ISF:
+					await ISF.WriteBytes( Shared.Conv.Chinese.Translate( await ISF.ReadAllBytes() ) );
+					break;
+				case IEnumerable<string> Texts:
+					return new ProcConvoy( this, Texts.Remap( _Translate ) );
+				case string Text:
+					return new ProcConvoy( this, _Translate( Text ) );
 			}
 
 			return Convoy;
