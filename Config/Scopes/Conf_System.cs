@@ -10,37 +10,37 @@ namespace GR.Config.Scopes
 	{
 		public bool EnableOneDrive
 		{
-			get => GetValue<bool>( "EnableOneDrive", false );
+			get => GetValue( "EnableOneDrive", false );
 			set => SetValue( "EnableOneDrive", value );
 		}
 
 		public bool ChunkSingleVol
 		{
-			get => GetValue<bool>( "ChunkSingleVol", true );
+			get => GetValue( "ChunkSingleVol", true );
 			set => SetValue( "ChunkSingleVol", value );
 		}
 
 		public bool PatchSyntax
 		{
-			get => GetValue<bool>( "PatchSyntax", true );
+			get => GetValue( "PatchSyntax", true );
 			set => SetValue( "PatchSyntax", value );
 		}
 
 		public bool TwitterConfirmed
 		{
-			get => GetValue<bool>( "TwitterConfirmed", false );
+			get => GetValue( "TwitterConfirmed", false );
 			set => SetValue( "TwitterConfirmed", value );
 		}
 
 		public string GCustomSearchAPI
 		{
-			get => GetValue<string>( "GCustomSearchAPI", null );
+			get => GetValue( "GCustomSearchAPI", ( string ) null );
 			set => SetValue( "GoogleCustomSearch", value );
 		}
 
 		public string BingImageAPI
 		{
-			get => GetValue<string>( "BingImageAPI", null );
+			get => GetValue( "BingImageAPI", ( string ) null );
 			set => SetValue( "BingImageAPI", value );
 		}
 

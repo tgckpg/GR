@@ -16,7 +16,7 @@ namespace GR.Config.Scopes
 
 			public string BgType
 			{
-				get => GetValue<string>( "BgType", null );
+				get => GetValue( "BgType", ( string ) null );
 				set => SetValue( "BgType", value );
 			}
 
@@ -26,7 +26,7 @@ namespace GR.Config.Scopes
 				{
 					if ( BgType == "System" )
 						return "ms-appx:///Assets/Samples/BgInfoView.jpg";
-					return GetValue<string>( "BgValue", null );
+					return GetValue( "BgValue", ( string ) null );
 				}
 				set => SetValue( "BgValue", value );
 			}

@@ -18,115 +18,115 @@ namespace GR.Config.Scopes
 
 		public bool UseInertia
 		{
-			get => GetValue<bool>( "UseInertia", () => Shared.LocaleDefaults.Get<bool>( "ContentReader.UseInertia" ) );
+			get => GetValue( "UseInertia", () => Shared.LocaleDefaults.Get<bool>( "ContentReader.UseInertia" ) );
 			set => SetValue( "UseInertia", value );
 		}
 
 		public bool AutoBookmark
 		{
-			get => GetValue<bool>( "AutoBookmark", true );
+			get => GetValue( "AutoBookmark", true );
 			set => SetValue( "AutoBookmark", value );
 		}
 
 		public bool ReadingAnchor
 		{
-			get => GetValue<bool>( "ReadingAnchor", true );
+			get => GetValue( "ReadingAnchor", true );
 			set => SetValue( "ReadingAnchor", value );
 		}
 
 		public bool DoubleTap
 		{
-			get => GetValue<bool>( "DoubleTap", false );
+			get => GetValue( "DoubleTap", false );
 			set => SetValue( "DoubleTap", value );
 		}
 
 		public bool EmbedIllus
 		{
-			get => GetValue<bool>( "EmbedIllus", false );
+			get => GetValue( "EmbedIllus", false );
 			set => SetValue( "EmbedIllus", value );
 		}
 
 		public bool IsHorizontal
 		{
-			get => GetValue<bool>( "IsHorizontal", () => Shared.LocaleDefaults.Get<bool>( "ContentReader.IsHorizontal" ) );
+			get => GetValue( "IsHorizontal", () => Shared.LocaleDefaults.Get<bool>( "ContentReader.IsHorizontal" ) );
 			set => SetValue( "IsHorizontal", value );
 		}
 
 		public bool IsRightToLeft
 		{
-			get => GetValue<bool>( "IsRightToLeft", () => Shared.LocaleDefaults.Get<bool>( "ContentReader.IsRightToLeft" ) );
+			get => GetValue( "IsRightToLeft", () => Shared.LocaleDefaults.Get<bool>( "ContentReader.IsRightToLeft" ) );
 			set => SetValue( "IsRightToLeft", value );
 		}
 
 		public bool LeftContext
 		{
-			get => GetValue<bool>( "LeftContext", true );
+			get => GetValue( "LeftContext", true );
 			set => SetValue( "LeftContext", value );
 		}
 
 		public Windows.UI.Text.FontWeight FontWeight
 		{
-			get => new Windows.UI.Text.FontWeight() { Weight = GetValue<ushort>( "FontWeight", Windows.UI.Text.FontWeights.Normal.Weight ) };
+			get => new Windows.UI.Text.FontWeight() { Weight = GetValue( "FontWeight", Windows.UI.Text.FontWeights.Normal.Weight ) };
 			set => SetValue( "FontWeight", value.Weight );
 		}
 
 		public double FontSize
 		{
-			get => GetValue<double>( "FontSize", 20.0 );
+			get => GetValue( "FontSize", 20.0 );
 			set => SetValue( "FontSize", value );
 		}
 
 		public double LineHeight
 		{
-			get => GetValue<double>( "LineHeight", 5.0 );
+			get => GetValue( "LineHeight", 5.0 );
 			set => SetValue( "LineHeight", value );
 		}
 
 		public double BlockHeight
 		{
-			get => GetValue<double>( "BlockHeight", 21.7 );
+			get => GetValue( "BlockHeight", 21.7 );
 			set => SetValue( "BlockHeight", value );
 		}
 
 		public double ParagraphSpacing
 		{
-			get => GetValue<double>( "ParagraphSpacing", 32.0 );
+			get => GetValue( "ParagraphSpacing", 32.0 );
 			set => SetValue( "ParagraphSpacing", 0.5 * value );
 		}
 
 		public Color BackgroundColor
 		{
-			get => GetValue<Color>( "BackgroundColor", Colors.White );
+			get => GetValue( "BackgroundColor", Colors.White );
 			set => SetValue( "BackgroundColor", value );
 		}
 
 		public Color ScrollBarColor
 		{
-			get => GetValue<Color>( "ScrollBarColor", Color.FromArgb( 0x3C, 0xFF, 0xFF, 0xFF ) );
+			get => GetValue( "ScrollBarColor", Color.FromArgb( 0x3C, 0xFF, 0xFF, 0xFF ) );
 			set => SetValue( "ScrollBarColor", value );
 		}
 
 		public Color BgColorAssist
 		{
-			get => GetValue<Color>( "BgColorAssist", Colors.Black );
+			get => GetValue( "BgColorAssist", Colors.Black );
 			set => SetValue( "BgColorAssist", value );
 		}
 
 		public Color BgColorNav
 		{
-			get => GetValue<Color>( "BgColorNav", () => GRConfig.Theme.ColorMajor );
+			get => GetValue( "BgColorNav", () => GRConfig.Theme.ColorMajor );
 			set => SetValue( "BgColorNav", value );
 		}
 
 		public Color FontColor
 		{
-			get => GetValue<Color>( "FontColor", Color.FromArgb( 0xE5, 0, 0, 0 ) );
+			get => GetValue( "FontColor", Color.FromArgb( 0xE5, 0, 0, 0 ) );
 			set => SetValue( "FontColor", value );
 		}
 
 		public Color TapBrushColor
 		{
-			get => GetValue<Color>( "TapBrushColor", Color.FromArgb( 0xFF, 0x3F, 0xA9, 0xF5 ) );
+			get => GetValue( "TapBrushColor", Color.FromArgb( 0xFF, 0x3F, 0xA9, 0xF5 ) );
 			set => SetValue( "TapBrushColor", value );
 		}
 
@@ -136,25 +136,25 @@ namespace GR.Config.Scopes
 
 			public Color ARColor
 			{
-				get => GetValue<Color>( "ARColor", Color.FromArgb( 0x50, 0xFF, 0xFF, 0xFF ) );
-				set => SetValue( "HHColor", value );
+				get => GetValue( "ARColor", Color.FromArgb( 0x50, 0xFF, 0xFF, 0xFF ) );
+				set => SetValue( "ARColor", value );
 			}
 
 			public Color HHColor
 			{
-				get => GetValue<Color>( "HHColor", Color.FromArgb( 0x78, 0xEE, 0xEB, 0xAA ) );
+				get => GetValue( "HHColor", Color.FromArgb( 0x78, 0xEE, 0xEB, 0xAA ) );
 				set => SetValue( "HHColor", value );
 			}
 
 			public Color MHColor
 			{
-				get => GetValue<Color>( "MHColor", Color.FromArgb( 0x50, 0xFF, 0xFF, 0xFF ) );
+				get => GetValue( "MHColor", Color.FromArgb( 0x50, 0xFF, 0xFF, 0xFF ) );
 				set => SetValue( "MHColor", value );
 			}
 
 			public Color SColor
 			{
-				get => GetValue<Color>( "SColor", Color.FromArgb( 0x3C, 0xFF, 0xFF, 0xFF ) );
+				get => GetValue( "SColor", Color.FromArgb( 0x3C, 0xFF, 0xFF, 0xFF ) );
 				set => SetValue( "SColor", value );
 			}
 		}
@@ -165,19 +165,19 @@ namespace GR.Config.Scopes
 
 			public Color SColor
 			{
-				get => GetValue<Color>( "SColor", Color.FromArgb( 0xFF, 0xFF, 0xFF, 0xFF ) );
+				get => GetValue( "SColor", Color.FromArgb( 0xFF, 0xFF, 0xFF, 0xFF ) );
 				set => SetValue( "SColor", value );
 			}
 
 			public Color DColor
 			{
-				get => GetValue<Color>( "DColor", Color.FromArgb( 0xC7, 0xFF, 0xFF, 0xFF ) );
+				get => GetValue( "DColor", Color.FromArgb( 0xC7, 0xFF, 0xFF, 0xFF ) );
 				set => SetValue( "DColor", value );
 			}
 
 			public Color BackgroundColor
 			{
-				get => GetValue<Color>( "BackgroundColor", Color.FromArgb( 0x70, 0x00, 0x00, 0x00 ) );
+				get => GetValue( "BackgroundColor", Color.FromArgb( 0x70, 0x00, 0x00, 0x00 ) );
 				set => SetValue( "BackgroundColor", value );
 			}
 		}
@@ -188,7 +188,7 @@ namespace GR.Config.Scopes
 
 			public string BgType
 			{
-				get => GetValue<string>( "BgType", null );
+				get => GetValue( "BgType", ( string ) null );
 				set => SetValue( "BgType", value );
 			}
 
@@ -198,7 +198,7 @@ namespace GR.Config.Scopes
 				{
 					if ( BgType == "System" )
 						return "ms-appx:///Assets/Samples/BgContentReader.jpg";
-					return GetValue<string>( "BgValue", null );
+					return GetValue( "BgValue", ( string ) null );
 				}
 				set => SetValue( "BgValue", value );
 			}
@@ -210,49 +210,49 @@ namespace GR.Config.Scopes
 
 			public bool Asked
 			{
-				get => GetValue<bool>( "Asked", false );
+				get => GetValue( "Asked", false );
 				set => SetValue( "Asked", value );
 			}
 
 			public bool Enable
 			{
-				get => GetValue<bool>( "Enable", false );
+				get => GetValue( "Enable", false );
 				set => SetValue( "Enable", value );
 			}
 
 			public bool TrackAutoAnchor
 			{
-				get => GetValue<bool>( "TrackAutoAnchor", true );
+				get => GetValue( "TrackAutoAnchor", true );
 				set => SetValue( "TrackAutoAnchor", value );
 			}
 
 			public float AccelerMultiplier
 			{
-				get => GetValue<float>( "AccelerMultiplier", 0.5f );
+				get => GetValue( "AccelerMultiplier", 0.5f );
 				set => SetValue( "AccelerMultiplier", value );
 			}
 
 			public float TerminalVelocity
 			{
-				get => GetValue<float>( "TerminalVelocity", 30.0f );
+				get => GetValue( "TerminalVelocity", 30.0f );
 				set => SetValue( "TerminalVelocity", value );
 			}
 
 			public float BrakeOffset
 			{
-				get => GetValue<float>( "BrakeOffset", 0.0f );
+				get => GetValue( "BrakeOffset", 0.0f );
 				set => SetValue( "BrakeOffset", value );
 			}
 
 			public float BrakingForce
 			{
-				get => GetValue<float>( "BrakingForce", 0.3f );
+				get => GetValue( "BrakingForce", 0.3f );
 				set => SetValue( "BrakingForce", value );
 			}
 
 			public float Brake
 			{
-				get => GetValue<float>( "Brake", 0.2f );
+				get => GetValue( "Brake", 0.2f );
 				set => SetValue( "Brake", value );
 			}
 		}

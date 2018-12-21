@@ -19,16 +19,16 @@ namespace GR.Config.Scopes
 
 		protected string ConfigKey( string Key ) => ScopeId + "." + Key;
 
-		protected T GetValue<T>( string Key, Func<object> DefaultValue )
+		protected T GetValue<T>( string Key, Func<T> DefaultValue )
 		{
 			object Val = GetValue<object>( Key, ( object ) null );
 			if ( Val == null )
-				return ( T ) DefaultValue?.Invoke();
+				return DefaultValue.Invoke();
 
 			return ( T ) Val;
 		}
 
-		protected T GetValue<T>( string Key, object DefaultValue )
+		protected T GetValue<T>( string Key, T DefaultValue )
 		{
 			try
 			{
@@ -43,7 +43,7 @@ namespace GR.Config.Scopes
 			}
 			catch ( Exception ) { }
 
-			return ( T ) DefaultValue;
+			return DefaultValue;
 		}
 
 		protected void SetValue<T>( string Key, T value )
