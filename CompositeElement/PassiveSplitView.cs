@@ -84,6 +84,15 @@ namespace GR.CompositeElement
 				, new PropertyMetadata( PaneStates.Closed, OnPaneStateChanged )
 			);
 
+		// For internal bindings only
+		public static readonly DependencyProperty FlowDirProperty
+			= DependencyProperty.Register(
+				GSystem.Utils.Md5( "FlowDirBinding" ).Substring( 0, 8 )
+				, typeof( FlowDirection )
+				, typeof( PassiveSplitView )
+				, new PropertyMetadata( FlowDirection.LeftToRight, OnFlowDirectionChanged )
+			);
+
 		public Grid PaneGrid { get; private set; }
 		private ContentPresenter PaneContent { get; set; }
 		private Rectangle SwipeDetect { get; set; }
@@ -372,14 +381,7 @@ namespace GR.CompositeElement
 			DefaultStyleKey = typeof( PassiveSplitView );
 
 			// Bind for flow direction changes
-			DependencyProperty FlowDir
-				= DependencyProperty.Register(
-					GSystem.Utils.Md5( "FlowDirBinding" ).Substring( 0, 8 )
-					, typeof( FlowDirection )
-					, typeof( PassiveSplitView )
-					, new PropertyMetadata( FlowDirection.LeftToRight, OnFlowDirectionChanged )
-				);
-			SetBinding( FlowDir, new Binding() { Path = new PropertyPath( "FlowDirection" ), Source = this } );
+			SetBinding( FlowDirProperty, new Binding() { Path = new PropertyPath( "FlowDirection" ), Source = this } );
 
 			Loaded += PassiveSplitView_Loaded;
 		}
