@@ -11,7 +11,7 @@
     <AssemblyName>GR</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
-    <TargetPlatformVersion>10.0.17134.0</TargetPlatformVersion>
+    <TargetPlatformVersion>10.0.17763.0</TargetPlatformVersion>
     <TargetPlatformMinVersion>10.0.14393.0</TargetPlatformMinVersion>
     <MinimumVisualStudioVersion>14</MinimumVisualStudioVersion>
     <FileAlignment>512</FileAlignment>
@@ -97,6 +97,7 @@
     <Compile Include="AdvDM\ImageService.cs" />
     <Compile Include="CompositeElement\CompatMenuFlyoutItem.cs" />
     <Compile Include="Config\Scopes\Conf_BookInfoView.cs" />
+    <Compile Include="Config\Scopes\Conf_MasterExplorer.cs" />
     <Compile Include="Config\Scopes\Conf_System.cs" />
     <Compile Include="Config\Scopes\IConf_BgContext.cs" />
     <Compile Include="Config\Scopes\ScopedConfig.cs" />
@@ -131,6 +132,7 @@
     <Compile Include="DataSources\GRDataSource.cs" />
     <Compile Include="DataSources\GRHighlights.cs" />
     <Compile Include="DataSources\GRViewSource.cs" />
+    <Compile Include="Data\Ext.cs" />
     <Compile Include="Data\GRCell.cs" />
     <Compile Include="Data\GRColumn.cs" />
     <Compile Include="Data\Interfaces.cs" />
@@ -145,6 +147,10 @@
     <Compile Include="Migrations\Books\20180429152855_CustomConv.cs" />
     <Compile Include="Migrations\Books\20180429152855_CustomConv.designer.cs">
       <DependentUpon>20180429152855_CustomConv.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Books\20190211065932_SScript.cs" />
+    <Compile Include="Migrations\Books\20190211065932_SScript.designer.cs">
+      <DependentUpon>20190211065932_SScript.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Books\BooksContextModelSnapshot.cs" />
     <Compile Include="Migrations\FTSData\20180223054441_Initial.cs" />
@@ -407,6 +413,9 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore">
+      <Version>1.1.6</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design">
       <Version>1.1.6</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite">

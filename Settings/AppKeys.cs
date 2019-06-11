@@ -67,6 +67,7 @@
 			, XML_BMTA_PRESSID = "PressId"
 			, XML_BMTA_BLENGTH = "BookLength"
 			, XML_BMTA_LSECTION = "LatestSection"
+			, XML_BMTA_PPVALUES = "PPValues"
 
 			, XML_UINFO_UNAME = "uname"
 			, XML_UINFO_NNAWE = "nickname"
@@ -116,6 +117,10 @@
 			// Background Task
 			, BTASK_RETRY = "retry"
 			, BTASK_SPIDER = "spider"
+
+			// Spider Script
+			, SS_ZS = "ZoneSpider"
+			, SS_BS = "BookSpider"
 
 			, SYS_2ND_TILE_LAUNCH = "LaunchSecondaryTile"
 			, SYS_FILE_LAUNCH = "LaunchFile"

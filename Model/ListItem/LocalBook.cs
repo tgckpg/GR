@@ -142,7 +142,7 @@ namespace GR.Model.ListItem
 			);
 		}
 
-		public void SetSource( StorageFile Source )
+		public void SetSource( IStorageFile Source )
 		{
 			RawPayload = Source;
 			CanProcess = true;

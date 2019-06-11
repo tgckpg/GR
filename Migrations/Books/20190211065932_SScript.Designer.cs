@@ -9,9 +9,10 @@ using GR.Database.Models;
 namespace GR.Migrations.Books
 {
     [DbContext(typeof(BooksContext))]
-    partial class BooksContextModelSnapshot : ModelSnapshot
+    [Migration("20190211065932_SScript")]
+    partial class SScript
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.6");
@@ -196,7 +197,7 @@ namespace GR.Migrations.Books
 
                     b.Property<byte[]>("RawData");
 
-                    b.Property<string>("Type")
+                    b.Property<string>("SType")
                         .IsRequired();
 
                     b.HasKey("Id");

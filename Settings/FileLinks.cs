@@ -40,8 +40,6 @@ namespace GR.Settings
 		, ROOT_READER_THUMBS = "shared/ShellContent/ReaderThumbs/"
 		, ROOT_BACKGROUNDSERVICE = "shared/transfers/"
 		, ROOT_IMAGE = "shared/transfers/Images/"
-		, ROOT_SPIDER_VOL = "shared/transfers/SVolumes/"
-		, ROOT_ZSPIDER = "ZoneSpiders/"
 		, ROOT_SETTING = "Settings/"
 		, ROOT_AUTHMGR = "Settings/AuthManager/"
 		, ROOT_EBWIN = "EBWin/"

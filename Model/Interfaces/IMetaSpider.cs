@@ -10,6 +10,5 @@ namespace GR.Model.Interfaces
 	{
 		string Name { get; }
 		string ZoneId { get; }
-		string MetaLocation { get; }
 	}
 }

@@ -26,6 +26,7 @@ namespace GR.Database.Contexts
 		public DbSet<ChapterImage> ChapterImages { get; set; }
 		public DbSet<ChapterContent> ChapterContents { get; set; }
 		public DbSet<CustomConv> CustomConvs { get; set; }
+		public DbSet<SScript> SScripts { get; set; }
 
 		public ILoggerFactory GRLoggingFacility => new GRLoggerFactory();
 
@@ -48,7 +49,9 @@ namespace GR.Database.Contexts
 			optionsBuilder.UseSqlite( "Data Source=" + FileLocation );
 			optionsBuilder.ReplaceService<IMigrationsSqlGenerator, GRMigrationsSqlGenerator>();
 			optionsBuilder.ReplaceService<IMigrationsAnnotationProvider, GRMigrationsAnnotationProvider>();
-			// optionsBuilder.UseLoggerFactory( GRLoggingFacility );
+#if DEBUG
+			optionsBuilder.UseLoggerFactory( GRLoggingFacility );
+#endif
 		}
 
 		protected override void OnModelCreating( ModelBuilder modelBuilder )
@@ -56,6 +59,7 @@ namespace GR.Database.Contexts
 			EntityTypeBuilder<Book> BookEntity = modelBuilder.Entity<Book>();
 			BookEntity.HasIndex( b => b.ZoneId );
 			BookEntity.HasIndex( b => b.ZItemId );
+			BookEntity.HasIndex( "ScriptId" );
 			BookEntity.HasIndex( b => b.Title );
 		}
 

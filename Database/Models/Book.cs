@@ -55,6 +55,7 @@ namespace GR.Database.Models
 		[Required]
 		public BookInfo Info { get; set; }
 
+		public SScript Script { get; set; }
 		public List<CustomConv> ConvPhases { get; set; }
 
 		[NotMapped]
@@ -119,6 +120,30 @@ namespace GR.Database.Models
 
 		public string OriginalUrl { get; set; }
 		public string CoverSrcUrl { get; set; }
+
+		[AutoNow( SqliteTriggers.INSERT | SqliteTriggers.UPDATE )]
+		public DateTime DateModified { get; set; }
+	}
+
+	public class SScript
+	{
+		[Key]
+		public int Id { get; set; }
+
+		public Guid? OnlineId { get; set; }
+
+		public string Title { get; set; }
+
+		[Required]
+		public string Type { get; set; }
+
+		[NotMapped]
+		public ZData Data { get; set; } = new ZData();
+		public byte[] RawData
+		{
+			get => Data.RawBytes;
+			set => Data.RawBytes = value;
+		}
 
 		[AutoNow( SqliteTriggers.INSERT | SqliteTriggers.UPDATE )]
 		public DateTime DateModified { get; set; }

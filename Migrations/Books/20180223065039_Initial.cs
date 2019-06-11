@@ -188,82 +188,27 @@ namespace GR.Migrations.Books
                         onDelete: ReferentialAction.Cascade);
                 });
 
-            migrationBuilder.CreateIndex(
-                name: "IX_Anrchors_BookId",
-                table: "Anrchors",
-                column: "BookId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Books_Title",
-                table: "Books",
-                column: "Title");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Books_ZItemId",
-                table: "Books",
-                column: "ZItemId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Books_ZoneId",
-                table: "Books",
-                column: "ZoneId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_BookInfo_BookId",
-                table: "BookInfo",
-                column: "BookId",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Chapters_BookId",
-                table: "Chapters",
-                column: "BookId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Chapters_VolumeId",
-                table: "Chapters",
-                column: "VolumeId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ChapterContents_ChapterId",
-                table: "ChapterContents",
-                column: "ChapterId",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ChapterImages_ChapterId",
-                table: "ChapterImages",
-                column: "ChapterId",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Volumes_BookId",
-                table: "Volumes",
-                column: "BookId");
+			migrationBuilder.CreateIndex( name: "IX_Anrchors_BookId", table: "Anrchors", column: "BookId" );
+			migrationBuilder.CreateIndex( name: "IX_Books_Title", table: "Books", column: "Title" );
+			migrationBuilder.CreateIndex( name: "IX_Books_ZItemId", table: "Books", column: "ZItemId" );
+			migrationBuilder.CreateIndex( name: "IX_Books_ZoneId", table: "Books", column: "ZoneId" );
+			migrationBuilder.CreateIndex( name: "IX_BookInfo_BookId", table: "BookInfo", column: "BookId", unique: true );
+			migrationBuilder.CreateIndex( name: "IX_Chapters_BookId", table: "Chapters", column: "BookId" );
+			migrationBuilder.CreateIndex( name: "IX_Chapters_VolumeId", table: "Chapters", column: "VolumeId" );
+			migrationBuilder.CreateIndex( name: "IX_ChapterContents_ChapterId", table: "ChapterContents", column: "ChapterId", unique: true );
+			migrationBuilder.CreateIndex( name: "IX_ChapterImages_ChapterId", table: "ChapterImages", column: "ChapterId", unique: true );
+			migrationBuilder.CreateIndex( name: "IX_Volumes_BookId", table: "Volumes", column: "BookId" );
         }
 
-        protected override void Down(MigrationBuilder migrationBuilder)
-        {
-            migrationBuilder.DropTable(
-                name: "Anrchors");
-
-            migrationBuilder.DropTable(
-                name: "BookInfo");
-
-            migrationBuilder.DropTable(
-                name: "ChapterContents");
-
-            migrationBuilder.DropTable(
-                name: "ChapterImages");
-
-            migrationBuilder.DropTable(
-                name: "Chapters");
-
-            migrationBuilder.DropTable(
-                name: "Volumes");
-
-            migrationBuilder.DropTable(
-                name: "Books");
-        }
+		protected override void Down( MigrationBuilder migrationBuilder )
+		{
+			migrationBuilder.DropTable( name: "Anrchors" );
+			migrationBuilder.DropTable( name: "BookInfo" );
+			migrationBuilder.DropTable( name: "ChapterContents" );
+			migrationBuilder.DropTable( name: "ChapterImages" );
+			migrationBuilder.DropTable( name: "Chapters" );
+			migrationBuilder.DropTable( name: "Volumes" );
+			migrationBuilder.DropTable( name: "Books" );
+		}
     }
 }

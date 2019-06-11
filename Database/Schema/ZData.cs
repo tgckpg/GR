@@ -40,14 +40,23 @@ namespace GR.Database.Schema
 			}
 		}
 
-		private void Deflate( byte[] bytes )
+		private void Deflate( byte[] bytes ) => WriteStream( new MemoryStream( bytes ) );
+
+		public void WriteStream( Stream s, bool LeaveOpen = false )
 		{
 			using ( MemoryStream ZOut = new MemoryStream() )
 			{
-				using ( MemoryStream s = new MemoryStream( bytes ) )
 				using ( DeflateStream ZStream = new DeflateStream( ZOut, CompressionLevel.Optimal, true ) )
 				{
-					s.CopyTo( ZStream );
+					if ( LeaveOpen )
+					{
+						s.CopyTo( ZStream );
+					}
+					else
+					{
+						using ( s )
+							s.CopyTo( ZStream );
+					}
 				}
 
 				ZOut.Seek( 0, SeekOrigin.Begin );

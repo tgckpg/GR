@@ -34,5 +34,11 @@ namespace GR.Database.Schema
 				}
 			}
 		}
+
+		public void Toggle( string Key, bool State )
+		{
+			if ( State ) Add( Key );
+			else Remove( Key );
+		}
 	}
 }

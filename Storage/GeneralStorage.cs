@@ -40,8 +40,6 @@ namespace GR.Storage
 				, FileLinks.ROOT_TILE
 				// Illustration Cache
 				, FileLinks.ROOT_IMAGE
-				// Spider Volumes
-				, FileLinks.ROOT_SPIDER_VOL
 				// Comments, SpecialTopics, etc.
 				, FileLinks.ROOT_WTEXT
 				// Settings, LocalBookStorage and some future staffs.
@@ -50,8 +48,6 @@ namespace GR.Storage
 				, FileLinks.ROOT_ANCHORS
 				// EBWin, dictionaries
 				, FileLinks.ROOT_EBWIN
-				// ZoneSpider Definitions
-				, FileLinks.ROOT_ZSPIDER
 				// ContentReader Thumbnails
 				, FileLinks.ROOT_READER_THUMBS
 				// Log files

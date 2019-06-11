@@ -31,10 +31,7 @@ namespace GR.Migrations.Books
                         onDelete: ReferentialAction.Cascade);
                 });
 
-            migrationBuilder.CreateIndex(
-                name: "IX_CustomConvs_BookId",
-                table: "CustomConvs",
-                column: "BookId");
+			migrationBuilder.CreateIndex( name: "IX_CustomConvs_BookId", table: "CustomConvs", column: "BookId" );
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -66,10 +63,7 @@ namespace GR.Migrations.Books
                         onDelete: ReferentialAction.Cascade);
                 });
 
-            migrationBuilder.CreateIndex(
-                name: "IX_Anrchors_BookId",
-                table: "Anrchors",
-                column: "BookId");
+			migrationBuilder.CreateIndex( name: "IX_Anrchors_BookId", table: "Anrchors", column: "BookId" );
         }
     }
 }

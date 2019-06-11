@@ -26,6 +26,7 @@ namespace GR.Model.Pages
 	using GSystem;
 	using ListItem;
 	using Resources;
+	using Settings;
 
 	sealed class ItemProcessor
 	{
@@ -143,7 +144,7 @@ namespace GR.Model.Pages
 
 					if ( Bk is BookInstruction Inst )
 					{
-						string SpiderDef = SpiderBook.GetSettings( Inst.ZoneId, Inst.ZItemId )?.ToString();
+						string SpiderDef = SpiderBook.GetSettings( Inst.Entry )?.ToString();
 
 						if ( SpiderDef != null )
 						{
@@ -209,6 +210,7 @@ namespace GR.Model.Pages
 
 					using ( BooksContext RemoteContext = new BooksContext( DataFile.Path ) )
 					{
+						RemoteContext.Database.Migrate();
 						Book RemoteEntry = RemoteContext.Books.Include( x => x.Info ).FirstOrDefault();
 
 						if ( RemoteEntry == null )
@@ -223,14 +225,7 @@ namespace GR.Model.Pages
 							?? Shared.BooksDb.GetBook( RemoteEntry.ZoneId, RemoteEntry.ZItemId, RemoteEntry.Type )
 							;
 
-						bool Imported = await _ImportEntry( DataId, RemoteContext, RemoteEntry, LocalEntry );
-
-						if ( Imported && LocalEntry.Type.HasFlag( BookType.S ) && RemoteEntry.Meta.TryGetValue( "SpiderDef", out string SpDef ) )
-						{
-							Data.SetBase64Raw( SpDef );
-							XRegistry XReg = new XRegistry( Data.StringValue, SpiderBook.GetMetaLocation( LocalEntry.ZoneId, LocalEntry.ZItemId ) );
-							XReg.Save();
-						}
+						await _ImportEntry( DataId, RemoteContext, RemoteEntry, LocalEntry );
 
 						return GetBookItem( LocalEntry );
 					}
@@ -242,7 +237,7 @@ namespace GR.Model.Pages
 			}
 		}
 
-		private static async Task<bool> _ImportEntry( string DataId, BooksContext RemoteContext, Book RemoteEntry, Book LocalEntry )
+		private static async Task _ImportEntry( string DataId, BooksContext RemoteContext, Book RemoteEntry, Book LocalEntry )
 		{
 			// Check to see if a local copy already exsits
 			if ( Shared.BooksDb.SafeRun( x => x.Entry( LocalEntry ).State != EntityState.Detached ) )
@@ -250,7 +245,7 @@ namespace GR.Model.Pages
 				// Content of this book has already been imported
 				if ( LocalEntry.Meta.TryGetValue( "DataId", out string LocalDataId ) && DataId == LocalDataId )
 				{
-					return false;
+					return;
 				}
 				else
 				{
@@ -279,7 +274,7 @@ namespace GR.Model.Pages
 							Shared.BooksDb.SaveBook( LocalEntry );
 						}
 
-						return false;
+						return;
 					}
 				}
 			}
@@ -314,9 +309,13 @@ namespace GR.Model.Pages
 			LocalEntry.Info = Info;
 			LocalEntry.Meta[ "DataId" ] = DataId;
 
-			Shared.BooksDb.SaveBook( LocalEntry );
+			if ( LocalEntry.Type.HasFlag( BookType.S ) && RemoteEntry.Meta.TryGetValue( "SpiderDef", out string SpDef ) )
+			{
+				LocalEntry.Script = new SScript() { Type = AppKeys.SS_BS };
+				LocalEntry.Script.Data.SetBase64Raw( SpDef );
+			}
 
-			return true;
+			Shared.BooksDb.SaveBook( LocalEntry );
 		}
 
 	}

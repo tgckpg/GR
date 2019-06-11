@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace GR.Database
@@ -48,6 +49,8 @@ namespace GR.Database
 			}
 		}
 
+		private Regex MSQLiteAlterCol = new Regex( @"^M\d{4}_" );
+
 		private void OnColumnAdd( AddColumnOperation colOp, MigrationCommandListBuilder builder )
 		{
 			Annotation AutoDT = colOp.FindAnnotation( "AutoNow" );
@@ -56,6 +59,12 @@ namespace GR.Database
 			{
 				string TableName = SqlGenerationHelper.DelimitIdentifier( colOp.Table );
 				string ColName = SqlGenerationHelper.DelimitIdentifier( colOp.Name );
+				string UpdateTarget = TableName;
+
+				if ( MSQLiteAlterCol.IsMatch( colOp.Table ) )
+				{
+					UpdateTarget = SqlGenerationHelper.DelimitIdentifier( colOp.Table.Substring( 6 ) );
+				}
 
 				SqliteTriggers Events = ( SqliteTriggers ) AutoDT.Value;
 
@@ -64,7 +73,7 @@ namespace GR.Database
 					builder
 						.Append( "CREATE TRIGGER " ).Append( SqlGenerationHelper.DelimitIdentifier( $"autodti_{colOp.Table}_{colOp.Name}" ) )
 						.Append( $" AFTER INSERT ON {TableName}" )
-						.Append( $" FOR EACH ROW BEGIN UPDATE {TableName} SET {ColName} = DATETIME( 'now' ) WHERE rowid = NEW.rowid; END" )
+						.Append( $" FOR EACH ROW BEGIN UPDATE {UpdateTarget} SET {ColName} = DATETIME( 'now' ) WHERE rowid = NEW.rowid; END" )
 						.EndCommand();
 				}
 
@@ -73,7 +82,7 @@ namespace GR.Database
 					builder
 						.Append( "CREATE TRIGGER " ).Append( SqlGenerationHelper.DelimitIdentifier( $"autodtu_{colOp.Table}_{colOp.Name}" ) )
 						.Append( $" AFTER UPDATE ON {TableName}" )
-						.Append( $" FOR EACH ROW BEGIN UPDATE {TableName} SET {ColName} = DATETIME( 'now' ) WHERE rowid = NEW.rowid; END" )
+						.Append( $" FOR EACH ROW BEGIN UPDATE {UpdateTarget} SET {ColName} = DATETIME( 'now' ) WHERE rowid = NEW.rowid; END" )
 						.EndCommand();
 				}
 			}
