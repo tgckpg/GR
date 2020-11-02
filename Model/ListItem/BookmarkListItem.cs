@@ -40,7 +40,7 @@ namespace GR.Model.ListItem
 			if ( BindParam == null ) return null;
 			string cid = BindParam.GetValue( AppKeys.GLOBAL_CID );
 
-			return BindVolume.Chapters.First( ( Chapter C ) => { return C.Id.ToString() == cid; } );
+			return BindVolume.Chapters.First( ( Chapter C ) => C.Meta[ AppKeys.GLOBAL_CID ] == cid );
 		}
 
 		public bool IsItem( Volume V )
